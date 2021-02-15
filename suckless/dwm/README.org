@@ -1,0 +1,35 @@
+#+TITLE:DWM: Dynamic Window Manager
+
+This is my own build of DWM with some patches and configurations.
+
+*** Patches
+
+**** Feature related
+Those patches that add new features to DWM, some of them are simple features that are present in other TWMs.
+- [[https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscreen-20191112-cb3f58a.diff][actualfullscreen:]] Allows to activate true fullscreen instead of just change to monocle layout and hide the bar.
+- [[https://dwm.suckless.org/patches/alwayscenter/][alwayscenter]]: Floating windows are always placed at the center of the screen.
+- [[https://dwm.suckless.org/patches/cyclelayouts/dwm-cyclelayouts-20180524-6.2.diff][cyclelayouts:]] Go through the layout list with a button combination.
+- [[https://dwm.suckless.org/patches/inplacerotate/][inplacerotate]]: Allows to rotate the windows in the stack without changing master.
+- [[https://dwm.suckless.org/patches/movestack/dwm-movestack-6.1.diff][movestack:]] Allows to move the windows in the stack part, when using the default layout.
+- [[https://dwm.suckless.org/patches/pertag/dwm-pertag-20170513-ceac8c9.diff][pertag:]] By default, dwm uses the same layout for all tags. With this patch each tag has a different layout (the initial scheme is tile).
+- [[https://dwm.suckless.org/patches/switchcol/][switchcol:]] It allows to change the focus between master and stack with a single keybinding. Useful with the /deck/ layout.
+- [[https://dwm.suckless.org/patches/winview/][winview]]: If you are seeing several tags at once, pressing a keybinding switches to the tag in the focused window.
+
+**** Layouts
+New layout I've added to DWM.
+- [[https://dwm.suckless.org/patches/centeredmaster/][centeredmaster:]] The /master/ window is placed in the center while the others appear in a grid around it.
+- [[https://dwm.suckless.org/patches/deck/][deck:]]  The /stack/ part only shows one window at a time. If used with /inplacerotate/ it is possible to change the window in /stack/ without moving /master/.
+- [[https://dwm.suckless.org/patches/fibonacci/dwm-fibonacci-5.8.2.diff][fibonacci:]] Two new layouts: spiral y dwindle (à la bspwm).
+- [[https://dwm.suckless.org/patches/gridmode/dwm-gridmode-20170909-ceac8c9.diff][gridmode:]] Grid layout.
+- [[https://dwm.suckless.org/patches/rmaster/dwm-rmaster-6.1.diff][rmaster:]] Allows to reverse the order of the tile scheme: master on the left and stack on the right.
+
+**** Aesthetic related
+Patches that only serve to improve the aesthetic aspect of the WM and contribute little or nothing to the functional aspect.
+
+- [[https://dwm.suckless.org/patches/alttagsdecoration/][alttagsdecoration]]: Allows you to declare different icons for each tag when they are busy.
+- [[https://dwm.suckless.org/patches/barpadding/][barpadding:]] Add vertical andhorizontal padding to the bar from the screen.  
+- [[https://dwm.suckless.org/patches/colorbar/][colorbar]]: Add new color schemes for each section of the panel.
+- [[https://github.com/ashish-yadav11/dwmblocks][dwmblocks]]: Add support for colored text and click on the dwmblocks modules.
+- [[https://dwm.suckless.org/patches/alpha/dwm-fixborders-6.2.diff][fixborders]]: Fix the transparent borders when using compton/picom.
+- [[https://dwm.suckless.org/patches/uselessgap/dwm-uselessgap-6.2.diff][uselessgap:]] Add useless gaps between windows. Although it is not the only patch, it is the easiest to apply.
+

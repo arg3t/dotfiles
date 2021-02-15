@@ -1,0 +1,60 @@
+~/.scripts/welcome.sh
+eval "$(direnv hook zsh)" >> /tmp/direnv
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+export TERM=xterm-256color
+# Created by kuro for 5.8
+source <(antibody init)
+
+
+export GOPATH=$HOME/go
+export PATH="$PATH:/home/yigit/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:/home/yigit/.local/bin"
+alias yain="yay -Syu "
+alias ls="ls --color"
+
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
+
+#Autocompletion
+autoload -Uz compinit
+compinit
+
+antibody bundle < ~/.config/antibody/zsh_plugins.txt
+
+[[ ! -f ~/.config/antibody/p10k.zsh ]] || source ~/.config/antibody/p10k.zsh 
+
+bindkey  "^[[H"   beginning-of-line
+bindkey  "^[[F"   end-of-line
+bindkey  "^[[3~"  delete-char
+
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+
+fpath=(~/.completion $fpath)
+source ~/.cmds
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=241'
+
+export BROWSER=firefox-developer-edition
+export EDITOR=vim
+
+alias t="TERM=screen-256color-bce tmux"
+alias tn="TERM=screen-256color-bce tmux new -s "
+alias ta="TERM=screen-256color-bce tmux a  "
+
+# added by travis gem
+[ ! -s /home/yigit/.travis/travis.sh ] || source /home/yigit/.travis/travis.sh
+
+export ANDROID_HOME=~/Android/Sdk
+export FLUTTER_HOME=~/flutter
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$FLUTTER_HOME/bin
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

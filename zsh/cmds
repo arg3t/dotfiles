@@ -1,0 +1,50 @@
+#!/usr/bin/zsh
+
+alias backup="sudo borg create --progress --stats /mnt/hdd/backups::laptop_$(date  +%m_%d_%Y) /home /usr /etc /var /opt /boot --exclude /var/lib --exclude /home/yigit/Projects/UltimateStudent/recordings"
+alias metis_backup="mysqldump --no-tablespaces --single-transaction -u bcaa49b6f602ea -h eu-cdbr-west-03.cleardb.net heroku_a78e4b025f8259d -pdc691280 > ~/.db_backups/metis_$(date  +%m_%d_%Y).sql"
+alias feh="feh --scale-down --auto-zoom"
+alias idea="/home/yigit/.local/share/JetBrains/Toolbox/apps/IDEA-U/ch-0/201.7223.91/bin/idea.sh"
+alias lights_off="curl 'http://yeetclock/setcolor?R=2000&G=10&B=000&O=0'"
+alias open=xdg-open
+alias rm="rm -i"
+alias clip="xclip -selection clipboard"
+
+count() {
+        echo -n $1 | wc -c
+}
+
+dec() {
+	echo "obase=10; ibase=16; $(echo "$1" | tr a-z A-Z)" | bc
+}
+
+hex() {
+	echo "obase=16; ibase=10; $1" | bc
+}
+
+ulimit -n 5000
+
+colors() {
+    color=1;
+    count=0;
+    space="   ";
+    while [ $color -lt 256 ]; do
+        if [[ $color == 10 ]]
+        then
+            space="  "
+        fi
+        if [[ $color == 100 ]]
+        then
+            space=" "
+        fi
+        echo -en "$color:$space\\033[38;5;${color}myeet\\033[48;5;${color}mworld\\033[0m"
+        echo -n "  "
+        if [[ $count == 10 ]]
+        then
+            echo -en "\n";
+            count=-1
+        fi
+        ((color++));
+        ((count++))
+    done  
+    echo ""
+}

@@ -1,0 +1,10 @@
+action=$(echo '
+' |  rofi -dmenu -theme music_actions )
+
+if [ $action = '' ]
+then
+	playerctl previous &
+elif [ $action = '' ]
+then 
+	playerctl next &
+fi

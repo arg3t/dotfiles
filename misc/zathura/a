@@ -1,0 +1,4 @@
+set synctex true
+set synctex-editor-command "vim +%{line} %{input}"
+
+map <C-i> recolor

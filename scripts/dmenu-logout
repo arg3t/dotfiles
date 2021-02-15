@@ -1,0 +1,61 @@
+#!/bin/sh
+
+# Set environment
+export BSPWM_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/bspwm"
+
+# Function to kill programs
+killprogs() {
+	# Kill udisks-glue
+	pkill -x udisks-glue
+	# Kill panel
+	pkill -x panel
+	# Kill Redshift
+	pkill -x redshift
+}
+
+# Restart function
+# shellcheck source=/dev/null
+restart() {
+    reboot
+}
+
+# Logout function
+logout() {
+    pkill dwm
+}
+
+# Load dmenu config
+# shellcheck source=/dev/null
+[ -f "$HOME/.dmenurc" ] && . "$HOME/.dmenurc" || DMENU='dmenu -i'
+
+# Menu items
+items="logout
+suspend
+reboot
+poweroff"
+
+# Open menu
+selection=$(printf '%s' "$items" | $DMENU)
+
+case $selection in
+	restart)
+		restart
+		;;
+	logout)
+		logout
+		;;
+	hibernate)
+		systemctl hibernate
+		;;
+	suspend)
+		systemctl suspend
+		;;
+	reboot)
+		reboot
+		;;
+	halt|poweroff|shutdown)
+		shutdown -h now
+		;;
+esac
+
+exit

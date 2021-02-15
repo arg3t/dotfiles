@@ -1,0 +1,32 @@
+* Dynamic Window Manager
+
+Este es mi propio build de DWM, con algunos parches y configuraciones.
+
+*** Parches
+
+**** Funcionales
+Aquellos parches que añaden nuevas funciones a DWM, algunas de ellas son funciones sencillas que están presentes en otros TWM.
+- [[https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscreen-20191112-cb3f58a.diff][actualfullscreen:]] Permite activar verdadera pantalla completa en lugar de solo activar el modo monocle y esconder el panel.
+- [[https://dwm.suckless.org/patches/alwayscenter/][alwayscenter]]: Las ventanas flotantes siempre se colocan al centro de la pantalla.
+- [[https://dwm.suckless.org/patches/cyclelayouts/dwm-cyclelayouts-20180524-6.2.diff][cyclelayouts:]] Pasa por la lista de layouts con una combinación de botones.
+- [[https://dwm.suckless.org/patches/inplacerotate/][inplacerotate]]: Permite rotar las ventanas en el stack sin cambiar master.
+- [[https://dwm.suckless.org/patches/movestack/dwm-movestack-6.1.diff][movestack:]] Permite mover las ventanas en la parte stack, cuando se usa el esquema por defecto.
+- [[https://dwm.suckless.org/patches/pertag/dwm-pertag-20170513-ceac8c9.diff][pertag:]] Por defecto, dwm usa el mismo esquema para todos los tags. Con este parche cada tag tiene un esquema diferente (el esquema inicial es tile).
+- [[https://dwm.suckless.org/patches/switchcol/][switchcol:]] Permite cambiar el foco entre master y stack con un solo /keybinding/. Útil con el layout /deck/.
+- [[https://dwm.suckless.org/patches/winview/][winview]]: Si están viendo varios tags a la vez, al presionar un /keybinding/ se cambia al tag de la ventana enfocada.
+
+**** Layouts
+Son aquellas /layouts/ nuevas que he agregado a DWM.
+- [[https://dwm.suckless.org/patches/centeredmaster/][centeredmaster:]] La ventana /master/ se coloca en el centro mientras las otras aparecen en rejilla alrededor.
+- [[https://dwm.suckless.org/patches/deck/][deck:]] La parte /stack/ solo muestra una ventana a la vez. Si se usa con /inplacerotate/ es posible cambiar la ventana en el /stack/ sin mover /master/.
+- [[https://dwm.suckless.org/patches/fibonacci/dwm-fibonacci-5.8.2.diff][fibonacci:]] Dos esquemas nuevos: spiral y dwindle (à la bspwm).
+- [[https://dwm.suckless.org/patches/gridmode/dwm-gridmode-20170909-ceac8c9.diff][gridmode:]] Esquema de rejilla para.
+- [[https://dwm.suckless.org/patches/rmaster/dwm-rmaster-6.1.diff][rmaster:]] Permite invertir el orden del esquema tile: master a la izquierda y stack a la derecha.
+
+**** Estéticos
+Parches que unicamente sirven para mejorar el aspecto estético del WM y aportan poco o nada al aspecto funcional.
+- [[https://dwm.suckless.org/patches/alttagsdecoration/][alttagsdecoration]]: Permite declarar íconos diferentes para cada tag cuando están ocupados.
+- [[https://dwm.suckless.org/patches/colorbar/][colorbar]]: Añade esquemas de colores nuevos para cada sección del panel.
+- [[https://github.com/ashish-yadav11/dwmblocks][dwmblocks]]: Agrega soporte para texto coloreado y poder presionar en los módulos.
+- [[https://dwm.suckless.org/patches/alpha/dwm-fixborders-6.2.diff][fixborders]]: Arregla los bordes transparentes cuando se usa compton/picom.
+- [[https://dwm.suckless.org/patches/uselessgap/dwm-uselessgap-6.2.diff][uselessgap:]] Añade separaciones inútiles entre ventanas. Apesar de no ser el único parche, si es el más sencillo de aplicar.
