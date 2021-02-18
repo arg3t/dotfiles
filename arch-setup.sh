@@ -2,38 +2,28 @@
 
 # Disk setup
 echo -n "What is the install device: "
-read $device
+read device
 echo "Installing to $device... (Enter to continue)"
-read $_
+read _
 
 # Disk wipe
 echo "[INFO]: Wiping disk"
 cryptsetup open --type plain -d /dev/urandom $device wipe
 dd if=/dev/zero of=/dev/mapper/wipe status=progress
 cryptsetup close wipe
+wipefs -a -f $device
 
-# Cleaning device from previous LUKS setups
-cryptsetup erase $device
-wipefs -a device
-
-# Set partition table
-parted $device mklabel gpt
+# Run cfdisk for manual partitioning
+cfdisk $device
 
 # Create the boot partition
-echo "[INFO]: Creating boot partition"
-parted -a optimal $device mkpart 1 primary 0% 512MB
+echo "[INFO]: Formatting boot partition"
 mkfs.fat -F32 "$device"1
 
-echo -n "Enter swap size + 512MB: "
-read $swap_size
-echo "Installing to $swap_size... (Enter to continue)"
-read $_
-
 # Create the swap partition
-echo "[INFO]: Creating swap partition"
-parted -a optimal $device mkpart 2 primary 512MB $swap_size
 echo "[INFO]: Enter password for swap encryption"
 cryptsetup luksFormat "$device"2
+mkdir /root/.keys
 sudo dd if=/dev/urandom of=/root/.keys/swap-keyfile bs=1024 count=4
 sudo chmod 600 /root/.keys/swap-keyfile
 echo "[INFO]: Re-Enter password for swap encryption"
@@ -44,8 +34,6 @@ mkswap /dev/mapper/swap
 swapon /dev/mapper/swap
 
 # Create the root partition
-echo "[INFO]: Creating root partition"
-parted -a optimal $device mkpart 3 primary $swap_size 100%
 echo "[INFO]: Enter password for root encryption"
 cryptsetup luksFormat "$device"3
 dd bs=512 count=4 if=/dev/random of=/root/.keys/root-keyfile iflag=fullblock

@@ -54,7 +54,7 @@ for i in $(blkid); do
     ((line=line+1))
 done
 echo "Please select the device you will save the LUKS key to:"
-read $keydev
+read keydev
 
 uuid=$(blkid | sed -n 's/.*UUID=\"\([^\"]*\)\".*/\1/p'  | sed -n "$line"p)
 cat << EOF > /boot/refind_linux.conf
@@ -63,4 +63,6 @@ EOF
 
 cat /install/nonAUR.txt | xargs pacman -S --needed --noconfirm
 yay -S $(cat /install/AUR.txt)
+refind-install
+
 mkinitcpio -P
