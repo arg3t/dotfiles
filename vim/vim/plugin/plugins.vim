@@ -33,7 +33,7 @@ Plug 'M4R7iNP/vim-inky'
 Plug 'vim-airline/vim-airline'
 Plug 'noscript/cSyntaxAfter'
 Plug 'uiiaoo/java-syntax.vim'
-
+Plug 'ycm-core/YouCompleteMe'
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "

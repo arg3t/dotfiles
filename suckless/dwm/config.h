@@ -75,7 +75,7 @@ static const Rule rules[] = {
 	 */
 	/* class                         instance    title       tags mask     isfloating   monitor */
 	{ "discord",                        NULL,       NULL,       1 << 8,            0,           -1 },
-	{ "mailspring",                        NULL,       NULL,       1 << 8,            0,           -1 },
+	{ "Mailspring",                        NULL,       NULL,       1 << 7,            0,           -1 },
 	{ "Termite",                        NULL,       NULL,       1 << 0,            0,           -1 },
 	{ "firefoxdeveloperedition",        NULL,       NULL,       1 << 1,            0,           -1 },
 	{ "Tor Browser",                    NULL,       NULL,       1 << 1,            0,           -1 },

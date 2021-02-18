@@ -1,7 +1,5 @@
 #! /bin/sh
-
-#wal -sR &
-#~/.scripts/toggle_monitor.sh
+eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export DRI_PRIME=1
 feh --bg-fill /home/yigit/Pictures/Wallpapers/ocean-cliff.jpg #Backgroun
 xrdb  ~/.Xresources &
@@ -13,22 +11,17 @@ setxkbmap tr
 firefox-developer-edition &
 nextcloud --background &
 jetbrains-toolbox --minimize &
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 xss-lock -- betterlockscreen -l -t 'Stay the fuck out!' & 
 picom --no-fading-openclose &
-xmodmap ~/.Xmodmap
 aw-server &
 aw-watcher-window &
 aw-watcher-afk &
 mconnect -d &
 mailspring &
 dbus-update-activation-environment --systemd DISPLAY
-eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK
 export QT_QPA_PLATFORMTHEME="qt5ct"
 if [ -f ~/.xmodmap ]; then
    xmodmap ~/.xmodmap
 fi
-exec dwm 
-
-
+exec dwm
