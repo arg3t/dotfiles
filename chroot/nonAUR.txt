@@ -9,6 +9,7 @@ binutils
 bison
 blueman
 bluez-utils
+borgmatic
 calibre
 chrony
 clipmenu
@@ -16,6 +17,7 @@ cmake
 discord
 dunst
 efibootmgr
+efitools
 fakeroot
 feh
 figlet
@@ -30,6 +32,7 @@ gettext
 git
 gnome-bluetooth
 gnome-keyring
+gparted
 gradle
 grep
 groff
@@ -38,6 +41,7 @@ gvfs-afc
 gzip
 htop
 inetutils
+intel-ucode
 jdk11-openjdk
 jre11-openjdk
 kitty
@@ -68,7 +72,6 @@ pamixer
 patch
 pavucontrol
 picom
-pkgconf
 playerctl
 polkit-gnome
 pulseaudio
@@ -80,6 +83,7 @@ redis
 refind
 rofi
 rsync
+sbsigntools
 sed
 shotwell
 sudo
@@ -89,6 +93,7 @@ texinfo
 thunar
 tmux
 tree
+ttf-dejavu
 unzip
 vi
 vim

@@ -31,6 +31,7 @@ logout() {
 # Menu items
 items="logout
 suspend
+hibernate
 reboot
 poweroff"
 
@@ -51,10 +52,10 @@ case $selection in
 		systemctl suspend
 		;;
 	reboot)
-		reboot
+		systemctl reboot
 		;;
 	halt|poweroff|shutdown)
-		shutdown -h now
+		systemctl poweroff
 		;;
 esac
 

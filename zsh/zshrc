@@ -56,5 +56,6 @@ export FLUTTER_HOME=~/flutter
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$FLUTTER_HOME/bin
+export BORG_KEYS_DIR=~/.keys/borg
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

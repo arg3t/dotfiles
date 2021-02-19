@@ -1,5 +1,6 @@
 #! /bin/sh
 eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
+export SSH_AUTH_SOCK
 export DRI_PRIME=1
 feh --bg-fill /home/yigit/Pictures/Wallpapers/ocean-cliff.jpg #Backgroun
 xrdb  ~/.Xresources &
@@ -21,6 +22,8 @@ mailspring &
 dbus-update-activation-environment --systemd DISPLAY
 export SSH_AUTH_SOCK
 export QT_QPA_PLATFORMTHEME="qt5ct"
+export _JAVA_AWT_WM_NONREPARENTING=1
+export AWT_TOOLKIT=MToolkit
 if [ -f ~/.xmodmap ]; then
    xmodmap ~/.xmodmap
 fi

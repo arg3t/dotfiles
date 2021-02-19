@@ -14,10 +14,10 @@ systemctl enable fstrim.timer
 
 echo -e "127.0.0.1 localhost\n::1 localhost\n127.0.0.1 tatooine.localdomain tatooine" > /etc/hosts
 cat << EOF > /etc/mkinitcpio.conf
-MODULES=()
+MODULES=(vfat)
 BINARIES=()
 FILES=()
-HOOKS=(base udev autodetect keyboard keymap consolefont modconf block encrypt vfat filesystems fsck)
+HOOKS=(base udev autodetect keyboard keymap consolefont modconf block encrypt filesystems fsck)
 EOF
 
 cat << EOF > /etc/initcpio/hooks/openswap
