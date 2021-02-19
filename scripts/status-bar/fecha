@@ -1,6 +1,6 @@
 #! /bin/sh
 
-icon=󰸘
+icon=
 
 cmd=$(date +"%b %e, %R")
 

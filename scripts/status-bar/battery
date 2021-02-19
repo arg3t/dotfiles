@@ -3,16 +3,16 @@
 bat=$(cat /sys/class/power_supply/BAT0/capacity)
 status=$(cat /sys/class/power_supply/BAT0/status)
 
-ramp10=󰁺
-ramp20=󰁻
-ramp30=󰁼
-ramp40=󰁽
-ramp50=󰁾
-ramp60=󰁿
-ramp70=󰂀
-ramp80=󰂁
-ramp90=󰂂
-ramp100=󰁹
+ramp10=
+ramp20=
+ramp30=
+ramp40=
+ramp50=
+ramp60=
+ramp70=
+ramp80=
+ramp90=
+ramp100=
 
 if [[ $bat -lt 10 ]]; then
     echo " $ramp10 $bat% "

@@ -4,10 +4,10 @@
 #vol=$(amixer get Master | awk -F'[][]' 'END{ print $2 }' )
 mute=$(pamixer --get-mute)
 vol=$(pamixer --get-volume)
-iconmute=󰖁
-ramp1=󰕿
-ramp2=󰖀
-ramp3=󰕾
+iconmute=婢
+ramp1=奄
+ramp2=奔
+ramp3=墳
 
 #if [[ $mute == "true" ]]; then
 #    echo " $iconmute $vol% "
