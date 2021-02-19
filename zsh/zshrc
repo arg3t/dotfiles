@@ -1,3 +1,4 @@
+if [ "$TMUX" = "" ]; then tmux; fi
 ~/.scripts/welcome.sh
 eval "$(direnv hook zsh)" >> /tmp/direnv
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -59,3 +60,7 @@ export PATH=$PATH:$FLUTTER_HOME/bin
 export BORG_KEYS_DIR=~/.keys/borg
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+#zle-line-init() { zle -K vicmd; }
+#zle -N zle-line-init
+

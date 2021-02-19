@@ -1,6 +1,6 @@
 #! /bin/sh
 
-icon=" 󰓇" 
+icon=" " 
 
 #status=$(~/.local/bin/status-bar/spotify_status.py -f '{artist} - {song}')
 status=$(playerctl metadata --format '{{artist}} - {{title}}' | cut -c 1-50)

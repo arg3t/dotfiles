@@ -13,7 +13,8 @@ ln -s ~/.dotfiles/gtk/gtk-4.0 ~/.config/gtk-4.0
 ln -s ~/.dotfiles/misc/dunst ~/.config/dunst
 ln -s ~/.dotfiles/misc/rofi ~/.config/rofi
 ln -s ~/.dotfiles/misc/zathura ~/.config/zathura
-ln -s ~/.dotfiles/misc/systemd .config/systemd
+ln -s ~/.dotfiles/misc/termite/ ~/.config/termite
+ln -s ~/.dotfiles/misc/systemd ~/.config/systemd
 
 
 # Scripts

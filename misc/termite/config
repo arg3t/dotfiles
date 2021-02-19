@@ -1,0 +1,78 @@
+[options]
+allow_bold = true
+#audible_bell = false
+#bold_is_bright = true
+#cell_height_scale = 1.0
+#cell_width_scale = 1.0
+clickable_url = true
+dynamic_title = true
+font = CaskaydiaCove Nerd Font 12
+#fullscreen = true
+#icon_name = terminal
+#mouse_autohide = false
+#scroll_on_output = false
+#scroll_on_keystroke = true
+# Length of the scrollback buffer, 0 disabled the scrollback buffer
+# and setting it to a negative value means "infinite scrollback"
+scrollback_lines = 10000
+#search_wrap = true
+#urgent_on_bell = true
+#hyperlinks = false
+
+# $BROWSER is used by default if set, with xdg-open as a fallback
+browser = xdg-open
+
+# "system", "on" or "off"
+cursor_blink = system
+
+# "block", "underline" or "ibeam"
+cursor_shape = block
+
+# Hide links that are no longer valid in url select overlay mode
+#filter_unmatched_urls = true
+
+# Emit escape sequences for extra modified keys
+#modify_other_keys = false
+
+# set size hints for the window
+#size_hints = false
+
+# "off", "left" or "right"
+#scrollbar = off
+
+# ====================================
+[colors]
+
+# http://www.xcolors.net/dl/gnometerm
+
+# Black
+color0=   #000000
+color8=   #555753
+
+# Red
+color1=   #cc0000
+color9=   #ef2929
+
+# Green
+color2=   #4e9a06
+color10=  #8ae234
+
+# Yellow
+color3=   #c4a000
+color11=  #fce94f
+
+# Blue
+color4=   #3465a4
+color12=  #729fcf
+
+# Magenta
+color5=   #75507b
+color13=  #ad7fa8
+
+# Cyan
+color6=   #06989a
+color14=  #34e2e2
+
+# White
+color7=   #d3d7cf
+color15=  #eeeeec
