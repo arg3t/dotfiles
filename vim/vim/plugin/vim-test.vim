@@ -1,5 +1,5 @@
 let test#strategy = "vimux"
-let test#runners = {'Ruby': ['GitHub']}
+let test#runners = {}
 
 nmap <silent> <leader>s :TestNearest<CR>
 nmap <silent> <leader>t :TestFile<CR>

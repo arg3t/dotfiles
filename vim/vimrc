@@ -22,6 +22,7 @@ map <Leader>h :History<CR>
 nnoremap <C-p> :Files<Cr>
 
 syntax on
+filetype plugin on
 autocmd Filetype scss if getfsize(@%) > 300 | setlocal syntax=OFF | endif
 
 augroup twig_ft
@@ -107,6 +108,7 @@ let g:go_fmt_command = "goimports"
 
 " Find/replace
 vnoremap <C-r> "hy:%s/<C-r>h//g<left><left><left>
+nnoremap <leader>e :noh<CR>
 
 " let g:auto_save = 1  " enable AutoSave on Vim startup
 " let g:auto_save_in_insert_mode = 0 " do not save in insert mode
@@ -117,6 +119,11 @@ nnoremap <Left> :echoe "Use h"<CR>
 nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
+
+nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
+let g:Tlist_WinWidth = 40
+
 "
 "-------------------------------------------------------------------------------
 " Neovim-specific configurations
