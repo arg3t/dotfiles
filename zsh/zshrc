@@ -61,4 +61,3 @@ export BORG_KEYS_DIR=~/.keys/borg
 
 #zle-line-init() { zle -K vicmd; }
 #zle -N zle-line-init
-
