@@ -1,5 +1,3 @@
-if [ "$TMUX" = "" ]; then tmux; fi
-~/.scripts/welcome.sh
 eval "$(direnv hook zsh)" >> /tmp/direnv
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -14,9 +12,7 @@ source <(antibody init)
 
 
 export GOPATH=$HOME/go
-export PATH="$PATH:/home/yigit/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:/home/yigit/.local/bin"
-alias yain="yay -Syu "
-alias ls="ls --color"
+export PATH="$PATH:/home/yigit/.scripts:/home/yigit/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:/home/yigit/.local/bin"
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -38,26 +34,28 @@ bindkey  "^[[3~"  delete-char
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 
-fpath=(~/.completion $fpath)
+fpath=(~/.completions $fpath)
+autoload -Uz compinit && compinit
+
+source ~/.aliases
+source ~/.zsh_secret
 source ~/.cmds
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=241'
 
 export BROWSER=firefox-developer-edition
 export EDITOR=vim
 
-alias t="TERM=screen-256color-bce tmux"
-alias tn="TERM=screen-256color-bce tmux new -s "
-alias ta="TERM=screen-256color-bce tmux a  "
-
 # added by travis gem
 [ ! -s /home/yigit/.travis/travis.sh ] || source /home/yigit/.travis/travis.sh
 
 export ANDROID_HOME=~/Android/Sdk
 export FLUTTER_HOME=~/flutter
+export TMUX_PLUGIN_MANAGER_PATH=~/.tmux/plugins
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$FLUTTER_HOME/bin
 export BORG_KEYS_DIR=~/.keys/borg
+
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

@@ -35,4 +35,5 @@ ln -s ~/.dotfiles/zsh/antibody ~/.config/antibody
 ln -s ~/.dotfiles/zsh/zshrc ~/.zshrc
 ln -s ~/.dotfiles/zsh/cmds ~/.cmds
 ln -s ~/.dotfiles/zsh/aliases ~/.aliases
+ln -s ~/.dotfiles/zsh/completions ~/.completions
 

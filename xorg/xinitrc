@@ -18,7 +18,7 @@ aw-server &
 aw-watcher-window &
 aw-watcher-afk &
 mconnect -d &
-mailspring &
+thunderbird &
 dbus-update-activation-environment --systemd DISPLAY
 export SSH_AUTH_SOCK
 export QT_QPA_PLATFORMTHEME="qt5ct"

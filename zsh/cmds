@@ -1,14 +1,5 @@
 #!/usr/bin/zsh
 
-alias backup="sudo borg create --progress --stats /mnt/hdd/backups::laptop_$(date  +%m_%d_%Y) /home /usr /etc /var /opt /boot --exclude /var/lib --exclude /home/yigit/Projects/UltimateStudent/recordings"
-alias metis_backup="mysqldump --no-tablespaces --single-transaction -u bcaa49b6f602ea -h eu-cdbr-west-03.cleardb.net heroku_a78e4b025f8259d -pdc691280 > ~/.db_backups/metis_$(date  +%m_%d_%Y).sql"
-alias feh="feh --scale-down --auto-zoom"
-alias idea="/home/yigit/.local/share/JetBrains/Toolbox/apps/IDEA-U/ch-0/201.7223.91/bin/idea.sh"
-alias lights_off="curl 'http://yeetclock/setcolor?R=2000&G=10&B=000&O=0'"
-alias open=xdg-open
-alias rm="rm -i"
-alias clip="xclip -selection clipboard"
-
 count() {
         echo -n $1 | wc -c
 }
@@ -48,3 +39,64 @@ colors() {
     done  
     echo ""
 }
+
+
+# TMATE Functions
+
+TMATE_PAIR_NAME="$(whoami)-pair"
+TMATE_SOCKET_LOCATION="/tmp/tmate-pair.sock"
+TMATE_TMUX_SESSION="/tmp/tmate-tmux-session"
+
+# Get current tmate connection url
+tmate-url() {
+  url="$(tmate -S $TMATE_SOCKET_LOCATION display -p '#{tmate_ssh}')"
+  echo "$url" | tr -d '\n' | xclip -selection clipboard
+  echo "Copied tmate url for $TMATE_PAIR_NAME:"
+  echo "$url"
+}
+
+# Start a new tmate pair session if one doesn't already exist
+# If creating a new session, the first argument can be an existing TMUX session to connect to automatically
+
+tmate-attach() {
+  if [ -n "$1" ]; then
+    echo "Attaching tmate to tmux session $1";
+    echo $1 > $TMATE_TMUX_SESSION
+    tmate -S "$TMATE_SOCKET_LOCATION" send -t "$TMATE_PAIR_NAME" "TMUX='' tmux attach-session -t $1; tmate-unpair" ENTER
+  fi
+}
+
+
+tmate-pair() {
+  if [ ! -e "$TMATE_SOCKET_LOCATION" ]; then
+    tmate -S "$TMATE_SOCKET_LOCATION" -f "$HOME/.tmate.conf" new-session -d -s "$TMATE_PAIR_NAME"
+
+    while [ -z "$url" ]; do
+      url="$(tmate -S $TMATE_SOCKET_LOCATION display -p '#{tmate_ssh_ro}')"
+    done
+    echo "$url" | tr -d '\n' | xclip -selection clipboard
+    echo "Copied tmate url for $TMATE_PAIR_NAME:"
+    echo "$url"
+    tmate -S "$TMATE_SOCKET_LOCATION" send -t "$TMATE_PAIR_NAME" "q" ENTER
+    sleep 1
+    #tmate-attach $1
+    sleep 2
+  fi
+  tmate -S "$TMATE_SOCKET_LOCATION" attach-session -t "$TMATE_PAIR_NAME"
+}
+
+# Close the pair because security
+tmate-unpair() {
+  if [ -e "$TMATE_SOCKET_LOCATION" ]; then
+    if [ -e "$TMATE_SOCKET_LOCATION" ]; then
+      tmux detach -s $(cat $TMATE_TMUX_SESSION)
+      rm -f $TMATE_TMUX_SESSION
+    fi
+
+    tmate -S "$TMATE_SOCKET_LOCATION" kill-session -t "$TMATE_PAIR_NAME"
+    echo "Killed session $TMATE_PAIR_NAME"
+  else
+    echo "Session already killed"
+  fi
+}
+

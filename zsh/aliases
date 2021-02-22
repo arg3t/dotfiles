@@ -1,0 +1,18 @@
+#!/usr/bin/zsh
+
+alias feh="feh --scale-down --auto-zoom"
+alias idea="/home/yigit/.local/share/JetBrains/Toolbox/apps/IDEA-U/ch-0/201.7223.91/bin/idea.sh"
+alias lights_off="curl 'http://yeetclock/setcolor?R=2000&G=10&B=000&O=0'"
+alias open=xdg-open
+alias rm="rm -i"
+alias clip="xclip -selection clipboard"
+alias g="git "
+alias t="TERM=screen-256color-bce tmux"
+alias tn="TERM=screen-256color-bce tmux new -s "
+alias tat="TERM=screen-256color-bce tmux a  -t "
+alias yain="yay -Syu "
+alias ls="ls --color"
+
+# Suffix aliases
+alias -g G=" | rg" 
+alias gshh="gcloud cloud-shell ssh --authorize-session"
