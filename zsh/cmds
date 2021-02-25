@@ -55,11 +55,28 @@ tmate-url() {
   echo "$url"
 }
 
+# Get current tmate connection url
+tmate-url-ro() {
+  url="$(tmate -S $TMATE_SOCKET_LOCATION display -p '#{tmate_ssh_ro}')"
+  echo "$url" | tr -d '\n' | xclip -selection clipboard
+  echo "Copied tmate url for $TMATE_PAIR_NAME:"
+  echo "$url"
+}
+
+
 # Start a new tmate pair session if one doesn't already exist
 # If creating a new session, the first argument can be an existing TMUX session to connect to automatically
 
 tmate-attach() {
   if [ -n "$1" ]; then
+    tmux has-session -t $1 2>/dev/null
+
+    if [ $? != 0 ]; then
+      echo "Tmux session not found... Creating"
+      tmux new-session -d -s $1
+      sleep 1
+    fi
+
     echo "Attaching tmate to tmux session $1";
     echo $1 > $TMATE_TMUX_SESSION
     tmate -S "$TMATE_SOCKET_LOCATION" send -t "$TMATE_PAIR_NAME" "TMUX='' tmux attach-session -t $1; tmate-unpair" ENTER
@@ -69,7 +86,7 @@ tmate-attach() {
 
 tmate-pair() {
   if [ ! -e "$TMATE_SOCKET_LOCATION" ]; then
-    tmate -S "$TMATE_SOCKET_LOCATION" -f "$HOME/.tmate.conf" new-session -d -s "$TMATE_PAIR_NAME"
+    tmate -k $TMATE_API_KEY -r "sharedProgramming" -S "$TMATE_SOCKET_LOCATION" -f "$HOME/.tmate.conf" new-session -d -s "$TMATE_PAIR_NAME"
 
     while [ -z "$url" ]; do
       url="$(tmate -S $TMATE_SOCKET_LOCATION display -p '#{tmate_ssh_ro}')"
@@ -79,7 +96,7 @@ tmate-pair() {
     echo "$url"
     tmate -S "$TMATE_SOCKET_LOCATION" send -t "$TMATE_PAIR_NAME" "q" ENTER
     sleep 1
-    #tmate-attach $1
+    tmate-attach $1
     sleep 2
   fi
   tmate -S "$TMATE_SOCKET_LOCATION" attach-session -t "$TMATE_PAIR_NAME"

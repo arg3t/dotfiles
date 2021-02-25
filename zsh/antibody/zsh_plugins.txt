@@ -9,4 +9,5 @@ zsh-users/zsh-history-substring-search
 zsh-users/zsh-autosuggestions
 le0me55i/zsh-extract
 hcgraf/zsh-sudo
+rupa/z
 
