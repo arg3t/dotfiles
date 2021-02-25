@@ -3,4 +3,4 @@
 temp=$(sed 's/[0-9][0-9][0-9]$/°C/' /sys/class/thermal/thermal_zone4/temp)
 icon=
 
-echo "$icon $temp "
+echo "^c#bf616a^$icon^d^ $temp "

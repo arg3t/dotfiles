@@ -1,0 +1,31 @@
+#!/bin/sh
+
+export LOCATION=ankara
+
+weatherreport="${XDG_DATA_HOME:-$HOME/.local/share}/weatherreport"
+getforecast() { curl -sf "wttr.in/$LOCATION" > "$weatherreport" || exit 1 ;}
+
+# Some very particular and terse stream manipulation. We get the maximum
+# precipitation chance and the daily high and low from the downloaded file and
+# display them with coresponding emojis.
+showweather() { printf "%s" "$(sed '16q;d' "$weatherreport" |
+	grep -wo "[0-9]*%" | sort -rn | sed "s/^/\^c#81a1c1\^   \^d\^/g;1q" | tr -d '\n')"
+sed '13q;d' "$weatherreport" | grep -o "m\\([-+]\\)*[0-9]\\+" | sort -n -t 'm' -k 2n | sed -e 1b -e '$!d' | tr '\n|m' ' ' | awk '{print " ﰕ " $1 "°","^c#ebcb8b^滛 ^d^" $2 "°"}' ;}
+
+case $BLOCK_BUTTON in
+	1) setsid -f "$TERMINAL" -e less -Srf "$weatherreport" ;;
+	2) getforecast && showweather ;;
+	3) notify-send " Weather module" "\- Left click for full forecast.
+- Middle click to update forecast.
+: Chance of rain/snow
+ﰕ: Daily low
+滛: Daily high" ;;
+	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
+# The test if our forcecast is updated to the day. If it isn't download a new
+# weather report from wttr.in with the above function.
+[ "$(stat -c %y "$weatherreport" 2>/dev/null | cut -d' ' -f1)" = "$(date '+%Y-%m-%d')" ] ||
+	getforecast
+
+showweather

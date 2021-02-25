@@ -27,4 +27,4 @@ export AWT_TOOLKIT=MToolkit
 if [ -f ~/.xmodmap ]; then
    xmodmap ~/.xmodmap
 fi
-exec dwm
+exec dwm > /tmp/dwm.log 2> /tmp/dwm.err

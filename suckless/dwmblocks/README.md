@@ -1,66 +1,44 @@
 # dwmblocks
 
-Modular status monitor for dwm written in C with features including
-signaling, clickability, cursor hinting and color.
-
-# Usage
-
-`dwmblocks [-d <delimiter>]`
+Modular status bar for dwm written in c.
 
 # Modifying blocks
 
-Blocks are added and removed by editing the [blocks.h](blocks.h) file. Read it
-for more info.
+The statusbar is made from text output from commandline programs.  Blocks are
+added and removed by editing the config.h file.
 
-# Colored output and Clickability
+# Luke's build
 
-The patches folder contains two patches for dwm, one for dwm already patched
-with systray patch and the other for dwm without systray. One of the patches,
-whichever appropriate, is essential for dwmblocks to function properly. It will
-add support for colored text, clickability and cursor hinting when hovering on
-clickable blocks (inspired by polybar).
-
-Clickability is inspired by the statuscmd patch for dwm. On clicking on text
-corresponding to a clickable block, the program specified to handle clicks for
-that block is executed with the first argument specifying which button was
-clicked (1 for left, 2 for middle and 3 for right by default).
-
-Colored output is inspired by the statuscolors patch for dwm. To add colors,
-have your programs for the blocks output raw characters from '\x0b' to '\x31'.
-'\x0b' in status text switches the active colorscheme to the first one in the
-scheme array in dwm and so on. See
-[statuscolors patch](https://dwm.suckless.org/patches/statuscolors/)
-for more info. Keep in mind that you have to start from '\x0b' instead of '\x01'
-as instructed on the page.
+I have dwmblocks read my preexisting scripts
+[here in my dotfiles repo](https://github.com/LukeSmithxyz/voidrice/tree/master/.local/bin/statusbar).
+So if you want my build out of the box, download those and put them in your
+`$PATH`. I do this to avoid redundancy in LARBS, both i3 and dwm use the same
+statusbar scripts.
 
 # Signaling changes
 
-To signal a specific block to update, run `sigdwmblocks <signal> [<sigval>]`.
-`<sigval>` is optional and must be an integer. If provided, it is passed as the
-first argument to the program specified for updating the block.
+Most statusbars constantly rerun every script every several seconds to update.
+This is an option here, but a superior choice is giving your module a signal
+that you can signal to it to update on a relevant event, rather than having it
+rerun idly.
 
-# xgetrootname
+For example, the audio module has the update signal 10 by default.  Thus,
+running `pkill -RTMIN+10 dwmblocks` will update it.
 
-It is a tiny program to get the current root name. May prove helpful in
-debugging.
+You can also run `kill -44 $(pidof dwmblocks)` which will have the same effect,
+but is faster.  Just add 34 to your typical signal number.
 
-# Installation
+My volume module *never* updates on its own, instead I have this command run
+along side my volume shortcuts in dwm to only update it when relevant.
 
-Clone the repository and run `make install clean` after getting in the project
-directory. By default the program is installed in `$HOME/.local/bin`
-(see [GNUmakefile](GNUmakefile)). If xgetrootname is required run
-`make xgetrootname`.
+Note that all modules must have different signal numbers.
 
-# Acknowledgements
+# Clickable modules
 
-Some ideas and code was taken from other projects. Credits for those go to -
+Like i3blocks, this build allows you to build in additional actions into your
+scripts in response to click events.  See the above linked scripts for examples
+of this using the `$BLOCK_BUTTON` variable.
 
-* torrinfail ([original dwmblocks implementation](https://github.com/torrinfail/dwmblocks))
-* Daniel Bylinka ([statuscmd patch for dwm](https://dwm.suckless.org/patches/statuscmd/))
-* Jeremy Jay ([statuscolors patch for dwm](https://dwm.suckless.org/patches/statuscolors/))
-
-# See also
-
-* [dsblocks](https://github.com/ashish-yadav11/dsblocks) - A clone of this
-  project with the only difference being that C functions instead of external
-  programs are used to update blocks and handle clicks.
+For this feature to work, you need the appropriate patch in dwm as well. See
+[here](https://dwm.suckless.org/patches/statuscmd/).
+Credit for those patches goes to Daniel Bylinka (daniel.bylinka@gmail.com).

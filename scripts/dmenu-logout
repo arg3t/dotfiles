@@ -26,7 +26,7 @@ logout() {
 
 # Load dmenu config
 # shellcheck source=/dev/null
-[ -f "$HOME/.dmenurc" ] && . "$HOME/.dmenurc" || DMENU='dmenu -i'
+[ -f "$HOME/.dmenurc" ] && . "$HOME/.dmenurc" || DMENU='dmenu  -z 1900 -x 10 -y 10 -i'
 
 # Menu items
 items="logout

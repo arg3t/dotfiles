@@ -15,23 +15,23 @@ ramp90=
 ramp100=
 
 if [[ $bat -lt 10 ]]; then
-    echo " $ramp10 $bat% "
+    echo "^c#ebcb8b^$ramp10^d^ $bat% "
 elif [[ $bat -lt 20 ]]; then
-    echo " $ramp20 $bat% "
+    echo "^c#ebcb8b^$ramp20^d^ $bat% "
 elif [[ $bat -lt "30" ]]; then
-    echo " $ramp30 $bat% "
+    echo "^c#ebcb8b^$ramp30^d^ $bat% "
 elif [[ $bat -lt "40" ]]; then
-    echo " $ramp40 $bat% "
+    echo "^c#ebcb8b^$ramp40^d^ $bat% "
 elif [[ $bat -lt "50" ]]; then
-    echo " $ramp50 $bat% "
+    echo "^c#ebcb8b^$ramp50^d^ $bat% "
 elif [[ $bat -lt "60" ]]; then
-    echo " $ramp60 $bat% "
+    echo "^c#ebcb8b^$ramp60^d^ $bat% "
 elif [[ $bat -lt "70" ]]; then
-    echo " $ramp70 $bat% "
+    echo "^c#ebcb8b^$ramp70^d^ $bat% "
 elif [[ $bat -lt "80" ]]; then
-    echo " $ramp80 $bat% "
+    echo "^c#ebcb8b^$ramp80^d^ $bat% "
 elif [[ $bat -lt "90" ]]; then
-    echo " $ramp90 $bat% "
+    echo "^c#ebcb8b^$ramp90^d^ $bat% "
 elif [[ $bat -le "100" ]]; then
-    echo " $ramp100 $bat% "
+    echo "^c#ebcb8b^$ramp100^d^ $bat% "
 fi

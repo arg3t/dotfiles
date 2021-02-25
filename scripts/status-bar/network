@@ -1,0 +1,19 @@
+#!/bin/sh
+
+ETH_IT=enp2s0
+WLAN_IT=wlp3s0
+
+is_eth_used=$(cat /sys/class/net/${ETH_IT}/carrier)
+is_wlan_used=$(cat /sys/class/net/${WLAN_IT}/carrier)
+
+echo -n "^c#88c0d0^" 
+
+if  [ "$is_eth_used" -eq 1 ]; then    # wired network is carrying
+      icon="^d^ " #uF6FF
+  elif  [ "$is_wlan_used" -eq 1 ]; then # wireless network is carrying
+      icon="直 ^d^  $(nmcli -t -f active,ssid dev wifi | egrep '^yes' | cut -d\' -f2 | cut -d ':' -f2)" #uF1EB
+    else
+      icon="^d^" #uf128 # no network
+fi
+
+echo -n $icon

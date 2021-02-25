@@ -1,24 +1,0 @@
-#! /bin/sh
-
-#mute=$(amixer get Master | awk -F'[][]' 'END{ print $6 }' )
-#vol=$(amixer get Master | awk -F'[][]' 'END{ print $2 }' )
-mute=$(pamixer --get-mute)
-vol=$(pamixer --get-volume)
-iconmute=婢
-ramp1=奄
-ramp2=奔
-ramp3=墳
-
-#if [[ $mute == "true" ]]; then
-#    echo " $iconmute $vol% "
-if [[ $mute == "true" ]]; then
-    echo " $iconmute mute"
-elif [[ "$vol" -ge "100" ]]; then
-    echo "$ramp3 $vol% "
-elif [[ "$vol" -le "33" ]]; then
-    echo "$ramp1 $vol% "
-elif [[ "$vol" -le "66" ]]; then
-    echo "$ramp2 $vol% "
-elif [[ "$vol" -ge "66" ]]; then
-    echo "$ramp3 $vol% "
-fi
