@@ -5,15 +5,15 @@
 #    frame_color = "#282828"
 
 # dracula
-   background	= "#282a36"
-    foreground = "#f8f8f2"
-    frame_color = "#282a36"
+   background	= "#0f111a"
+    foreground = "#e5e9f0"
+    frame_color = "#bf616a"
 
 
 [global]
    frame_width = 0
     #font = JetBrains Mono 10
-    font = Ubuntu 10
+    font = CaskaydiaCove Nerd Font 10
     follow = none
     
     # Allow a small subset of html markup:
@@ -80,7 +80,7 @@
     # the top and down respectevly.
     # The width can be negative.  In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
-    geometry = "500x8-8-8"
+    geometry = "500x8-8+8"
 
     # Show how many messages are currently hidden (because of geometry).
     indicate_hidden = yes
