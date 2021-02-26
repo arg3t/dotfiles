@@ -6,6 +6,8 @@ tmpdir="/tmp"
 url="$1"
 echo $url
 echo $format
+mpv $url
+exit 0
 filepath="$tmpdir/$(youtube-dl --id --get-filename $format $url)"
 
 youtube-dl -c -o $filepath $format $url &
