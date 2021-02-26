@@ -6,7 +6,13 @@ if ! updates=$(checkupdates 2> /dev/null | wc -l ); then
     updates=0
 fi
 
+case $BLOCK_BUTTON in
+	1) "$TERMINAL" -e yay -Syu;;
+	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
 echo $updates > ~/.cache/pacman_updates
 
 #echo "$ifg $icon $tfg$(cat ~/.cache/pacman_updates)"
 echo "^c#a48ead^$icon ^d^ $(cat ~/.cache/pacman_updates)"
+

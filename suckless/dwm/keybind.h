@@ -30,7 +30,7 @@ static const char *outmenu[] = {"/home/yigit/.scripts/dmenu-logout"};
 static const char *notification_off[] = {"/home/yigit/.scripts/dunst_toggle.sh","-s",NULL};
 static const char *notification_on[] = {"/home/yigit/.scripts/dunst_toggle.sh", "-e",NULL};
 
-static const char *bwmenu[] = {"/usr/bin/bitwarden-dmenu", "--dmenu-args=-i", "--clear-clipboard", "30", "--session-timeout", "100", "--sync-vault-after", "3600", "--on-error", "xargs notify-send --urgency=low", NULL};
+static const char *bwmenu[] = {"/home/yigit/.scripts/password_manager", NULL};
 
 
 static const char *network_manager[] = {"/home/yigit/.scripts/networkmanager_dmenu"};
@@ -73,6 +73,7 @@ static Key keys[] = {
 	{ MODKEY|Mod1Mask,              XK_f,      setlayout,      {.v = &layouts[1]} }, /*Spiral*/
 	{ MODKEY|Mod1Mask,              XK_g,      setlayout,      {.v = &layouts[2]} }, /*Grid*/
 	{ MODKEY|Mod1Mask,              XK_c,      setlayout,      {.v = &layouts[3]} }, /*center*/
+	{ MODKEY|Mod1Mask,                       XK_d,      setlayout,      {.v = &layouts[4]} }, /*monocle*/
 	{ MODKEY|Mod1Mask,                       XK_m,      setlayout,      {.v = &layouts[5]} }, /*monocle*/
 	{ MODKEY|Mod1Mask,             XK_m,      setlayout,      {.v = &layouts[6]} }, /*Deck*/
 	{ MODKEY|ShiftMask,                       XK_space,      togglefloating, {0} }, /* [>float<] */

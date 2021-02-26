@@ -1,7 +1,5 @@
 # Fr1nge's Dotfiles
 
-
-
 Welcome to my dungeon. Here, I keep all my configuration files in case I have a stroke and lose all my memory. You're very welcome to explore and use anything in this repository. Have fun!
 
 ## My Setup: 
@@ -30,5 +28,6 @@ Just run `git clone --recurse-submodules github.com/yigitcolakoglu/dotfiles.git 
 
 ## TODOs
 
-* Switch to surf & tabbed
-* Find more cool stuff to add to your rice
+* Improve the go function written in surf
+* Improve the way indicators look
+* !!! High priority add an indicator for insert mode

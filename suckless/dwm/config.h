@@ -8,7 +8,7 @@ static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static int showsystray        					 = 1;     /* 0 means no systray */
 static const int tag_padding        		 = 0;        
-static const char *layoutmenu_cmd        = "layoutmenu.sh";
+static const char *layoutmenu_cmd        = "~/.scripts/layoutmenu.sh";
 
 /* systray */
 static int tagindicatortype              = INDICATOR_TOP_LEFT_SQUARE;
