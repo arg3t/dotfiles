@@ -1,6 +1,7 @@
 ack
 arandr
 arc-gtk-theme
+aria2
 autoconf
 automake
 baobab
@@ -44,6 +45,8 @@ gradle
 grep
 groff
 grub
+gst-plugins-bad
+gst-plugins-good
 gvfs-afc
 gvim
 gzip
@@ -55,6 +58,7 @@ ipython
 jdk11-openjdk
 jq
 jre11-openjdk
+kdeconnect
 keepass
 kitty
 libgnome-keyring
@@ -71,6 +75,7 @@ m4
 make
 mariadb
 mlocate
+mpv
 mysql-workbench
 nemo
 neofetch
@@ -209,6 +214,7 @@ xorg-xwininfo
 xorg-xwud
 xss-lock
 xterm
+yajl
 yay
 youtube-dl
 zathura
