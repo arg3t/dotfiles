@@ -7,6 +7,10 @@ static const Rule rules[] = {
 	 */
 	RULE(.class = "discord", .tags = 1 << 8)
 	RULE(.class = "firefoxdeveloperedition", .tags = 1 << 1)
+	RULE(.class = "tabbed-surf", .tags = 1 << 1)
+	RULE(.class = "tabbed", .tags = 1 << 1)
+	RULE(.class = "bitwarden", .tags = 1 << 7)
+	RULE(.class = "Bitwarden", .tags = 1 << 7)
 	RULE(.class = "Mailspring", .tags = 1 << 7)
 	RULE(.class = "Thunderbird", .tags = 1 << 7)
 	RULE(.class = "st-256color", .tags = 1 << 0)

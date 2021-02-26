@@ -25,3 +25,5 @@ case $1 in
         ;;
     *) usage ;;
 esac
+
+kill -48 $(pidof dwmblocks)

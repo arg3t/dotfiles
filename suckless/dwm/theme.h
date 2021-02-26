@@ -28,7 +28,7 @@ static const char col8[]   = "#4c566a"; /* gray */
 static char *colors[][ColCount] = {
 	/*                       fg                bg                border                float */
 	[SchemeNorm]         = { fore, back, border, border},
-	[SchemeSel]          = { fore, back, border, border},
+	[SchemeSel]          = { fore, back, col1, border},
 	[SchemeTitleNorm]    = { fore, back, border },
 	[SchemeTitleSel]     = { fore, back, border, border},
 	[SchemeTagsNorm]     = { fore, back, border, border},

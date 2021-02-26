@@ -40,22 +40,12 @@ autoload -Uz compinit && compinit
 source ~/.aliases
 source ~/.zsh_secret
 source ~/.cmds
+
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=241'
 export KEYTIMEOUT=5
 
-export BROWSER=firefox-developer-edition
-export EDITOR=vim
-
 # added by travis gem
 [ ! -s /home/yigit/.travis/travis.sh ] || source /home/yigit/.travis/travis.sh
-
-export ANDROID_HOME=~/Android/Sdk
-export FLUTTER_HOME=~/flutter
-export TMUX_PLUGIN_MANAGER_PATH=~/.tmux/plugins
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:$FLUTTER_HOME/bin
-export BORG_KEYS_DIR=~/.keys/borg
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

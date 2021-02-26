@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Menu Surfraw: https://github.com/TomboFry/menu-surfraw
+
+# Modified version of https://github.com/onespaceman/menu-calc to display
+# available elvi to use in surfraw then get the search term afterwards and open
+# it in your browser of choice.
+
+# Edit here to change what browser you open links in
+browser="/home/yigit/.scripts/tabbed_surf"
+
+usage() {
+    echo "Usage: $0 [OPTIONS] [ELVIS [SEARCHTERM]]
+
+OPTIONS:
+  -h, --help	Displays this message
+
+ELVIS:
+    This is the same as surfraw, any Elvi you have installed. Can be left
+    blank, as you will be prompted for this in dmenu/rofi.
+
+SEARCHTERM:
+    Again, the same as surfraw, the term you are searching for. Can also be
+    left blank as you will be prompted for this in dmenu/rofi."
+    exit
+}
+
+case $1 in
+    "-h"|"--help") usage ;;
+esac
+
+# Path to menu application
+if [[ -n $(command -v dmenu) ]]; then
+	menu="$(command -v dmenu )"
+elif [[ -n $(command -v rofi) ]]; then
+	menu="$(command -v rofi)"
+else
+	echo "Rofi or dmenu not found, exiting."
+	exit
+fi
+
+answerA=$(echo "$1")
+answerB=$(echo "${@:2}")
+
+# Change what to display in rofi/dmenu
+# If both the first prompt and second prompt are not empty, it will finally open
+# the search in surfraw
+action=$(echo "" | $menu -p "$answerA ")
+
+surfraw -browser=$browser $answerA $action
+

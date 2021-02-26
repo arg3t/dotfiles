@@ -1,0 +1,5 @@
+scroll
+ptty
+*.swp
+*.core
+config.h

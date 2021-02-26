@@ -30,7 +30,9 @@ static const char *outmenu[] = {"/home/yigit/.scripts/dmenu-logout"};
 static const char *notification_off[] = {"/home/yigit/.scripts/dunst_toggle.sh","-s",NULL};
 static const char *notification_on[] = {"/home/yigit/.scripts/dunst_toggle.sh", "-e",NULL};
 
-static const char *bwmenu[] = {"/usr/bin/bwmenu", "--auto-lock", "-1", NULL};
+static const char *bwmenu[] = {"/usr/bin/bitwarden-dmenu", "--dmenu-args=-i", "--clear-clipboard", "30", "--session-timeout", "100", "--sync-vault-after", "3600", "--on-error", "xargs notify-send --urgency=low", NULL};
+
+
 static const char *network_manager[] = {"/home/yigit/.scripts/networkmanager_dmenu"};
 
 static const char *trackpad[] = {"/home/yigit/.scripts/toggle_touchpad.sh"};
@@ -41,6 +43,11 @@ static const char *bluetooth[] = {"/home/yigit/.scripts/dmenu-bluetooth", NULL};
 
 static const char *screenshot[] = { "scrot","-d","3", "%Y-%m-%d-%s_$wx$h.jpg", "-e","xclip -selection clipboard -t image/jpg < $f; mv $f ~/Pictures/Screenshots/;dunstify --icon='/home/yigit/.icons/Numix-Circle/48/apps/camera.svg' -a 'SNAP' 'Screenshot taken'", NULL };
 static const char *windowshot[] = { "scrot", "-u", "-d","3", "%Y-%m-%d-%s_$wx$h.jpg", "-e","xclip -selection clipboard -t image/jpg < $f; mv $f ~/Pictures/Screenshots/;dunstify --icon='/home/yigit/.icons/Numix-Circle/48/apps/camera.svg' -a 'SNAP' 'Screenshot taken'", NULL };
+
+static const char *url[] = {"/home/yigit/.scripts/dmenu_surf", NULL};
+static const char *surf[] = {"/home/yigit/.scripts/tabbed_surf", NULL};
+static const char *google[] = {"/home/yigit/.scripts/menu-surfraw", "google", NULL};
+static const char *youtube[] = {"/home/yigit/.scripts/menu-surfraw", "youtube", NULL};
 
 /* commands */
 static Key keys[] = {
@@ -53,23 +60,23 @@ static Key keys[] = {
 	{ MODKEY,                       XK_n,      spawn,          {.v = notification_off} },
 	{ MODKEY|ShiftMask,             XK_n,      spawn,          {.v = notification_on } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_s,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
+	{ MODKEY|Mod1Mask,                       XK_i,      incnmaster,     {.i = +1 } },
+	{ MODKEY|Mod1Mask,                       XK_s,      incnmaster,     {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } }, 
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} }, /*tiled*/
+	{ MODKEY|Mod1Mask,                       XK_t,      setlayout,      {.v = &layouts[0]} }, /*tiled*/
 	{ MODKEY|Mod1Mask,              XK_f,      setlayout,      {.v = &layouts[1]} }, /*Spiral*/
 	{ MODKEY|Mod1Mask,              XK_g,      setlayout,      {.v = &layouts[2]} }, /*Grid*/
 	{ MODKEY|Mod1Mask,              XK_c,      setlayout,      {.v = &layouts[3]} }, /*center*/
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[5]} }, /*monocle*/
-	{ MODKEY|ShiftMask,             XK_m,      setlayout,      {.v = &layouts[6]} }, /*Deck*/
-	// { MODKEY,                       XK_s,      togglefloating, {0} }, [>float<]
-	// { MODKEY,			            XK_f,    togglefullscr,  {0} }, [>Fullscreen<]
+	{ MODKEY|Mod1Mask,                       XK_m,      setlayout,      {.v = &layouts[5]} }, /*monocle*/
+	{ MODKEY|Mod1Mask,             XK_m,      setlayout,      {.v = &layouts[6]} }, /*Deck*/
+	{ MODKEY|ShiftMask,                       XK_space,      togglefloating, {0} }, /* [>float<] */
+	{ MODKEY,			            XK_f,    togglefullscreen,  {0} }, /*[>Fullscreen<] */
 	{ MODKEY|Mod1Mask,              XK_comma,  cyclelayout,    {.i = -1 } }, /*Ciclar layouts*/
 	{ MODKEY|Mod1Mask,              XK_period, cyclelayout,    {.i = +1 } }, /*Ciclar layouts*/
 	{ MODKEY,                       XK_a,      view,           {.ui = ~0 } },
@@ -107,6 +114,10 @@ static Key keys[] = {
 	{ 0,                            XF86XK_AudioNext, spawn, {.v = next  } },
 	{ 0,                            XK_Print, spawn, {.v = screenshot  } },
 	{ MODKEY,                       XK_Print, spawn, {.v = windowshot  } },
+	{ MODKEY,                       XK_u, spawn, {.v = url} },
+	{ MODKEY,                       XK_s, spawn, {.v = surf} },
+	{ MODKEY,                       XK_g, spawn, {.v = google} },
+	{ MODKEY,                       XK_y, spawn, {.v = youtube} },
 
 };
 

@@ -3,9 +3,10 @@
 
 static Block blocks[] = {
 
-	{ "", PATH("cpu-temp"),				30,			16},
-	{ "", PATH("weather"),				60,			15},
-	{ "", PATH("arch"),						120,		14},
+	{ "", PATH("cpu-temp"),				30,			17},
+	{ "", PATH("weather"),				60,			16},
+	{ "", PATH("arch"),						120,		15},
+	{ "", PATH("volume"),					120,		14},
 	{ "", PATH("network"),				120,		13},
 	{ "", PATH("battery"),				60,			12},
 	{ "", PATH("time"),					 	30,			11},

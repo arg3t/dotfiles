@@ -15,6 +15,7 @@ ln -s ~/.dotfiles/misc/dunst ~/.config/dunst
 ln -s ~/.dotfiles/misc/zathura ~/.config/zathura
 ln -s ~/.dotfiles/misc/termite/ ~/.config/termite
 ln -s ~/.dotfiles/misc/systemd ~/.config/systemd
+ln -s ~/.dotfiles/misc/profile ~/.config/.profile
 
 
 # Scripts

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+~/.scripts/tabbed_surf $(echo "" | dmenu -p "Site URL:")
