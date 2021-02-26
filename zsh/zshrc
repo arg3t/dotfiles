@@ -11,12 +11,9 @@ fi
 source <(antibody init)
 
 # Environment variables
-export QT_QPA_PLATFORMTHEME="qt6ct"
 export GOPATH=$HOME/go
 export _JAVA_AWT_WM_NONREPARENTING=1
 export AWT_TOOLKIT=MToolkit
-export SHELL=zsh
-export TERMINAL=st
 export ANDROID_HOME=~/Android/Sdk
 export FLUTTER_HOME=~/flutter
 export TMUX_PLUGIN_MANAGER_PATH=~/.tmux/plugins
