@@ -23,6 +23,9 @@ ln -s ~/.dotfiles/scripts ~/.scripts
 
 # Suckless
 ln -s ~/.dotfiles/suckless ~/.config/suckless
+ln -s ~/.dotfiles/suckless/dot_surf ~/.surf
+~/.dotfiles/suckless/build.sh
+
 
 # Tmux
 ln -s ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
