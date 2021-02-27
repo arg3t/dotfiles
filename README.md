@@ -30,5 +30,5 @@ Just run `git clone --recurse-submodules github.com/yigitcolakoglu/dotfiles.git 
 
 * Improve the go function written in surf
 * Add the documentation for all the keybinds 
-* Improve the way indicators look
-* !!! High priority add an indicator for insert mode
+* ~Improve the way indicators look~
+* ~!!! High priority add an indicator for insert mode~
