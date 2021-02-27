@@ -11,7 +11,7 @@
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 static char dmenumon[2] = "0"; 
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-z", "1900", "-x", "10", "-y", "10"};
+static const char *dmenucmd[] = { "/home/yigit/.scripts/dmenu_run_history", "-m", dmenumon, "-z", "1900", "-x", "10", "-y", "10"};
 static const char *termcmd[]  = { "/usr/local/bin/st", NULL };
 static const char *upvol[]   = { "/home/yigit/.scripts/pacontrol.sh", "up",     NULL };
 static const char *downvol[]   = { "/home/yigit/.scripts/pacontrol.sh", "down",     NULL };
@@ -73,9 +73,9 @@ static Key keys[] = {
 	{ MODKEY|Mod1Mask,              XK_f,      setlayout,      {.v = &layouts[1]} }, /*Spiral*/
 	{ MODKEY|Mod1Mask,              XK_g,      setlayout,      {.v = &layouts[2]} }, /*Grid*/
 	{ MODKEY|Mod1Mask,              XK_c,      setlayout,      {.v = &layouts[3]} }, /*center*/
-	{ MODKEY|Mod1Mask,                       XK_d,      setlayout,      {.v = &layouts[4]} }, /*monocle*/
+	{ MODKEY|Mod1Mask,                       XK_space,      setlayout,      {.v = &layouts[4]} }, /*Center floating*/
 	{ MODKEY|Mod1Mask,                       XK_m,      setlayout,      {.v = &layouts[5]} }, /*monocle*/
-	{ MODKEY|Mod1Mask,             XK_m,      setlayout,      {.v = &layouts[6]} }, /*Deck*/
+	{ MODKEY|Mod1Mask,             XK_d,      setlayout,      {.v = &layouts[6]} }, /*Deck*/
 	{ MODKEY|ShiftMask,                       XK_space,      togglefloating, {0} }, /* [>float<] */
 	{ MODKEY,			            XK_f,    togglefullscreen,  {0} }, /*[>Fullscreen<] */
 	{ MODKEY|Mod1Mask,              XK_comma,  cyclelayout,    {.i = -1 } }, /*Ciclar layouts*/

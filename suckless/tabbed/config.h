@@ -4,8 +4,8 @@
 static const char font[]        = "CaskaydiaCove Nerd Font Mono:size=10";
 static const char* normbgcolor  = "#0f111a";
 static const char* normfgcolor  = "#e5e9f0";
-static const char* selbgcolor   = "#4c566a";
-static const char* selfgcolor   = "#0f111a";
+static const char* selbgcolor   = "#e5e9f0";
+static const char* selfgcolor   = "#00010a";
 static const char* urgbgcolor   = "#bf616a";
 static const char* urgfgcolor   = "#0f111a";
 static const char before[]      = "<";

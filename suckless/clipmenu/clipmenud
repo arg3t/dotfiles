@@ -175,10 +175,12 @@ while true; do
     fi
 
     for selection in "${selections[@]}"; do
+        echo $selection
         updated_sel[$selection]=0
 
         data=$(_xsel -o --"$selection"; printf x)
         data=${data%x}  # avoid trailing newlines being stripped
+        echo $data
 
         [[ $data == *[^[:space:]]* ]] || continue
         [[ $last_data == "$data" ]] && continue
@@ -194,6 +196,7 @@ while true; do
         fi
 
         first_line=$(get_first_line "$data")
+        kill -52 $(pidof dwmblocks)
         debug "New clipboard entry on $selection selection: \"$first_line\""
 
         cache_file_output="$(date +%s%N) $first_line"
