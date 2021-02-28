@@ -66,19 +66,19 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
-	{ MODKEY|Mod1Mask,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY|Mod1Mask,                       XK_s,      incnmaster,     {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_i,      incnmaster,     {.i = +1 } },
+	{ MODKEY|Mod1Mask,              XK_s,      incnmaster,     {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } }, 
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
-	{ MODKEY|Mod1Mask,                       XK_t,      setlayout,      {.v = &layouts[0]} }, /*tiled*/
+	{ MODKEY|Mod1Mask,              XK_t,      setlayout,      {.v = &layouts[0]} }, /*tiled*/
 	{ MODKEY|Mod1Mask,              XK_f,      setlayout,      {.v = &layouts[1]} }, /*Spiral*/
 	{ MODKEY|Mod1Mask,              XK_g,      setlayout,      {.v = &layouts[2]} }, /*Grid*/
 	{ MODKEY|Mod1Mask,              XK_c,      setlayout,      {.v = &layouts[3]} }, /*center*/
-	{ MODKEY|Mod1Mask,                       XK_space,      setlayout,      {.v = &layouts[4]} }, /*Center floating*/
-	{ MODKEY|Mod1Mask,                       XK_m,      setlayout,      {.v = &layouts[5]} }, /*monocle*/
-	{ MODKEY|Mod1Mask,             XK_d,      setlayout,      {.v = &layouts[6]} }, /*Deck*/
-	{ MODKEY|ShiftMask,                       XK_space,      togglefloating, {0} }, /* [>float<] */
-	{ MODKEY,			            XK_f,    togglefullscreen,  {0} }, /*[>Fullscreen<] */
+	{ MODKEY|Mod1Mask,              XK_space,  setlayout,      {.v = &layouts[4]} }, /*Center floating*/
+	{ MODKEY|Mod1Mask,              XK_m,      setlayout,      {.v = &layouts[5]} }, /*monocle*/
+	{ MODKEY|Mod1Mask,             	XK_d,      setlayout,      {.v = &layouts[6]} }, /*Deck*/
+	{ MODKEY|ShiftMask,            	XK_space,  togglefloating, {0} }, /* [>float<] */
+	{ MODKEY,			            			XK_f,    	 togglefullscreen,  {0} }, /*[>Fullscreen<] */
 	{ MODKEY|Mod1Mask,              XK_comma,  cyclelayout,    {.i = -1 } }, /*Ciclar layouts*/
 	{ MODKEY|Mod1Mask,              XK_period, cyclelayout,    {.i = +1 } }, /*Ciclar layouts*/
 	{ MODKEY,                       XK_a,      view,           {.ui = ~0 } },
@@ -99,13 +99,13 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	TAGKEYS(                        XK_0,                      9)
-	{ MODKEY|ShiftMask,             XK_q, spawn, {.v = outmenu} },
-	{ MODKEY|ShiftMask,             XK_t, spawn, {.v = trackpad} },
-	{ MODKEY,                       XK_x, spawn, {.v = lock } },
-	{ MODKEY,                       XK_c, spawn, {.v = clipmenu } },
-	{ MODKEY|ShiftMask,             XK_p, spawn, {.v = kdeconnect } },
-	{ MODKEY|ShiftMask,             XK_b, spawn, {.v = bluetooth } },
-	{ MODKEY|Mod1Mask,              XK_n, spawn, {.v = network_manager} }, /*Spiral*/
+	{ MODKEY|ShiftMask,             XK_q, 			spawn, {.v = outmenu} },
+	{ MODKEY|ShiftMask,             XK_t, 			spawn, {.v = trackpad} },
+	{ MODKEY,                       XK_x, 			spawn, {.v = lock } },
+	{ MODKEY,                       XK_c, 			spawn, {.v = clipmenu } },
+	{ MODKEY|ShiftMask,             XK_p,			  spawn, {.v = kdeconnect } },
+	{ MODKEY|ShiftMask,             XK_b,			  spawn, {.v = bluetooth } },
+	{ MODKEY|Mod1Mask,              XK_n, 			spawn, {.v = network_manager} }, /*Spiral*/
 	{ 0,                            XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
 	{ 0,                            XF86XK_MonBrightnessUp, spawn, {.v = upbright } },
 	{ 0,                            XF86XK_MonBrightnessDown, spawn, {.v = downbright } },
@@ -117,12 +117,10 @@ static Key keys[] = {
 	{ 0,                            XK_Print, spawn, {.v = screenshot  } },
 	{ MODKEY,                       XK_Print, spawn, {.v = windowshot  } },
 	{ MODKEY,                       XK_u, spawn, {.v = url} },
-	{ MODKEY,                       XK_s, spawn, {.v = surf} },
 	{ MODKEY,                       XK_g, spawn, {.v = google} },
 	{ MODKEY,                       XK_y, spawn, {.v = youtube} },
-	{ MODKEY,                       XK_grave,      togglescratch,          {.ui = 0 } },
-	{ MODKEY|ControlMask,           XK_grave,      setscratch,             {.ui = 0 } },
-	{ MODKEY|ShiftMask,             XK_grave,      removescratch,          {.ui = 0 } },
+	{ MODKEY,                       XK_s,      togglescratch,          {.ui = 0 } },
+	{ MODKEY|ShiftMask,                       XK_s,      togglescratch,          {.ui = 1 } },
 
 };
 

@@ -24,4 +24,5 @@ static const Rule rules[] = {
 	RULE(.class = "Nemo", .tags = 1 << 3)
 	RULE(.class = "Spotify", .tags = 1 << 9)
 	RULE(.instance = "spterm", .tags = SPTAG(0), .isfloating = 1)
-	RULE(.instance = "spsxiv", .tags = SPTAG(0), .isfloating = 1)
+	RULE(.instance = "spsxiv", .tags = SPTAG(1), .isfloating = 1)
+};

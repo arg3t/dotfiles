@@ -7,7 +7,7 @@
 # it in your browser of choice.
 
 # Edit here to change what browser you open links in
-browser="firefoxdeveloperedition"
+browser="firefox-developer-edition"
 
 usage() {
     echo "Usage: $0 [OPTIONS] [ELVIS [SEARCHTERM]]

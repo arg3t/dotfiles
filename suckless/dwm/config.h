@@ -45,6 +45,13 @@ static const Layout layouts[] = {
 };
 
 
+const char *spcmd1[] = {"st", "-c", "scratchpad", "-n", "spterm", "-g", "120x34", NULL };
+const char *spcmd2[] = {"sxiv", "-N", "spsxiv", "-b", "-g","900x300+500+350", "/home/yigit/Pictures/us_keyboard.png", NULL};
+static Sp scratchpads[] = {
+   {"spterm",      spcmd1},
+   {"spsxiv",      spcmd2},
+};
+
 static const BarRule barrules[] = {
 	/* monitor  bar    alignment         widthfunc                drawfunc                clickfunc                name */
 	{ -1,       0,     BAR_ALIGN_LEFT,   width_tags,              draw_tags,              click_tags,              "tags" },
@@ -53,8 +60,3 @@ static const BarRule barrules[] = {
 	{ 'A',      0,     BAR_ALIGN_RIGHT,  width_status2d,          draw_status2d,          click_statuscmd,         "status2d" },
 };
 
-
-const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-static Sp scratchpads[] = {
-   {"spterm",      spcmd1},
-};
