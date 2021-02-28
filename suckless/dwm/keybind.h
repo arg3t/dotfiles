@@ -98,7 +98,6 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	TAGKEYS(                        XK_0,                      9)
 	{ MODKEY|ShiftMask,             XK_q, 			spawn, {.v = outmenu} },
 	{ MODKEY|ShiftMask,             XK_t, 			spawn, {.v = trackpad} },
 	{ MODKEY,                       XK_x, 			spawn, {.v = lock } },
