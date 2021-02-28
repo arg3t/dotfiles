@@ -38,6 +38,8 @@ Plug 'puremourning/vimspector'
 Plug 'lervag/vimtex'
 Plug 'gi1242/vim-tex-autoclose'
 Plug 'ActivityWatch/aw-watcher-vim'
+Plug 'wakatime/vim-wakatime'
+
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "

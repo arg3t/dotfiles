@@ -10,6 +10,7 @@
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+
 static char dmenumon[2] = "0"; 
 static const char *dmenucmd[] = { "/home/yigit/.scripts/dmenu_run_history", "-m", dmenumon, "-z", "1900", "-x", "10", "-y", "10"};
 static const char *termcmd[]  = { "/usr/local/bin/st", NULL };
@@ -119,6 +120,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_s, spawn, {.v = surf} },
 	{ MODKEY,                       XK_g, spawn, {.v = google} },
 	{ MODKEY,                       XK_y, spawn, {.v = youtube} },
+	{ MODKEY,                       XK_grave,      togglescratch,          {.ui = 0 } },
+	{ MODKEY|ControlMask,           XK_grave,      setscratch,             {.ui = 0 } },
+	{ MODKEY|ShiftMask,             XK_grave,      removescratch,          {.ui = 0 } },
 
 };
 
