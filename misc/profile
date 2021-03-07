@@ -1,3 +1,5 @@
 #!/bin/bash
 # Start X window manager
+TERMINAL=/usr/local/bin/st
+TERM=st
 startx

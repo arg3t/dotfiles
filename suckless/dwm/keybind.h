@@ -13,7 +13,7 @@
 
 static char dmenumon[2] = "0"; 
 static const char *dmenucmd[] = { "/home/yigit/.scripts/dmenu_run_history", "-m", dmenumon, "-z", "1900", "-x", "10", "-y", "10"};
-static const char *termcmd[]  = { "/usr/local/bin/st", NULL };
+static const char *termcmd[]  = { "/usr/local/bin/st","-e", "/home/yigit/.scripts/st_tmux", NULL };
 static const char *upvol[]   = { "/home/yigit/.scripts/pacontrol.sh", "up",     NULL };
 static const char *downvol[]   = { "/home/yigit/.scripts/pacontrol.sh", "down",     NULL };
 static const char *mutevol[]   = { "/home/yigit/.scripts/pacontrol.sh", "togglemute",     NULL };

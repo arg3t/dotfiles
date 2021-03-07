@@ -9,6 +9,10 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static int showsystray        					 = 1;     /* 0 means no systray */
 static const int tag_padding        		 = 0;        
 static const char *layoutmenu_cmd        = "~/.scripts/layoutmenu.sh";
+static const char autostartblocksh[]     = "autostart_blocking.sh";
+static const char autostartsh[]          = "autostart.sh";
+static const char dwmdir[]               = "dwm";
+static const char localshare[]           = ".config/suckless";
 
 /* systray */
 static int tagindicatortype              = INDICATOR_TOP_LEFT_SQUARE;

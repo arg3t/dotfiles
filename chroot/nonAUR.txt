@@ -2,6 +2,7 @@ ack
 arandr
 arc-gtk-theme
 aria2
+aspell
 autoconf
 automake
 baobab
@@ -40,6 +41,7 @@ git
 gksu
 gnome-bluetooth
 gnome-keyring
+gnuplot
 gparted
 gradle
 grep
@@ -51,19 +53,21 @@ gvfs-afc
 gvim
 gzip
 hexchat
+hspell
 htop
 inetutils
+inkscape
 intel-ucode
 ipython
 jdk11-openjdk
 jq
 jre11-openjdk
-kdeconnect
 keepass
 kitty
 libgnome-keyring
 libreoffice-fresh
 libtool
+libvoikko
 lightdm
 lightdm-gtk-greeter
 lighttpd
@@ -88,9 +92,11 @@ noto-fonts
 noto-fonts-emoji
 npm
 ntfs-3g
+nuspell
 openssh
 pacman
 pamixer
+pandoc
 patch
 pavucontrol
 perl-image-exiftool
@@ -99,6 +105,7 @@ picom
 pkgconf
 playerctl
 polkit-gnome
+proxychains-ng
 pulseaudio
 pulseaudio-alsa
 pulseaudio-bluetooth
@@ -107,7 +114,9 @@ python-pip
 python-pylint
 python-pynvim
 python2
+python2-docutils
 qt5ct
+radare2
 ranger
 rclone
 redis
@@ -117,6 +126,7 @@ rofi
 rsync
 sbsigntools
 scrot
+seahorse
 sed
 shotwell
 sonic-visualiser
@@ -158,6 +168,8 @@ vi
 virtualbox
 virtualbox-host-dkms
 vlc
+w3m
+weechat
 wget
 which
 xclip
@@ -212,6 +224,7 @@ xorg-xwayland
 xorg-xwd
 xorg-xwininfo
 xorg-xwud
+xscreensaver
 xss-lock
 xterm
 yajl

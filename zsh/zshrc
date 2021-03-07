@@ -1,3 +1,5 @@
+#if [ "$TMUX" = "" ]; then ~/.scripts/st_tmux; fi
+
 eval "$(direnv hook zsh)" >> /tmp/direnv
 neofetch --ascii ~/.config/neofetch/ascii.txt
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -55,6 +57,8 @@ source ~/.aliases
 source ~/.zsh_secret
 source ~/.cmds
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=241'
 export KEYTIMEOUT=5
 
@@ -62,7 +66,6 @@ export KEYTIMEOUT=5
 [ ! -s /home/yigit/.travis/travis.sh ] || source /home/yigit/.travis/travis.sh
 
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 #zle-line-init() { zle -K vicmd; }
 #zle -N zle-line-init

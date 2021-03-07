@@ -13,7 +13,7 @@ static const Rule rules[] = {
 	RULE(.class = "Bitwarden", .tags = 1 << 6)
 	RULE(.class = "Mailspring", .tags = 1 << 7)
 	RULE(.class = "Thunderbird", .tags = 1 << 7)
-	RULE(.class = "st-256color", .tags = 1 << 0)
+	RULE(.class = "st-256color", .tags = 1 << 0, .isfloating=0)
 	RULE(.class = "Tor Browser", .tags = 1 << 1)
 	RULE(.class = "Chromium", .tags = 1 << 1)
 	RULE(.class = "TelegramDesktop", .tags = 1 << 8)
@@ -25,4 +25,7 @@ static const Rule rules[] = {
 	RULE(.class = "Spotify", .tags = 1 << 9)
 	RULE(.instance = "spterm", .tags = SPTAG(0), .isfloating = 1)
 	RULE(.instance = "spsxiv", .tags = SPTAG(1), .isfloating = 1)
+	RULE(.class = "ranger", 0, .isfloating = 1)
+	RULE(.class = "vim", 0, .isfloating = 1)
+	RULE(.class = "mpv", 0, .isfloating = 1)
 };

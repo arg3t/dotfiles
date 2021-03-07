@@ -1,0 +1,5 @@
+#!/bin/bash
+
+action=$(echo "" | dmenu -p "Search YouTube")
+
+ytfzf -D "$action"

@@ -9,6 +9,7 @@ bitwarden-dmenu
 capt-src
 checkupdates+aur
 checkupdates-aur
+cndrvcups-lt
 cordless-bin
 direnv
 ghidra-darcula
@@ -22,6 +23,7 @@ jetbrains-toolbox
 ly
 mailspring
 mconnect-git
+ncpamixer
 nerd-fonts-hack
 notion-app
 notion-enhancer
@@ -34,6 +36,8 @@ plymouth-git
 plymouth-theme-cubes-git
 plymouth-theme-darth-vader-git
 postman-bin
+python-click-spinner
+python-delorean
 qt5-styleplugins
 readability-cli
 rofi-bluetooth-git
@@ -42,6 +46,7 @@ ruby-xdg
 spicetify-cli
 spotify
 spotify-tui
+sselp
 sublime-text-3
 surf
 tela-icon-theme
@@ -51,8 +56,10 @@ ttf-material-design-icons
 ttf-symbola
 typora
 vue-cli
+wallabag-client
 wd719x-firmware
 whatsapp-nativefier-dark
 xmenu
 yaft
+ytfzf-git
 zoom
