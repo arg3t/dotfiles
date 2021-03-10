@@ -1,0 +1,3 @@
+#!/bin/bash
+
+setxkbmap us -variant altgr-intl -options caps:escape

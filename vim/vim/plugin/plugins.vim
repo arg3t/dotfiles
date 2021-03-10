@@ -41,6 +41,7 @@ Plug 'ActivityWatch/aw-watcher-vim'
 Plug 'wakatime/vim-wakatime'
 Plug 'gu-fan/riv.vim'
 Plug 'gu-fan/InstantRst'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
