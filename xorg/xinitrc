@@ -1,30 +1,55 @@
 #! /bin/sh
-eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
-export SSH_AUTH_SOCK
-export DRI_PRIME=1
-feh --bg-fill /home/yigit/Pictures/Wallpapers/ocean-cliff.jpg #Backgroun
-xrdb  ~/.Xresources &
-clipmenud > /tmp/clipmenud.out 2> /tmp/clipmenud.err &
-/usr/lib/kdeconnectd &
-dunst &
-~/.local/dwmblocks > /tmp/dwmblocks.out 2> /tmp/dwmblocks.err & 
-setxkbmap tr
-firefox-developer-edition &
-nextcloud --background &
-jetbrains-toolbox --minimize &
-xss-lock -- betterlockscreen -l -t 'Stay the fuck out!' & 
-picom --no-fading-openclose &
-aw-server &
-aw-watcher-window &
-aw-watcher-afk &
-mconnect -d &
-thunderbird &
-dbus-update-activation-environment --systemd DISPLAY
-export SSH_AUTH_SOCK
+
+# Environment variables
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export AWT_TOOLKIT=MToolkit
-if [ -f ~/.xmodmap ]; then
-   xmodmap ~/.xmodmap
-fi
+export SHELL=/bin/zsh
+export TERMINAL=/usr/local/bin/st
+export TERM=st
+export ANDROID_HOME=~/Android/Sdk
+export FLUTTER_HOME=~/flutter
+export TMUX_PLUGIN_MANAGER_PATH=~/.tmux/plugins
+export BORG_KEYS_DIR=~/.keys/borg
+export BROWSER=~/.scripts/tabbed_surf
+export EDITOR=vim
+
+# Setup PATH
+export PATH="~/.scripts/:~/.local/bin/:$PATH"
+export CM_SYNC_PRIMARY_TO_CLIPBOARD=1
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$FLUTTER_HOME/bin
+
+pkill -f aw-watcher-window 
+pkill -f aw-watcher-afk
+pkill -f aw-server 
+pkill -f clipmenud 
+pkill -f "bash /sbin/clipmenud" 
+pkill -f "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
+pkill -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+
+
+# setxkbmap tr
+# ~/.scripts/tabbed_surf &
+eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
+export SSH_AUTH_SOCK
+clipmenud > /tmp/clipmenud.out 2> /tmp/clipmenud.err &
+rm -f ~/.surf/tabbed-surf.xid
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+feh --bg-fill /home/yigit/Pictures/Wallpapers/ocean-cliff.jpg #Backgroun
+xrdb  ~/.Xresources &
+dwmblocks > /tmp/dwmblocks.out 2> /tmp/dwmblocks.err & 
+nextcloud --background &
+xss-lock -- betterlockscreen -l -t 'Stay the fuck out!' & 
+aw-server &
+aw-watcher-window &
+aw-watcher-afk &
+dbus-update-activation-environment --systemd DISPLAY
+picom --no-fading-openclose &
+firefox-developer-edition app.daily.dev&
+bitwarden-desktop &
+thunderbird &
+
+dunst &
 exec dwm > /tmp/dwm.log 2> /tmp/dwm.err
