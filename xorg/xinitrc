@@ -37,7 +37,7 @@ export SSH_AUTH_SOCK
 clipmenud > /tmp/clipmenud.out 2> /tmp/clipmenud.err &
 rm -f ~/.surf/tabbed-surf.xid
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-feh --bg-fill /home/yigit/Pictures/Wallpapers/ocean-cliff.jpg #Backgroun
+feh --bg-fill /home/yigit/.dotfiles/backgrounds/wallpaper.jpg #Backgroun
 xrdb  ~/.Xresources &
 dwmblocks > /tmp/dwmblocks.out 2> /tmp/dwmblocks.err & 
 nextcloud --background &
