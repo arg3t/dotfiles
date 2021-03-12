@@ -42,6 +42,7 @@ Plug 'wakatime/vim-wakatime'
 Plug 'gu-fan/riv.vim'
 Plug 'gu-fan/InstantRst'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'isene/hyperlist.vim'
 
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
