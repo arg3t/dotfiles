@@ -1,4 +1,5 @@
 ack
+alacritty
 arandr
 arc-gtk-theme
 aria2
@@ -15,6 +16,7 @@ blueman
 bluez-utils
 borgmatic
 calibre
+canto-curses
 chrony
 cmake
 code
@@ -26,13 +28,14 @@ discord
 dunst
 efibootmgr
 efitools
+exfat-utils
 fakeroot
 feh
 figlet
 file
 findutils
 firefox-developer-edition
-flex
+fzf
 gawk
 gcc
 gdm
@@ -59,9 +62,11 @@ inetutils
 inkscape
 intel-ucode
 ipython
+irssi
 jdk11-openjdk
 jq
 jre11-openjdk
+jupyter
 keepass
 kitty
 libgnome-keyring
@@ -130,6 +135,7 @@ seahorse
 sed
 shotwell
 sonic-visualiser
+sshfs
 stegoveritas
 sudo
 sxiv
@@ -137,7 +143,6 @@ sysbench
 system-config-printer
 tcsh
 telegram-desktop
-termite
 texinfo
 texlive-bibtexextra
 texlive-core
@@ -163,6 +168,7 @@ ttf-dejavu
 ttf-inconsolata
 ttf-joypixels
 ttf-linux-libertine
+ueberzug
 unzip
 vi
 virtualbox
@@ -172,6 +178,7 @@ w3m
 weechat
 wget
 which
+xautolock
 xclip
 xf86-video-amdgpu
 xf86-video-intel
@@ -226,7 +233,6 @@ xorg-xwininfo
 xorg-xwud
 xscreensaver
 xss-lock
-xterm
 yajl
 yay
 youtube-dl
