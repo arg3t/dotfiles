@@ -16,7 +16,11 @@ Welcome to my dungeon. Here, I keep all my configuration files in case I have a 
 
 ## Installation
 
-Just run `git clone --recurse-submodules github.com/yigitcolakoglu/dotfiles.git ~/.dotfiles`. This will download everything you need. After that, I have a list of all the packages I have installed on my machine in the directory chroot/. If you have any problems regarding the setup, you should first check whether you have missing packages. After the clone process, it is pretty straightforward, you can run the `install.sh` script which creates necessary symlinks. Finally, DO NOT FORGET to run sudo make clean install in each directory under suckless, I also have a script named build.sh in that directory which does that automatically. 
+Just run 
+```sh
+git clone --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotfiles && ~/.dotfiles/install.sh
+```
+This will download everything you need. After that, I have a list of all the packages I have installed on my machine in the directory chroot/. If you have any problems regarding the setup, you should first check whether you have missing packages. After the clone process, it is pretty straightforward, you can run the `install.sh` script which creates necessary symlinks. Finally, DO NOT FORGET to run sudo make clean install in each directory under suckless, I also have a script named build.sh in that directory which does that automatically. 
 
 ## Some eye candy
 
@@ -26,9 +30,3 @@ Just run `git clone --recurse-submodules github.com/yigitcolakoglu/dotfiles.git 
 
 ![Workspace 1](screenshots/w4.jpg) 
 
-## TODOs
-
-* Improve the go function written in surf
-* Add the documentation for all the keybinds 
-* ~Improve the way indicators look~
-* ~!!! High priority add an indicator for insert mode~
