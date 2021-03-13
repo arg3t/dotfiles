@@ -54,7 +54,9 @@ fpath=(~/.completions $fpath)
 autoload -Uz compinit && compinit
 
 source ~/.aliases
-source ~/.zsh_secret
+if [ ! -f ~/.zsh_secret ]; then
+  source ~/.zsh_secret
+fi
 source ~/.cmds
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

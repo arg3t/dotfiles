@@ -64,6 +64,8 @@ ln -s ~/.dotfiles/misc/profile ~/.config/.profile
 ln -s ~/.dotfiles/misc/htop ~/.config/htop
 ln -s ~/.dotfiles/misc/.fzf.zsh ~/.fzf.zsh
 ln -s ~/.dotfiles/misc/keyboard ~/.keyboard
+ln -s ~/.dotfiles/fonts ~/.fonts
+fc-cache
 
 
 # Scripts
@@ -86,6 +88,7 @@ ln -s ~/.dotfiles/xorg/Xresources ~/.Xresources
 # Zsh
 ln -s ~/.dotfiles/zsh/antibody ~/.config/antibody
 ln -s ~/.dotfiles/zsh/zshrc ~/.zshrc
+ln -s ~/.dotfiles/zsh/secret ~/.zsh_secret
 ln -s ~/.dotfiles/zsh/cmds ~/.cmds
 ln -s ~/.dotfiles/zsh/aliases ~/.aliases
 ln -s ~/.dotfiles/zsh/completions ~/.completions
