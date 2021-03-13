@@ -8,6 +8,7 @@ yay -S --needed $(cat ~/.dotfiles/chroot/AUR.txt)
 
 # Initial cleanup
 echo "Backing up your previous dotfiles to ~/.dotfiles_backup"
+mkdir -p ~/.local/share
 mkdir -p ~/.dotfiles_backup
 mkdir -p ~/.config
 mkdir -p ~/.dotfiles_backup/.config
@@ -44,6 +45,34 @@ rsync -avzh --ignore-errors \
   ~/.config/suckless \
   ~/.dotfiles_backup/.config
 
+rm -rf \
+  ~/.completions \
+  ~/.aliases \
+  ~/.cmds \
+  ~/.zshrc \
+  ~/.Xresources \
+  ~/.xmodmap \
+  ~/.xinitrc \
+  ~/.tmux.conf \
+  ~/.surf \
+  ~/.scripts \
+  ~/.keyboard \
+  ~/.fzf.zsh \
+  ~/.themes \
+  ~/.vim \
+  ~/.vimrc \
+  ~/.config/htop \
+  ~/.config/.profile \
+  ~/.config/systemd \
+  ~/.config/termite \
+  ~/.config/zathura \
+  ~/.config/dunst \
+  ~/.config/gtk-4.0 \
+  ~/.config/gtk-3.0 \
+  ~/.config/gtk-2.0 \
+  ~/.config/antibody \
+  ~/.config/suckless
+
 # Vim
 ln -s ~/.dotfiles/vim/vimrc ~/.vimrc
 ln -s ~/.dotfiles/vim/vim ~/.vim
@@ -76,7 +105,6 @@ ln -s ~/.dotfiles/suckless ~/.config/suckless
 ln -s ~/.dotfiles/suckless/dot_surf ~/.surf
 ~/.dotfiles/suckless/build.sh
 
-
 # Tmux
 ln -s ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
 
@@ -92,6 +120,13 @@ ln -s ~/.dotfiles/zsh/secret ~/.zsh_secret
 ln -s ~/.dotfiles/zsh/cmds ~/.cmds
 ln -s ~/.dotfiles/zsh/aliases ~/.aliases
 ln -s ~/.dotfiles/zsh/completions ~/.completions
+
+# Root
+sudo cp ~/.dotfiles/root/dwm.desktop /usr/share/xsessions
+sudo cp ~/.dotfiles/root/nancyj.flf /usr/share/figlet/fonts
+
+# Config
+cp ~/.dotfiles/config.env.def ~/.config.env
 
 # Install vim and tmux plugins
 mkdir -p ~/.tmux/plugins

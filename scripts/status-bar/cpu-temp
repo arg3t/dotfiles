@@ -1,6 +1,8 @@
 #! /bin/sh
 
-temp=$(sed 's/[0-9][0-9][0-9]$/°C/' /sys/class/thermal/thermal_zone4/temp)
+source ~/.config.env
+
+temp=$(sed 's/[0-9][0-9][0-9]$/°C/' $TEMP_ZONE)
 icon=
 
 echo "^c#bf616a^$icon^d^ $temp "

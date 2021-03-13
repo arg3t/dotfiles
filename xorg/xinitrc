@@ -40,7 +40,9 @@ rm -f ~/.surf/tabbed-surf.xid
 feh --bg-fill /home/yigit/.dotfiles/backgrounds/wallpaper.jpg #Backgroun
 xrdb  ~/.Xresources &
 dwmblocks > /tmp/dwmblocks.out 2> /tmp/dwmblocks.err & 
-nextcloud --background &
+if [ "$NEXTCLOUD" = true ] ; then
+  nextcloud --background &
+fi
 xss-lock -- betterlockscreen -l -t 'Stay the fuck out!' & 
 # aw-server &
 # aw-watcher-window &
