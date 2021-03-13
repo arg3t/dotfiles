@@ -42,9 +42,9 @@ xrdb  ~/.Xresources &
 dwmblocks > /tmp/dwmblocks.out 2> /tmp/dwmblocks.err & 
 nextcloud --background &
 xss-lock -- betterlockscreen -l -t 'Stay the fuck out!' & 
-aw-server &
-aw-watcher-window &
-aw-watcher-afk &
+# aw-server &
+# aw-watcher-window &
+# aw-watcher-afk &
 dbus-update-activation-environment --systemd DISPLAY
 picom --no-fading-openclose &
 firefox-developer-edition app.daily.dev&
