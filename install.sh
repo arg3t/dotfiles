@@ -143,3 +143,4 @@ cp ~/.dotfiles/config.env.def ~/.config.env
 # Install vim and tmux plugins
 mkdir -p ~/.tmux/plugins
 vim -c ':PlugInstall'
+betterlockscreen -u ~/.dotfiles/backgrounds/lock.jpg
