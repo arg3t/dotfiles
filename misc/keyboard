@@ -1,3 +1,4 @@
 #!/bin/bash
 
-setxkbmap us -variant altgr-intl -options caps:escape
+setxkbmap us -variant altgr-intl -option caps:escape # Set keyboard layout. map CapsLock to Esc
+xmodmap -e "clear control" -e "add control = Control_L" -e "clear mod3" -e "add mod3 = Control_R" # Map right Ctrl to Mod3Mask

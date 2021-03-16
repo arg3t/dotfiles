@@ -14,6 +14,9 @@ static const char autostartsh[]          = "autostart.sh";
 static const char dwmdir[]               = "dwm";
 static const char localshare[]           = ".config/suckless";
 
+static int floatposgrid_x                = 5;  /* float grid columns */
+static int floatposgrid_y                = 5;  /* float grid rows */
+
 /* systray */
 static int tagindicatortype              = INDICATOR_TOP_LEFT_SQUARE;
 static int tiledindicatortype            = INDICATOR_NONE;
@@ -51,9 +54,12 @@ static const Layout layouts[] = {
 
 const char *spcmd1[] = {"st", "-c", "scratchpad", "-n", "spterm", "-g", "120x34", NULL };
 const char *spcmd2[] = {"sxiv", "-N", "spsxiv", "-b", "-g","900x300+500+350", "/home/yigit/Pictures/us_keyboard.png", NULL};
+const char *spcmd3[] = {"st", "-c", "scratchpad", "-n", "spmutt", "-g", "180x51", "-e", "neomutt", NULL };
+
 static Sp scratchpads[] = {
    {"spterm",      spcmd1},
    {"spsxiv",      spcmd2},
+   {"spmutt",      spcmd3},
 };
 
 static const BarRule barrules[] = {
@@ -63,4 +69,5 @@ static const BarRule barrules[] = {
 	{ -1,       0,     BAR_ALIGN_LEFT,   width_ltsymbol,          draw_ltsymbol,          click_ltsymbol,          "layout" },
 	{ 'A',      0,     BAR_ALIGN_RIGHT,  width_status2d,          draw_status2d,          click_statuscmd,         "status2d" },
 };
+
 

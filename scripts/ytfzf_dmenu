@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export  YTFZF_EXTMENU=' dmenu -i -l 12'
 action=$(echo "" | dmenu -p "Search YouTube")
 
 ytfzf -D "$action"

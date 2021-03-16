@@ -12,7 +12,7 @@ mkdir -p ~/.dotfiles_backup
 mkdir -p ~/.config
 mkdir -p ~/.dotfiles_backup/.config
 
-rsync -avzh --ignore-errors \
+rsync --remove-source-files -avzh --ignore-errors \
   ~/.completions \
   ~/.aliases \
   ~/.cmds \
@@ -30,7 +30,7 @@ rsync -avzh --ignore-errors \
   ~/.vimrc \
   ~/.dotfiles_backup
 
-rsync -avzh --ignore-errors \
+rsync --remove-source-files -avzh --ignore-errors \
   ~/.config/htop \
   ~/.config/.profile \
   ~/.config/systemd \
@@ -64,10 +64,14 @@ ln -s ~/.dotfiles/misc/profile ~/.config/.profile
 ln -s ~/.dotfiles/misc/htop ~/.config/htop
 ln -s ~/.dotfiles/misc/.fzf.zsh ~/.fzf.zsh
 ln -s ~/.dotfiles/misc/keyboard ~/.keyboard
+ln -s ~/.dotfiles/misc/mimeapps.list ~/.config/mimeapps.list
 ln -s ~/.dotfiles/fonts ~/.fonts
 fc-cache
 
-
+# Applications
+for d in ~/.dotfiles/applications/* ; do
+  ln -s $d ~/.local/share/applications/
+done
 # Scripts
 ln -s ~/.dotfiles/scripts ~/.scripts
 
@@ -75,7 +79,6 @@ ln -s ~/.dotfiles/scripts ~/.scripts
 ln -s ~/.dotfiles/suckless ~/.config/suckless
 ln -s ~/.dotfiles/suckless/dot_surf ~/.surf
 ~/.dotfiles/suckless/build.sh
-
 
 # Tmux
 ln -s ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
@@ -92,6 +95,12 @@ ln -s ~/.dotfiles/zsh/secret ~/.zsh_secret
 ln -s ~/.dotfiles/zsh/cmds ~/.cmds
 ln -s ~/.dotfiles/zsh/aliases ~/.aliases
 ln -s ~/.dotfiles/zsh/completions ~/.completions
+
+# Mail
+ln -s ~/.dotfiles/mail/mutt ~/.config/mutt
+ln -s ~/.dotfiles/mail/msmtp ~/.config/msmtp
+ln -s ~/.dotfiles/mail/mbsyncrc ~/.mbsyncrc
+echo "*/30 * * * * /home/yigit/.scripts/mailsync" >> /var/spool/cron/yigit
 
 # Install vim and tmux plugins
 mkdir -p ~/.tmux/plugins

@@ -48,7 +48,7 @@ static const char *windowshot[] = { "scrot", "-u", "-d","3", "%Y-%m-%d-%s_$wx$h.
 static const char *url[] = {"/home/yigit/.scripts/dmenu_surf", NULL};
 static const char *surf[] = {"/home/yigit/.scripts/tabbed_surf", NULL};
 static const char *google[] = {"/home/yigit/.scripts/menu-surfraw", "google", NULL};
-static const char *youtube[] = {"/home/yigit/.scripts/menu-surfraw", "youtube", NULL};
+static const char *youtube[] = {"/home/yigit/.scripts/ytfzf_dmenu", NULL};
 
 /* commands */
 static Key keys[] = {
@@ -120,7 +120,26 @@ static Key keys[] = {
 	{ MODKEY,                       XK_y, spawn, {.v = youtube} },
 	{ MODKEY,                       XK_s,      togglescratch,          {.ui = 0 } },
 	{ MODKEY|ShiftMask,                       XK_s,      togglescratch,          {.ui = 1 } },
-
+	{ MODKEY,                       XK_m,      togglescratch,          {.ui = 2 } },
+	/* FloatPos Patch Keybinds */
+	{ Mod3Mask,                     XK_u,            floatpos,               {.v = "-26x -26y" } }, // ↖
+	{ Mod3Mask,                     XK_i,            floatpos,               {.v = "  0x -26y" } }, // ↑
+	{ Mod3Mask,                     XK_o,            floatpos,               {.v = " 26x -26y" } }, // ↗
+	{ Mod3Mask,                     XK_j,            floatpos,               {.v = "-26x   0y" } }, // ←
+	{ Mod3Mask,                     XK_l,            floatpos,               {.v = " 26x   0y" } }, // →
+	{ Mod3Mask,                     XK_m,            floatpos,               {.v = "-26x  26y" } }, // ↙
+	{ Mod3Mask,                     XK_comma,        floatpos,               {.v = "  0x  26y" } }, // ↓
+	{ Mod3Mask,                     XK_period,       floatpos,               {.v = " 26x  26y" } }, // ↘
+	/* Resize client, client center position is fixed which means that client expands in all directions */
+	{ Mod3Mask|ShiftMask,           XK_u,            floatpos,               {.v = "-26w -26h" } }, // ↖
+	{ Mod3Mask|ShiftMask,           XK_i,            floatpos,               {.v = "  0w -26h" } }, // ↑
+	{ Mod3Mask|ShiftMask,           XK_o,            floatpos,               {.v = " 26w -26h" } }, // ↗
+	{ Mod3Mask|ShiftMask,           XK_j,            floatpos,               {.v = "-26w   0h" } }, // ←
+	{ Mod3Mask|ShiftMask,           XK_k,            floatpos,               {.v = "800W 800H" } }, // ·
+	{ Mod3Mask|ShiftMask,           XK_l,            floatpos,               {.v = " 26w   0h" } }, // →
+	{ Mod3Mask|ShiftMask,           XK_m,            floatpos,               {.v = "-26w  26h" } }, // ↙
+	{ Mod3Mask|ShiftMask,           XK_comma,        floatpos,               {.v = "  0w  26h" } }, // ↓
+	{ Mod3Mask|ShiftMask,           XK_period,       floatpos,               {.v = " 26w  26h" } }, // ↘
 };
 
 /* button definitions */

@@ -49,7 +49,8 @@ dbus-update-activation-environment --systemd DISPLAY
 picom --no-fading-openclose &
 firefox-developer-edition app.daily.dev&
 bitwarden-desktop &
-thunderbird &
+~/.keyboard
+#thunderbird &
 
 dunst &
 exec dwm > /tmp/dwm.log 2> /tmp/dwm.err

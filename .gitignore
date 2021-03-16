@@ -1,3 +1,5 @@
 .gitsecret/keys/random_seed
 !*.secret
 zsh/secret
+mail/mbsyncrc
+mail/msmtp/config

@@ -43,6 +43,7 @@ Plug 'gu-fan/riv.vim'
 Plug 'gu-fan/InstantRst'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'isene/hyperlist.vim'
+Plug 'neomutt/neomutt.vim'
 
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
