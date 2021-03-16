@@ -44,7 +44,7 @@ echo "[INFO]: Keyfile saved to /root/.keys/root-keyfile"
 cryptsetup open --key-file="/root/.keys/root-keyfile" "$device"3 root
 mkfs.ext4 /dev/mapper/root
 mkdir /mnt/sys
-mount "$device"1 /mnt/sys
+mount /dev/mapper/root /mnt/sys
 mkdir /mnt/sys/boot
 mount "$device"1 /mnt/sys/boot
 

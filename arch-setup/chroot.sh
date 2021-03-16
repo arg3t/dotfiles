@@ -5,19 +5,16 @@ hwclock --systohc
 echo -e "en_US.UTF-8 UTF-8\ntr_TR.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
-echo "KEYMAP=trq" > /etc/vconsole.conf
 echo "tatooine" > /etc/hostname
-git clone https://aur.archlinux.org/yay.git /tmp/yay
-(cd /tmp/yay; makepkg -si)
 
 systemctl enable fstrim.timer
 
 echo -e "127.0.0.1 localhost\n::1 localhost\n127.0.0.1 tatooine.localdomain tatooine" > /etc/hosts
 cat << EOF > /etc/mkinitcpio.conf
-MODULES=(vfat)
+MODULES=(vfat i915)
 BINARIES=()
 FILES=()
-HOOKS=(base udev autodetect keyboard keymap consolefont modconf block encrypt filesystems fsck)
+HOOKS=(base udev plymouth autodetect keyboard keymap consolefont modconf block plymouth-encrypt openswap resume filesystems fsck)
 EOF
 
 cat << EOF > /etc/initcpio/hooks/openswap
@@ -43,7 +40,7 @@ build ()
 help ()
 {
 cat<<HELPEOF
-  This opens the swap encrypted partition $(cat /install/device)1 in /dev/mapper/swap
+  This opens the swap encrypted partition $(cat /install/device)2 in /dev/mapper/swap
 HELPEOF
 }
 EOF
@@ -65,4 +62,22 @@ cat /install/nonAUR.txt | xargs pacman -S --needed --noconfirm
 yay -S $(cat /install/AUR.txt)
 refind-install
 
+pacman -S plymouth
+
 mkinitcpio -P
+
+echo "Please enter name for regular user:"
+read username
+
+useradd -m $username
+echo "Set password for user $username: "
+passwd $username
+
+su $username
+git clone https://aur.archlinux.org/yay.git /tmp/yay
+(cd /tmp/yay; makepkg -si)
+
+git clone --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotfiles
+
+(cd ~/.dotfiles; ./install.sh)
+

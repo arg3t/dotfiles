@@ -1,3 +1,4 @@
+abook
 ack
 alacritty
 arandr
@@ -21,6 +22,7 @@ chrony
 cmake
 code
 conky
+cronie
 ctags
 cups
 cups-pdf
@@ -63,6 +65,7 @@ inkscape
 intel-ucode
 ipython
 irssi
+isync
 jdk11-openjdk
 jq
 jre11-openjdk
@@ -85,14 +88,18 @@ make
 mariadb
 mlocate
 mpv
+msmtp
 mysql-workbench
 nemo
 neofetch
+neomutt
 neovim
 net-tools
 networkmanager
+newsboat
 nextcloud-client
 ngrok
+notmuch
 noto-fonts
 noto-fonts-emoji
 npm
@@ -170,6 +177,7 @@ ttf-joypixels
 ttf-linux-libertine
 ueberzug
 unzip
+urlview
 vi
 virtualbox
 virtualbox-host-dkms

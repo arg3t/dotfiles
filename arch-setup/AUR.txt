@@ -5,7 +5,8 @@ betterdiscord
 betterdiscordctl-git
 betterlockscreen
 bitwarden
-bitwarden-dmenu
+bitwarden-cli
+canon-pixma-ts5055-complete
 canto-next-git
 capt-src
 checkupdates+aur
@@ -28,12 +29,14 @@ jetbrains-toolbox
 ly
 mailspring
 mconnect-git
+mutt-wizard
 ncpamixer
 nerd-fonts-hack
 notion-app
 notion-enhancer
 numix-icon-theme-git
 nvm
+pam-gnupg
 perl-checkupdates-aur
 perl-www-aur
 pipes.sh

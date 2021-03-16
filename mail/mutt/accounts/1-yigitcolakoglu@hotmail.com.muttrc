@@ -8,7 +8,7 @@ set folder = "/home/yigit/.local/share/mail/yigitcolakoglu@hotmail.com"
 set header_cache = /home/yigit/.cache/mutt-wizard/yigitcolakoglu@hotmail.com/headers
 set message_cachedir = /home/yigit/.cache/mutt-wizard/yigitcolakoglu@hotmail.com/bodies
 set mbox_type = Maildir
-set signature = "/home/yigit/.config/mutt/accounts/1-yigitcolakoglu@hotmail.com.sig" 
+set signature = "/home/yigit/.config/mutt/accounts/1-yigitcolakoglu@hotmail.com.sig"
 
 
 bind index,pager gg noop
@@ -18,7 +18,6 @@ bind index,pager C noop
 bind index gg first-entry
 unmailboxes *
 unalternates *
-unset signature
 unmacro index o
 macro index o "<shell-escape>mw -y yigitcolakoglu@hotmail.com<enter>" "run mbsync to sync yigitcolakoglu@hotmail.com"
 
