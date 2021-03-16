@@ -1,7 +1,6 @@
 #!/bin/sh
 
-ETH_IT=enp2s0
-WLAN_IT=wlp3s0
+source ~/.config.env
 
 is_eth_used=$(cat /sys/class/net/${ETH_IT}/carrier)
 is_wlan_used=$(cat /sys/class/net/${WLAN_IT}/carrier)

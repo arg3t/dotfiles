@@ -1,7 +1,6 @@
 #! /bin/sh
 
-bat=$(cat /sys/class/power_supply/BAT0/capacity)
-status=$(cat /sys/class/power_supply/BAT0/status)
+source ~/.config.env
 
 ramp10=
 ramp20=
@@ -14,24 +13,30 @@ ramp80=
 ramp90=
 ramp100=
 
-if [[ $bat -lt 10 ]]; then
-    echo "^c#ebcb8b^$ramp10^d^ $bat% "
-elif [[ $bat -lt 20 ]]; then
-    echo "^c#ebcb8b^$ramp20^d^ $bat% "
-elif [[ $bat -lt "30" ]]; then
-    echo "^c#ebcb8b^$ramp30^d^ $bat% "
-elif [[ $bat -lt "40" ]]; then
-    echo "^c#ebcb8b^$ramp40^d^ $bat% "
-elif [[ $bat -lt "50" ]]; then
-    echo "^c#ebcb8b^$ramp50^d^ $bat% "
-elif [[ $bat -lt "60" ]]; then
-    echo "^c#ebcb8b^$ramp60^d^ $bat% "
-elif [[ $bat -lt "70" ]]; then
-    echo "^c#ebcb8b^$ramp70^d^ $bat% "
-elif [[ $bat -lt "80" ]]; then
-    echo "^c#ebcb8b^$ramp80^d^ $bat% "
-elif [[ $bat -lt "90" ]]; then
-    echo "^c#ebcb8b^$ramp90^d^ $bat% "
-elif [[ $bat -le "100" ]]; then
-    echo "^c#ebcb8b^$ramp100^d^ $bat% "
+if [ "$NO_BAT" = true ] ; then
+    echo "^c#ebcb8b^ﮣ^d^ "
+else
+    export bat=$(cat /sys/class/power_supply/BAT0/capacity)
+    export status=$(cat /sys/class/power_supply/BAT0/status)
+    if [[ $bat -lt 10 ]]; then
+        echo "^c#ebcb8b^$ramp10^d^ $bat% "
+    elif [[ $bat -lt 20 ]]; then
+        echo "^c#ebcb8b^$ramp20^d^ $bat% "
+    elif [[ $bat -lt "30" ]]; then
+        echo "^c#ebcb8b^$ramp30^d^ $bat% "
+    elif [[ $bat -lt "40" ]]; then
+        echo "^c#ebcb8b^$ramp40^d^ $bat% "
+    elif [[ $bat -lt "50" ]]; then
+        echo "^c#ebcb8b^$ramp50^d^ $bat% "
+    elif [[ $bat -lt "60" ]]; then
+        echo "^c#ebcb8b^$ramp60^d^ $bat% "
+    elif [[ $bat -lt "70" ]]; then
+        echo "^c#ebcb8b^$ramp70^d^ $bat% "
+    elif [[ $bat -lt "80" ]]; then
+        echo "^c#ebcb8b^$ramp80^d^ $bat% "
+    elif [[ $bat -lt "90" ]]; then
+        echo "^c#ebcb8b^$ramp90^d^ $bat% "
+    elif [[ $bat -le "100" ]]; then
+        echo "^c#ebcb8b^$ramp100^d^ $bat% "
+    fi
 fi
