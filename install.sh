@@ -2,9 +2,9 @@
 
 # Install packages
 echo "Running update"
-sudo pacman -Syu
-sudo pacman --noconfirm --needed -S $(cat ~/.dotfiles/chroot/nonAUR.txt)
-yay -S --noconfirm --needed $(cat ~/.dotfiles/chroot/AUR.txt)
+sudo pacman --noconfirm -Syu
+sudo pacman --noconfirm --needed -S $(cat ~/.dotfiles/arch-setup/nonAUR.txt)
+yay -S --noconfirm --needed $(cat ~/.dotfiles/arch-setup/AUR.txt)
 
 # Initial cleanup
 echo "Backing up your previous dotfiles to ~/.dotfiles_backup"
@@ -95,6 +95,7 @@ ln -s ~/.dotfiles/misc/.fzf.zsh ~/.fzf.zsh
 ln -s ~/.dotfiles/misc/keyboard ~/.keyboard
 ln -s ~/.dotfiles/misc/mimeapps.list ~/.config/mimeapps.list
 ln -s ~/.dotfiles/fonts ~/.fonts
+sudo npm i -g yigitcolakoglu/bitwarden-dmenu
 fc-cache
 
 # Applications
@@ -107,9 +108,9 @@ ln -s ~/.dotfiles/scripts ~/.scripts
 # Suckless
 ln -s ~/.dotfiles/suckless ~/.config/suckless
 ln -s ~/.dotfiles/suckless/dot_surf ~/.surf
-yay -S xsel clipnotify
-yay -S ttf-symbola
-~/.dotfiles/suckless/build.sh
+yay --noconfirm -S xsel clipnotify
+yay --noconfirm -S ttf-symbola
+(cd ~/.dotfiles/suckless; ~/.dotfiles/suckless/build.sh)
 
 # Tmux
 ln -s ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf

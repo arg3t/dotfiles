@@ -9,12 +9,12 @@ getargs() {
   done
 }
 start_dnd() {
-  xset -dpms
+  xset s off
   echo "off" > ~/.cache/screensaver
   notify-send "Screensaver off";
 }
 end_dnd() {
-  xset +dpms
+  xset s on
   echo "on" > ~/.cache/screensaver
   notify-send "Screensaver on.";
 }
