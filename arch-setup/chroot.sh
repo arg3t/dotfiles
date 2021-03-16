@@ -5,6 +5,9 @@ hwclock --systohc
 echo -e "en_US.UTF-8 UTF-8\ntr_TR.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
+curl https://blackarch.org/strap.sh > /tmp/strap.sh
+chmod +x /tmp/strap.sh
+/tmp/strap.sh
 echo "tatooine" > /etc/hostname
 
 systemctl enable fstrim.timer
@@ -81,3 +84,8 @@ git clone --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotf
 
 (cd ~/.dotfiles; ./install.sh)
 
+exit
+
+vim /etc/fstab
+
+echo "SETUP COMPLETE"
