@@ -3,8 +3,8 @@
 # Install packages
 echo "Running update"
 sudo pacman -Syu
-sudo pacman --needed -S $(cat ~/.dotfiles/chroot/nonAUR.txt)
-yay -S --needed $(cat ~/.dotfiles/chroot/AUR.txt)
+sudo pacman --noconfirm --needed -S $(cat ~/.dotfiles/chroot/nonAUR.txt)
+yay -S --noconfirm --needed $(cat ~/.dotfiles/chroot/AUR.txt)
 
 # Initial cleanup
 echo "Backing up your previous dotfiles to ~/.dotfiles_backup"

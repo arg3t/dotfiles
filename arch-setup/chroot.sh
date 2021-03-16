@@ -62,8 +62,7 @@ cat << EOF > /boot/refind_linux.conf
 "Boot with encryption"  "root=/dev/mapper/root resume=/dev/mapper/swap cryptdevice=UUID=$(blkid -s UUID -o value $(cat /install/device)3):root:allow-discards cryptkey=UUID=$uuid:vfat:key.yeet rw loglevel=3 quiet splash"
 EOF
 
-cat /install/nonAUR.txt | xargs pacman -S --needed --noconfirm
-yay -S $(cat /install/AUR.txt)
+xargs pacman -S --needed --noconfirm $(/install/nonAUR.txt)
 refind-install
 
 
