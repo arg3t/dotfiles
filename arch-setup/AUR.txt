@@ -6,7 +6,6 @@ betterdiscordctl-git
 betterlockscreen
 bitwarden
 bitwarden-cli
-canon-pixma-ts5055-complete
 canto-next-git
 capt-src
 checkupdates+aur

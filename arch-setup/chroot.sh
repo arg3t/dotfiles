@@ -62,9 +62,7 @@ cat << EOF > /boot/refind_linux.conf
 "Boot with encryption"  "root=/dev/mapper/root resume=/dev/mapper/swap cryptdevice=UUID=$(blkid -s UUID -o value $(cat /install/device)3):root:allow-discards cryptkey=UUID=$uuid:vfat:key.yeet rw loglevel=3 quiet splash"
 EOF
 
-xargs pacman -S --needed --noconfirm $(/install/nonAUR.txt)
-refind-install
-
+echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
 echo "Please enter name for regular user:"
 read username
@@ -73,9 +71,14 @@ useradd -m $username
 echo "Set password for user $username: "
 passwd $username
 
-sudo -u $username bash -c "yay -S plymouth"
 sudo -u $username bash -c "git clone https://aur.archlinux.org/yay.git /tmp/yay"
 sudo -u $username bash -c "(cd /tmp/yay; makepkg -si)"
+sudo -u $username bash -c "yay -S plymouth"
+
+pacman -S --needed --noconfirm $(cat /install/nonAUR.txt)
+refind-install
+
+
 sudo -u $username bash -c "git clone --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotfiles"
 sudo -u $username bash -c "(cd ~/.dotfiles; ./install.sh)"
 
