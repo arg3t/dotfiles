@@ -141,6 +141,12 @@ sudo cp ~/.dotfiles/root/nancyj.flf /usr/share/figlet/fonts
 # Config
 cp ~/.dotfiles/config.env.def ~/.config.env
 
+# Firefox
+firefox-developer-edition -CreateProfile "yeet"
+cp -r ~/.dotfiles/firefox/flyingfox/* ~/.mozilla/firefox/*.yeet
+cp -r ~/.dotfiles/firefox/extensions ~/.mozilla/firefox/*.yeet
+cp ~/.dotfiles/firefox/extensions.json ~/.mozilla/firefox/*.yeet
+
 # Install vim and tmux plugins
 mkdir -p ~/.tmux/plugins
 vim -c ':PlugInstall'
