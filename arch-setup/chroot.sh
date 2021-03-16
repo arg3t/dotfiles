@@ -92,13 +92,13 @@ cp -r /tmp/pthemes/pack_4/sphere /usr/share/plymouth/themes
 
 echo -e "/boot/EFI/refind\n2\n2" | sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/bobafetthotmail/refind-theme-regular/master/install.sh)"
 
-
 systemctl enable NetworkManager
 systemctl enable ly
 
 mkinitcpio -P
 
 vim /etc/fstab
+pacman -R nano # uninstall nano, eww
 
 echo "SETUP COMPLETE"
 
