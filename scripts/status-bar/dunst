@@ -1,0 +1,9 @@
+#!/bin/bash
+
+stats=$(<~/.cache/dunst)
+
+if [ "$stats" = "off" ]; then
+  echo "^c#88c0d0^ ^d^"
+else
+  echo "^c#88c0d0^ ^d^"
+fi

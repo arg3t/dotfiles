@@ -31,6 +31,9 @@ static const char *outmenu[] = {"/home/yigit/.scripts/dmenu-logout"};
 static const char *notification_off[] = {"/home/yigit/.scripts/dunst_toggle.sh","-s",NULL};
 static const char *notification_on[] = {"/home/yigit/.scripts/dunst_toggle.sh", "-e",NULL};
 
+static const char *screensaver_off[] = {"/home/yigit/.scripts/screensaver_toggle","-s",NULL};
+static const char *screensaver_on[] = {"/home/yigit/.scripts/screensaver_toggle", "-e",NULL};
+
 static const char *bwmenu[] = {"/home/yigit/.scripts/password_manager", NULL};
 
 
@@ -42,8 +45,7 @@ static const char *kdeconnect[] = {"/home/yigit/.local/bin/dmenu_kdeconnect.sh",
 
 static const char *bluetooth[] = {"/home/yigit/.scripts/dmenu-bluetooth", NULL};
 
-static const char *screenshot[] = { "scrot","-d","3", "%Y-%m-%d-%s_$wx$h.jpg", "-e","xclip -selection clipboard -t image/jpg < $f; mv $f ~/Pictures/Screenshots/;dunstify --icon='/home/yigit/.icons/Numix-Circle/48/apps/camera.svg' -a 'SNAP' 'Screenshot taken'", NULL };
-static const char *windowshot[] = { "scrot", "-u", "-d","3", "%Y-%m-%d-%s_$wx$h.jpg", "-e","xclip -selection clipboard -t image/jpg < $f; mv $f ~/Pictures/Screenshots/;dunstify --icon='/home/yigit/.icons/Numix-Circle/48/apps/camera.svg' -a 'SNAP' 'Screenshot taken'", NULL };
+static const char *screenshot[] = { "scrot","-d","3", "%Y-%m-%d-%s_$wx$h.jpg", "-e","xclip -selection clipboard -t image/jpg < $f; mv $f ~/Pictures/Screenshots/;dunstify --icon='/home/yigit/.icons/Numix-Circle/48/apps/camera.svg' -a 'SNAP' 'Screenshot taken'", NULL }; static const char *windowshot[] = { "scrot", "-u", "-d","3", "%Y-%m-%d-%s_$wx$h.jpg", "-e","xclip -selection clipboard -t image/jpg < $f; mv $f ~/Pictures/Screenshots/;dunstify --icon='/home/yigit/.icons/Numix-Circle/48/apps/camera.svg' -a 'SNAP' 'Screenshot taken'", NULL };
 
 static const char *url[] = {"/home/yigit/.scripts/dmenu_surf", NULL};
 static const char *surf[] = {"/home/yigit/.scripts/tabbed_surf", NULL};
@@ -58,6 +60,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_i,      spawn,          {.v = screensaver_off} },
+	{ MODKEY|ShiftMask,             XK_i,      spawn,          {.v = screensaver_on } },
 	{ MODKEY,                       XK_n,      spawn,          {.v = notification_off} },
 	{ MODKEY|ShiftMask,             XK_n,      spawn,          {.v = notification_on } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },

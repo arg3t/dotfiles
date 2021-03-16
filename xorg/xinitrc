@@ -47,6 +47,8 @@ xss-lock -- betterlockscreen -l -t 'Stay the fuck out!' &
 # aw-server &
 # aw-watcher-window &
 # aw-watcher-afk &
+echo "on" > ~/.cache/dunst
+echo "on" > ~/.cache/screensaver
 dbus-update-activation-environment --systemd DISPLAY
 picom --no-fading-openclose &
 firefox-developer-edition app.daily.dev&

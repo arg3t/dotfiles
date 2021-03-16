@@ -9,18 +9,19 @@ getargs() {
   done
 }
 start_dnd() {
-  echo "off" > ~/.cache/dunst
-  notify-send "DUNST_COMMAND_PAUSE";
+  xset -dpms
+  echo "off" > ~/.cache/screensaver
+  notify-send "Screensaver off";
 }
 end_dnd() {
-  echo "on" > ~/.cache/dunst
-  notify-send "DUNST_COMMAND_RESUME";
-  notify-send "Do Not Disturb" "Do Not Disturb mode ended. Notifications will be shown.";
+  xset +dpms
+  echo "on" > ~/.cache/screensaver
+  notify-send "Screensaver on.";
 }
 main() {
   getargs "$@";
   [[ "$start" ]] && start_dnd;
   [[ "$end" ]] && end_dnd;
-  kill -52 $(pidof dwmblocks)
+  kill -53 $(pidof dwmblocks)
 }
 main "$@"

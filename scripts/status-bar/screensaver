@@ -1,0 +1,9 @@
+#!/bin/bash
+
+stats=$(<~/.cache/screensaver)
+
+if [ "$stats" = "off" ]; then
+  echo "^c#a48ead^ ^d^"
+else
+  echo "^c#a48ead^ ^d^"
+fi
