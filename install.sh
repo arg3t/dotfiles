@@ -107,6 +107,8 @@ ln -s ~/.dotfiles/scripts ~/.scripts
 # Suckless
 ln -s ~/.dotfiles/suckless ~/.config/suckless
 ln -s ~/.dotfiles/suckless/dot_surf ~/.surf
+yay -S xsel clipnotify
+yay -S ttf-symbola
 ~/.dotfiles/suckless/build.sh
 
 # Tmux

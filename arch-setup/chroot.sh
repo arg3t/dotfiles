@@ -49,25 +49,23 @@ HELPEOF
 EOF
 
 line=1
-for i in $(blkid); do
+blkid | while IFS= read -r i; do
     echo "$line: $i"
     ((line=line+1))
 done
+
 echo "Please select the device you will save the LUKS key to:"
 read keydev
 
-uuid=$(blkid | sed -n 's/.*UUID=\"\([^\"]*\)\".*/\1/p'  | sed -n "$line"p)
+uuid=$(blkid | sed -n 's/.*UUID=\"\([^\"]*\)\".*/\1/p'  | sed -n "$keydev"p)
 cat << EOF > /boot/refind_linux.conf
-"Boot with encryption"  "root=/dev/mapper/root resume=/dev/mapper/swap cryptdevice=UUID=$(blkid -s UUID -o value $(cat /install/device)3):root:allow-discards cryptkey=UUID=$uuid:vfat:key.yeet rw loglevel=3 quiet"
+"Boot with encryption"  "root=/dev/mapper/root resume=/dev/mapper/swap cryptdevice=UUID=$(blkid -s UUID -o value $(cat /install/device)3):root:allow-discards cryptkey=UUID=$uuid:vfat:key.yeet rw loglevel=3 quiet splash"
 EOF
 
 cat /install/nonAUR.txt | xargs pacman -S --needed --noconfirm
 yay -S $(cat /install/AUR.txt)
 refind-install
 
-pacman -S plymouth
-
-mkinitcpio -P
 
 echo "Please enter name for regular user:"
 read username
@@ -76,16 +74,32 @@ useradd -m $username
 echo "Set password for user $username: "
 passwd $username
 
-su $username
-git clone https://aur.archlinux.org/yay.git /tmp/yay
-(cd /tmp/yay; makepkg -si)
+sudo -u $username bash -c "yay -S plymouth"
+sudo -u $username bash -c "git clone https://aur.archlinux.org/yay.git /tmp/yay"
+sudo -u $username bash -c "(cd /tmp/yay; makepkg -si)"
+sudo -u $username bash -c "git clone --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotfiles"
+sudo -u $username bash -c "(cd ~/.dotfiles; ./install.sh)"
 
-git clone --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotfiles
+git clone https://github.com/adi1090x/plymouth-themes.git /tmp/pthemes
 
-(cd ~/.dotfiles; ./install.sh)
+cat << EOF > /etc/plymouth/plymouthd.conf
+[Daemon]
+Theme=sphere
+ShowDelay=0
+DeviceTimeout=8
+EOF
+cp -r /tmp/pthemes/pack_4/sphere /usr/share/plymouth/themes
 
-exit
+echo -e "/boot/EFI/refind\n2\n2" | sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/bobafetthotmail/refind-theme-regular/master/install.sh)"
+
+
+systemctl enable NetworkManager
+systemctl enable ly
+
+mkinitcpio -P
 
 vim /etc/fstab
 
 echo "SETUP COMPLETE"
+
+exit

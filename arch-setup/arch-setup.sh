@@ -8,9 +8,9 @@ read _
 
 # Disk wipe
 echo "[INFO]: Wiping disk"
-cryptsetup open --type plain -d /dev/urandom $device wipe
+cryptsetup open -q --type plain -d /dev/urandom $device wipe
 dd if=/dev/zero of=/dev/mapper/wipe status=progress
-cryptsetup close wipe
+cryptsetup -q close wipe
 wipefs -a -f $device
 
 # Run cfdisk for manual partitioning
@@ -41,7 +41,6 @@ read root_pass
 echo $root_pass | cryptsetup -q luksFormat "$device"3
 dd bs=512 count=4 if=/dev/random of=/root/.keys/root-keyfile iflag=fullblock
 chmod 600 /root/.keys/root-keyfile
-echo "[INFO]: Re-Enter password for root encryption"
 echo $root_pass | cryptsetup luksAddKey "$device"3 /root/.keys/root-keyfile
 echo "[INFO]: Keyfile saved to /root/.keys/root-keyfile"
 cryptsetup open --key-file="/root/.keys/root-keyfile" "$device"3 root
@@ -51,7 +50,7 @@ mount /dev/mapper/root /mnt/sys
 mkdir /mnt/sys/boot
 mount "$device"1 /mnt/sys/boot
 
-pacstrap /mnt/sys base linux linux-firmware base-devel git vim
+pacstrap /mnt/sys base linux linux-firmware base-devel git nano
 genfstab -U /mnt/sys >> /mnt/sys/etc/fstab
 
 # Run on chrooted arch install
@@ -60,6 +59,6 @@ cp -r /root/.keys /mnt/sys/root
 curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/AUR.txt > /mnt/sys/install/AUR.txt
 curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/nonAUR.txt > /mnt/sys/install/nonAUR.txt
 curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/chroot.sh > /mnt/sys/install/chroot.sh
-chmod +x /mnt/sys/chroot.sh
+chmod +x /mnt/sys/install/chroot.sh
 echo -n "$device" > /mnt/sys/install/device
 arch-chroot /mnt/sys /install/chroot.sh
