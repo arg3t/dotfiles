@@ -133,7 +133,7 @@ ln -s ~/.dotfiles/zsh/completions ~/.completions
 ln -s ~/.dotfiles/mail/mutt ~/.config/mutt
 ln -s ~/.dotfiles/mail/msmtp ~/.config/msmtp
 ln -s ~/.dotfiles/mail/mbsyncrc ~/.mbsyncrc
-echo "*/30 * * * * /home/yigit/.scripts/mailsync" >> /var/spool/cron/yigit
+echo "*/30 * * * * /home/$(whoami)/.scripts/mailsync" >> /var/spool/cron/yigit
 
 # Root
 sudo cp ~/.dotfiles/root/dwm.desktop /usr/share/xsessions
