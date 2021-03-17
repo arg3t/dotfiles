@@ -1,0 +1,10 @@
+#!/bin/bash
+
+selection=$(cat ~/.cache/tedportal | dmenu -i -l 8)
+echo $selection
+
+IFS="|"
+
+read -ra url <<< "$selection"
+
+xdg-open ${url[1]}

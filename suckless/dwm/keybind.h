@@ -34,6 +34,8 @@ static const char *notification_on[] = {"/home/yigit/.scripts/dunst_toggle.sh", 
 static const char *screensaver_off[] = {"/home/yigit/.scripts/screensaver_toggle","-s",NULL};
 static const char *screensaver_on[] = {"/home/yigit/.scripts/screensaver_toggle", "-e",NULL};
 
+static const char *online_class[] = {"/home/yigit/.scripts/tedportal",NULL};
+
 static const char *bwmenu[] = {"/home/yigit/.scripts/password_manager", NULL};
 
 
@@ -121,6 +123,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Print, spawn, {.v = windowshot  } },
 	{ MODKEY,                       XK_u, spawn, {.v = url} },
 	{ MODKEY,                       XK_g, spawn, {.v = google} },
+	{ MODKEY|ShiftMask,							XK_c, spawn, {.v = online_class} },
 	{ MODKEY,                       XK_y, spawn, {.v = youtube} },
 	{ MODKEY,                       XK_s,      togglescratch,          {.ui = 0 } },
 	{ MODKEY|ShiftMask,                       XK_s,      togglescratch,          {.ui = 1 } },
