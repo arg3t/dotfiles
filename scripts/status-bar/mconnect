@@ -1,0 +1,39 @@
+#!/bin/bash
+
+source ~/.config.env
+
+if [ ! "$MCONNECT" = true ] ; then
+  echo "^c#EBCB8B^ ^d^"
+  exit 0
+fi
+
+device_status=$(mconnectctl show-device $MCONNECT_DEVICE)
+
+IFS=$'\n'
+
+lines=($device_status)
+IFS=": "
+read -ra connected <<< ${lines[8]}
+connected=${connected[1]}
+
+if [ ! "$connected" = true ] ; then
+  echo "^c#EBCB8B^ ^d^"
+  exit 0
+fi
+
+battery_status=$(mconnectctl show-battery $MCONNECT_DEVICE)
+
+IFS=$'\n'
+
+lines=($battery_status)
+IFS=": "
+read -ra level <<< ${lines[0]}
+level=${level[1]}
+read -ra charging <<< ${lines[1]}
+charging=${charging[1]}
+
+if [ "$charging" = 1 ] ; then
+  echo "^c#EBCB8B^ ^d^ $level%+"
+else
+  echo "^c#EBCB8B^ ^d^ $level%"
+fi

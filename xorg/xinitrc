@@ -58,6 +58,7 @@ dbus-update-activation-environment --systemd DISPLAY
 picom --no-fading-openclose &
 firefox-developer-edition app.daily.dev&
 bitwarden-desktop &
+curl 'http://yeetclock/setcolor?R=136&G=192&B=208' &
 ~/.keyboard
 #thunderbird &
 
