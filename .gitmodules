@@ -1,3 +1,6 @@
 [submodule "gtk/themes/material-ocean"]
 	path = gtk/themes/material-ocean
 	url = https://github.com/material-ocean/Gtk-Theme.git
+[submodule "gtk/Tela-icon-theme"]
+	path = gtk/Tela-icon-theme
+	url = https://github.com/vinceliuice/Tela-icon-theme.git
