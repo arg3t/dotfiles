@@ -6,5 +6,5 @@ NOW=$( pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) 
 echo "^c#a3be8c^墳 ^d^ $NOW%"
 
 case $BLOCK_BUTTON in
-          1) setsid -f "$TERMINAL" -e ncpamixer ;;
+          1) setsid -f st -c stpulse -n stpulse -e ncpamixer ;;
 esac

@@ -24,9 +24,8 @@ This will download everything you need. After that, I have a list of all the pac
 
 ## Some eye candy
 
-![Workspace 1](screenshots/w1.jpg) 
-
-![Workspace 1](screenshots/w2.jpg) 
-
-![Workspace 1](screenshots/w4.jpg) 
+![Workspace 1](screenshots/terms.jpg) 
+![Workspace 2](screenshots/firefox.jpg) 
+![Workspace 4](screenshots/ranger.jpg) 
+![neomutt](screenshots/mutt.jpg) 
 
