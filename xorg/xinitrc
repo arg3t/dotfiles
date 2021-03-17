@@ -30,6 +30,7 @@ pkill -f "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
 pkill -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 
 
+source ~/.config.env
 # setxkbmap tr
 # ~/.scripts/tabbed_surf &
 eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
@@ -42,6 +43,10 @@ xrdb  ~/.Xresources &
 dwmblocks > /tmp/dwmblocks.out 2> /tmp/dwmblocks.err & 
 if [ "$NEXTCLOUD" = true ] ; then
   nextcloud --background &
+fi
+
+if [ "$MCONNECT" = true ] ; then
+    /usr/local/bin/mconnect -d > /tmp/mconnect 2> /tmp/mconnect.err &
 fi
 xss-lock -- betterlockscreen -l -t 'Stay the fuck out!' & 
 # aw-server &

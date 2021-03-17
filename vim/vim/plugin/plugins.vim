@@ -81,9 +81,10 @@ Plug 'vim-scripts/cool.vim'
 " Plug 'mxw/vim-jsx'
 " Plug 'jparise/vim-graphql'
 Plug 'leafgarland/typescript-vim'
+Plug 'arrufat/vala.vim'
 
 " Syntax errors
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
 Plug 'ntpeters/vim-better-whitespace'
 
 " Git support
