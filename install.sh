@@ -82,6 +82,7 @@ ln -s ~/.dotfiles/gtk/themes ~/.themes
 ln -s ~/.dotfiles/gtk/gtk-2.0 ~/.config/gtk-2.0
 ln -s ~/.dotfiles/gtk/gtk-3.0 ~/.config/gtk-3.0
 ln -s ~/.dotfiles/gtk/gtk-4.0 ~/.config/gtk-4.0
+~/.dotfiles/gtk/Tela-icon-theme/install.sh
 
 # Miscellaneous
 ln -s ~/.dotfiles/misc/dunst ~/.config/dunst
