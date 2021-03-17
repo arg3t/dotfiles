@@ -46,16 +46,16 @@ case $selection in
 		logout
 		;;
 	hibernate)
-		systemctl hibernate
+		sudo systemctl hibernate
 		;;
 	suspend)
-		systemctl suspend
+		sudo systemctl suspend
 		;;
 	reboot)
-		systemctl reboot
+		sudo systemctl reboot
 		;;
 	halt|poweroff|shutdown)
-		systemctl poweroff
+		sudo systemctl poweroff
 		;;
 esac
 

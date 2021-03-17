@@ -8,11 +8,13 @@ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 curl https://blackarch.org/strap.sh > /tmp/strap.sh
 chmod +x /tmp/strap.sh
 /tmp/strap.sh
-echo "tatooine" > /etc/hostname
+echo "Please enter hostname: "
+read hostname
+echo $hostname > /etc/hostname
 
 systemctl enable fstrim.timer
 
-echo -e "127.0.0.1 localhost\n::1 localhost\n127.0.0.1 tatooine.localdomain tatooine" > /etc/hosts
+echo -e "127.0.0.1 localhost\n::1 localhost\n127.0.0.1 $hostname.localdomain $hostname" > /etc/hosts
 cat << EOF > /etc/mkinitcpio.conf
 MODULES=(vfat i915)
 BINARIES=()
@@ -62,7 +64,9 @@ cat << EOF > /boot/refind_linux.conf
 "Boot with encryption"  "root=/dev/mapper/root resume=/dev/mapper/swap cryptdevice=UUID=$(blkid -s UUID -o value $(cat /install/device)3):root:allow-discards cryptkey=UUID=$uuid:vfat:key.yeet rw loglevel=3 quiet splash"
 EOF
 
-echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+echo "$username $hostname =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot,/usr/bin/systemctl hibernate" >> /etc/sudoers
+echo "Defaults env_reset,pwfeedback" >> /etc/sudoers
+echo "%wheel ALL=(ALL) NOSPASSWD: ALL" >> /etc/sudoers
 
 echo "Please enter name for regular user:"
 read username
@@ -96,11 +100,16 @@ echo -e "/boot/EFI/refind\n2\n2" | sudo bash -c "$(curl -fsSL https://raw.github
 
 systemctl enable NetworkManager
 systemctl enable ly
+systemctl enable cronie
 
 mkinitcpio -P
 
 vim /etc/fstab
 pacman -R nano # uninstall nano, eww
+
+sed -i '$ d' /etc/sudoers # Fix sudo
+echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+
 
 echo "SETUP COMPLETE"
 

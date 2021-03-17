@@ -27,7 +27,7 @@ static const Rule rules[] = {
 	RULE(.instance = "spsxiv", .tags = SPTAG(1), .isfloating = 1)
 	RULE(.instance = "spmutt", .tags = SPTAG(2), .isfloating = 1)
 	RULE(.class = "ranger", 0, .isfloating = 1)
-	RULE(.class = "vim", 0, .isfloating = 1)
+	RULE(.class = "vim", 0, .isfloating = 1, .floatpos="50% 50% 800W 560H")
 	RULE(.class = "mpv", 0, .isfloating = 1, .floatpos="100% 1% 600W 350H")
 	RULE(.class = "Sxiv", 0, .isfloating = 1, .floatpos="100% 1% 600W 350H")
 	RULE(.class = "neomutt-send", 0, .isfloating = 1, .floatpos="50% 50% 1000W 700H")
