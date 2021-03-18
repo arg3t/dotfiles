@@ -6,6 +6,8 @@ sudo pacman --noconfirm -Syu
 sudo pacman --noconfirm --needed -S $(cat ~/.dotfiles/arch-setup/nonAUR.txt)
 yay -S --noconfirm --needed $(cat ~/.dotfiles/arch-setup/AUR.txt)
 
+~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)
+
 # Initial cleanup
 echo "Backing up your previous dotfiles to ~/.dotfiles_backup"
 mkdir -p ~/.local/share
@@ -95,6 +97,8 @@ ln -s ~/.dotfiles/misc/htop ~/.config/htop
 ln -s ~/.dotfiles/misc/.fzf.zsh ~/.fzf.zsh
 ln -s ~/.dotfiles/misc/keyboard ~/.keyboard
 ln -s ~/.dotfiles/misc/mimeapps.list ~/.config/mimeapps.list
+mkdir ~/.config/spotifyd
+ln -s ~/.dotfiles/misc/spotifyd.conf ~/.config/spotifyd/spotifyd.conf
 ln -s ~/.dotfiles/fonts ~/.fonts
 sudo npm i -g yigitcolakoglu/bitwarden-dmenu
 fc-cache
@@ -152,3 +156,15 @@ cp ~/.dotfiles/firefox/extensions.json ~/.mozilla/firefox/*.yeet
 mkdir -p ~/.tmux/plugins
 vim -c ':PlugInstall'
 betterlockscreen -u ~/.dotfiles/backgrounds/lock.jpg
+
+# Install mconnect
+git clone https://github.com/theFr1nge/mconnect.git /tmp/mconnect
+prev=$(pwd)
+cd /tmp/mconnect
+mkdir build
+cd build
+meson ..
+ninja
+sudo ninja install
+cd $prev
+

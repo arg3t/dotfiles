@@ -1,7 +1,13 @@
 #!/bin/bash
 
-echo "Please enter the location of image file: "
+echo "Please enter the location of image file (Press enter to skip this step): "
 read loc
+
+if [ -z "$loc" ]
+then
+    echo "Continuing with the installation..."
+    exit
+fi
 
 ~/.scripts/jsteg reveal $loc > /tmp/out.zip.gpg
 
