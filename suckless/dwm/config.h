@@ -53,12 +53,12 @@ static const Layout layouts[] = {
 
 
 const char *spcmd1[] = {"st", "-c", "scratchpad", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"sxiv", "-N", "spsxiv", "-b", "-g","900x300+500+350", "/home/yigit/Pictures/us_keyboard.png", NULL};
+const char *spcmd2[] = {"feh", "--title", "scratchpad", "--class", "spfeh", "-g","900x300+500+350", "/home/yigit/Pictures/us_keyboard.png", NULL};
 const char *spcmd3[] = {"st", "-c", "scratchpad", "-n", "spmutt", "-g", "180x51", "-e", "neomutt", NULL };
 
 static Sp scratchpads[] = {
    {"spterm",      spcmd1},
-   {"spsxiv",      spcmd2},
+   {"spfeh",       spcmd2},
    {"spmutt",      spcmd3},
 };
 

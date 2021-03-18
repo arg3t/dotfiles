@@ -4,8 +4,9 @@
 static Block blocks[] = {
 	{ "", PATH("screensaver"),		120,		19},
 	{ "", PATH("dunst"),				  120,		18},
-	{ "", PATH("mconnect"),		  120,		20},
+	{ "", PATH("mconnect"),			  120,		20},
 	{ "", PATH("cpu-temp"),				30,			17},
+	{ "", PATH("memory"),		  		120,		21},
 	{ "", PATH("weather"),				60,			16},
 	{ "", PATH("arch"),						120,		15},
 	{ "", PATH("volume"),					5,		14},

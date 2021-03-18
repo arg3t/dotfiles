@@ -48,7 +48,7 @@ fi
 if [ "$MCONNECT" = true ] ; then
     /usr/local/bin/mconnect -d > /tmp/mconnect 2> /tmp/mconnect.err &
 fi
-xss-lock -- betterlockscreen -l -t 'Stay the fuck out!' & 
+xss-lock -- "/home/yigit/.scripts/pacontrol.sh open-mute && /home/yigit/.scripts/dunst_toggle.sh off && betterlockscreen -l -t 'Stay the fuck out!' && /home/yigit/.scripts/dunst_toggle.sh on"&
 # aw-server &
 # aw-watcher-window &
 # aw-watcher-afk &

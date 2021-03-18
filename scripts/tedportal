@@ -6,5 +6,6 @@ echo $selection
 IFS="|"
 
 read -ra url <<< "$selection"
+url=$(echo ${url[1]} | xargs)
 
-xdg-open ${url[1]}
+zoom "${url[1]}"

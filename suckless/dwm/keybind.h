@@ -16,7 +16,7 @@ static const char *dmenucmd[] = { "/home/yigit/.scripts/dmenu_run_history", "-m"
 static const char *termcmd[]  = { "/usr/local/bin/st","-e", "/home/yigit/.scripts/st_tmux", NULL };
 static const char *upvol[]   = { "/home/yigit/.scripts/pacontrol.sh", "up",     NULL };
 static const char *downvol[]   = { "/home/yigit/.scripts/pacontrol.sh", "down",     NULL };
-static const char *mutevol[]   = { "/home/yigit/.scripts/pacontrol.sh", "togglemute",     NULL };
+static const char *mutevol[]   = { "/home/yigit/.scripts/pacontrol.sh", "toggle-mute",     NULL };
 
 static const char *upbright[] = {"/usr/bin/xbacklight","-inc","10",NULL};
 static const char *downbright[] = {"/usr/bin/xbacklight","-dec","10",NULL};

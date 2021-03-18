@@ -23,6 +23,9 @@ case $1 in
     "toggle-mute") 
         pactl set-sink-mute $latest_sink toggle
         ;;
+    "open-mute") 
+        pactl set-sink-mute $latest_sink 1
+        ;;
     *) usage ;;
 esac
 

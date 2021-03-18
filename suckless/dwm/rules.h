@@ -24,7 +24,7 @@ static const Rule rules[] = {
 	RULE(.class = "Nemo", .tags = 1 << 3)
 	RULE(.class = "Spotify", .tags = 1 << 9)
 	RULE(.instance = "spterm", .tags = SPTAG(0), .isfloating = 1)
-	RULE(.instance = "spsxiv", .tags = SPTAG(1), .isfloating = 1)
+	RULE(.class = "spfeh", .tags = SPTAG(1), .isfloating = 1)
 	RULE(.instance = "spmutt", .tags = SPTAG(2), .isfloating = 1)
 	RULE(.class = "ranger", 0, .isfloating = 1)
 	RULE(.class = "vim", 0, .isfloating = 1, .floatpos="50% 50% 800W 560H")
@@ -32,4 +32,5 @@ static const Rule rules[] = {
 	RULE(.class = "mpv", 0, .isfloating = 1, .floatpos="100% 1% 600W 350H")
 	RULE(.instance = "sxiv", 0, .isfloating = 1, .floatpos="100% 1% 600W 350H")
 	RULE(.class = "neomutt-send", 0, .isfloating = 1, .floatpos="50% 50% 1000W 700H")
+	RULE(.class = "neomutt-send", 0, .isfloating = 1, .floatpos="50% 50% 250W 600H")
 };
