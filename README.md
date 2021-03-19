@@ -29,3 +29,9 @@ This will download everything you need. After that, I have a list of all the pac
 ![Workspace 4](screenshots/ranger.jpg) 
 ![neomutt](screenshots/mutt.jpg) 
 
+## TODOS
+
+[ ] Neomutt further config
+[ ] Dwmblocks entry for tracking last mailsync time
+[ ] Better documentation
+[ ] Dmenu for restarting certain processes like dwm, dwmblocks, dunst, mconnect
