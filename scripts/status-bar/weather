@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export LOCATION=ankara
+source ~/.config.env
 
 weatherreport="${XDG_DATA_HOME:-$HOME/.local/share}/weatherreport"
 weatherreportjson="${XDG_DATA_HOME:-$HOME/.local/share}/weatherreportjson"
@@ -12,9 +12,11 @@ getforecastjson() { curl -sf "wttr.in/$LOCATION?format=j1" > "$weatherreportjson
 # precipitation chance and the daily high and low from the downloaded file and
 # display them with coresponding emojis.
 showweather() {
-	jq -r '.weather|.[0]|.hourly|.[0]|.FeelsLikeC,.chanceofrain,.chanceofsnow,.WindGustKmph' "$weatherreportjson" |sed ':a;N;$!ba;s/\n/ /g' \
+	jq -r ".weather|.[0]|.hourly|.[$(expr $(date '+%H') / 4)]|.FeelsLikeC,.chanceofrain,.chanceofsnow,.WindGustKmph" "$weatherreportjson" |sed ':a;N;$!ba;s/\n/ /g' \
 	| awk -F' ' '{
-		if ($2 < $3)
+		if ($4 > 30)
+			print "^c#ffffff^  ^d^" $4 "kph ^c#ebcb8b^ 盛 ^d^ " $1 "°"
+		else if ($2 < $3)
 			print "^c#ffffff^ ^d^" $3 "% ^c#ebcb8b^ 盛 ^d^ " $1 "°"
 		else
 			print "^c#81a1c1^ ^d^" $2 "% ^c#ebcb8b^ 盛 ^d^ " $1 "°"}'
