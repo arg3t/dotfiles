@@ -31,7 +31,7 @@ This will download everything you need. After that, I have a list of all the pac
 
 ## TODOS
 
-[ ] Neomutt further config
-[X] Dwmblocks entry for tracking last mailsync time
-[ ] Better documentation
-[X] Dmenu for restarting certain processes like dwm, dwmblocks, dunst, mconnect
+* [ ] Neomutt further config
+* [X] Dwmblocks entry for tracking last mailsync time
+* [ ] Better documentation
+* [X] Dmenu for restarting certain processes like dwm, dwmblocks, dunst, mconnect

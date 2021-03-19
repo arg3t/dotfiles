@@ -8,7 +8,6 @@ bitwarden
 bitwarden-cli
 brave-bin
 canto-next-git
-capt-src
 checkupdates+aur
 checkupdates-aur
 cndrvcups-lt

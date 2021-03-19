@@ -14,7 +14,7 @@ rm -f ~/.surf/tabbed-surf.xid
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 feh --bg-fill /home/yigit/.dotfiles/backgrounds/wallpaper.jpg
 xrdb  ~/.Xresources &
-~/.scripts/mailsync
+~/.scripts/mailsync &
 if [ "$NEXTCLOUD" = true ] ; then
   nextcloud --background &
 fi
@@ -50,7 +50,7 @@ touch ~/.cache/dwm-restart
 while [ -f /home/yigit/.cache/dwm-restart ];
 do
     rm -rf /home/yigit/.cache/dwm-restart
-    dwm > /tmp/dwm.log 2> /tmp/dwm.err
     dwmblocks > /tmp/dwmblocks.out 2> /tmp/dwmblocks.err &
+    dwm > /tmp/dwm.log 2> /tmp/dwm.err
     sleep 0.2
 done

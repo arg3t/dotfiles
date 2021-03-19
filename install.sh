@@ -6,8 +6,6 @@ sudo pacman --noconfirm -Syu
 sudo pacman --noconfirm --needed -S $(cat ~/.dotfiles/arch-setup/nonAUR.txt)
 yay -S --noconfirm --needed $(cat ~/.dotfiles/arch-setup/AUR.txt)
 
-~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)
-
 # Initial cleanup
 echo "Backing up your previous dotfiles to ~/.dotfiles_backup"
 mkdir -p ~/.local/share
@@ -31,7 +29,7 @@ rsync --remove-source-files -avzh --ignore-errors \
   ~/.themes \
   ~/.vim \
   ~/.vimrc \
-  ~/.dotfiles_backup
+  ~/.dotfiles_backup 2> /dev/null > /dev/null
 
 rsync --remove-source-files -avzh --ignore-errors \
   ~/.config/htop \
@@ -45,7 +43,8 @@ rsync --remove-source-files -avzh --ignore-errors \
   ~/.config/gtk-2.0 \
   ~/.config/antibody \
   ~/.config/suckless \
-  ~/.dotfiles_backup/.config
+  ~/.config/neofetch \
+  ~/.dotfiles_backup/.config 2> /dev/null > /dev/null
 
 rm -rf \
   ~/.completions \
@@ -68,6 +67,7 @@ rm -rf \
   ~/.config/systemd \
   ~/.config/termite \
   ~/.config/zathura \
+  ~/.config/neofetch \
   ~/.config/dunst \
   ~/.config/gtk-4.0 \
   ~/.config/gtk-3.0 \
@@ -97,10 +97,9 @@ ln -s ~/.dotfiles/misc/htop ~/.config/htop
 ln -s ~/.dotfiles/misc/.fzf.zsh ~/.fzf.zsh
 ln -s ~/.dotfiles/misc/keyboard ~/.keyboard
 ln -s ~/.dotfiles/misc/mimeapps.list ~/.config/mimeapps.list
-mkdir ~/.config/spotifyd
+mkdir -p ~/.config/spotifyd
 ln -s ~/.dotfiles/misc/spotifyd.conf ~/.config/spotifyd/spotifyd.conf
 ln -s ~/.dotfiles/fonts ~/.fonts
-sudo npm i -g yigitcolakoglu/bitwarden-dmenu
 fc-cache
 
 # Applications
@@ -132,11 +131,16 @@ ln -s ~/.dotfiles/zsh/secret ~/.zsh_secret
 ln -s ~/.dotfiles/zsh/cmds ~/.cmds
 ln -s ~/.dotfiles/zsh/aliases ~/.aliases
 ln -s ~/.dotfiles/zsh/completions ~/.completions
+ln -s ~/.dotfiles/zsh/profile ~/.profile
 
 # Mail
 ln -s ~/.dotfiles/mail/mutt ~/.config/mutt
 ln -s ~/.dotfiles/mail/msmtp ~/.config/msmtp
 ln -s ~/.dotfiles/mail/mbsyncrc ~/.mbsyncrc
+if [ ! -f "/var/spool/cron/yigit"]; then
+  sudo touch /var/spool/cron/yigit
+  sudo chown yigit:yigit /var/spool/cron/yigit
+fi
 echo "*/8 * * * * /home/$(whoami)/.scripts/mailsync" >> /var/spool/cron/yigit
 
 # Root
@@ -152,6 +156,8 @@ cp -r ~/.dotfiles/firefox/flyingfox/* ~/.mozilla/firefox/*.yeet
 cp -r ~/.dotfiles/firefox/extensions ~/.mozilla/firefox/*.yeet
 cp ~/.dotfiles/firefox/extensions.json ~/.mozilla/firefox/*.yeet
 
+~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)
+
 # Install vim and tmux plugins
 mkdir -p ~/.tmux/plugins
 vim -c ':PlugInstall'
@@ -161,14 +167,21 @@ betterlockscreen -u ~/.dotfiles/backgrounds/lock.jpg
 git clone https://github.com/theFr1nge/mconnect.git /tmp/mconnect
 prev=$(pwd)
 cd /tmp/mconnect
-mkdir build
+mkdir -p build
 cd build
 meson ..
 ninja
 sudo ninja install
 cd $prev
 
-# Installl simcrop
+git clone https://github.com/theFr1nge/bitwarden-dmenu.git /tmp/bwdmenu
+cd /tmp/bwdmenu
+npm install
+sudo npm i -g
+cd $prev
+
+# Install simcrop
+sudo pacman -S opencv
 git clone https://github.com/theFr1nge/simcrop.git /tmp/simcrop
 cd /tmp/simcrop
 sudo make install
