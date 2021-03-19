@@ -25,7 +25,7 @@
 # nnn
 # zenity
 # ranger
-Picker='zenity'
+Picker='ranger'
 
 # Color Settings of dmenu 
 COLOR_DISCONNECTED='#000'       # Device Disconnected
@@ -63,7 +63,7 @@ show_devices (){
 	    icon=$(get_icon $battery $devicetype)
 	    # colors="$(get_colors $battery)"
 	    # echo "$colors"
-	    show_menu "$devicename | $battery $icon" $deviceid $battery 
+	    show_menu "$devicename | $battery $icon" $deviceobj $battery 
 	    devices+="$devicename $battery $icon $SEPERATOR"
 	elif [ "$isreach" = "false" ] && [ "$istrust" = "true" ];then
 	    #nothing is found
@@ -71,7 +71,7 @@ show_devices (){
 	else 
 	    #found but not yet paired
 	    icon=$(get_icon -2 $devicetype)
-	    show_pmenu $devicename $deviceid
+	    show_pmenu $devicename $deviceobj
 	    devices+="$devicename $icon $SEPERATOR"
 	fi
     done
@@ -91,51 +91,45 @@ SendKeys(){
 #displays a menu for the connected device
 show_menu () {
     optionNum=5
-    options=$(printf "Send SMS\\nSend File\\nFind Device\\nPing\\nUnpair\\nkeys\\n")
-    options+=$(printf "\\nRefresh\\n")
+    options=$(printf "Send SMS\\nSend File\\nSend Text\\nSend URL\\nDisconnect\\n")
     menu=$(echo $options | dmenu -i -p $1 -l $optionNum )
     case "$menu" in
 	*'Send File') 
-	    [ $Picker == 'nnn' ] && kdeconnect-cli --share "file://$($TERMINAL nnn -p -)" -d $2 ;
-	    [ $Picker == 'zenity' ] && kdeconnect-cli --share "file://$(zenity --file-selection)" -d $2 ;
 	    if [ $Picker == 'ranger' ]; then
-		mkdir -p /tmp/ranger/ && touch /tmp/ranger/sentfile
-		kdeconnect-cli --share "file://$($TERMINAL ranger --choosefile=/tmp/ranger/sentfile)" -d $2 
+			mkdir -p /tmp/ranger/
+			rm -rf /tmp/ranger/sentfile
+			st -c ranger -e ranger --choosefile=/tmp/ranger/sentfile
+			if [ -f /tmp/ranger/sentfile ]; then
+					mconnectctl share-file "$2" "$(cat /tmp/ranger/sentfile)" 
+			fi
 	    fi;;
-	*'Unpair' ) kdeconnect-cli --unpair -d $2 ;;
 	*'Send SMS' ) 
 	    message=$(echo 'OTW' | dmenu -i -p "Msg to send")
 	    recipient=$(echo '14039199518' | dmenu -i -p "Recipient's phone #")
-	    kdeconnect-cli --send-sms "$message" --destination "$recipient" -d $2 ;;
-	*'Refresh' ) 
-	    kdeconnect-cli --refresh;;
-	*'Notification' ) 
-	    Notification_menu $notification1 $2;;
-	*'keys' ) 
-	    SendKeys "$2";;
-    esac
+	    mconnectctl send-sms "$2" "$message"  "$recipient" ;;
+	*'Send URL' ) 
+	    message=$(echo 'Clipboard' | dmenu -i -p "Enter Url:")
+			if [ "$message" = "Clipboard" ]; then
+				message=$(sselp)
+			fi
+	    mconnectctl share-url "$2" "$message";;
+	*'Send Text' ) 
+	    message=$(echo 'Clipboard' | dmenu -i -p "Enter Url:")
+			if [ "$message" = "Clipboard" ]; then
+				message=$(sselp)
+			fi
+	    mconnectctl share-text "$2" "$message";;
+	*'Disconnect' ) 
+	    mconnectctl disallow-device "$2"
+	esac
 }
 
 show_pmenu () {
     menu="$(printf "Pair Device" | dmenu -i -p "$1"  )"
     case "$menu" in
-	*'Pair Device') kdeconnect-cli --pair -d $2 ;;
+	*'Pair Device') mconnectctl allow-device $2 ;;
     esac
 }
-#still a work in progress
-# get_colors () {
-# 	case $1 in
-# 	"-1")     colors="-nb \"$COLOR_DISCONNECTED\" -nf \"#000\" " ;;   
-# 	"-2")     colors="-nb \"$COLOR_NEWDEVICE\"	-nf \"#000\" ";;   
-# 	5*)     	colors="-nb \"$COLOR_BATTERY_50\"	-nf \"#000\" ";;
-# 	6*)		colors="-nb \"$COLOR_BATTERY_60\"	-nf \"#000\" ";;
-# 	7*)    	colors="-nb \"$COLOR_BATTERY_70\"	-nf \"#000\" ";;
-# 	8*)     	colors="-nb \"$COLOR_BATTERY_80\"	-nf \"#000\" ";;
-# 	*)      	colors="-nb \"$COLOR_BATTERY_LOW\" -nf \"#000\" ";; 
-# 	9*|100) 	colors="-nb \"$COLOR_BATTERY_90\"	-nf \"#000\" ";;
-# 	esac
-# 	echo $colors
-# }
 
 get_icon () {
     if [ "$2" = "tablet" ]

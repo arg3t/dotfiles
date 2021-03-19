@@ -168,3 +168,8 @@ ninja
 sudo ninja install
 cd $prev
 
+# Installl simcrop
+git clone https://github.com/theFr1nge/simcrop.git /tmp/simcrop
+cd /tmp/simcrop
+sudo make install
+cd $prev

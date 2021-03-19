@@ -13,6 +13,7 @@ static Block blocks[] = {
 	{ "", PATH("network"),				120,		13},
 	{ "", PATH("battery"),				60,			12},
 	{ "", PATH("time"),					 	30,			11},
+	{ "", PATH("date"),					 	240,		22},
 };
 
 //Sets delimiter between status commands. NULL character ('\0') means no delimiter.

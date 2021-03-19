@@ -28,6 +28,10 @@ static const char *prev[] = {"/usr/bin/playerctl","previous",NULL};
 static const char *next[] = {"/usr/bin/playerctl","next",NULL};
 static const char *outmenu[] = {"/home/yigit/.scripts/dmenu-logout"};
 
+static const char *screenshot[] = { "scrot", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send \"SNAP\" \"$f\"", NULL }; 
+static const char *windowshot[] = { "scrot", "-u", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send \"SNAP\" \"$f\"", NULL };
+static const char *simcrop[] = {"simcrop","-fc","-sc",NULL};
+
 static const char *notification_off[] = {"/home/yigit/.scripts/dunst_toggle.sh","-s",NULL};
 static const char *notification_on[] = {"/home/yigit/.scripts/dunst_toggle.sh", "-e",NULL};
 
@@ -40,15 +44,10 @@ static const char *bwmenu[] = {"/home/yigit/.scripts/password_manager", NULL};
 
 
 static const char *network_manager[] = {"/home/yigit/.scripts/networkmanager_dmenu"};
-
+static const char *mconnect[] = {"/home/yigit/.scripts/dmenu-mconnect"};
+static const char *genpwd[] = {"sh", "-c","/sbin/bw generate | xclip" };
 static const char *trackpad[] = {"/home/yigit/.scripts/toggle_touchpad.sh"};
-
-static const char *kdeconnect[] = {"/home/yigit/.local/bin/dmenu_kdeconnect.sh", NULL};
-
 static const char *bluetooth[] = {"/home/yigit/.scripts/dmenu-bluetooth", NULL};
-
-static const char *screenshot[] = { "scrot","-d","3", "%Y-%m-%d-%s_$wx$h.jpg", "-e","xclip -selection clipboard -t image/jpg < $f; mv $f ~/Pictures/Screenshots/;dunstify --icon='/home/yigit/.icons/Numix-Circle/48/apps/camera.svg' -a 'SNAP' 'Screenshot taken'", NULL }; static const char *windowshot[] = { "scrot", "-u", "-d","3", "%Y-%m-%d-%s_$wx$h.jpg", "-e","xclip -selection clipboard -t image/jpg < $f; mv $f ~/Pictures/Screenshots/;dunstify --icon='/home/yigit/.icons/Numix-Circle/48/apps/camera.svg' -a 'SNAP' 'Screenshot taken'", NULL };
-
 static const char *url[] = {"/home/yigit/.scripts/dmenu_surf", NULL};
 static const char *surf[] = {"/home/yigit/.scripts/tabbed_surf", NULL};
 static const char *google[] = {"/home/yigit/.scripts/menu-surfraw", "google", NULL};
@@ -108,7 +107,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_t, 			spawn, {.v = trackpad} },
 	{ MODKEY,                       XK_x, 			spawn, {.v = lock } },
 	{ MODKEY,                       XK_c, 			spawn, {.v = clipmenu } },
-	{ MODKEY|ShiftMask,             XK_p,			  spawn, {.v = kdeconnect } },
+	{ MODKEY|ShiftMask,             XK_p,			  spawn, {.v = genpwd} },
 	{ MODKEY|ShiftMask,             XK_b,			  spawn, {.v = bluetooth } },
 	{ MODKEY|Mod1Mask,              XK_n, 			spawn, {.v = network_manager} }, /*Spiral*/
 	{ 0,                            XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
@@ -121,9 +120,11 @@ static Key keys[] = {
 	{ 0,                            XF86XK_AudioNext, spawn, {.v = next  } },
 	{ 0,                            XK_Print, spawn, {.v = screenshot  } },
 	{ MODKEY,                       XK_Print, spawn, {.v = windowshot  } },
+	{ MODKEY|ShiftMask, 						XK_e, spawn, {.v = simcrop } },
 	{ MODKEY,                       XK_u, spawn, {.v = url} },
 	{ MODKEY,                       XK_g, spawn, {.v = google} },
 	{ MODKEY|ShiftMask,							XK_c, spawn, {.v = online_class} },
+	{ MODKEY|ShiftMask,							XK_m, spawn, {.v = mconnect} },
 	{ MODKEY,                       XK_y, spawn, {.v = youtube} },
 	{ MODKEY,                       XK_s,      togglescratch,          {.ui = 0 } },
 	{ MODKEY|ShiftMask,                       XK_s,      togglescratch,          {.ui = 1 } },

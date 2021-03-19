@@ -26,11 +26,13 @@ static const Rule rules[] = {
 	RULE(.instance = "spterm", .tags = SPTAG(0), .isfloating = 1)
 	RULE(.class = "spfeh", .tags = SPTAG(1), .isfloating = 1)
 	RULE(.instance = "spmutt", .tags = SPTAG(2), .isfloating = 1)
-	RULE(.class = "ranger", 0, .isfloating = 1)
+	RULE(.class = "ranger", 0, .isfloating = 1, .floatpos="50% 50% 800W 560H")
 	RULE(.class = "vim", 0, .isfloating = 1, .floatpos="50% 50% 800W 560H")
 	RULE(.class = "stpulse", 0, .isfloating = 1, .floatpos="50% 50% 800W 560H")
 	RULE(.class = "mpv", 0, .isfloating = 1, .floatpos="100% 1% 600W 350H")
 	RULE(.instance = "sxiv", 0, .isfloating = 1, .floatpos="100% 1% 600W 350H")
 	RULE(.class = "neomutt-send", 0, .isfloating = 1, .floatpos="50% 50% 1000W 700H")
-	RULE(.class = "neomutt-send", 0, .isfloating = 1, .floatpos="50% 50% 250W 600H")
+	RULE(.class = "neomutt-send", 0, .isfloating = 1, .floatpos="50% 50% 250W 600H") // Why did I put this here?
+//	RULE(.title = "SimCrop", 0, .isfloating = 1, .floatpos="50% 50% 800W 500H") 
+
 };

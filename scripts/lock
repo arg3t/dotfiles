@@ -1,2 +1,6 @@
 #!/bin/bash
-/home/yigit/.scripts/pacontrol.sh open-mute && /home/yigit/.scripts/dunst_toggle.sh -s && betterlockscreen -l -t 'Stay the fuck out!' && /home/yigit/.scripts/dunst_toggle.sh -e && /home/yigit/.scripts/pacontrol.sh toggle-mute
+/home/yigit/.scripts/pacontrol.sh open-mute
+/home/yigit/.scripts/dunst_toggle.sh -s
+betterlockscreen -l -t 'Stay the fuck out!'
+/home/yigit/.scripts/dunst_toggle.sh -e
+/home/yigit/.scripts/pacontrol.sh toggle-mute

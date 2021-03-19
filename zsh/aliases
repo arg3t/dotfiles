@@ -13,6 +13,7 @@ alias tn="TERM=screen-256color-bce tmux new -s "
 alias tat="TERM=screen-256color-bce tmux a  -t "
 alias yain="yay -Syu "
 alias ls="ls --color"
+alias yay="yay --sudoloop"
 
 # Suffix aliases
 alias -g G=" | rg" 
