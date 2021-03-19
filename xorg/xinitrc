@@ -1,57 +1,35 @@
 #! /bin/sh
 
-# Environment variables
-export QT_QPA_PLATFORMTHEME="qt5ct"
-export _JAVA_AWT_WM_NONREPARENTING=1
-export AWT_TOOLKIT=MToolkit
-export SHELL=/bin/zsh
-export TERMINAL=/usr/local/bin/st
-export TERM=st
-export ANDROID_HOME=~/Android/Sdk
-export FLUTTER_HOME=~/flutter
-export TMUX_PLUGIN_MANAGER_PATH=~/.tmux/plugins
-export BORG_KEYS_DIR=~/.keys/borg
-export BROWSER=~/.scripts/tabbed_surf
-export EDITOR=vim
-
-# Setup PATH
-export PATH="~/.scripts/:~/.local/bin/:$PATH"
-export CM_SYNC_PRIMARY_TO_CLIPBOARD=1
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:$FLUTTER_HOME/bin
-
-pkill -f aw-watcher-window 
-pkill -f aw-watcher-afk
-pkill -f aw-server 
 pkill -f clipmenud 
 pkill -f "bash /sbin/clipmenud" 
 pkill -f "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
 pkill -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 
-
 source ~/.config.env
-# setxkbmap tr
-# ~/.scripts/tabbed_surf &
 eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK
+
 clipmenud > /tmp/clipmenud.out 2> /tmp/clipmenud.err &
 rm -f ~/.surf/tabbed-surf.xid
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-feh --bg-fill /home/yigit/.dotfiles/backgrounds/wallpaper.jpg #Backgroun
+feh --bg-fill /home/yigit/.dotfiles/backgrounds/wallpaper.jpg
 xrdb  ~/.Xresources &
-dwmblocks > /tmp/dwmblocks.out 2> /tmp/dwmblocks.err & 
+~/.scripts/mailsync
 if [ "$NEXTCLOUD" = true ] ; then
   nextcloud --background &
 fi
-
 if [ "$MCONNECT" = true ] ; then
     /usr/local/bin/mconnect -d > /tmp/mconnect 2> /tmp/mconnect.err &
 fi
+if [ "$ACTIVITYWATCHER" = true ] ; then
+    pkill -f aw-watcher-window
+    pkill -f aw-watcher-afk
+    pkill -f aw-server
+    aw-server &
+    aw-watcher-window &
+    aw-watcher-afk &
+fi
 xss-lock -- /home/yigit/.scripts/lock &
-# aw-server &
-# aw-watcher-window &
-# aw-watcher-afk &
 echo "on" > ~/.cache/dunst
 echo "on" > ~/.cache/screensaver
 dbus-update-activation-environment --systemd DISPLAY
@@ -68,17 +46,11 @@ xset b 100
 
 dunst &
 
-csum=""
-new_csum=$(sha1sum $(which dwm))
-while true
+touch ~/.cache/dwm-restart
+while [ -f /home/yigit/.cache/dwm-restart ];
 do
-    if [ "$csum" != "$new_csum" ]
-    then
-        csum=$new_csum
-				dwm > /tmp/dwm.log 2> /tmp/dwm.err
-    else
-        exit 0
-    fi
-    new_csum=$(sha1sum $(which dwm))
-    sleep 0.5
+    rm -rf /home/yigit/.cache/dwm-restart
+    dwm > /tmp/dwm.log 2> /tmp/dwm.err
+    dwmblocks > /tmp/dwmblocks.out 2> /tmp/dwmblocks.err &
+    sleep 0.2
 done

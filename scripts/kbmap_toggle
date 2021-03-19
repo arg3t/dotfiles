@@ -1,0 +1,15 @@
+#!/bin/bash
+
+layout=$(xkb-switch -p)
+
+if [ "$layout" = "tr" ]; then
+  xkb-switch -s "us(altgr-intl)"
+  notify-send "Keyboard layout switched to us"
+else
+  xkb-switch -s "tr"
+  notify-send "Keyboard layout switched to tr"
+fi
+
+kill -58 $(pidof dwmblocks)
+
+

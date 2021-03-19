@@ -26,11 +26,13 @@ static const char *clipmenu[] = {"/usr/bin/clipmenu","-i",NULL};
 static const char *play[] = {"/usr/bin/playerctl","play-pause",NULL};
 static const char *prev[] = {"/usr/bin/playerctl","previous",NULL};
 static const char *next[] = {"/usr/bin/playerctl","next",NULL};
-static const char *outmenu[] = {"/home/yigit/.scripts/dmenu-logout"};
+static const char *outmenu[] = {"/home/yigit/.scripts/dmenu-logout", NULL};
+static const char *refresh[] = {"/home/yigit/.scripts/dmenu-refresh", NULL};
+static const char *keyboard[] = {"/home/yigit/.scripts/kbmap_toggle", NULL};
 
 static const char *screenshot[] = { "scrot", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send \"SNAP\" \"$f\"", NULL }; 
 static const char *windowshot[] = { "scrot", "-u", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send \"SNAP\" \"$f\"", NULL };
-static const char *simcrop[] = {"simcrop","-fc","-sc",NULL};
+static const char *simcrop[] = {"simcrop","-fc","-sc", "-g", "900x500",NULL};
 
 static const char *notification_off[] = {"/home/yigit/.scripts/dunst_toggle.sh","-s",NULL};
 static const char *notification_on[] = {"/home/yigit/.scripts/dunst_toggle.sh", "-e",NULL};
@@ -110,6 +112,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_p,			  spawn, {.v = genpwd} },
 	{ MODKEY|ShiftMask,             XK_b,			  spawn, {.v = bluetooth } },
 	{ MODKEY|Mod1Mask,              XK_n, 			spawn, {.v = network_manager} }, /*Spiral*/
+	{ MODKEY|Mod1Mask,              XK_k,       spawn,      {.v = keyboard} }, /*tiled*/
+	{ MODKEY|ShiftMask,              XK_r,       spawn,      {.v = refresh} }, /*tiled*/
 	{ 0,                            XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
 	{ 0,                            XF86XK_MonBrightnessUp, spawn, {.v = upbright } },
 	{ 0,                            XF86XK_MonBrightnessDown, spawn, {.v = downbright } },

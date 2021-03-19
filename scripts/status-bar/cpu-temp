@@ -5,4 +5,4 @@ source ~/.config.env
 temp=$(sed 's/[0-9][0-9][0-9]$/°C/' $TEMP_ZONE)
 icon=
 
-echo "^c#bf616a^$icon^d^ $temp "
+echo "^c#bf616a^$icon^d^ $temp"

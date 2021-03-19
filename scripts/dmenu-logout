@@ -43,7 +43,7 @@ case $selection in
 		restart
 		;;
 	logout)
-		kill -9 $(pidof dwm)
+		logout
 		;;
 	hibernate)
 		sudo systemctl hibernate

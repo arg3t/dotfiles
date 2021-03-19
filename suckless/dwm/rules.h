@@ -33,6 +33,7 @@ static const Rule rules[] = {
 	RULE(.instance = "sxiv", 0, .isfloating = 1, .floatpos="100% 1% 600W 350H")
 	RULE(.class = "neomutt-send", 0, .isfloating = 1, .floatpos="50% 50% 1000W 700H")
 	RULE(.class = "neomutt-send", 0, .isfloating = 1, .floatpos="50% 50% 250W 600H") // Why did I put this here?
-//	RULE(.title = "SimCrop", 0, .isfloating = 1, .floatpos="50% 50% 800W 500H") 
+	RULE(.class = "weather", 0, .isfloating = 1, .floatpos="50% 50% 1200W 800H") // Why did I put this here?
+	RULE(.title = "SimCrop", 0, .isfloating = 1, .floatpos="50% 50% 800W 500H") 
 
 };

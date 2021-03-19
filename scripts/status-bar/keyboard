@@ -1,0 +1,5 @@
+#!/bin/bash
+
+layout=$(xkb-switch -p | cut -d "(" -f1)
+
+echo -n "^c#a3be8c^ ^d^$layout"

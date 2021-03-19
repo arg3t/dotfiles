@@ -1,34 +1,11 @@
-#if [ "$TMUX" = "" ]; then ~/.scripts/st_tmux; fi
-
 eval "$(direnv hook zsh)" >> /tmp/direnv
 neofetch --ascii ~/.config/neofetch/ascii.txt
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 # Created by kuro for 5.8
 source <(antibody init)
-
-# Environment variables
-export GOPATH=$HOME/go
-export _JAVA_AWT_WM_NONREPARENTING=1
-export AWT_TOOLKIT=MToolkit
-export ANDROID_HOME=~/Android/Sdk
-export FLUTTER_HOME=~/flutter
-export TMUX_PLUGIN_MANAGER_PATH=~/.tmux/plugins
-export BORG_KEYS_DIR=~/.keys/borg
-export BROWSER=~/.scripts/tabbed_surf
-export EDITOR=vim
-
-# Setup PATH
-export PATH="~/.scripts/:~/.local/bin/:$PATH"
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:$FLUTTER_HOME/bin
-export PATH="$PATH:/home/yigit/.scripts:/home/yigit/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:/home/yigit/.local/bin"
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -66,8 +43,3 @@ export KEYTIMEOUT=5
 
 # added by travis gem
 [ ! -s /home/yigit/.travis/travis.sh ] || source /home/yigit/.travis/travis.sh
-
-
-
-#zle-line-init() { zle -K vicmd; }
-#zle -N zle-line-init

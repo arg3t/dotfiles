@@ -1,0 +1,43 @@
+#!/bin/sh
+
+
+killprogs() {
+	pkill -x udisks-glue
+	pkill -x panel
+	pkill -x redshift
+}
+
+logout() {
+    pkill dwm
+}
+
+DMENU='dmenu  -z 1900 -x 10 -y 10 -i'
+
+items="dwm
+dwmblocks
+mconnect
+dunst"
+
+# Open menu
+selection=$(printf '%s' "$items" | $DMENU)
+
+case $selection in
+	dwm)
+		touch /home/yigit/.cache/dwm-restart
+		logout
+		;;
+	dwmblocks)
+		kill -9 $(pidof dwmblocks)
+		dwmblocks > /tmp/dwmblocks.out 2> /tmp/dwmblocks.err &
+		;;
+	mconnect)
+		kill -9 $(pidof mconnect)
+		mconnect -d &
+		;;
+	dunst)
+		kill -9 $(pidof dunst)
+		dunst &
+		;;
+esac
+
+exit
