@@ -24,6 +24,7 @@ googler
 i3lock-color
 ifuse
 jetbrains-toolbox
+lf
 ly
 mailspring
 mpris-ctl
@@ -39,6 +40,8 @@ spotify
 spotify-tui
 spotifyd-full-git
 ttf-symbola
+xbanish
 xkb-switch
 xmenu
 ytfzf
+zoom
