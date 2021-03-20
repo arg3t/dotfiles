@@ -80,6 +80,7 @@ sudo -u $username bash -c "git clone https://aur.archlinux.org/yay.git /tmp/yay"
 sudo -u $username bash -c "(cd /tmp/yay; makepkg -si)"
 sudo -u $username bash -c "yay -S plymouth"
 
+pacman -R vim
 pacman -S --needed --noconfirm $(cat /install/nonAUR.txt)
 refind-install
 
