@@ -23,7 +23,7 @@ showweather() {
 }
 
 case $BLOCK_BUTTON in
-	1) setsid -f "$TERMINAL" -c weather -n weather -e less -Srf "$weatherreport" ;;
+	1) setsid -f st -c weather -n weather -e less -Srf "$weatherreport" ;;
 	2) getforecast && showweather && kill -50 $(pidof dwmblocks) ;;
 	3) notify-send " Weather module" "\- Left click for full forecast.
 - Middle click to update forecast.

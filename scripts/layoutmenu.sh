@@ -1,7 +1,11 @@
 #!/bin/sh
 
 cat <<EOF | xmenu
-[]= Tiled Layout	0
-><> Floating Layout	1
-[M] Monocle Layout	2
+0-Tiled Layout
+1-Dwindle
+2-Grid Layout
+3-Centered Master
+4-Centered Floating Master
+5-Monocle Layout
+6-Deck Layout
 EOF

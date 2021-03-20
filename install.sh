@@ -97,6 +97,7 @@ ln -s ~/.dotfiles/misc/htop ~/.config/htop
 ln -s ~/.dotfiles/misc/.fzf.zsh ~/.fzf.zsh
 ln -s ~/.dotfiles/misc/keyboard ~/.keyboard
 ln -s ~/.dotfiles/misc/mimeapps.list ~/.config/mimeapps.list
+ln -s ~/.dotfiles/misc/wakatime.cfg ~/.wakatime.cfg
 mkdir -p ~/.config/spotifyd
 ln -s ~/.dotfiles/misc/spotifyd.conf ~/.config/spotifyd/spotifyd.conf
 ln -s ~/.dotfiles/fonts ~/.fonts
@@ -173,10 +174,11 @@ meson ..
 ninja
 sudo ninja install
 cd $prev
+mkdir -p ~/Downloads/mconnect
 
-git clone https://github.com/theFr1nge/bitwarden-dmenu.git /tmp/bwdmenu
-cd /tmp/bwdmenu
-npm install
+sudo git clone https://github.com/theFr1nge/bitwarden-dmenu.git /usr/share/bwdmenu
+cd /usr/share/bwdmenu
+sudo npm install
 sudo npm i -g
 cd $prev
 

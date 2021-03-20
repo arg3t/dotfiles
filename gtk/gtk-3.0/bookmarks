@@ -1,7 +1,3 @@
-smb://yigitcolakoglu.com;yigitcolakoglu@home.yigitcolakoglu.com/dockerstorage/ dockerstorage on home.yigitcolakoglu.com
-file:///home/yigit/Projects Projects
-file:///home/yigit/Downloads Downloads
-file:///home/yigit/Nextcloud Nextcloud
-file:///home/yigit/Pictures Pictures
-file:///home/yigit/Documents Documents
-file:///home/yigit/Pictures Pictures
+file:///home/yigit/Nextcloud
+file:///home/yigit/Documents/
+file:///home/yigit/Pictures/

@@ -37,6 +37,8 @@ static const char *simcrop[] = {"simcrop","-fc","-sc", "-g", "900x500",NULL};
 static const char *notification_off[] = {"/home/yigit/.scripts/dunst_toggle.sh","-s",NULL};
 static const char *notification_on[] = {"/home/yigit/.scripts/dunst_toggle.sh", "-e",NULL};
 
+static const char *screen_off[] = {"xset", "dpms", "force", "off", NULL};
+
 static const char *screensaver_off[] = {"/home/yigit/.scripts/screensaver_toggle","-s",NULL};
 static const char *screensaver_on[] = {"/home/yigit/.scripts/screensaver_toggle", "-e",NULL};
 
@@ -65,6 +67,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_i,      spawn,          {.v = screensaver_off} },
 	{ MODKEY|ShiftMask,             XK_i,      spawn,          {.v = screensaver_on } },
+	{ MODKEY|ShiftMask,             XK_o,      spawn,          {.v = screen_off } },
 	{ MODKEY,                       XK_n,      spawn,          {.v = notification_off} },
 	{ MODKEY|ShiftMask,             XK_n,      spawn,          {.v = notification_on } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -160,7 +163,7 @@ static Key keys[] = {
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+	{ ClkLtSymbol,          0,              Button3,        layoutmenu,     {0} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
@@ -170,7 +173,5 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 	{ ClkStatusText,        0,                   Button1,        sigdwmblocks,   {.i = 1 } },
 	{ ClkStatusText,        0,                   Button2,        sigdwmblocks,   {.i = 2 } },
-	{ ClkStatusText,        0,                   Button3,        sigdwmblocks,   {.i = 3 } },
-	{ ClkLtSymbol,          0,                   Button3,        layoutmenu,     {0} },
 };
 

@@ -16,7 +16,8 @@ DMENU='dmenu  -z 1900 -x 10 -y 10 -i'
 items="dwm
 dwmblocks
 mconnect
-dunst"
+dunst
+clipmenud"
 
 # Open menu
 selection=$(printf '%s' "$items" | $DMENU)
@@ -32,7 +33,11 @@ case $selection in
 		;;
 	mconnect)
 		kill -9 $(pidof mconnect)
-		mconnect -d &
+    (cd ~/Downloads/mconnect; mconnect -d > /tmp/mconnect 2> /tmp/mconnect.err &)
+		;;
+	clipmenud)
+		pkill -f clipmenud
+		clipmenud > /tmp/clipmenud.out 2> /tmp/clipmenud.err &
 		;;
 	dunst)
 		kill -9 $(pidof dunst)
