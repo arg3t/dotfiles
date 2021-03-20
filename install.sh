@@ -98,6 +98,7 @@ ln -s ~/.dotfiles/misc/.fzf.zsh ~/.fzf.zsh
 ln -s ~/.dotfiles/misc/keyboard ~/.keyboard
 ln -s ~/.dotfiles/misc/mimeapps.list ~/.config/mimeapps.list
 ln -s ~/.dotfiles/misc/wakatime.cfg ~/.wakatime.cfg
+ln -s ~/.dotfiles/misc/BetterDiscord ~/.config/BetterDiscord
 mkdir -p ~/.config/spotifyd
 ln -s ~/.dotfiles/misc/spotifyd.conf ~/.config/spotifyd/spotifyd.conf
 ln -s ~/.dotfiles/fonts ~/.fonts
