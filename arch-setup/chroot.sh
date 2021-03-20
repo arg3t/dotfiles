@@ -6,7 +6,7 @@ if [ ! -f "/install/device" ]; then
     echo "Installing to $device... (Enter to continue)"
     read _
     mkdir -p /install/device
-    echo $device /install/device
+    echo $device > /install/device
 fi
 
 ln -sf /usr/share/zoneinfo/Europe/Istanbul /etc/localtime
