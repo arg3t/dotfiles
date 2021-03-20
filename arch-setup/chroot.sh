@@ -86,16 +86,17 @@ cat << EOF > /boot/refind_linux.conf
 "Boot with encryption"  "root=/dev/mapper/root resume=/dev/mapper/swap cryptdevice=UUID=$(blkid -s UUID -o value $(cat /install/device)3):root:allow-discards cryptkey=UUID=$uuid:vfat:key.yeet rw loglevel=3 quiet splash"
 EOF
 
-echo "$username $hostname =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot,/usr/bin/systemctl hibernate" >> /etc/sudoers
-echo "Defaults env_reset,pwfeedback" >> /etc/sudoers
-echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+mkdir -p /etc/sudoers.d
+echo "$username $hostname =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot,/usr/bin/systemctl hibernate" >> /etc/sudoers.d/wheel
+echo "Defaults env_reset,pwfeedback" >> /etc/sudoers.d/wheel
+echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/nopwd
 
 echo "Set password for user $username: "
 passwd $username
 
 sudo -u $username bash -c "git clone https://aur.archlinux.org/yay.git /tmp/yay"
-sudo -u $username bash -c "(cd /tmp/yay; makepkg -si)"
-sudo -u $username bash -c "yay -S plymouth"
+sudo -u $username bash -c "(cd /tmp/yay; makepkg --noconfirm -si)"
+sudo -u $username bash -c "yay --noconfirm -S plymouth"
 
 refind-install
 
@@ -124,8 +125,8 @@ mkinitcpio -P
 vim /etc/fstab
 pacman -R nano # uninstall nano, eww
 
-sed -i '$ d' /etc/sudoers # Fix sudo
-echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+rm -rf /etc/sudoers.d/nopwd
+echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers.d/wheel
 
 
 echo "SETUP COMPLETE"
