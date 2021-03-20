@@ -5,7 +5,7 @@ if [ ! -f "/install/device" ]; then
     read device
     echo "Installing to $device... (Enter to continue)"
     read _
-    mkdir -p /install/device
+    mkdir -p /install
     echo $device > /install/device
 fi
 
@@ -26,6 +26,9 @@ echo $hostname > /etc/hostname
 
 echo "Please enter name for regular user:"
 read username
+
+useradd -m $username
+usermod -aG wheel yigit
 
 systemctl enable fstrim.timer
 
@@ -67,6 +70,7 @@ EOF
 
 pacman --noconfirm -R vim
 pacman -S --needed --noconfirm $(cat /install/nonAUR.txt)
+
 line=1
 
 blkid | while IFS= read -r i; do
@@ -85,10 +89,6 @@ EOF
 echo "$username $hostname =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot,/usr/bin/systemctl hibernate" >> /etc/sudoers
 echo "Defaults env_reset,pwfeedback" >> /etc/sudoers
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
-
-useradd -m $username
-usermod -aG wheel yigit
 
 echo "Set password for user $username: "
 passwd $username
