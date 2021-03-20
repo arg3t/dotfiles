@@ -1,10 +1,12 @@
 #!/bin/bash
 
-if [ ! -f "/tmp/device" ]; then
+if [ ! -f "/install/device" ]; then
     echo -n "What is the install device: "
     read device
     echo "Installing to $device... (Enter to continue)"
     read _
+    mkdir -p /install/device
+    echo $device /install/device
 fi
 
 ln -sf /usr/share/zoneinfo/Europe/Istanbul /etc/localtime
@@ -63,7 +65,10 @@ HELPEOF
 }
 EOF
 
+pacman --noconfirm -R vim
+pacman -S --needed --noconfirm $(cat /install/nonAUR.txt)
 line=1
+
 blkid | while IFS= read -r i; do
     echo "$line: $i"
     ((line=line+1))
@@ -82,11 +87,8 @@ echo "Defaults env_reset,pwfeedback" >> /etc/sudoers
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 
-pacman --noconfirm -R vim
-pacman -S --needed --noconfirm $(cat /install/nonAUR.txt)
 useradd -m $username
 usermod -aG wheel yigit
-
 
 echo "Set password for user $username: "
 passwd $username
