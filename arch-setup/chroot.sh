@@ -12,6 +12,9 @@ echo "Please enter hostname: "
 read hostname
 echo $hostname > /etc/hostname
 
+echo "Please enter name for regular user:"
+read username
+
 systemctl enable fstrim.timer
 
 echo -e "127.0.0.1 localhost\n::1 localhost\n127.0.0.1 $hostname.localdomain $hostname" > /etc/hosts
@@ -66,12 +69,10 @@ EOF
 
 echo "$username $hostname =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot,/usr/bin/systemctl hibernate" >> /etc/sudoers
 echo "Defaults env_reset,pwfeedback" >> /etc/sudoers
-echo "%wheel ALL=(ALL) NOSPASSWD: ALL" >> /etc/sudoers
-
-echo "Please enter name for regular user:"
-read username
+echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 useradd -m $username
+usermod -aG wheel yigit
 echo "Set password for user $username: "
 passwd $username
 
