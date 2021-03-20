@@ -6,15 +6,20 @@ read device
 echo "Installing to $device... (Enter to continue)"
 read _
 
-# Disk wipe
-echo "[INFO]: Wiping disk"
-cryptsetup open -q --type plain -d /dev/urandom $device wipe
-dd if=/dev/zero of=/dev/mapper/wipe status=progress
-cryptsetup -q close wipe
-wipefs -a -f $device
+echo -n "Would you wipe and re-partition the disk $device?(Y/n): "
+read wipe
 
-# Run cfdisk for manual partitioning
-cfdisk $device
+if [ ! "$wipe" = "n" ]; then
+    # Disk wipe
+    echo "[INFO]: Wiping disk"
+    cryptsetup open -q --type plain -d /dev/urandom $device wipe
+    dd if=/dev/zero of=/dev/mapper/wipe status=progress
+    cryptsetup -q close wipe
+    wipefs -a -f $device
+
+    # Run cfdisk for manual partitioning
+    cfdisk $device
+fi
 
 # Create the boot partition
 echo "[INFO]: Formatting boot partition"
