@@ -1,13 +1,23 @@
 #!/bin/bash
 
+if [ ! -f "/tmp/device" ]; then
+    echo -n "What is the install device: "
+    read device
+    echo "Installing to $device... (Enter to continue)"
+    read _
+fi
+
 ln -sf /usr/share/zoneinfo/Europe/Istanbul /etc/localtime
 hwclock --systohc
 echo -e "en_US.UTF-8 UTF-8\ntr_TR.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
-curl https://blackarch.org/strap.sh > /tmp/strap.sh
-chmod +x /tmp/strap.sh
-/tmp/strap.sh
+if [ ! -f "/tmp/.blackarch" ]; then
+    curl https://blackarch.org/strap.sh > /tmp/strap.sh
+    chmod +x /tmp/strap.sh
+    /tmp/strap.sh
+    touch /tmp/.blackarch
+fi
 echo "Please enter hostname: "
 read hostname
 echo $hostname > /etc/hostname
@@ -71,8 +81,13 @@ echo "$username $hostname =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/system
 echo "Defaults env_reset,pwfeedback" >> /etc/sudoers
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
+
+pacman --noconfirm -R vim
+pacman -S --needed --noconfirm $(cat /install/nonAUR.txt)
 useradd -m $username
 usermod -aG wheel yigit
+
+
 echo "Set password for user $username: "
 passwd $username
 
@@ -80,8 +95,6 @@ sudo -u $username bash -c "git clone https://aur.archlinux.org/yay.git /tmp/yay"
 sudo -u $username bash -c "(cd /tmp/yay; makepkg -si)"
 sudo -u $username bash -c "yay -S plymouth"
 
-pacman -R vim
-pacman -S --needed --noconfirm $(cat /install/nonAUR.txt)
 refind-install
 
 
