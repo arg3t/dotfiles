@@ -7,6 +7,7 @@ export FLUTTER_HOME=~/flutter
 export TMUX_PLUGIN_MANAGER_PATH=~/.tmux/plugins
 export BORG_KEYS_DIR=~/.keys/borg
 export BROWSER=firefox-developer-edition
+export DEFAULT_RECIPIENT="yigitcolakoglu@hotmail.com"
 export EDITOR=vim
 
 # Setup PATH

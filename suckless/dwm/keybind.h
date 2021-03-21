@@ -47,7 +47,8 @@ static const char *online_class[] = {"/home/yigit/.scripts/tedportal",NULL};
 static const char *bwmenu[] = {"/home/yigit/.scripts/password_manager", NULL};
 
 
-static const char *network_manager[] = {"/home/yigit/.scripts/networkmanager_dmenu"};
+static const char *network_manager[] = {"/home/yigit/.scripts/networkmanager_dmenu", NULL};
+static const char *killall[] = {"/home/yigit/.scripts/dmenu-killall", NULL};
 static const char *mconnect[] = {"/home/yigit/.scripts/dmenu-mconnect"};
 static const char *genpwd[] = {"sh", "-c","/sbin/bw generate | xclip" };
 static const char *trackpad[] = {"/home/yigit/.scripts/toggle_touchpad.sh"};
@@ -111,6 +112,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q, 			spawn, {.v = outmenu} },
 	{ MODKEY|ShiftMask,             XK_t, 			spawn, {.v = trackpad} },
 	{ MODKEY,                       XK_x, 			spawn, {.v = lock } },
+	{ MODKEY|ShiftMask,             XK_x, 			spawn, {.v = killall } },
 	{ MODKEY,                       XK_c, 			spawn, {.v = clipmenu } },
 	{ MODKEY|ShiftMask,             XK_p,			  spawn, {.v = genpwd} },
 	{ MODKEY|ShiftMask,             XK_b,			  spawn, {.v = bluetooth } },

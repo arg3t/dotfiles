@@ -4,3 +4,6 @@
 [submodule "gtk/Tela-icon-theme"]
 	path = gtk/Tela-icon-theme
 	url = https://github.com/vinceliuice/Tela-icon-theme.git
+[submodule "misc/ranger/plugins/devicons2"]
+	path = misc/ranger/plugins/devicons2
+	url = https://github.com/cdump/ranger-devicons2.git

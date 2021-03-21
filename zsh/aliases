@@ -1,6 +1,7 @@
 #!/usr/bin/zsh
 
 alias feh="feh --scale-down --auto-zoom"
+alias cclear="$(which clear)"
 alias clear="clear && neofetch --ascii ~/.config/neofetch/ascii.txt"
 alias neofetch="neofetch --ascii ~/.config/neofetch/ascii.txt"
 alias idea="/home/yigit/.local/share/JetBrains/Toolbox/apps/IDEA-U/ch-0/201.7223.91/bin/idea.sh"
