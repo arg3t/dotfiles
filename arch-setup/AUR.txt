@@ -7,7 +7,6 @@ betterlockscreen
 bitwarden
 bitwarden-cli
 brave-bin
-canto-next-git
 checkupdates+aur
 checkupdates-aur
 cordless-bin

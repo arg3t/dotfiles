@@ -62,7 +62,6 @@ cairo
 cairomm
 calibre
 cantarell-fonts
-canto-curses
 capnproto
 capstone
 cblas

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+username=$(whoami)
 # Install packages
 echo "Running update"
 sudo pacman --noconfirm -Syu
@@ -139,11 +140,12 @@ ln -s ~/.dotfiles/zsh/profile ~/.profile
 ln -s ~/.dotfiles/mail/mutt ~/.config/mutt
 ln -s ~/.dotfiles/mail/msmtp ~/.config/msmtp
 ln -s ~/.dotfiles/mail/mbsyncrc ~/.mbsyncrc
-if [ ! -f "/var/spool/cron/yigit"]; then
-  sudo touch /var/spool/cron/yigit
-  sudo chown yigit:yigit /var/spool/cron/yigit
+if [ ! -f "/var/spool/cron$username" ]; then
+  sudo touch "/var/spool/cron/$username"
+  sudo chown yigit:yigit "/var/spool/cron/$username"
+  sudo chmod 755 "/var/spool/cron/$username"
 fi
-echo "*/8 * * * * /home/$(whoami)/.scripts/mailsync" >> /var/spool/cron/yigit
+echo "*/8 * * * * /home/$username/.scripts/mailsync" >> /var/spool/cron/yigit
 
 # Root
 sudo cp ~/.dotfiles/root/dwm.desktop /usr/share/xsessions
@@ -184,8 +186,12 @@ sudo npm i -g
 cd $prev
 
 # Install simcrop
-sudo pacman -S opencv
+sudo pacman --needed --noconfirm -S opencv
 git clone https://github.com/theFr1nge/simcrop.git /tmp/simcrop
 cd /tmp/simcrop
 sudo make install
 cd $prev
+
+if [ ! "$username" = "yigit" ]; then
+  find /home/$username -type f | xargs sed -i  "s/\/home\/yigit/\/home\/$username/g"
+fi

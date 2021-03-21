@@ -1,7 +1,7 @@
 #! /bin/sh
 
-pkill -f clipmenud 
-pkill -f "bash /sbin/clipmenud" 
+pkill -f clipmenud
+pkill -f "bash /sbin/clipmenud"
 pkill -f "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
 pkill -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 
@@ -37,13 +37,13 @@ picom --no-fading-openclose &
 firefox-developer-edition app.daily.dev&
 bitwarden-desktop &
 curl 'http://yeetclock/setcolor?R=136&G=192&B=208' &
-~/.keyboard
 xbanish -t 2000 -s &
 
 pactl upload-sample /usr/share/sounds/freedesktop/stereo/bell.oga x11-bell
 pactl load-module module-x11-bell sample=x11-bell display=$DISPLAY
 xset b 100
 xset dpms 600 600 600
+~/.keyboard
 
 dunst &
 
