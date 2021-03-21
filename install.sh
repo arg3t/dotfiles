@@ -35,6 +35,7 @@ rsync --remove-source-files -avzh --ignore-errors \
 rsync --remove-source-files -avzh --ignore-errors \
   ~/.config/htop \
   ~/.config/.profile \
+  ~/.config/.nvim \
   ~/.config/systemd \
   ~/.config/termite \
   ~/.config/zathura \
@@ -79,6 +80,7 @@ rm -rf \
 # Vim
 ln -s ~/.dotfiles/vim/vimrc ~/.vimrc
 ln -s ~/.dotfiles/vim/vim ~/.vim
+ln -s ~/.dotfiles/vim/nvim ~/.config/nvim
 
 # GTK
 ln -s ~/.dotfiles/gtk/themes ~/.themes
@@ -92,6 +94,7 @@ ln -s ~/.dotfiles/misc/dunst ~/.config/dunst
 ln -s ~/.dotfiles/misc/zathura ~/.config/zathura
 ln -s ~/.dotfiles/misc/termite/ ~/.config/termite
 ln -s ~/.dotfiles/misc/systemd ~/.config/systemd
+ln -s ~/.dotfiles/misc/ranger ~/.config/ranger
 ln -s ~/.dotfiles/misc/neofetch ~/.config/neofetch
 ln -s ~/.dotfiles/misc/profile ~/.config/.profile
 ln -s ~/.dotfiles/misc/htop ~/.config/htop
@@ -193,5 +196,5 @@ sudo make install
 cd $prev
 
 if [ ! "$username" = "yigit" ]; then
-  find /home/$username -type f | xargs sed -i  "s/\/home\/yigit/\/home\/$username/g"
+  find /home/$username/.dotfiles -type f | xargs sed -i  "s/\/home\/yigit/\/home\/$username/g"
 fi

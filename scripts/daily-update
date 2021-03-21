@@ -1,17 +1,23 @@
 #!/bin/bash
 
-hour=$(date +"%H")
+hour=$(date +"%-H")
 
-morning=11
-afternoon=19
+morning=6
+afternoon=12
+night=19
 cached=$(cat /tmp/day_cache)
 
-if [ $hour \< $morning ]; then
+if [ $hour -le $morning ]; then
   if [ ! "$cached" = "night"  ]; then
     feh --bg-fill /home/yigit/.dotfiles/backgrounds/wallpaper-shack.jpg
     echo "night" > /tmp/day_cache
   fi
-elif [ $hour \> $afternoon ]; then
+elif [ $night -le $hour ]; then
+  if [ ! "$cached" = "night"  ]; then
+    feh --bg-fill /home/yigit/.dotfiles/backgrounds/wallpaper-shack.jpg
+    echo "night" > /tmp/day_cache
+  fi
+elif [ $afternoon -le $hour ]; then
   if [ ! "$cached" = "afternoon"  ]; then
     feh --bg-fill /home/yigit/.dotfiles/backgrounds/wallpaper-sea.jpg
     echo "afternoon" > /tmp/day_cache

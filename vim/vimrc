@@ -9,6 +9,7 @@ source ~/.vim/plugin/plugins.vim
 
 " Set leader
 let mapleader = ","
+noh
 
 " Leader Mappings
 map <Leader>w :update<CR>
@@ -52,6 +53,7 @@ set incsearch                         " Show search results as you type
 set timeoutlen=1000 ttimeoutlen=0     " Remove timeout when hitting escape
 set showcmd                           " Show size of visual selection
 set t_Co=256
+set clipboard=unnamedplus
 
 " Persistent undo
 set undodir=~/.vim/undo/
