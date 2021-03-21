@@ -1,0 +1,17 @@
+#!/bin/bash
+
+source $HOME/.nextcloud
+
+rm -rf /tmp/nextcloud.out
+rm -rf /tmp/nextcloud.err
+
+for i in "${!mappings[@]}"; do
+  echo "Syncing: $i"
+  nextcloudcmd -h -u "$NEXTCLOUD_USERNAME" -p "$NEXTCLOUD_PASSWORD" \
+    "${mappings[$i]}" "$i" >> /tmp/nextcloud.out 2>> /tmp/nextcloud.err
+done
+
+echo $(date '+%R') >> $HOME/.cache/nextcloud-track
+kill -59 $(pidof dwmblocks)
+
+

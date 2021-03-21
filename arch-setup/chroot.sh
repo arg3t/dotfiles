@@ -130,5 +130,4 @@ echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers.d/wheel
 
 
 echo "SETUP COMPLETE"
-
-exit
+bash

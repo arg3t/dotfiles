@@ -103,6 +103,7 @@ ln -s ~/.dotfiles/misc/keyboard ~/.keyboard
 ln -s ~/.dotfiles/misc/mimeapps.list ~/.config/mimeapps.list
 ln -s ~/.dotfiles/misc/wakatime.cfg ~/.wakatime.cfg
 ln -s ~/.dotfiles/misc/BetterDiscord ~/.config/BetterDiscord
+ln -s ~/.dotfiles/misc/nextcloud ~/.nextcloud
 mkdir -p ~/.config/spotifyd
 ln -s ~/.dotfiles/misc/spotifyd.conf ~/.config/spotifyd/spotifyd.conf
 ln -s ~/.dotfiles/fonts ~/.fonts
@@ -149,6 +150,7 @@ if [ ! -f "/var/spool/cron$username" ]; then
   sudo chmod 755 "/var/spool/cron/$username"
 fi
 echo "*/8 * * * * /home/$username/.scripts/mailsync" >> /var/spool/cron/yigit
+echo "*/15 * * * * /home/$username/.scripts/nextcloud-sync" >> /var/spool/cron/yigit
 
 # Root
 sudo cp ~/.dotfiles/root/dwm.desktop /usr/share/xsessions
