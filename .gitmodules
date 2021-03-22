@@ -1,12 +1,12 @@
-[submodule "gtk/themes/material-ocean"]
-	path = gtk/themes/material-ocean
-	url = https://github.com/material-ocean/Gtk-Theme.git
-[submodule "gtk/Tela-icon-theme"]
-	path = gtk/Tela-icon-theme
-	url = https://github.com/vinceliuice/Tela-icon-theme.git
 [submodule "misc/ranger/plugins/devicons2"]
 	path = misc/ranger/plugins/devicons2
 	url = https://github.com/cdump/ranger-devicons2.git
 [submodule "misc/ranger/plugins/devicons"]
 	path = misc/ranger/plugins/devicons
 	url = https://github.com/cdump/ranger-devicons2
+[submodule "gtk/Tela-icon-theme"]
+	path = theming/Tela-icon-theme
+	url = https://github.com/vinceliuice/Tela-icon-theme.git
+[submodule "gtk/themes/material-ocean"]
+	path = theming/themes/material-ocean
+	url = https://github.com/material-ocean/Gtk-Theme.git
