@@ -2,7 +2,7 @@
 
 alias feh="feh --scale-down --auto-zoom"
 alias cclear="$(which clear)"
-alias clear="clear && fastfetch"
+alias clear="clear && paleofetch"
 alias neofetch="neofetch --ascii ~/.config/neofetch/ascii.txt"
 alias idea="/home/yigit/.local/share/JetBrains/Toolbox/apps/IDEA-U/ch-0/201.7223.91/bin/idea.sh"
 alias open=xdg-open
