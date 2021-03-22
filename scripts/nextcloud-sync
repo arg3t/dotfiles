@@ -11,7 +11,7 @@ for i in "${!mappings[@]}"; do
     "${mappings[$i]}" "$i" >> /tmp/nextcloud.out 2>> /tmp/nextcloud.err
 done
 
-echo $(date '+%R') >> $HOME/.cache/nextcloud-track
+echo $(date '+%R') > $HOME/.cache/nextcloud-track
 kill -59 $(pidof dwmblocks)
 
 

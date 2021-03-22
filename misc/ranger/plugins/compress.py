@@ -22,7 +22,7 @@ class compress(Command):
         if len(parts) > 1:
             au_flags = [' '.join(parts[1:])]
         else:
-            au_flags = [os.path.basename(self.fm.thisdir.path) + '.zip']
+            au_flags = [os.path.basename(self.fm.thisdir.path) + '.tar.gz']
 
         # Making description line
         files_num = len(marked_files)

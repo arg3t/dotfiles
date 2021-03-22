@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ ! -f "$HOME/.cache/neofetch" ]; then
+  mkdir -p "$HOME/.cache"
+  touch "$HOME/.cache/neofetch"
+  neofetch --ascii ~/.config/neofetch/ascii.txt > "$HOME/.cache/neofetch"
+fi
+
+cat "$HOME/.cache/neofetch"
+

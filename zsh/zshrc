@@ -1,5 +1,5 @@
 eval "$(direnv hook zsh)" >> /tmp/direnv
-neofetch --ascii ~/.config/neofetch/ascii.txt
+fastfetch
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -9,8 +9,8 @@ source ~/.profile
 source <(antibody init)
 
 HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=100000
+SAVEHIST=100000
 setopt appendhistory
 
 #Autocompletion
@@ -39,7 +39,7 @@ source ~/.cmds
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=241'
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=241,bold'
 export KEYTIMEOUT=5
 
 # added by travis gem

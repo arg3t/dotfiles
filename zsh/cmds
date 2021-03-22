@@ -29,14 +29,14 @@ colors() {
         fi
         echo -en "$color:$space\\033[38;5;${color}myeet\\033[48;5;${color}mworld\\033[0m"
         echo -n "  "
-        if [[ $count == 10 ]]
+        if [[ $count == 7 ]]
         then
             echo -en "\n";
             count=-1
         fi
         ((color++));
         ((count++))
-    done  
+    done
     echo ""
 }
 

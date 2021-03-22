@@ -1,7 +1,7 @@
 #!/bin/bash
 
 for d in */ ; do
-  echo "Building in $d..."
+  echo "Building in $d"
   cd $d
   sudo make install
   if [ $? -ne 0 ]; then

@@ -7,3 +7,6 @@
 [submodule "misc/ranger/plugins/devicons2"]
 	path = misc/ranger/plugins/devicons2
 	url = https://github.com/cdump/ranger-devicons2.git
+[submodule "misc/ranger/plugins/devicons"]
+	path = misc/ranger/plugins/devicons
+	url = https://github.com/cdump/ranger-devicons2

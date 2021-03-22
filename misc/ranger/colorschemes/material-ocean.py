@@ -5,17 +5,24 @@ from __future__ import (absolute_import, division, print_function)
 
 from ranger.gui.colorscheme import ColorScheme
 from ranger.gui.color import (
-    black, blue, cyan, green, magenta, red, white, yellow, default,
-    normal, bold, reverse, dim, BRIGHT,
-    default_colors,
+    default, normal, bold, reverse, dim, BRIGHT, default_colors,
 )
 
 
+black = 16
+blue = 32
+cyan = 50
+green = 47
+magenta = 141
+red = 9
+white = 255
+yellow =227
+
 class Default(ColorScheme):
-    progress_bar_color = blue
+    progress_bar_color = 87
 
     def use(self, context):  # pylint: disable=too-many-branches,too-many-statements
-        fg, bg, attr = default_colors
+        fg, bg, attr = 231, black, bold
 
         if context.reset:
             return default_colors
@@ -39,22 +46,18 @@ class Default(ColorScheme):
             if context.directory:
                 attr |= bold
                 fg = blue
-                fg += BRIGHT
             elif context.executable and not \
                     any((context.media, context.container,
                          context.fifo, context.socket)):
                 attr |= bold
                 fg = green
-                fg += BRIGHT
             if context.socket:
                 attr |= bold
                 fg = magenta
-                fg += BRIGHT
             if context.fifo or context.device:
                 fg = yellow
                 if context.device:
                     attr |= bold
-                    fg += BRIGHT
             if context.link:
                 fg = cyan if context.good else magenta
             if context.tag_marker and not context.selected:
@@ -63,11 +66,9 @@ class Default(ColorScheme):
                     fg = white
                 else:
                     fg = red
-                fg += BRIGHT
             if not context.selected and (context.cut or context.copied):
                 attr |= bold
                 fg = black
-                fg += BRIGHT
                 # If the terminal doesn't support bright colors, use dim white
                 # instead of black.
                 if BRIGHT == 0:
@@ -111,16 +112,13 @@ class Default(ColorScheme):
             if context.marked:
                 attr |= bold | reverse
                 fg = yellow
-                fg += BRIGHT
             if context.frozen:
                 attr |= bold | reverse
                 fg = cyan
-                fg += BRIGHT
             if context.message:
                 if context.bad:
                     attr |= bold
                     fg = red
-                    fg += BRIGHT
             if context.loaded:
                 bg = self.progress_bar_color
             if context.vcsinfo:
