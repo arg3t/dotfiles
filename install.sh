@@ -84,7 +84,8 @@ ln -s ~/.dotfiles/vim/nvim ~/.config/nvim
 
 # GTK
 ln -s ~/.dotfiles/gtk/themes ~/.themes
-ln -s ~/.dotfiles/gtk/gtk-2.0 ~/.config/gtk-2.0
+ln -s ~/.dotfiles/gtk/gtkrc-2.0 ~/.gtkrc-2.0
+ln -s ~/.dotfiles/gtk/gtk-3.0 ~/.config/gtk-2.0
 ln -s ~/.dotfiles/gtk/gtk-3.0 ~/.config/gtk-3.0
 ln -s ~/.dotfiles/gtk/gtk-4.0 ~/.config/gtk-4.0
 ~/.dotfiles/gtk/Tela-icon-theme/install.sh
@@ -93,6 +94,7 @@ ln -s ~/.dotfiles/gtk/gtk-4.0 ~/.config/gtk-4.0
 ln -s ~/.dotfiles/misc/dunst ~/.config/dunst
 ln -s ~/.dotfiles/misc/zathura ~/.config/zathura
 ln -s ~/.dotfiles/misc/termite/ ~/.config/termite
+ln -s ~/.dotfiles/misc/vdirsyncer ~/.vdirsyncer
 ln -s ~/.dotfiles/misc/systemd ~/.config/systemd
 ln -s ~/.dotfiles/misc/ranger ~/.config/ranger
 ln -s ~/.dotfiles/misc/neofetch ~/.config/neofetch
@@ -104,6 +106,7 @@ ln -s ~/.dotfiles/misc/mimeapps.list ~/.config/mimeapps.list
 ln -s ~/.dotfiles/misc/wakatime.cfg ~/.wakatime.cfg
 ln -s ~/.dotfiles/misc/BetterDiscord ~/.config/BetterDiscord
 ln -s ~/.dotfiles/misc/nextcloud ~/.nextcloud
+ln -s ~/.dotfiles/misc/calcurse ~/.calcurse
 mkdir -p ~/.config/spotifyd
 ln -s ~/.dotfiles/misc/spotifyd.conf ~/.config/spotifyd/spotifyd.conf
 ln -s ~/.dotfiles/fonts ~/.fonts
@@ -151,6 +154,8 @@ if [ ! -f "/var/spool/cron$username" ]; then
 fi
 echo "*/8 * * * * /home/$username/.scripts/mailsync" >> /var/spool/cron/yigit
 echo "*/15 * * * * /home/$username/.scripts/nextcloud-sync" >> /var/spool/cron/yigit
+echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/yigit
+echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/yigit
 
 # Root
 sudo cp ~/.dotfiles/root/dwm.desktop /usr/share/xsessions

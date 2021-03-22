@@ -1,8 +1,17 @@
 #! /bin/sh
 
 icon=
+events=$(calcurse -a | grep -- '->' | wc -l)
+if [ ! "$events" = "0" ]; then
+  events="($events) "
+fi
 
 cmd=$(date +"%h %e")
 
 #echo "$ifg $icon $tfg$cmd"
-echo -n "^c#0f111a^^b#88c0d0^ $icon $cmd ^d^"
+echo -n "^c#0f111a^^b#88c0d0^ $icon $events$cmd ^d^"
+
+case $BLOCK_BUTTON in
+          1) setsid -f st -c center -n center -e calcurse;;
+esac
+

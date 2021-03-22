@@ -6,3 +6,4 @@ mail/msmtp/config
 misc/spotifyd.conf
 misc/wakatime.cfg
 misc/nextcloud
+misc/calcurse/caldav/config
