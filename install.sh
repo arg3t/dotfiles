@@ -83,12 +83,13 @@ ln -s ~/.dotfiles/vim/vim ~/.vim
 ln -s ~/.dotfiles/vim/nvim ~/.config/nvim
 
 # GTK
-ln -s ~/.dotfiles/gtk/themes ~/.themes
-ln -s ~/.dotfiles/gtk/gtkrc-2.0 ~/.gtkrc-2.0
-ln -s ~/.dotfiles/gtk/gtk-3.0 ~/.config/gtk-2.0
-ln -s ~/.dotfiles/gtk/gtk-3.0 ~/.config/gtk-3.0
-ln -s ~/.dotfiles/gtk/gtk-4.0 ~/.config/gtk-4.0
-~/.dotfiles/gtk/Tela-icon-theme/install.sh
+ln -s ~/.dotfiles/theming/themes ~/.themes
+ln -s ~/.dotfiles/theming/qt5ct ~/.config/qt5ct
+ln -s ~/.dotfiles/theming/gtkrc-2.0 ~/.gtkrc-2.0
+ln -s ~/.dotfiles/theming/gtk-3.0 ~/.config/gtk-2.0
+ln -s ~/.dotfiles/theming/gtk-3.0 ~/.config/gtk-3.0
+ln -s ~/.dotfiles/theming/gtk-4.0 ~/.config/gtk-4.0
+~/.dotfiles/theming/Tela-icon-theme/install.sh
 
 # Miscellaneous
 ln -s ~/.dotfiles/misc/dunst ~/.config/dunst
