@@ -38,7 +38,7 @@ echo "on" > ~/.cache/dunst
 echo "on" > ~/.cache/screensaver
 dbus-update-activation-environment --systemd DISPLAY
 picom --no-fading-openclose &
-firefox-developer-edition app.daily.dev&
+brave &
 bitwarden-desktop &
 curl 'http://yeetclock/setcolor?R=136&G=192&B=208' &
 xbanish -t 2000 -s &

@@ -1,6 +1,13 @@
 #!/bin/bash
 
 username=$(whoami)
+
+# Configuring for your username
+
+if [ ! "$username" = "yigit" ]; then
+  find /home/$username/.dotfiles -type f | xargs sed -i  "s/\/home\/yigit/\/home\/$username/g"
+fi
+
 # Install packages
 echo "Running update"
 sudo pacman --noconfirm -Syu
@@ -153,7 +160,7 @@ if [ ! -f "/var/spool/cron$username" ]; then
   sudo chown yigit:yigit "/var/spool/cron/$username"
   sudo chmod 755 "/var/spool/cron/$username"
 fi
-echo "COMMAND firefox-developer-edition" > ~/.urlview
+echo "COMMAND brave" > ~/.urlview
 echo "*/8 * * * * /home/$username/.scripts/mailsync" >> /var/spool/cron/yigit
 echo "*/15 * * * * /home/$username/.scripts/nextcloud-sync" >> /var/spool/cron/yigit
 echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/yigit
@@ -162,16 +169,26 @@ echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/yigit
 # Root
 sudo cp ~/.dotfiles/root/dwm.desktop /usr/share/xsessions
 sudo cp ~/.dotfiles/root/nancyj.flf /usr/share/figlet/fonts
+sudo cp ~/.dotfiles/quark.service /usr/lib/systemd/system
+sudo systemctl daemon-reload
+sudo systemctl enable quark
 
 # Config
 cp ~/.dotfiles/config.env.def ~/.config.env
 
 # Firefox
 firefox-developer-edition -CreateProfile "yeet"
-cp -r ~/.dotfiles/firefox/flyingfox/* ~/.mozilla/firefox/*.yeet
-cp -r ~/.dotfiles/firefox/extensions ~/.mozilla/firefox/*.yeet
-cp ~/.dotfiles/firefox/extensions.json ~/.mozilla/firefox/*.yeet
+cp -r ~/.dotfiles/browser/flyingfox/* ~/.mozilla/firefox/*.yeet
+cp -r ~/.dotfiles/browser/extensions ~/.mozilla/firefox/*.yeet
+cp ~/.dotfiles/browser/extensions.json ~/.mozilla/firefox/*.yeet
 
+# Start page
+
+prev=$(pwd)
+cd ~/.dotfiles/browser/startpage
+npm install
+npm run build
+cd $prev
 ~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)
 
 # Install vim and tmux plugins
@@ -203,7 +220,3 @@ git clone https://github.com/theFr1nge/simcrop.git /tmp/simcrop
 cd /tmp/simcrop
 sudo make install
 cd $prev
-
-if [ ! "$username" = "yigit" ]; then
-  find /home/$username/.dotfiles -type f | xargs sed -i  "s/\/home\/yigit/\/home\/$username/g"
-fi

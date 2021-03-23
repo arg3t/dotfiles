@@ -7,6 +7,7 @@ static const Rule rules[] = {
 	 */
 	RULE(.class = "discord", .tags = 1 << 8)
 	RULE(.class = "firefoxdeveloperedition", .tags = 1 << 1)
+	RULE(.class = "Brave-browser", .tags = 1 << 1)
 	RULE(.class = "tabbed-surf", .tags = 1 << 1)
 	RULE(.class = "tabbed", .tags = 1 << 1)
 	RULE(.class = "bitwarden", .tags = 1 << 6)

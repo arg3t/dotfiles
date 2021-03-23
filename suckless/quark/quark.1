@@ -1,0 +1,137 @@
+.Dd 2020-09-27
+.Dt QUARK 1
+.Os suckless.org
+.Sh NAME
+.Nm quark
+.Nd simple static web server
+.Sh SYNOPSIS
+.Nm
+.Fl p Ar port
+.Op Fl h Ar host
+.Op Fl u Ar user
+.Op Fl g Ar group
+.Op Fl s Ar num
+.Op Fl t Ar num
+.Op Fl d Ar dir
+.Op Fl l
+.Op Fl i Ar file
+.Oo Fl v Ar vhost Oc ...
+.Oo Fl m Ar map Oc ...
+.Nm
+.Fl U Ar file
+.Op Fl p Ar port
+.Op Fl u Ar user
+.Op Fl g Ar group
+.Op Fl s Ar num
+.Op Fl t Ar num
+.Op Fl d Ar dir
+.Op Fl l
+.Op Fl i Ar file
+.Oo Fl v Ar vhost Oc ...
+.Oo Fl m Ar map Oc ...
+.Sh DESCRIPTION
+.Nm
+is a simple HTTP GET/HEAD-only web server for static content.
+It supports virtual hosts (see
+.Fl v ) ,
+explicit redirects (see
+.Fl m ) ,
+directory listings (see
+.Fl l ) ,
+conditional "If-Modified-Since"-requests (RFC 7232), range requests
+(RFC 7233) and well-known URIs (RFC 8615), while refusing to serve
+hidden files and directories.
+.Sh OPTIONS
+.Bl -tag -width Ds
+.It Fl d Ar dir
+Serve
+.Ar dir
+after chrooting into it.
+The default is ".".
+.It Fl g Ar group
+Set group ID when dropping privileges, and in socket mode the group of the
+socket file, to the ID of
+.Ar group .
+The default is "nogroup".
+.It Fl h Ar host
+Use
+.Ar host
+as the server hostname.
+The default is the loopback interface (i.e. localhost).
+.It Fl i Ar file
+Set
+.Ar file
+as the directory index.
+The default is "index.html".
+.It Fl l
+Enable directory listing.
+.It Fl m Ar map
+Add the URI prefix mapping rule specified by
+.Ar map ,
+which has the form
+.Qq Pa from to [chost] ,
+where each element is separated with spaces (0x20) that can be
+escaped with '\\'.
+.Pp
+The prefix
+.Pa from
+of all matching URIs is replaced with
+.Pa to ,
+optionally limited to the canonical virtual host
+.Pa chost .
+If no virtual hosts are given,
+.Pa chost
+is ignored.
+.It Fl p Ar port
+In host mode, listen on port
+.Ar port
+for incoming connections.
+In socket mode, use
+.Ar port
+for constructing proper virtual host
+redirects on non-standard ports.
+.It Fl U Ar file
+Create the UNIX-domain socket
+.Ar file ,
+listen on it for incoming connections and remove it on exit.
+.It Fl s Ar num
+Set the number of connection slots per worker thread to
+.Ar num .
+The default is 64.
+.It Fl t Ar num
+Set the number of worker threads to
+.Ar num .
+The default is 4.
+.It Fl u Ar user
+Set user ID when dropping privileges,
+and in socket mode the user of the socket file,
+to the ID of
+.Ar user .
+The default is "nobody".
+.It Fl v Ar vhost
+Add the virtual host specified by
+.Ar vhost ,
+which has the form
+.Qq Pa chost regex dir [prefix] ,
+where each element is separated with spaces (0x20) that can be
+escaped with '\\'.
+.Pp
+A request matching the virtual host regular expression
+.Pa regex
+(see
+.Xr regex 3 )
+is redirected to the canonical host
+.Pa chost ,
+if they differ, using the directory
+.Pa dir
+as the root directory, optionally prefixing the URI with
+.Pa prefix .
+If any virtual hosts are specified, all requests on non-matching
+hosts are discarded.
+.El
+.Sh CUSTOMIZATION
+.Nm
+can be customized by creating a custom config.h from config.def.h and
+(re)compiling the source code. This keeps it fast, secure and simple.
+.Sh AUTHORS
+.An Laslo Hunhold Aq Mt dev@frign.de
