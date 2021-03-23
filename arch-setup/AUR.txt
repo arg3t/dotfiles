@@ -73,7 +73,7 @@ vue-cli
 wallabag-client
 wd719x-firmware
 whatsapp-nativefier-dark
-xbanish
+xbanish-timeout-git
 xchat-se
 xkb-switch
 xkblayout-state-git
