@@ -19,7 +19,9 @@ xrdb  ~/.Xresources &
 if [ "$NEXTCLOUD" = true ] ; then
   nextcloud --background &
 fi
+mkdir -p ~/Downloads/neomutt
 if [ "$MCONNECT" = true ] ; then
+    mkdir -p ~/Downloads/mconnect
     (cd ~/Downloads/mconnect; mconnect -d > /tmp/mconnect 2> /tmp/mconnect.err &)
 fi
 if [ "$ACTIVITYWATCHER" = true ] ; then

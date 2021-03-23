@@ -12,6 +12,7 @@ ramp70=
 ramp80=
 ramp90=
 ramp100=
+ac_bat=
 ac=ﮣ
 if [ "$NO_BAT" = true ] ; then
     echo "^c#ebcb8b^$ac^d^"
@@ -20,7 +21,7 @@ else
     export status=$(cat /sys/class/power_supply/BAT0/status)
     export plugged=$(cat /sys/class/power_supply/AC/online)
     if [[ $plugged == "1" ]]; then
-        echo "^c#ebcb8b^$ac^d^"
+        echo "^c#ebcb8b^$ac_bat^d^ $bat%"
     elif [[ $bat -lt 10 ]]; then
         echo "^c#ebcb8b^$ramp10^d^ $bat% "
     elif [[ $bat -lt 20 ]]; then

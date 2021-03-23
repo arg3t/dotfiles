@@ -21,6 +21,7 @@ map <Leader>h :History<CR>
 
 " CtrlP use FZF (faster!)
 nnoremap <C-p> :Files<Cr>
+noremap <leader>u :w<Home>silent <End> !urlview<CR>
 
 syntax on
 filetype plugin on
@@ -151,4 +152,5 @@ if has('nvim')
 endif
 
 command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> - |fmt -csw78
+autocmd VimLeave * call system("xsel -ib", getreg('+'))
 packadd termdebug

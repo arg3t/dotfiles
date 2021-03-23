@@ -4,6 +4,8 @@ icon=
 events=$(calcurse -a | grep -- '->' | wc -l)
 if [ ! "$events" = "0" ]; then
   events="($events) "
+else
+  events=""
 fi
 
 cmd=$(date +"%h %e")

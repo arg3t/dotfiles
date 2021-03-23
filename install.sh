@@ -153,6 +153,7 @@ if [ ! -f "/var/spool/cron$username" ]; then
   sudo chown yigit:yigit "/var/spool/cron/$username"
   sudo chmod 755 "/var/spool/cron/$username"
 fi
+echo "COMMAND firefox-developer-edition" > ~/.urlview
 echo "*/8 * * * * /home/$username/.scripts/mailsync" >> /var/spool/cron/yigit
 echo "*/15 * * * * /home/$username/.scripts/nextcloud-sync" >> /var/spool/cron/yigit
 echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/yigit
