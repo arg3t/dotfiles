@@ -169,7 +169,9 @@ echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/yigit
 # Root
 sudo cp ~/.dotfiles/root/dwm.desktop /usr/share/xsessions
 sudo cp ~/.dotfiles/root/nancyj.flf /usr/share/figlet/fonts
-sudo cp ~/.dotfiles/quark.service /usr/lib/systemd/system
+sudo cp ~/.dotfiles/root/quark.service /usr/lib/systemd/system
+sudo cp ~/.dotfiles/root/kdialog /usr/local/bin/kdialog
+sudo chmod +x /usr/local/bin/kdialog
 sudo systemctl daemon-reload
 sudo systemctl enable quark
 

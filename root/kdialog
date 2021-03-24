@@ -1,0 +1,36 @@
+#!/bin/sh
+
+for ((i=1;i<=$#;i++));
+do
+
+    if [ ${!i} = "--getsavefilename" ]
+    then ((i++))
+	    filename=${!i};
+    fi
+    
+    if [ ${!i} = "--version" ] 
+    then
+            echo "someversion" 
+            exit 
+    fi
+
+done;
+
+path=$( echo ${filename%/*} )
+file=$( echo ${filename##/*/} )
+
+rm /tmp/ranger-chrome-choosed
+st -c ranger -n ranger -e "ranger" -t file-chooser-ranger
+selected=$(cat /tmp/ranger-chrome-choosed 2> /dev/null)
+if [ ! $? = 0 ]
+then
+	exit 1
+fi
+
+if [ -d $selected ]
+then
+	echo "$selected$file"
+else
+	echo $selected
+fi
+

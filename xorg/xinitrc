@@ -4,6 +4,7 @@ pkill -f clipmenud
 pkill -f "bash /sbin/clipmenud"
 pkill -f "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
 pkill -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+rm -rf /tmp/day_cache
 
 source ~/.config.env
 eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
@@ -38,7 +39,7 @@ echo "on" > ~/.cache/dunst
 echo "on" > ~/.cache/screensaver
 dbus-update-activation-environment --systemd DISPLAY
 picom --no-fading-openclose &
-brave &
+brave-start &
 bitwarden-desktop &
 curl 'http://yeetclock/setcolor?R=136&G=192&B=208' &
 xbanish -t 2000 -s &

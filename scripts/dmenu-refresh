@@ -17,7 +17,8 @@ items="dwm
 dwmblocks
 mconnect
 dunst
-clipmenud"
+clipmenud
+quark"
 
 # Open menu
 selection=$(printf '%s' "$items" | $DMENU)
@@ -42,6 +43,9 @@ case $selection in
 	dunst)
 		kill -9 $(pidof dunst)
 		dunst &
+		;;
+	quark)
+		sudo systemctl restart quark
 		;;
 esac
 

@@ -9,7 +9,7 @@ progname="$(expr "${0}" : '.*/\([^/]*\)')"
 
 #variables are impractical to save complex cmds because of shell expantion
 #therefore functions are required: http://mywiki.wooledge.org/BashFAQ/050
-DMENU() { dmenu -p 'Kill'; }
+DMENU() { dmenu -i -p 'Kill'; }
 #looks better on xft powered dmenu:
 #https://bugs.launchpad.net/ubuntu/+source/suckless-tools/+bug/1093745
 

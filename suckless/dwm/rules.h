@@ -26,17 +26,18 @@ static const Rule rules[] = {
 	RULE(.class = "Spotify", .tags = 1 << 9)
 	RULE(.instance = "spterm", .tags = SPTAG(0), .isfloating = 1)
 	RULE(.class = "spfeh", .tags = SPTAG(1), .isfloating = 1)
+	/* Terminal Window Rules */
 	RULE(.instance = "spmutt", .tags = SPTAG(2), .isfloating = 1)
 	RULE(.class = "ranger", 0, .isfloating = 1, .floatpos="50% 50% 800W 560H")
-	RULE(.class = "vim", 0, .isfloating = 1, .floatpos="50% 50% 800W 560H")
+	RULE(.class = "vim", 0, .isfloating = 1, .floatpos="50% 50% 1000W 700H")
 	RULE(.class = "stpulse", 0, .isfloating = 1, .floatpos="50% 50% 800W 560H")
 	RULE(.class = "mpv", 0, .isfloating = 1, .floatpos="100% 1% 600W 350H")
 	RULE(.instance = "sxiv", 0, .isfloating = 1, .floatpos="100% 1% 600W 350H")
 	RULE(.class = "neomutt-send", 0, .isfloating = 1, .floatpos="50% 50% 1000W 700H")
 	RULE(.class = "Zathura", 0, .isfloating = 1, .floatpos="100% 50% 700W 1000H")
-	RULE(.class = "weather", 0, .isfloating = 1, .floatpos="50% 50% 1200W 800H") // Why did I put this here?
-	RULE(.class = "center", 0, .isfloating = 1, .floatpos="50% 50% 1000W 600H") // Why did I put this here?
-	RULE(.class = "htop", 0, .isfloating = 1, .floatpos="50% 50% 1200W 600H") // Why did I put this here?
+	RULE(.class = "weather", 0, .isfloating = 1, .floatpos="50% 50% 1200W 800H")
+	RULE(.class = "center", 0, .isfloating = 1, .floatpos="50% 50% 1000W 600H")
+	RULE(.class = "htop", 0, .isfloating = 1, .floatpos="50% 50% 1200W 600H")
 	RULE(.title = "SimCrop", 0, .isfloating = 1, .floatpos="50% 50% 800W 500H") 
 
 };
