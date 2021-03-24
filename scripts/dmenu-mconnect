@@ -114,7 +114,7 @@ show_menu () {
 			fi
 	    mconnectctl share-url "$2" "$message";;
 	*'Send Text' ) 
-	    message=$(echo 'Clipboard' | dmenu -i -p "Enter Url:")
+	    message=$(echo 'Clipboard' | dmenu -i -p "Enter Text:")
 			if [ "$message" = "Clipboard" ]; then
 				message=$(sselp)
 			fi

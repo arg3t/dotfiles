@@ -158,7 +158,7 @@
     dmenu = /usr/bin/dmenu -p dunst:
     
     # Browser for opening urls in context menu.
-    browser = brave-start
+    browser = firefox-developer-edition
 
     # Align icons left/right/off
     icon_position = left
@@ -189,7 +189,7 @@
      history = shift+mod4+h 
     
     # Context menu.
-    context = shift+mod4+space
+    context = shift+mod1+space
 
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.

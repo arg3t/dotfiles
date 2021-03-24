@@ -1,6 +1,7 @@
 #! /bin/sh
 
 pkill -f clipmenud
+pkill -f dunst
 pkill -f "bash /sbin/clipmenud"
 pkill -f "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
 pkill -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
@@ -15,6 +16,7 @@ clipmenud > /tmp/clipmenud.out 2> /tmp/clipmenud.err &
 rm -f ~/.surf/tabbed-surf.xid
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 ~/.scripts/daily-update
+~/.keyboard > /tmp/keyboard.out 2> /tmp/keyboard.err
 xrdb  ~/.Xresources &
 ~/.scripts/mailsync &
 if [ "$NEXTCLOUD" = true ] ; then
@@ -48,7 +50,6 @@ pactl upload-sample /usr/share/sounds/freedesktop/stereo/bell.oga x11-bell
 pactl load-module module-x11-bell sample=x11-bell display=$DISPLAY
 xset b 100
 xset dpms 600 600 600
-~/.keyboard > /tmp/keyboard.out 2> /tmp/keyboard.err
 
 dunst &
 
