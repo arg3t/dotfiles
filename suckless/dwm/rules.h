@@ -22,7 +22,7 @@ static const Rule rules[] = {
 	RULE(.class = "Sublime_Text", .tags = 1 << 2)
 	RULE(.class = "code-oss", .tags = 1 << 2)
 	RULE(.class = "jetbrains-idea", .tags = 1 << 2)
-	RULE(.class = "Nemo", .tags = 1 << 3)
+	RULE(.class = "Nemo", .isfloating = 1, .floatpos="50% 50% 1200W 800H")
 	RULE(.class = "Spotify", .tags = 1 << 9)
 	RULE(.instance = "spterm", .tags = SPTAG(0), .isfloating = 1)
 	RULE(.class = "spfeh", .tags = SPTAG(1), .isfloating = 1)

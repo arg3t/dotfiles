@@ -7,7 +7,8 @@
  */
 static char *font = "CaskaydiaCove Nerd Font Mono:pixelsize=16:antialias=true:autohint=true";
 static char *font2[] = {
-    "JoyPixels:pixelsize=14:antialias=true:autohint=true",
+//    "JoyPixels:pixelsize=14:antialias=true:autohint=true",
+    "Symbola:pixelsize=16:antialias=true:autohint=true",
 };
 char *iso14755_cmd = "dmenu -p codepoint: </dev/null";
 
