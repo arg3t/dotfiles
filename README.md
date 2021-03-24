@@ -1,6 +1,8 @@
 # Fr1nge's Dotfiles
 
-Welcome to my dungeon. Here, I keep all my configuration files in case I have a stroke and lose all my memory. You're very welcome to explore and use anything in this repository. Have fun!
+Welcome to my dungeon. Here, I keep all my configuration files in case I have a stroke an
+d lose all my memory. You're very welcome to explore and use anything in this repository. 
+Have fun! Another copy of all of this is [here](https://git.yigitcolakoglu.com/yigitcolakoglu/dotfiles).
 
 ## My Setup: 
 
