@@ -42,11 +42,11 @@ case "$(uname)" in
 		displays="$(pgrep -a X\(org\|wayland\) | grep -wo "[0-9]*:[0-9]\+" | sort -u)"
 	    	notify() { for x in $displays; do
 				export DISPLAY=$x
-				notify-send --app-name="mutt-wizard" "mutt-wizard" "📬 $2 new mail(s) in \`$1\` account."
+				notify-send --app-name="mutt-wizard" "📧mutt-wizard" "$(echo $2 | xargs) new mail(s) in \`$1\` account."
 			done ;}
 		messageinfo() { for x in $displays; do
 				export DISPLAY=$x
-				notify-send --app-name="mutt-wizard" "📧$from:" "$subject"
+				notify-send --app-name="mutt-wizard" "📧$from:" "$subject"
 			done ;}
 		;;
 esac
