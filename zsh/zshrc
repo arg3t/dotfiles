@@ -71,6 +71,11 @@ function x11-clip-wrap-widgets() {
     done
 }
 
+# Better completion
+zstyle ':completion:*' matcher-list '' \
+  'm:{a-z\-}={A-Z\_}' \
+  'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
+  'r:|?=** m:{a-z\-}={A-Z\_}'
 
 local copy_widgets=(
     vi-yank vi-yank-eol vi-delete vi-backward-kill-word vi-change-whole-line
@@ -79,5 +84,6 @@ local paste_widgets=(
     vi-put-{before,after}
 )
 
+# Use X11 Clipboard
 x11-clip-wrap-widgets copy $copy_widgets
 x11-clip-wrap-widgets paste  $paste_widgets
