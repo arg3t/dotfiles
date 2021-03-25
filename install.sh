@@ -118,6 +118,13 @@ ln -s ~/.dotfiles/misc/calcurse ~/.calcurse
 mkdir -p ~/.config/spotifyd
 ln -s ~/.dotfiles/misc/spotifyd.conf ~/.config/spotifyd/spotifyd.conf
 ln -s ~/.dotfiles/fonts ~/.fonts
+prev=$(pwd)
+cd ~/.dotfiles/fonts
+wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/CascadiaCode/Regular/complete/Caskaydia%20Cove%20Regular%20Nerd%20Font%20Complete.otf> /dev/null 2> /dev/null
+wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/CascadiaCode/Regular/complete/Caskaydia%20Cove%20Regular%20Nerd%20Font%20Complete%20Mono.otf> /dev/null 2> /dev/null
+wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/CascadiaCode/Bold/complete/Caskaydia%20Cove%20Bold%20Nerd%20Font%20Complete.otf> /dev/null 2> /dev/null
+wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/CascadiaCode/Bold/complete/Caskaydia%20Cove%20Bold%20Nerd%20Font%20Complete%20Mono.otf> /dev/null 2> /dev/null
+cd $prev
 fc-cache
 
 # Applications
