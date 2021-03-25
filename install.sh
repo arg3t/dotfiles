@@ -105,6 +105,7 @@ ln -s ~/.dotfiles/misc/termite/ ~/.config/termite
 ln -s ~/.dotfiles/misc/vdirsyncer ~/.vdirsyncer
 ln -s ~/.dotfiles/misc/systemd ~/.config/systemd
 ln -s ~/.dotfiles/misc/ranger ~/.config/ranger
+ln -s ~/.dotfiles/misc/lf ~/.config/lf
 ln -s ~/.dotfiles/misc/neofetch ~/.config/neofetch
 ln -s ~/.dotfiles/misc/profile ~/.config/.profile
 ln -s ~/.dotfiles/misc/htop ~/.config/htop

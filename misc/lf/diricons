@@ -1,0 +1,234 @@
+# -*- mode: conf-space -*- icon config file for [[https://github.com/gokcehan/lf/wiki/Icons][lf]] using mostly [[https://www.nerdfonts.com/cheat-sheet][nerdfonts]].
+
+## Basic File Types
+tw 
+st 
+ow 
+dt 
+di 
+fi 
+ln 
+or 
+ex 
+
+## Misc
+.config          
+webpack.config.* 
+
+## Full Matches
+README         
+LICENSE        
+.DS_Store      
+.Dockerfile    
+CMakeLists.txt 
+.gitlab-ci.yml 
+
+## Extension Associations
+*.git     
+*.edn     
+*.pdf     
+*.db      
+*.hs      
+*.vim     
+*.org     
+*.frm     
+*.myd     
+*.myi     
+*.mkd     
+*.ddf     
+*.sqlite  
+*.bib     
+*.part    
+*.torrent 
+*.url     
+*.link    
+*.ass     
+*.srt     
+*.nfo     
+*.psb     
+*.psd     
+*.xlsx    
+
+## Languages
+*.c      
+*.cpp    
+*.cc     
+*.h      
+*.hh     
+*.hpp    
+*.css    
+*.scss   
+*.el     
+*.clj    
+*.py     
+*.rb     
+*.go     
+*.html   
+*.java   
+*.md     
+*.json   
+*.sc     
+*.scala  
+*.php    
+*.rs     
+*.js     
+*.ts     
+*.kts    
+*.gradle 
+*.rss    參
+
+## Shells and Command Interpreters
+*.bash 
+*.cmd  
+*.fish 
+*.ps1  
+*.sh   
+*.zsh  
+
+## Archives
+*.7z   
+*.ace  
+*.alz  
+*.arc  
+*.arj  
+*.bz2  
+*.bz   
+*.cab  
+*.cpio 
+*.deb  
+*.dwm  
+*.dz   
+*.ear  
+*.esd  
+*.gz   
+*.jar  
+*.lha  
+*.lrz  
+*.lz4  
+*.lz   
+*.lzh  
+*.lzma 
+*.lzo  
+*.rar  
+*.rpm  
+*.rz   
+*.sar  
+*.swm  
+*.t7z  
+*.tar  
+*.taz  
+*.tbz2 
+*.tbz  
+*.tgz  
+*.tlz  
+*.txz  
+*.tz   
+*.tzo  
+*.tzst 
+*.war  
+*.wim  
+*.xz   
+*.z    
+*.zip  
+*.zoo  
+*.zst  
+
+## Music
+*.aac  
+*.mp3  
+*.alac 
+*.flac 
+*.m4a  
+*.wav  
+*.webm 
+*.mka  
+*.mid  
+*.midi 
+
+## Video
+*.avi  
+*.m2v  
+*.m4v  
+*.mkv  
+*.mov  
+*.mp4  
+*.mp4v 
+
+## Image
+*.asf   
+*.au    
+*.bmp   
+*.cgm   
+*.dl    
+*.emf   
+*.flc   
+*.fli   
+*.flv   
+*.gif   
+*.gl    
+*.jpeg  
+*.jpg   
+*.mjpeg 
+*.mjpg  
+*.mng   
+*.mpc   
+*.mpeg  
+*.mpg   
+*.nuv   
+*.oga   
+*.ogg   
+*.ogm   
+*.ogv   
+*.ogx   
+*.opus  
+*.pbm   
+*.pcx   
+*.pgm   
+*.png   
+*.ppm   
+*.qt    
+*.ra    
+*.rm    
+*.rmvb  
+*.spx   
+*.svg   
+*.svgz  
+*.tga   
+*.tif   
+*.tiff  
+*.vob   
+*.wmv   
+*.xbm   
+*.xcf   
+*.xpm   
+*.xspf  
+*.xwd   
+*.yuv   
+
+## Directories
+.git/           
+.github/        
+.config/        
+node_modules/   
+games/          
+steam/          
+
+### Home Directories
+# ~/downloads/    
+~/media/videos/ ﳜ
+~/media/images/ 
+~/media/music/  
+~/.steam/       
+~/.wine/        
+~/.dotfiles/    
+~/.mozilla/     
+~/.tor-browser/ 
+
+### XDG Stuff
+# ~/user/         
+# ~/prog/         
+# ~/multi/        
+# ~/OS/           
+
+# TODO
+# 

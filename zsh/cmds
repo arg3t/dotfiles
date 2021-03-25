@@ -116,4 +116,3 @@ tmate-unpair() {
     echo "Session already killed"
   fi
 }
-

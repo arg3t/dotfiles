@@ -23,3 +23,13 @@ export PATH=$ANDROID_HOME/platform-tools:$PATH
 export PATH=$FLUTTER_HOME/bin:$PATH
 export PATH="/home/yigit/.scripts:/home/yigit/.local/bin:/home/yigit/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:/home/yigit/.local/bin:$PATH"
 export CPATH=/usr/include/opencv4
+
+# LF Icons
+LF_ICONS=$(sed ~/.config/lf/diricons \
+            -e '/^[ \t]*#/d'       \
+            -e '/^[ \t]*$/d'       \
+            -e 's/[ \t]\+/=/g'     \
+            -e 's/$/ /')
+LF_ICONS=${LF_ICONS//$'\n'/:}
+
+export LF_ICONS
