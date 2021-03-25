@@ -1,10 +1,11 @@
 #!/bin/zsh
 getargs() {
-  while getopts "se" opt
+  while getopts "set" opt
   do
     case $opt in
       s) start="true";;
       e) end="true";;
+      t) toggle="true";;
     esac
   done
 }
@@ -18,10 +19,21 @@ end_dnd() {
   echo "on" > ~/.cache/screensaver
   notify-send "Screensaver on.";
 }
+
+toggle_dnd() {
+  if [ $(cat ~/.cache/screensaver) = "on" ]; then
+    start_dnd
+  else
+    end_dnd
+  fi
+}
+
 main() {
   getargs "$@";
   [[ "$start" ]] && start_dnd;
   [[ "$end" ]] && end_dnd;
+  [[ "$toggle" ]] && toggle_dnd;
   kill -53 $(pidof dwmblocks)
 }
+
 main "$@"

@@ -3,7 +3,7 @@
 stats=$(<~/.cache/screensaver)
 
 if [ "$stats" = "off" ]; then
-  echo "^c#a48ead^ ^d^"
+  echo "^c#a48ead^零 ^d^"
 else
-  echo "^c#a48ead^ ^d^"
+  echo "^c#a48ead^鈴 ^d^"
 fi

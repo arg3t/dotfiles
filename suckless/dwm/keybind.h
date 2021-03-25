@@ -35,13 +35,11 @@ static const char *screenshot[] = { "scrot", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e",
 static const char *windowshot[] = { "scrot", "-u", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send \"SNAP\" \"$f\"", NULL };
 static const char *simcrop[] = {"simcrop","-fc","-sc", "-g", "900x500",NULL};
 
-static const char *notification_off[] = {"/home/yigit/.scripts/dunst_toggle.sh","-s",NULL};
-static const char *notification_on[] = {"/home/yigit/.scripts/dunst_toggle.sh", "-e",NULL};
+static const char *notification[] = {"/home/yigit/.scripts/dunst_toggle.sh", "-t",NULL};
 
 static const char *screen_off[] = {"xset", "dpms", "force", "off", NULL};
 
-static const char *screensaver_off[] = {"/home/yigit/.scripts/screensaver_toggle","-s",NULL};
-static const char *screensaver_on[] = {"/home/yigit/.scripts/screensaver_toggle", "-e",NULL};
+static const char *screensaver[] = {"/home/yigit/.scripts/screensaver_toggle", "-t",NULL};
 
 static const char *online_class[] = {"/home/yigit/.scripts/tedportal",NULL};
 
@@ -73,11 +71,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = tmuxcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_i,      spawn,          {.v = screensaver_off} },
-	{ MODKEY|ShiftMask,             XK_i,      spawn,          {.v = screensaver_on } },
+	{ MODKEY|ShiftMask,	            XK_i,      spawn,          {.v = screensaver} },
 	{ MODKEY|ShiftMask,             XK_o,      spawn,          {.v = screen_off } },
-	{ MODKEY,                       XK_n,      spawn,          {.v = notification_off} },
-	{ MODKEY|ShiftMask,             XK_n,      spawn,          {.v = notification_on } },
+	{ MODKEY|ShiftMask,             XK_n,      spawn,          {.v = notification } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
