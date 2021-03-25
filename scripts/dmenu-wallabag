@@ -1,0 +1,52 @@
+#!/bin/bash
+
+
+itemcache="${XDG_DATA_HOME:-$HOME/.cache}/wallabag-dmenu"
+
+DMENU=${DMENU:-dmenu}
+
+usage() {
+    cat <<-EOF
+	usage: dmenu-wallabag [-lah]
+	     -l List Entries
+	     -a Add an entry
+	     -h Print help
+	EOF
+
+}
+
+update_items(){
+    [ "$(date -r "$itemcache" "+%d-%m-%Y")" = "$(date '+%d-%m-%Y')" ] ||
+        wallabag list | head -n -1 | tail -n +2 > $itemcache
+}
+
+list_entries() {
+    update_items
+    items="$(cat $itemcache)"
+    selection=$(echo -e "$items\n~SYNC~" | dmenu -l 10 -p "Choose an article:")
+    if [ "$selection" = "~SYNC~" ]; then
+        wallabag list | head -n -1 | tail -n +2 > $itemcache
+        items="$(cat $itemcache)"
+        selection=$(echo "$items" | dmenu -l 10 -p "Choose an article:")
+    fi
+    selection=$(echo "$selection" | cut -d" " -f1)
+    wallabag update --read $selection
+    wallabag open $selection
+    wallabag list | head -n -1 | tail -n +2 > $itemcache
+}
+
+add_entry() {
+    url=$(echo -n "" | dmenu -p "Enter URL:")
+    wallabag add $url
+    wallabag list | head -n -1 | tail -n +2 > $itemcache
+}
+
+while getopts ':lah' opt; do
+    case "$opt" in
+        l) list_entries ;;
+        a) add_entry ;;
+        h) usage && exit;;
+        /?) echo "Unrecognized command: $OPTARG";;
+    esac
+done
+

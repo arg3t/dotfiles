@@ -48,6 +48,9 @@ static const char *online_class[] = {"/home/yigit/.scripts/tedportal",NULL};
 static const char *bwmenu[] = {"/home/yigit/.scripts/password_manager", NULL};
 
 
+static const char *wallabag_read[] = {"/home/yigit/.scripts/dmenu-wallabag", "-l",NULL};
+static const char *wallabag_add[] = {"/home/yigit/.scripts/dmenu-wallabag", "-a", NULL};
+
 static const char *network_manager[] = {"/home/yigit/.scripts/networkmanager_dmenu", NULL};
 static const char *killall[] = {"/home/yigit/.scripts/dmenu-killall", NULL};
 static const char *mconnect[] = {"/home/yigit/.scripts/dmenu-mconnect"};
@@ -135,6 +138,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Print, spawn, {.v = windowshot  } },
 	{ MODKEY|ShiftMask, 						XK_e, spawn, {.v = simcrop } },
 	{ MODKEY,                       XK_u, spawn, {.v = url} },
+	{ MODKEY,                       XK_w, spawn, {.v = wallabag_read} },
+	{ MODKEY|ShiftMask,             XK_w, spawn, {.v = wallabag_add} },
 	{ MODKEY,                       XK_g, spawn, {.v = google} },
 	{ MODKEY|ShiftMask,							XK_c, spawn, {.v = online_class} },
 	{ MODKEY|ShiftMask,							XK_m, spawn, {.v = mconnect} },

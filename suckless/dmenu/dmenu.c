@@ -551,10 +551,10 @@ keypress(XKeyEvent *ev)
 		case XK_bracketleft:
 			cleanup();
 			exit(1);
-		case XK_h: ksym = XK_Up;    break;
-		case XK_j: ksym = XK_Next;  break;
-		case XK_k: ksym = XK_Prior; break;
-		case XK_l: ksym = XK_Down;  break;
+		case XK_h: ksym = XK_Prior;    break;
+		case XK_j: ksym = XK_Down;  break;
+		case XK_k: ksym = XK_Up; break;
+		case XK_l: ksym = XK_Next;  break;
 		default:
 			return;
 		}
