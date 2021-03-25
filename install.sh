@@ -178,6 +178,7 @@ sudo cp ~/.dotfiles/root/dwm.desktop /usr/share/xsessions
 sudo cp ~/.dotfiles/root/nancyj.flf /usr/share/figlet/fonts
 sudo cp ~/.dotfiles/root/quark.service /usr/lib/systemd/system
 sudo cp ~/.dotfiles/root/kdialog /usr/local/bin/kdialog
+sudo cp ~/.dotfiles/root/udevil.conf /etc/udevil/udevil.conf
 sudo chmod +x /usr/local/bin/kdialog
 sudo systemctl daemon-reload
 sudo systemctl enable quark

@@ -2,9 +2,11 @@
 
 pkill -f clipmenud
 pkill -f dunst
+pkill -9 devmon
 pkill -f "bash /sbin/clipmenud"
 pkill -f "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
 pkill -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+pkill -f devmon
 rm -rf /tmp/day_cache
 
 source ~/.config.env
@@ -52,6 +54,11 @@ xset b 100
 xset dpms 600 600 600
 
 dunst &
+
+
+~/.scripts/devmon --exec-on-drive "/sbin/notify-send ' Drive Mounted' '%l (%f) at %d '" \
+    --exec-on-remove "/sbin/notify-send ' Drive Removed' '%l (%f) from %d '" \
+    --exec-on-unmount  "/sbin/notify-send ' Drive Unmounted' '%l (%f) from %d '" &
 
 touch ~/.cache/dwm-restart
 while [ -f /home/yigit/.cache/dwm-restart ];

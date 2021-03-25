@@ -29,6 +29,9 @@ list_entries() {
         items="$(cat $itemcache)"
         selection=$(echo "$items" | dmenu -l 10 -p "Choose an article:")
     fi
+    if [ "$selection" = "" ]; then
+        exit
+    fi
     selection=$(echo "$selection" | cut -d" " -f1)
     wallabag update --read $selection
     wallabag open $selection
@@ -37,6 +40,9 @@ list_entries() {
 
 add_entry() {
     url=$(echo -n "" | dmenu -p "Enter URL:")
+    if [ "$url" = "" ]; then
+        exit
+    fi
     wallabag add $url
     wallabag list | head -n -1 | tail -n +2 > $itemcache
 }

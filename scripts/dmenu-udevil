@@ -51,7 +51,8 @@ dmenu_mnt() {
         msg=$(cat $TMP)
     else
         udevil --verbose $udevil_cmd "$path" > "$TMP" 2>&1
-        msg=$(grep "umount: " "$TMP" | cut -c '9-')
+        #msg=$(grep "umount: " "$TMP" | cut -c '9-')
+        msg=""
     fi
 
     exitc=$?

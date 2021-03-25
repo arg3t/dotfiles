@@ -7,7 +7,7 @@
 # it in your browser of choice.
 
 # Edit here to change what browser you open links in
-browser="firefox-developer-edition"
+browser="brave"
 
 usage() {
     echo "Usage: $0 [OPTIONS] [ELVIS [SEARCHTERM]]
@@ -46,6 +46,10 @@ answerB=$(echo "${@:2}")
 # If both the first prompt and second prompt are not empty, it will finally open
 # the search in surfraw
 action=$(echo "" | $menu -p "$answerA ")
+
+if [ "$action" = "" ]; then
+    exit
+fi
 
 surfraw -browser=$browser $answerA $action
 

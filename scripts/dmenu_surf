@@ -9,5 +9,5 @@ selection=$(echo "" | dmenu -p "Enter URL")
 
 if [ ! -z "$selection" ]
 then
-  firefox-developer-edition $selection
+  brave-start $selection
 fi

@@ -44,6 +44,12 @@ case $selection in
 		kill -9 $(pidof dunst)
 		dunst &
 		;;
+	devmon)
+		pkill -f devmon
+		~/.scripts/devmon --exec-on-drive "/sbin/notify-send ' Drive Mounted' '%l (%f) at %d '" \
+				--exec-on-remove "/sbin/notify-send ' Drive Removed' '%l (%f) from %d '" \
+				--exec-on-unmount  "/sbin/notify-send ' Drive Unmounted' '%l (%f) from %d '" &
+		;;
 	quark)
 		sudo systemctl restart quark
 		;;
