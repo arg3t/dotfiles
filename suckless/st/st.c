@@ -724,10 +724,11 @@ sigchld(int a)
 		die("waiting for pid %hd failed: %s\n", pid, strerror(errno));
 
 	if (pid != p) {
-		if (p == 0 && wait(&stat) < 0)
+		if (p == 0 && waitpid(-1 ,&stat, WNOHANG) < 0)
+			/* Changed from wait(&stat) to waitpid(-1, &stat, WNOHANG) */
+			/* Otherwise the terminal would hang after calling iso4755 */
 			die("wait: %s\n", strerror(errno));
 
-		/* reinstall sigchld handler */
 		signal(SIGCHLD, sigchld);
 		return;
 	}
