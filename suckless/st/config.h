@@ -192,6 +192,11 @@ static MouseShortcut mshortcuts[] = {
 /* Internal keyboard shortcuts. */
 #define MODKEY Mod1Mask
 #define TERMMOD (ControlMask|ShiftMask)
+#define ALTMOD (Mod1Mask|ShiftMask)
+
+static char *openurlcmd[] = { "/bin/sh", "-c", "/home/yigit/.scripts/st-urlhandler -o", "externalpipe", NULL };
+static char *copyurlcmd[] = { "/bin/sh", "-c", "/home/yigit/.scripts/st-urlhandler -c", "externalpipe", NULL };
+static char *copyoutput[] = { "/bin/sh", "-c", "/home/yigit/.scripts/st-copyout", "externalpipe", NULL };
 
 static unsigned int cursorstyle = 1;
 static Rune stcursor = 0x2603; /* snowman (U+2603) */
@@ -209,8 +214,17 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_V,           clippaste,      {.i =  0} },
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
-	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
-	{ TERMMOD,              XK_I,           iso14755,       {.i =  0} },
+	{ ALTMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
+	{ ALTMOD,              XK_I,           iso14755,       {.i =  0} },
+	{ ALTMOD,              XK_Up,          zoom,           {.f = +1} },
+	{ ALTMOD,              XK_Down,        zoom,           {.f = -1} },
+	{ ALTMOD,              XK_K,           zoom,           {.f = +1} },
+	{ ALTMOD,              XK_J,           zoom,           {.f = -1} },
+	{ ALTMOD,              XK_U,           zoom,           {.f = +2} },
+	{ ALTMOD,              XK_D,           zoom,           {.f = -2} },
+	{ MODKEY,               XK_l,           externalpipe,   {.v = openurlcmd } },
+	{ MODKEY,               XK_y,           externalpipe,   {.v = copyurlcmd } },
+	{ MODKEY,               XK_o,           externalpipe,   {.v = copyoutput } },
 };
 
 /*

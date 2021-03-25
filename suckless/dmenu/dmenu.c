@@ -36,8 +36,9 @@ struct item {
 	double distance;
 };
 
-static int hplength = 0;
 
+static int hplength = 0;
+static char **hpitems;
 static char text[BUFSIZ] = "";
 static char *embed;
 static int bh, mw, mh;
@@ -65,7 +66,7 @@ static int (*fstrncmp)(const char *, const char *, size_t) = strncmp;
 static char *(*fstrstr)(const char *, const char *) = strstr;
 
 static char**
-tokenize(char *source, const char *delim, int *llen) {
+tokenize(char *source, char *delim, int *llen) {
 	int listlength = 0;
 	char **list = malloc(1 * sizeof(char*));
 	char *token = strtok(source, delim);
@@ -514,19 +515,16 @@ keypress(XKeyEvent *ev)
 		case XK_e: ksym = XK_End;       break;
 		case XK_f: ksym = XK_Right;     break;
 		case XK_g: ksym = XK_Escape;    break;
-		case XK_h: ksym = XK_BackSpace; break;
 		case XK_i: ksym = XK_Tab;       break;
-		case XK_j: /* fallthrough */
 		case XK_J: /* fallthrough */
 		case XK_m: /* fallthrough */
 		case XK_M: ksym = XK_Return; ev->state &= ~ControlMask; break;
 		case XK_n: ksym = XK_Down;      break;
 		case XK_p: ksym = XK_Up;        break;
-
-		case XK_k: /* delete right */
-			text[cursor] = '\0';
-			match();
-			break;
+		case XK_V:
+			XConvertSelection(dpy, (ev->state & ShiftMask) ? clip : XA_PRIMARY,
+			                  utf8, utf8, win, CurrentTime);
+			return;
 		case XK_u: /* delete left */
 			insert(NULL, 0 - cursor);
 			break;
@@ -536,8 +534,8 @@ keypress(XKeyEvent *ev)
 			while (cursor > 0 && !strchr(worddelimiters, text[nextrune(-1)]))
 				insert(NULL, nextrune(-1) - cursor);
 			break;
-		case XK_y: /* paste selection */
-		case XK_Y:
+		case XK_Y: /* paste selection */
+		case XK_y:
 			XConvertSelection(dpy, (ev->state & ShiftMask) ? clip : XA_PRIMARY,
 			                  utf8, utf8, win, CurrentTime);
 			return;
@@ -553,6 +551,10 @@ keypress(XKeyEvent *ev)
 		case XK_bracketleft:
 			cleanup();
 			exit(1);
+		case XK_h: ksym = XK_Up;    break;
+		case XK_j: ksym = XK_Next;  break;
+		case XK_k: ksym = XK_Prior; break;
+		case XK_l: ksym = XK_Down;  break;
 		default:
 			return;
 		}
@@ -947,8 +949,9 @@ main(int argc, char *argv[])
 			colors[SchemeSelHighlight][ColBg] = argv[++i];
 		else if (!strcmp(argv[i], "-shf")) /* selected hi foreground color */
 			colors[SchemeSelHighlight][ColFg] = argv[++i];
-		else if (!strcmp(argv[i], "-hp"))
+		else if (!strcmp(argv[i], "-hp")){
 			hpitems = tokenize(argv[++i], ",", &hplength);
+		}
 		else
 			usage();
 

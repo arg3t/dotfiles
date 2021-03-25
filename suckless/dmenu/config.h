@@ -17,7 +17,6 @@ static unsigned int lines      = 0;
 static int dmx = 10; /* put dmenu at this x offset */
 static int dmy = 10; /* put dmenu at this y offset (measured from the bottom if topbar is 0) */
 static unsigned int dmw = 1900; /* make dmenu this wide */
-static char **hpitems = {"firefox-developer-edition", "st"};
 
 /*
  * Characters not considered part of a word while deleting words
