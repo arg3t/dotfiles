@@ -9,7 +9,7 @@ static char *font = "CaskaydiaCove Nerd Font Mono:pixelsize=16:antialias=true:au
 static char *font2[] = {
     "Symbola:pixelsize=16:antialias=true:autohint=true",
 };
-char *iso14755_cmd = "dmenu -p codepoint: </dev/null";
+char *iso14755_cmd = "dmenu -w \"$WINDOWID\" -p codepoint: </dev/null";
 
 static int borderpx = 2;
 
