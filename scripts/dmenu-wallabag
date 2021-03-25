@@ -16,7 +16,7 @@ usage() {
 }
 
 update_items(){
-    [ "$(date -r "$itemcache" "+%d-%m-%Y")" = "$(date '+%d-%m-%Y')" ] ||
+    [ "$(date -r "$itemcache" "+%d-%m-%Y %H")" = "$(date '+%d-%m-%Y') %H" ] ||
         wallabag list | head -n -1 | tail -n +2 > $itemcache
 }
 
