@@ -38,5 +38,6 @@ You might want to edit your crontab and the ~/.config.env.
 
 * [X] Neomutt further config
 * [X] Dwmblocks entry for tracking last mailsync time
+* Fix ISO4755 and externalpipe conflict
 * [ ] Better documentation
 * [X] Dmenu for restarting certain processes like dwm, dwmblocks, dunst, mconnect
