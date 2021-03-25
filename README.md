@@ -29,10 +29,10 @@ After the clone process, it is pretty straightforward, you can run the `install.
 You might want to edit your crontab and the ~/.config.env.
 ## Some eye candy
 
-![Workspace 1](screenshots/neofetch.png) 
-![Workspace 2](screenshots/brave.png) 
-![Workspace 4](screenshots/ranger.png) 
-![neomutt](screenshots/mail.png) 
+![Workspace 1](https://minio.yigitcolakoglu.com/screenshots/rice/neofetch.png) 
+![Workspace 2](https://minio.yigitcolakoglu.com/screenshots/rice/brave.png) 
+![Workspace 4](https://minio.yigitcolakoglu.com/screenshots/rice/ranger.png) 
+![neomutt](https://minio.yigitcolakoglu.com/screenshots/rice/mail.png) 
 
 ## TODOS
 
