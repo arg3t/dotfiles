@@ -56,9 +56,10 @@ xset dpms 600 600 600
 dunst &
 
 
-~/.scripts/devmon --exec-on-drive "/sbin/notify-send ' Drive Mounted' '%l (%f) at %d '" \
-    --exec-on-remove "/sbin/notify-send ' Drive Removed' '%l (%f) from %d '" \
-    --exec-on-unmount  "/sbin/notify-send ' Drive Unmounted' '%l (%f) from %d '" &
+~/.scripts/devmon --exec-on-drive "/sbin/notify-send '禍  drive mounted' '%l (%f) at %d '" \
+    --exec-on-remove "/sbin/notify-send '禍  drive removed' '%l (%f) from %d '" \
+    --exec-on-unmount  "/sbin/notify-send '禍  drive unmounted' '%l (%f) from %d '" \
+    --no-unmount --no-gui &
 
 touch ~/.cache/dwm-restart
 while [ -f /home/yigit/.cache/dwm-restart ];
