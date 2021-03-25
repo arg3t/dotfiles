@@ -118,12 +118,20 @@ ln -s ~/.dotfiles/misc/calcurse ~/.calcurse
 mkdir -p ~/.config/spotifyd
 ln -s ~/.dotfiles/misc/spotifyd.conf ~/.config/spotifyd/spotifyd.conf
 ln -s ~/.dotfiles/fonts ~/.fonts
+
 prev=$(pwd)
+
 cd ~/.dotfiles/fonts
 wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Regular%20Nerd%20Font%20Complete.otf > /dev/null 2> /dev/null
 wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Regular%20Nerd%20Font%20Complete%20Mono.otf > /dev/null 2> /dev/null
 wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Bold%20Nerd%20Font%20Complete.otf > /dev/null 2> /dev/null
 wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Bold%20Nerd%20Font%20Complete%20Mono.otf > /dev/null 2> /dev/null
+
+cd ~/.dotfiles/backgrounds
+wget https://minio.yigitcolakoglu.com/dotfiles/lock.jpg > /dev/null 2> /dev/null
+wget https://minio.yigitcolakoglu.com/dotfiles/wallpaper-mountain.jpg > /dev/null 2> /dev/null
+wget https://minio.yigitcolakoglu.com/dotfiles/wallpaper-sea.jpg > /dev/null 2> /dev/null
+wget https://minio.yigitcolakoglu.com/dotfiles/wallpaper-shack.jpg > /dev/null 2> /dev/null
 cd $prev
 fc-cache
 
