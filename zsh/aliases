@@ -4,7 +4,6 @@ alias feh="feh --scale-down --auto-zoom"
 alias cclear="$(which clear)"
 alias clear="clear && paleofetch"
 alias neofetch="neofetch --ascii ~/.config/neofetch/ascii.txt"
-alias idea="/home/yigit/.local/share/JetBrains/Toolbox/apps/IDEA-U/ch-0/201.7223.91/bin/idea.sh"
 alias open=xdg-open
 alias rm="rm -i"
 alias clip="xclip -selection clipboard"
@@ -19,10 +18,6 @@ alias yay="yay --sudoloop"
 # Suffix aliases
 alias -g G=" | rg" 
 alias gshh="gcloud cloud-shell ssh --authorize-session"
-
-# YeetClock
-alias light="curl 'http://yeetclock/setcolor?R=136&G=192&B=208'"
-alias lights_off="curl 'http://yeetclock/setcolor?R=2000&G=10&B=000&O=0'"
 
 # Git
 alias ga="git add"

@@ -9,10 +9,10 @@ then
     exit
 fi
 
-sudo wget -O /usr/bin/jsteg https://github.com/lukechampine/jsteg/releases/download/v0.1.0/jsteg-linux-amd64 > /dev/null 2> /dev/null
+sudo wget -O /usr/bin/jsteg https://minio.yigitcolakoglu.com/dotfiles/jsteg-linux-amd64 > /dev/null 2> /dev/null
 sudo chmod +x /usr/bin/jsteg
 
-sudo wget -O /usr/bin/slink https://github.com/lukechampine/jsteg/releases/download/v0.2.0/slink-linux-amd64 > /dev/null 2> /dev/null
+sudo wget -O /usr/bin/slink https://minio.yigitcolakoglu.com/dotfiles/slink-linux-amd64 > /dev/null 2> /dev/null
 sudo chmod +x /usr/bin/slink
 
 ~/.scripts/jsteg reveal $loc > /tmp/out.zip.gpg

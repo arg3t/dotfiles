@@ -10,11 +10,11 @@ getargs() {
 }
 start_dnd() {
   echo "off" > ~/.cache/dunst
-  notify-send "DUNST_COMMAND_PAUSE";
+  dunstctl set-paused false
 }
 end_dnd() {
   echo "on" > ~/.cache/dunst
-  notify-send "DUNST_COMMAND_RESUME";
+  dunstctl set-paused true
   notify-send "Do Not Disturb" "Do Not Disturb mode ended. Notifications will be shown.";
 }
 main() {
