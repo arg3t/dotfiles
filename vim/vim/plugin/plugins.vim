@@ -23,6 +23,7 @@ Plug 'blarghmatey/split-expander'
 Plug 'farmergreg/vim-lastplace'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
+
 "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'sheerun/vim-polyglot'
 Plug 'M4R7iNP/vim-inky'
@@ -36,27 +37,12 @@ Plug 'yegappan/taglist'
 Plug 'ryanoasis/vim-devicons'
 Plug 'puremourning/vimspector'
 Plug 'lervag/vimtex'
-Plug 'gi1242/vim-tex-autoclose'
-" Plug 'ActivityWatch/aw-watcher-vim'
 Plug 'wakatime/vim-wakatime'
 Plug 'gu-fan/riv.vim'
 Plug 'gu-fan/InstantRst'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'isene/hyperlist.vim'
 Plug 'neomutt/neomutt.vim'
-
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-"
-" if has('nvim')
-"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"   Plug 'Shougo/deoplete.nvim'
-"   Plug 'roxma/nvim-yarp'
-"   Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-" let g:deoplete#enable_at_startup = 1
-
 
 " Tmux integration
 Plug 'benmills/vimux'
@@ -75,16 +61,14 @@ Plug 'tpope/vim-endwise'
 Plug 'elzr/vim-json'
 Plug 'tpope/vim-markdown'
 Plug 'vim-scripts/cool.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 " Plug 'groenewege/vim-less'
-" Plug 'tpope/vim-haml'
-" Plug 'pangloss/vim-javascript'
-" Plug 'mxw/vim-jsx'
-" Plug 'jparise/vim-graphql'
 Plug 'leafgarland/typescript-vim'
 Plug 'arrufat/vala.vim'
 
 " Syntax errors
-" Plug 'vim-syntastic/syntastic'
+Plug 'vim-syntastic/syntastic'
 Plug 'ntpeters/vim-better-whitespace'
 
 " Git support

@@ -85,8 +85,14 @@ tmate-attach() {
 
 
 tmate-pair() {
+  if [ -z "$TMATE_API_KEY" ]; then
+    echo "You need an api key."
+    return
+  fi
+
   if [ ! -e "$TMATE_SOCKET_LOCATION" ]; then
     tmate -k $TMATE_API_KEY -r "sharedProgramming" -S "$TMATE_SOCKET_LOCATION" -f "$HOME/.tmate.conf" new-session -d -s "$TMATE_PAIR_NAME"
+    tmate -S $TMATE_SOCKET_LOCATION display -p '#{tmate_ssh_ro}'
 
     while [ -z "$url" ]; do
       url="$(tmate -S $TMATE_SOCKET_LOCATION display -p '#{tmate_ssh_ro}')"

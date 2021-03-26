@@ -94,3 +94,6 @@ local paste_widgets=(
 x11-clip-wrap-widgets copy $copy_widgets
 x11-clip-wrap-widgets paste  $paste_widgets
 
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/mc mc
