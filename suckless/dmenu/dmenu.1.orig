@@ -38,8 +38,6 @@ dmenu \- dynamic menu
 .IR color ]
 .RB [ \-w
 .IR windowid ]
-.RB [ \-it
-.IR text ]
 .P
 .BR dmenu_run " ..."
 .SH DESCRIPTION
@@ -134,9 +132,6 @@ prints version information to stdout, then exits.
 .TP
 .BI \-w " windowid"
 embed into windowid.
-.TP
-.BI \-it " text".
-start with initial text input.
 .SH USAGE
 dmenu is completely controlled by the keyboard.  Items are selected using the
 arrow keys, page up, page down, home, and end.

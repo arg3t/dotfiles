@@ -1032,10 +1032,6 @@ main(int argc, char *argv[])
 		else if (!strcmp(argv[i], "-hp")){
 			hpitems = tokenize(argv[++i], ",", &hplength);
 		}
-		else if (!strcmp(argv[i], "-it")) {   /* embedding window id */
-			const char * text = argv[++i];
-			insert(text, strlen(text));
-		}
 		else
 			usage();
 
