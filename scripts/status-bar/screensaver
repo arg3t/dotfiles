@@ -7,3 +7,8 @@ if [ "$stats" = "off" ]; then
 else
   echo "^c#a48ead^鈴 ^d^"
 fi
+
+
+case $BLOCK_BUTTON in
+          1) ~/.scripts/screensaver_toggle -t;;
+esac

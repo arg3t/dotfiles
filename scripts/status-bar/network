@@ -5,7 +5,7 @@ source ~/.config.env
 is_eth_used=$(cat /sys/class/net/${ETH_IT}/carrier)
 is_wlan_used=$(cat /sys/class/net/${WLAN_IT}/carrier)
 
-echo -n "^c#88c0d0^" 
+echo -n "^c#88c0d0^"
 
 if  [ "$is_eth_used" -eq 1 ]; then    # wired network is carrying
       icon="  ^d^ " #uF6FF
@@ -16,3 +16,7 @@ if  [ "$is_eth_used" -eq 1 ]; then    # wired network is carrying
 fi
 
 echo -n $icon
+
+case $BLOCK_BUTTON in
+          1) ~/.scripts/networkmanager_dmenu;;
+esac

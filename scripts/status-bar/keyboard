@@ -3,3 +3,8 @@
 layout=$(xkb-switch -p | cut -d "(" -f1)
 
 echo -n "^c#a3be8c^ ^d^$layout"
+
+
+case $BLOCK_BUTTON in
+          1) ~/.scripts/kbmap_toggle;;
+esac

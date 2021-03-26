@@ -3,7 +3,7 @@
 layout=$(xkb-switch -p)
 
 if [ "$layout" = "tr" ]; then
-  xkb-switch -s "us(altgr-intl)"
+  xkb-switch -s "us"
   notify-send "Keyboard layout switched to us"
 else
   xkb-switch -s "tr"

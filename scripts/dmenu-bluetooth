@@ -242,7 +242,7 @@ show_menu() {
         discoverable=$(discoverable_on)
         divider="---------"
 
-        # Options passed to dmenu 
+        # Options passed to dmenu
         options="$devices\n$divider\n$power\n$scan\n$pairable\n$discoverable"
     else
         power="Power: off"
@@ -288,3 +288,5 @@ case "$1" in
         show_menu
         ;;
 esac
+
+kill -60 $(pidof dwmblocks)
