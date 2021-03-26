@@ -21,7 +21,8 @@
 #include "util.h"
 
 /* macros */
-#define OPAQUE 0xFFU
+#define OPAQUE 0xffU
+#define OPACITY               "_NET_WM_WINDOW_OPACITY"
 #define INTERSECT(x,y,w,h,r)  (MAX(0, MIN((x)+(w),(r).x_org+(r).width)  - MAX((x),(r).x_org)) \
                              * MAX(0, MIN((y)+(h),(r).y_org+(r).height) - MAX((y),(r).y_org)))
 #define LENGTH(X)             (sizeof X / sizeof X[0])
@@ -85,13 +86,11 @@ xinitvisual()
 		.depth = 32,
 		.class = TrueColor
 	};
-
 	long masks = VisualScreenMask | VisualDepthMask | VisualClassMask;
 
 	infos = XGetVisualInfo(dpy, masks, &tpl, &nitems);
 	visual = NULL;
-
-	for (i = 0; i < nitems; i++){
+	for(i = 0; i < nitems; i ++) {
 		fmt = XRenderFindVisualFormat(dpy, infos[i].visual);
 		if (fmt->type == PictTypeDirect && fmt->direct.alphaMask) {
 			visual = infos[i].visual;
@@ -110,7 +109,6 @@ xinitvisual()
 		cmap = DefaultColormap(dpy, screen);
 	}
 }
-
 
 static char**
 tokenize(char *source, char *delim, int *llen) {
@@ -211,7 +209,8 @@ drawhighlights(struct item *item, int x, int y, int maxw)
 	                   ? SchemeSelHighlight
 	                   : SchemeNormHighlight]);
 	for (i = 0, highlight = item->text; *highlight && text[i];) {
-		if (*highlight == text[i]) {
+		if (!fstrncmp(&(*highlight), &text[i], 1))
+		{
 			/* get indentation */
 			c = *highlight;
 			*highlight = '\0';
@@ -235,7 +234,6 @@ drawhighlights(struct item *item, int x, int y, int maxw)
 	}
 }
 
-
 static int
 drawitem(struct item *item, int x, int y, int w)
 {
@@ -251,6 +249,7 @@ drawitem(struct item *item, int x, int y, int w)
 
 	r = drw_text(drw, x, y, w, bh, lrpad / 2, item->text, 0);
 	drawhighlights(item, x, y, w);
+	/* TODO Fix Alpha conflict with drawhighlights */
 	return r;
 }
 
@@ -894,7 +893,7 @@ setup(void)
 
 	/* create menu window */
 	swa.override_redirect = True;
-	swa.background_pixel = scheme[SchemeNorm][ColBg].pixel;
+	swa.background_pixel = 0;
 	swa.border_pixel = 0;
 	swa.colormap = cmap;
 	swa.event_mask = ExposureMask | KeyPressMask | VisibilityChangeMask;

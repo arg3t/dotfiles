@@ -11,13 +11,17 @@ static const char *colors[SchemeLast][2] = {
 };
 
 
-static const unsigned int bgalpha = 0xFF;
-static const unsigned int fgalpha = OPAQUE;
+static double opacity = 1.0;                /* -o  option; defines alpha translucency */
+
+static const unsigned int baralpha = 0xFF;
+static const unsigned int borderalpha = OPAQUE;
 
 
-static const unsigned int alphas[SchemeLast][2] = {
-	/*		fgalpha		bgalphga	*/
-	[SchemeNorm] = { fgalpha, bgalpha },
-	[SchemeSel] = { fgalpha, bgalpha },
-	[SchemeOut] = { fgalpha, bgalpha },
+static const unsigned int alphas[][3]      = {
+	/*               fg      bg        border     */
+	[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
+	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
+	[SchemeOut] = { OPAQUE, baralpha, borderalpha },
+	[SchemeNormHighlight] = { OPAQUE, baralpha, borderalpha },
+	[SchemeSelHighlight] = { OPAQUE, baralpha, borderalpha },
 };
