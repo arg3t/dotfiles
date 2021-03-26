@@ -195,14 +195,7 @@ sudo systemctl enable quark
 # Config
 cp ~/.dotfiles/config.env.def ~/.config.env
 
-# Firefox
-firefox-developer-edition -CreateProfile "yeet"
-cp -r ~/.dotfiles/browser/flyingfox/* ~/.mozilla/firefox/*.yeet
-cp -r ~/.dotfiles/browser/extensions ~/.mozilla/firefox/*.yeet
-cp ~/.dotfiles/browser/extensions.json ~/.mozilla/firefox/*.yeet
-
 # Start page
-
 prev=$(pwd)
 cd ~/.dotfiles/browser/startpage
 npm install
