@@ -1,0 +1,14 @@
+#!/bin/bash
+
+stats=$(<~/.cache/screensaver)
+
+if [ "$stats" = "off" ]; then
+  echo "^c#a48ead^零 ^d^"
+else
+  echo "^c#a48ead^鈴 ^d^"
+fi
+
+
+case $BLOCK_BUTTON in
+          1) ~/.local/share/scripts/screensaver_toggle -t;;
+esac

@@ -1,0 +1,123 @@
+#!/usr/bin/env sh
+
+preview() {
+	cat <<-EOF | paste -sd '' >"$LF_UEBERZUG_FIFO"
+	{
+	"action": "add", "identifier": "lf-preview",
+	"path": "$1", "x": $4, "y": $5, "width": $2, "height": $3,
+	"scaler": "contain"
+	}
+	EOF
+}
+
+set -C -f -u
+IFS=$'\n'
+
+lf-ueberzug-cleaner # clean active preview
+
+file="$1"; shift
+
+# Settings
+HIGHLIGHT_SIZE_MAX=262143  # 256KiB
+HIGHLIGHT_TABWIDTH=8
+HIGHLIGHT_STYLE='base16/oceanicnext'
+PYGMENTIZE_STYLE='autumn'
+
+case "$(basename "$file" | tr '[A-Z]' '[a-z]')" in
+        # Archive
+        *.a|*.ace|*.alz|*.arc|*.arj|*.bz|*.bz2|*.cab|*.cpio|*.deb|*.gz|*.jar|*.lha|*.lz|*.lzh|*.lzma|*.lzo|\
+        *.rpm|*.rz|*.t7z|*.tar|*.tbz|*.tbz2|*.tgz|*.tlz|*.txz|*.t*.Z|*.tzo|*.war|*.xpi|*.xz|*.Z|*.zip)
+            atool --list -- "$file"
+            bsdtar --list --file "$file"
+            exit 1;;
+        *.rar)
+            # Avoid password prompt by providing empty password
+            unrar lt -p- -- "$file"
+            exit 1;;
+        *.7z)
+            # Avoid password prompt by providing empty password
+            7z l -p -- "$file"
+            exit 1;;
+
+        # BitTorrent
+        *.torrent)
+            transmission-show -- "$file"
+            exit 1;;
+
+        # OpenDocument
+        *.odt|*.ods|*.odp|*.sxw)
+            # Preview as text conversion
+            odt2txt "$file"
+            exit 1;;
+
+        # HTML
+        *.htm|*.html|*.xhtml)
+            # Preview as text conversion
+            w3m -dump "$file"
+            lynx -dump -- "$file"
+            elinks -dump "$file"
+            exit 1;; # Continue with next handler on failure
+				*.avi|*.mp4|*.mkv)
+					thumbnail="$LF_UEBERZUG_TEMPDIR/thumbnail.png"
+          ffmpegthumbnailer -i "$file" -o "$thumbnail" -s 0
+					preview "$thumbnail" "$@"
+					exit 127;;
+				*.pdf)
+					thumbnail="$LF_UEBERZUG_TEMPDIR/thumbnail.png"
+					gs -o "$thumbnail" -sDEVICE=pngalpha -dLastPage=1 "$file" >/dev/null
+					preview "$thumbnail" "$@"
+					exit 127;;
+				*.jpg|*.jpeg|*.png|*.bmp)
+					preview "$file" "$@"
+					exit 127;;
+				*.svg)
+					thumbnail="$LF_UEBERZUG_TEMPDIR/thumbnail.png"
+					convert "$file" "$thumbnail"
+					preview "$thumbnail" "$@"
+					exit 127;;
+esac
+
+MIMETYPE="$( file --dereference --brief --mime-type -- "$file" )"
+
+case "$MIMETYPE" in
+		# Text
+
+		text/plain)
+			cat "$file"
+			exit 127;;
+
+		text/* | */xml)
+				# Syntax highlight
+				if [ "$( stat --printf='%s' -- "$file" )" -gt "$HIGHLIGHT_SIZE_MAX" ]; then
+						notify-send 123 123123
+						exit 2
+				fi
+				if [ "$( tput colors )" -ge 256 ]; then
+						pygmentize_format='terminal256'
+						highlight_format='xterm256'
+				else
+						pygmentize_format='terminal'
+						highlight_format='ansi'
+				fi
+				highlight --replace-tabs="$HIGHLIGHT_TABWIDTH" --out-format="$highlight_format" --style="$HIGHLIGHT_STYLE" --force -- "$file"
+				# pygmentize -f "${pygmentize_format}" -O "style=${PYGMENTIZE_STYLE}" -- "$file"
+				exit 127;;
+
+		# Image
+		image/*)
+				# Preview as text conversion
+				# img2txt --gamma=0.6 -- "$file" && exit 1
+				exiftool "$file"
+				exit 1;;
+
+		# Video and audio
+		video/* | audio/*|application/octet-stream)
+				mediainfo "$file"
+				exiftool "$file"
+				exit 1;;
+esac
+
+echo '----- File Type Classification -----' && file --dereference --brief -- "$file"
+exit 1
+
+

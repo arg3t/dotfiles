@@ -2,4 +2,4 @@
 Encoding=UTF-8
 Name=Dynamic Window Manager
 Comment=Runs the window manager defined by xsession script
-Exec=~/.xinitrc
+Exec=~/.config/X11/xinitrc

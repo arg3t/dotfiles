@@ -2,8 +2,14 @@
 
 username=$(whoami)
 
-# Configuring for your username
+mvie(){
+  if [ -e "$1" ];then
+    rm -rf "$2"
+    mv "$1" "$2"
+  fi
+}
 
+# Configuring for your username
 if [ ! "$username" = "yigit" ]; then
   find /home/$username/.dotfiles -type f | xargs sed -i  "s/\/home\/yigit/\/home\/$username/g"
 fi
@@ -16,169 +22,103 @@ yay -S --noconfirm --needed $(cat ~/.dotfiles/arch-setup/AUR.txt)
 
 # Initial cleanup
 echo "Backing up your previous dotfiles to ~/.dotfiles_backup"
-mkdir -p ~/.local/share
 mkdir -p ~/.dotfiles_backup
+
+mvie ~/.profile ~/.dotfiles_backup/profile
+ln -s ~/.dotfiles/profile ~/.profile
+
+# Config
 mkdir -p ~/.config
-mkdir -p ~/.dotfiles_backup/.config
+mkdir -p ~/.dotfiles_backup/config
+for d in ~/.dotfiles/config/* ; do
+  filename=$(echo "$d" | rev | cut -d"/" -f 1 | rev)
+  echo $filename
+  mvie ~/.config/$filename ~/.dotfiles_backup/config
+  ln -s $d ~/.config/
+done
 
-rsync --remove-source-files -avzh --ignore-errors \
-  ~/.completions \
-  ~/.aliases \
-  ~/.cmds \
-  ~/.zshrc \
-  ~/.Xresources \
-  ~/.xmodmap \
-  ~/.xinitrc \
-  ~/.tmux.conf \
-  ~/.surf \
-  ~/.scripts \
-  ~/.keyboard \
-  ~/.fzf.zsh \
-  ~/.themes \
-  ~/.vim \
-  ~/.vimrc \
-  ~/.dotfiles_backup 2> /dev/null > /dev/null
+# Config
+mkdir -p ~/.local/share
+mkdir -p ~/.dotfiles_backup/local/share
+mvie ~/.themes ~/.dotfiles_backup/themes
+ln -s ~/.dotfiles/local/share/themes ~/.themes
+mvie ~/.icons ~/.dotfiles_backup/icons
+ln -s ~/.dotfiles/local/share/icons ~/.icons
+~/.dotfiles/local/share/icons/Tela-Icons/install.sh
 
-rsync --remove-source-files -avzh --ignore-errors \
-  ~/.config/htop \
-  ~/.config/.profile \
-  ~/.config/.nvim \
-  ~/.config/systemd \
-  ~/.config/termite \
-  ~/.config/zathura \
-  ~/.config/dunst \
-  ~/.config/gtk-4.0 \
-  ~/.config/gtk-3.0 \
-  ~/.config/gtk-2.0 \
-  ~/.config/antibody \
-  ~/.config/suckless \
-  ~/.config/neofetch \
-  ~/.dotfiles_backup/.config 2> /dev/null > /dev/null
+for d in ~/.dotfiles/local/share/* ; do
+  filename=$(echo "$d" | rev | cut -d"/" -f 1 | rev)
+  echo $filename
+  mvie ~/.local/share/$filename ~/.dotfiles_backup/local/share
+  ln -s $d ~/.local/share
+done
 
-rm -rf \
-  ~/.completions \
-  ~/.aliases \
-  ~/.cmds \
-  ~/.zshrc \
-  ~/.Xresources \
-  ~/.xmodmap \
-  ~/.xinitrc \
-  ~/.tmux.conf \
-  ~/.surf \
-  ~/.scripts \
-  ~/.keyboard \
-  ~/.fzf.zsh \
-  ~/.themes \
-  ~/.vim \
-  ~/.vimrc \
-  ~/.config/htop \
-  ~/.config/.profile \
-  ~/.config/systemd \
-  ~/.config/termite \
-  ~/.config/zathura \
-  ~/.config/neofetch \
-  ~/.config/dunst \
-  ~/.config/gtk-4.0 \
-  ~/.config/gtk-3.0 \
-  ~/.config/gtk-2.0 \
-  ~/.config/antibody \
-  ~/.config/suckless
-
-# Vim
-ln -s ~/.dotfiles/vim/vimrc ~/.vimrc
-ln -s ~/.dotfiles/vim/vim ~/.vim
-ln -s ~/.dotfiles/vim/nvim ~/.config/nvim
-
-# GTK
-ln -s ~/.dotfiles/theming/themes ~/.themes
-ln -s ~/.dotfiles/theming/qt5ct ~/.config/qt5ct
-ln -s ~/.dotfiles/theming/gtkrc-2.0 ~/.gtkrc-2.0
-ln -s ~/.dotfiles/theming/gtk-3.0 ~/.config/gtk-2.0
-ln -s ~/.dotfiles/theming/gtk-3.0 ~/.config/gtk-3.0
-ln -s ~/.dotfiles/theming/gtk-4.0 ~/.config/gtk-4.0
-~/.dotfiles/theming/Tela-icon-theme/install.sh
-
-# Miscellaneous
-ln -s ~/.dotfiles/misc/dunst ~/.config/dunst
-ln -s ~/.dotfiles/misc/zathura ~/.config/zathura
-ln -s ~/.dotfiles/misc/termite/ ~/.config/termite
-ln -s ~/.dotfiles/misc/vdirsyncer ~/.vdirsyncer
-ln -s ~/.dotfiles/misc/systemd ~/.config/systemd
-ln -s ~/.dotfiles/misc/ranger ~/.config/ranger
-ln -s ~/.dotfiles/misc/lf ~/.config/lf
-ln -s ~/.dotfiles/misc/neofetch ~/.config/neofetch
-ln -s ~/.dotfiles/misc/profile ~/.config/.profile
-ln -s ~/.dotfiles/misc/htop ~/.config/htop
-ln -s ~/.dotfiles/misc/.fzf.zsh ~/.fzf.zsh
-ln -s ~/.dotfiles/misc/keyboard ~/.keyboard
-ln -s ~/.dotfiles/misc/mimeapps.list ~/.config/mimeapps.list
-ln -s ~/.dotfiles/misc/wakatime.cfg ~/.wakatime.cfg
-ln -s ~/.dotfiles/misc/BetterDiscord ~/.config/BetterDiscord
-ln -s ~/.dotfiles/misc/nextcloud ~/.nextcloud
-ln -s ~/.dotfiles/misc/calcurse ~/.calcurse
-mkdir -p ~/.config/spotifyd
-ln -s ~/.dotfiles/misc/spotifyd.conf ~/.config/spotifyd/spotifyd.conf
-ln -s ~/.dotfiles/fonts ~/.fonts
+mvie ~/.local/backgrounds ~/.dotfiles_backup/local/backgrounds
+ln -s ~/.dotfiles/local/backgrounds ~/.local/backgrounds
 
 prev=$(pwd)
-
-cd ~/.dotfiles/fonts
+cd ~/.local/share/fonts
 wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Regular%20Nerd%20Font%20Complete.otf > /dev/null 2> /dev/null
 wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Regular%20Nerd%20Font%20Complete%20Mono.otf > /dev/null 2> /dev/null
 wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Bold%20Nerd%20Font%20Complete.otf > /dev/null 2> /dev/null
 wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Bold%20Nerd%20Font%20Complete%20Mono.otf > /dev/null 2> /dev/null
 
-cd ~/.dotfiles/backgrounds
+cd ~/.local/backgrounds
 wget https://minio.yigitcolakoglu.com/dotfiles/lock.jpg > /dev/null 2> /dev/null
 wget https://minio.yigitcolakoglu.com/dotfiles/wallpaper-mountain.jpg > /dev/null 2> /dev/null
 wget https://minio.yigitcolakoglu.com/dotfiles/wallpaper-sea.jpg > /dev/null 2> /dev/null
 wget https://minio.yigitcolakoglu.com/dotfiles/wallpaper-shack.jpg > /dev/null 2> /dev/null
 cd $prev
+
 fc-cache
 
 # Applications
-for d in ~/.dotfiles/applications/* ; do
+mkdir -p ~/.local/share/applications
+mkdir -p ~/.dotfiles_backup/local/share/applications
+for d in ~/.dotfiles/local/applications/* ; do
+  filename=$(echo "$d" | rev | cut -d"/" -f 1 | rev)
+  mvie ~/.local/share/applications/$filename ~/.dotfiles_backup/local/share/applications
   ln -s $d ~/.local/share/applications/
 done
-# Scripts
-ln -s ~/.dotfiles/scripts ~/.scripts
 
 # Suckless
-ln -s ~/.dotfiles/suckless ~/.config/suckless
-ln -s ~/.dotfiles/suckless/dot_surf ~/.surf
 yay --noconfirm -S xsel clipnotify
 yay --noconfirm -S ttf-symbola
 (cd ~/.dotfiles/suckless; ~/.dotfiles/suckless/build.sh)
 
-# Tmux
-ln -s ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
-
-# Xorg
-ln -s ~/.dotfiles/xorg/xinitrc ~/.xinitrc
-ln -s ~/.dotfiles/xorg/xmodmap ~/.xmodmap
-ln -s ~/.dotfiles/xorg/Xresources ~/.Xresources
-
-# Zsh
-ln -s ~/.dotfiles/zsh/antibody ~/.config/antibody
-ln -s ~/.dotfiles/zsh/zshrc ~/.zshrc
-ln -s ~/.dotfiles/zsh/secret ~/.zsh_secret
-ln -s ~/.dotfiles/zsh/cmds ~/.cmds
-ln -s ~/.dotfiles/zsh/aliases ~/.aliases
-ln -s ~/.dotfiles/zsh/completions ~/.completions
-ln -s ~/.dotfiles/zsh/profile ~/.profile
-
-# Mail
-ln -s ~/.dotfiles/mail/mutt ~/.config/mutt
-ln -s ~/.dotfiles/mail/msmtp ~/.config/msmtp
-ln -s ~/.dotfiles/mail/mbsyncrc ~/.mbsyncrc
 if [ ! -f "/var/spool/cron$username" ]; then
   sudo touch "/var/spool/cron/$username"
   sudo chown yigit:yigit "/var/spool/cron/$username"
   sudo chmod 755 "/var/spool/cron/$username"
 fi
-echo "COMMAND brave" > ~/.urlview
-echo "*/8 * * * * /home/$username/.scripts/mailsync" >> /var/spool/cron/yigit
-echo "*/15 * * * * /home/$username/.scripts/nextcloud-sync" >> /var/spool/cron/yigit
+
+# Create necessary folders
+
+source ~/.profile
+mkdir -p "$CARGO_HOME"
+mkdir -p "$GOPATH"
+mkdir -p "$ANDROID_HOME"
+mkdir -p "$FLUTTER_HOME"
+mkdir -p "$LEIN_HOME"
+mkdir -p "$NPM_CONFIG_USERCONFIG"
+mkdir -p "$NVM_DIR"
+mkdir -p "$GNUPGHOME"
+mkdir -p "$MBSYNCRC"
+mkdir -p "$VIMINIT"
+mkdir -p "$MYSQL_HISTFILE"
+mkdir -p "$TASKDATA"
+mkdir -p "$TASKRC"
+mkdir -p "$WEECHAT_HOME"
+mkdir -p "$LESSKEY"
+mkdir -p "$LESSHISTFILE"
+mkdir -p "$NOTMUCH_CONFIG"
+mkdir -p "$NMBGIT"
+mkdir -p "$JUPYTER_CONFIG_DIR"
+mkdir -p "$PYLINTHOME"
+touch "$_Z_DATA"
+
+echo "*/8 * * * * /home/$username/.local/share/scripts/mailsync" >> /var/spool/cron/yigit
+echo "*/15 * * * * /home/$username/.local/share/scripts/scripts/nextcloud-sync" >> /var/spool/cron/yigit
 echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/yigit
 echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/yigit
 
@@ -206,7 +146,6 @@ cd $prev
 # Install vim and tmux plugins
 mkdir -p ~/.tmux/plugins
 vim -c ':PlugInstall'
-betterlockscreen -u ~/.dotfiles/backgrounds/lock.jpg
 
 # Install mconnect
 git clone https://github.com/theFr1nge/mconnect.git /tmp/mconnect

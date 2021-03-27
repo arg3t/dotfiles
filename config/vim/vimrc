@@ -1,0 +1,173 @@
+set runtimepath^=$XDG_CONFIG_HOME/vim
+set runtimepath+=$XDG_DATA_HOME/vim
+set runtimepath+=$XDG_CONFIG_HOME/vim/after
+
+set packpath^=$XDG_DATA_HOME/vim,$XDG_CONFIG_HOME/vim
+set packpath+=$XDG_CONFIG_HOME/vim/after,$XDG_DATA_HOME/vim/after
+
+let g:netrw_home = $XDG_DATA_HOME."/vim"
+call mkdir($XDG_DATA_HOME."/vim/spell", 'p')
+set viewdir=$XDG_DATA_HOME/vim/view | call mkdir(&viewdir, 'p')
+
+set backupdir=$XDG_CACHE_HOME/vim/backup | call mkdir(&backupdir, 'p')
+set directory=$XDG_CACHE_HOME/vim/swap   | call mkdir(&directory, 'p')
+set undodir=$XDG_CACHE_HOME/vim/undo     | call mkdir(&undodir,   'p')
+let s:MRU_File = $XDG_CACHE_HOME."/vim/mru"
+
+
+if !has('nvim') | set viminfofile=$XDG_CACHE_HOME/vim/viminfo | endif
+
+source ~/.local/share/vim/plugin/plugins.vim
+
+" Set leader
+let mapleader = ","
+noh
+
+" Leader Mappings
+map <Leader>w :update<CR>
+map <Leader>q :qall<CR>
+map <Leader>gs :Gstatus<CR>
+
+" Recently edited files
+map <Leader>h :History<CR>
+
+" CtrlP use FZF (faster!)
+nnoremap <C-p> :Files<Cr>
+noremap <leader>u :w<Home>silent <End> !urlview<CR>
+
+syntax on
+filetype plugin on
+autocmd Filetype scss if getfsize(@%) > 300 | setlocal syntax=OFF | endif
+
+augroup twig_ft
+  au!
+  autocmd BufNewFile,BufRead *.html.inky   set syntax=eruby
+augroup END
+
+
+set autoread                          " Auto reload changed files
+set wildmenu                          " Tab autocomplete in command mode
+set backspace=indent,eol,start        " http://vi.stackexchange.com/a/2163
+set laststatus=2                      " Show status line on startup
+set splitright                        " Open new splits to the right
+set splitbelow                        " Open new splits to the bottom
+set lazyredraw                        " Reduce the redraw frequency
+set ttyfast                           " Send more characters in fast terminals
+set nowrap                            " Don't wrap long lines
+set listchars=extends:→               " Show arrow if line continues rightwards
+set listchars+=precedes:←             " Show arrow if line continues leftwards
+set nobackup nowritebackup noswapfile " Turn off backup files
+set noerrorbells novisualbell         " Turn off visual and audible bells
+set expandtab shiftwidth=2 tabstop=2  " Two spaces for tabs everywhere
+set history=500
+" set hlsearch                          " Highlight search results
+set ignorecase smartcase              " Search queries intelligently set case
+set incsearch                         " Show search results as you type
+set timeoutlen=1000 ttimeoutlen=0     " Remove timeout when hitting escape
+set showcmd                           " Show size of visual selection
+set t_Co=256
+set clipboard=unnamedplus
+
+" Persistent undo
+set undodir=~/.local/share/vim/undo/
+set undofile
+set undolevels=1000
+set undoreload=10000
+
+" Ignored files/directories from autocomplete (and CtrlP)
+set wildignore+=*/tmp/*
+set wildignore+=*.so
+set wildignore+=*.zip
+set wildignore+=*/vendor/bundle/*
+set wildignore+=*/node_modules/
+
+"-------------------------------------------------------------------------------
+" Interface
+"-------------------------------------------------------------------------------
+
+set number            " Enable line numbers
+set scrolloff=5       " Leave 5 lines of buffer when scrolling
+set sidescrolloff=10  " Leave 10 characters of horizontal buffer when scrolling
+
+"-------------------------------------------------------------------------------
+" Colors & Formatting
+"-------------------------------------------------------------------------------
+
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+if (has("termguicolors"))
+  set termguicolors
+endif
+
+
+let g:material_style='oceanic'
+set background=dark
+colorscheme vim-material
+let g:airline_theme='material'
+
+" Showcase comments in italics
+highlight Comment cterm=italic gui=italic
+
+" Open most recently used files on start
+" autocmd VimEnter * Mru .
+
+" Easy tab navigation
+nnoremap <C-Left> :tabprevious<CR>
+nnoremap <C-Right> :tabnext<CR>
+
+" Golang specific settings
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_types = 1
+let g:go_auto_type_info = 1
+
+let g:go_fmt_command = "goimports"
+
+" Find/replace
+vnoremap <C-r> "hy:%s/<C-r>h//g<left><left><left>
+nnoremap <leader>e :noh<CR>
+
+" let g:auto_save = 1  " enable AutoSave on Vim startup
+" let g:auto_save_in_insert_mode = 0 " do not save in insert mode
+
+" Get off my lawn - helpful when learning Vim :)
+nnoremap <C-c> :echoe "Use Esc"<CR>
+nnoremap <Left> :echoe "Use h"<CR>
+nnoremap <Right> :echoe "Use l"<CR>
+nnoremap <Up> :echoe "Use k"<CR>
+nnoremap <Down> :echoe "Use j"<CR>
+
+nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
+let g:Tlist_WinWidth = 40
+
+" Syntastic max file size for python
+let g:syntastic_python_pylint_post_args="--max-line-length=120"
+
+
+"-------------------------------------------------------------------------------
+" Neovim-specific configurations
+"-------------------------------------------------------------------------------
+
+if has('nvim')
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  set termguicolors
+
+  " Fix vim-tmux-navigator <C-h> https://git.io/viGRU
+  nmap <BS> <C-W>h
+
+  " Fix vim-tmux-navigator <C-h> https://git.io/vS5QH
+  nmap <BS> :<C-u>TmuxNavigateLeft<CR>
+endif
+
+
+command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> - |fmt -csw78
+autocmd VimLeave * call system("xsel -ib", getreg('+'))
+packadd termdebug
+

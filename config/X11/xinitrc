@@ -1,0 +1,70 @@
+#! /bin/sh
+
+mkdir -p /tmp/yigit
+
+pkill -f clipmenud
+pkill -9 devmon
+pkill -f "bash /sbin/clipmenud"
+pkill -f "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
+pkill -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+pkill -f devmon
+rm -rf /tmp/day_cache
+
+source ~/.config.env
+gpgconf --dry-run --create-socketdir
+eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
+systemctl --user import-environment DISPLAY
+export SSH_AUTH_SOCK
+
+clipmenud > /tmp/clipmenud.out 2> /tmp/clipmenud.err &
+rm -f ~/.surf/tabbed-surf.xid
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+~/.local/share/scripts/daily-update
+~/.local/share/scripts/keyboard > /tmp/keyboard.out 2> /tmp/keyboard.err
+xrdb  ~/.Xresources &
+~/.local/share/scripts/mailsync &
+
+if [ "$NEXTCLOUD" = true ] ; then
+  nextcloud --background &
+fi
+mkdir -p ~/Downloads/neomutt
+if [ "$MCONNECT" = true ] ; then
+    mkdir -p ~/Downloads/mconnect
+    (cd ~/Downloads/mconnect; mconnect -d > /tmp/mconnect 2> /tmp/mconnect.err &)
+fi
+if [ "$ACTIVITYWATCHER" = true ] ; then
+    pkill -f aw-watcher-window
+    pkill -f aw-watcher-afk
+    pkill -f aw-server
+    aw-server &
+    aw-watcher-window &
+    aw-watcher-afk &
+fi
+touch ~/.cache/nextcloud-track
+xss-lock -- /home/yigit/.local/share/scripts/lock &
+echo "on" > ~/.cache/screensaver
+dbus-update-activation-environment --systemd DISPLAY
+picom --no-fading-openclose &
+brave-start &
+bitwarden-desktop &
+curl 'http://yeetclock/setcolor?R=136&G=192&B=208' &
+xbanish -t 2000 -s &
+
+pactl upload-sample /usr/share/sounds/freedesktop/stereo/bell.oga x11-bell
+pactl load-module module-x11-bell sample=x11-bell display=$DISPLAY
+xset b 100
+xset dpms 600 600 600
+
+~/.local/share/scripts/devmon --exec-on-drive "/sbin/notify-send '禍  drive mounted' '%l (%f) at %d '" \
+    --exec-on-remove "/sbin/notify-send '禍  drive removed' '%l (%f) from %d '" \
+    --exec-on-unmount  "/sbin/notify-send '禍  drive unmounted' '%l (%f) from %d '" \
+    --no-unmount --no-gui &
+
+touch ~/.cache/dwm-restart
+while [ -f /home/yigit/.cache/dwm-restart ];
+do
+    rm -rf /home/yigit/.cache/dwm-restart
+    dwmblocks > /tmp/dwmblocks.out 2> /tmp/dwmblocks.err &
+    dwm > /tmp/dwm.log 2> /tmp/dwm.err
+    sleep 0.2
+done

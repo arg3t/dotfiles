@@ -1,0 +1,8 @@
+#!/bin/bash
+curl 'http://yeetclock/setcolor?R=2000&G=10&B=000&O=0' &
+/home/yigit/.local/share/scripts/pacontrol.sh open-mute
+/home/yigit/.local/share/scripts/dunst_toggle.sh -s
+slock
+/home/yigit/.local/share/scripts/dunst_toggle.sh -e
+/home/yigit/.local/share/scripts/pacontrol.sh toggle-mute
+curl 'http://yeetclock/setcolor?R=136&G=192&B=208' &

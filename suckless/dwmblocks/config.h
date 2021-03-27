@@ -1,5 +1,5 @@
 
-#define PATH(name)			"/home/yigit/.scripts/status-bar/"name
+#define PATH(name)			"/home/yigit/.local/share/scripts/status-bar/"name
 
 static Block blocks[] = {
 	{ "", PATH("screensaver"),		120,		19},

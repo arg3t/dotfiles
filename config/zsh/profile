@@ -1,0 +1,18 @@
+# vim:ft=bash
+# Environment variables
+export GOPATH=$HOME/go
+export _JAVA_AWT_WM_NONREPARENTING=1
+export AWT_TOOLKIT=MToolkit
+export ANDROID_HOME=~/Android/Sdk
+export FLUTTER_HOME=~/flutter
+export TMUX_PLUGIN_MANAGER_PATH=~/.tmux/plugins
+export BORG_KEYS_DIR=~/.keys/borg
+export BROWSER=brave
+export DEFAULT_RECIPIENT="yigitcolakoglu@hotmail.com"
+export EDITOR=vim
+
+# Setup PATH
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$FLUTTER_HOME/bin
+export PATH="$PATH:/home/yigit/.local/share/scripts:/home/yigit/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:/home/yigit/.local/bin"
