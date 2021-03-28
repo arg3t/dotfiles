@@ -15,4 +15,4 @@ export EDITOR=vim
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$FLUTTER_HOME/bin
-export PATH="$PATH:/home/yigit/.local/share/scripts:/home/yigit/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:/home/yigit/.local/bin"
+export PATH="$PATH:/home/yigit/.local/bin:/home/yigit/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:/home/yigit/.local/bin"

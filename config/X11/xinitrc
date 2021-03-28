@@ -19,10 +19,10 @@ export SSH_AUTH_SOCK
 clipmenud > /tmp/clipmenud.out 2> /tmp/clipmenud.err &
 rm -f ~/.surf/tabbed-surf.xid
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-~/.local/share/scripts/daily-update
-~/.local/share/scripts/keyboard > /tmp/keyboard.out 2> /tmp/keyboard.err
+~/.local/bin/daily-update
+~/.local/bin/keyboard > /tmp/keyboard.out 2> /tmp/keyboard.err
 xrdb  ~/.Xresources &
-~/.local/share/scripts/mailsync &
+~/.local/bin/mailsync &
 
 if [ "$NEXTCLOUD" = true ] ; then
   nextcloud --background &
@@ -40,8 +40,10 @@ if [ "$ACTIVITYWATCHER" = true ] ; then
     aw-watcher-window &
     aw-watcher-afk &
 fi
+mpd &
+mpd-mpris &
 touch ~/.cache/nextcloud-track
-xss-lock -- /home/yigit/.local/share/scripts/lock &
+xss-lock -- /home/yigit/.local/bin/lock &
 echo "on" > ~/.cache/screensaver
 dbus-update-activation-environment --systemd DISPLAY
 picom --no-fading-openclose &
@@ -55,7 +57,7 @@ pactl load-module module-x11-bell sample=x11-bell display=$DISPLAY
 xset b 100
 xset dpms 600 600 600
 
-~/.local/share/scripts/devmon --exec-on-drive "/sbin/notify-send '禍  drive mounted' '%l (%f) at %d '" \
+~/.local/bin/devmon --exec-on-drive "/sbin/notify-send '禍  drive mounted' '%l (%f) at %d '" \
     --exec-on-remove "/sbin/notify-send '禍  drive removed' '%l (%f) from %d '" \
     --exec-on-unmount  "/sbin/notify-send '禍  drive unmounted' '%l (%f) from %d '" \
     --no-unmount --no-gui &

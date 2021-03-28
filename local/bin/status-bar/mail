@@ -7,5 +7,5 @@ echo -n "^c#a3be8c^ ^d^ $msync ^c#81a1c1^ ^d^ $mcount"
 
 case $BLOCK_BUTTON in
           1) setsid -f st -c center -n center -e neomutt;;
-          1) ~/.local/share/scripts/mailsync;;
+          1) ~/.local/bin/mailsync;;
 esac

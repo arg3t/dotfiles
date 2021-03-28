@@ -32,4 +32,4 @@ alias gpl="git pull"
 # Homedir Cleanup
 alias wget="wget --hsts-file=\"$XDG_CACHE_HOME/wget-hsts\""
 alias yarn="yarn --use-yarnrc $XDG_CONFIG_HOME/yarn/config"
-
+alias tmate="tmate -f $XDG_CONFIG_HOME/tmate/tmate.conf"

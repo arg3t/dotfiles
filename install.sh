@@ -11,7 +11,7 @@ mvie(){
 
 # Configuring for your username
 if [ ! "$username" = "yigit" ]; then
-  find /home/$username/.dotfiles -type f | xargs sed -i  "s/\/home\/yigit/\/home\/$username/g"
+  grep -rl "/home/$username/.dotfiles" | xargs sed -i  "s/\/home\/yigit/\/home\/$username/g"
 fi
 
 # Install packages
@@ -32,7 +32,6 @@ mkdir -p ~/.config
 mkdir -p ~/.dotfiles_backup/config
 for d in ~/.dotfiles/config/* ; do
   filename=$(echo "$d" | rev | cut -d"/" -f 1 | rev)
-  echo $filename
   mvie ~/.config/$filename ~/.dotfiles_backup/config
   ln -s $d ~/.config/
 done
@@ -51,6 +50,16 @@ for d in ~/.dotfiles/local/share/* ; do
   echo $filename
   mvie ~/.local/share/$filename ~/.dotfiles_backup/local/share
   ln -s $d ~/.local/share
+done
+
+
+# Binaries
+mkdir -p ~/.local/bin
+mkdir -p ~/.dotfiles_backup/local/bin
+for d in ~/.dotfiles/local/bin/* ; do
+  filename=$(echo "$d" | rev | cut -d"/" -f 1 | rev)
+  mvie ~/.local/bin/$filename ~/.dotfiles_backup/local/bin
+  ln -s $d ~/.local/bin
 done
 
 mvie ~/.local/backgrounds ~/.dotfiles_backup/local/backgrounds
@@ -95,6 +104,8 @@ fi
 # Create necessary folders
 
 source ~/.profile
+mkdir -p "$HOME/.local/share/ncmpcpp/lyrics"
+mkdir -p "$HOME/.local/share/calcurse"
 mkdir -p "$CARGO_HOME"
 mkdir -p "$GOPATH"
 mkdir -p "$ANDROID_HOME"
@@ -117,8 +128,8 @@ mkdir -p "$JUPYTER_CONFIG_DIR"
 mkdir -p "$PYLINTHOME"
 touch "$_Z_DATA"
 
-echo "*/8 * * * * /home/$username/.local/share/scripts/mailsync" >> /var/spool/cron/yigit
-echo "*/15 * * * * /home/$username/.local/share/scripts/scripts/nextcloud-sync" >> /var/spool/cron/yigit
+echo "*/8 * * * * /home/$username/.local/bin/mailsync" >> /var/spool/cron/yigit
+echo "*/15 * * * * /home/$username/.local/bin/scripts/nextcloud-sync" >> /var/spool/cron/yigit
 echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/yigit
 echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/yigit
 

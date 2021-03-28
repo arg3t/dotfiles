@@ -41,13 +41,18 @@ case $selection in
 		pkill -f clipmenud
 		clipmenud > /tmp/clipmenud.out 2> /tmp/clipmenud.err &
 		;;
+	mpd)
+		kill -9 $(pidof mpd)
+		mpd &
+		mpd-mpris &
+		;;
 	dunst)
 		kill -9 $(pidof dunst)
 		dunst &
 		;;
 	devmon)
 		pkill -f devmon
-		~/.local/share/scripts/devmon --exec-on-drive "/sbin/notify-send '禍  drive mounted' '%l (%f) at %d '" \
+		~/.local/bin/devmon --exec-on-drive "/sbin/notify-send '禍  drive mounted' '%l (%f) at %d '" \
 				--exec-on-remove "/sbin/notify-send '禍  drive removed' '%l (%f) from %d '" \
 				--exec-on-unmount  "/sbin/notify-send '禍  drive unmounted' '%l (%f) from %d '" \
 				--no-unmount --no-gui &

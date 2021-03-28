@@ -14,3 +14,4 @@ config/wakatime/wakatime.cfg
 config/zsh/secret
 config/nextcloud/nextcloud
 config/spotifyd/spotifyd.conf
+config/wakatime/.wakatime.cfg

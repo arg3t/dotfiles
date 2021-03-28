@@ -18,5 +18,5 @@ fi
 echo -n $icon
 
 case $BLOCK_BUTTON in
-          1) ~/.local/share/scripts/networkmanager_dmenu;;
+          1) ~/.local/bin/networkmanager_dmenu;;
 esac

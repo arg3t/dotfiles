@@ -2,6 +2,13 @@
 
 layout=$(xkb-switch -p)
 
+layouts=$(xkb-switch -l | xargs)
+
+if [ ! "$layouts" = "us tr" ]; then
+  ~/.local/bin/keyboard
+fi
+
+
 if [ "$layout" = "tr" ]; then
   xkb-switch -s "us"
   notify-send "Keyboard layout switched to us"
