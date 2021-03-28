@@ -1,0 +1,18 @@
+#!/bin/sh
+
+DMENU='dmenu  -z 1900 -x 10 -y 10 -i'
+
+declare -A mappings
+
+mappings=(
+  ["Test"]="Test"
+  ["Test2"]="Test2"
+)
+
+items=""
+
+for i in "${!mappings[@]}"; do
+  items=$(echo -e "$items\n$i")
+done
+
+selection=$(echo "$items" | tail -n +2 | $DMENU)

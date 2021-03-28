@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $HOME/.nextcloud
+source $HOME/.config/nextcloud/nextcloud
 
 rm -rf /tmp/nextcloud.out
 rm -rf /tmp/nextcloud.err
