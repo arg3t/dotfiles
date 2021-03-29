@@ -9,7 +9,6 @@ static const Rule rules[] = {
 	RULE(.class = "firefoxdeveloperedition", .tags = 1 << 1)
 	RULE(.class = "Brave-browser", .tags = 1 << 1)
 	RULE(.class = "tabbed-surf", .tags = 1 << 1)
-	RULE(.class = "tabbed", .tags = 1 << 1)
 	RULE(.class = "bitwarden", .tags = 1 << 6)
 	RULE(.class = "Bitwarden", .tags = 1 << 6)
 	RULE(.class = "Mailspring", .tags = 1 << 7)
@@ -35,9 +34,10 @@ static const Rule rules[] = {
 	RULE(.instance = "sxiv", 0, .isfloating = 1, .floatpos="100% 1% 600W 350H")
 	RULE(.class = "neomutt-send", 0, .isfloating = 1, .floatpos="50% 50% 1000W 700H")
 	RULE(.class = "Zathura", 0, .isfloating = 1, .floatpos="100% 50% 700W 1000H")
+	RULE(.class = "Surf", 0, .isfloating = 1, .floatpos="100% 100% 800W 1200H")
 	RULE(.class = "weather", 0, .isfloating = 1, .floatpos="50% 50% 1200W 800H")
 	RULE(.class = "center", 0, .isfloating = 1, .floatpos="50% 50% 1000W 600H")
 	RULE(.class = "htop", 0, .isfloating = 1, .floatpos="50% 50% 1200W 600H")
-	RULE(.title = "SimCrop", 0, .isfloating = 1, .floatpos="50% 50% 800W 500H") 
+	RULE(.title = "SimCrop", 0, .isfloating = 1, .floatpos="50% 50% 800W 500H")
 
 };

@@ -14,6 +14,8 @@ source ~/.config.env
 gpgconf --dry-run --create-socketdir
 eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 systemctl --user import-environment DISPLAY
+dbus-update-activation-environment --systemd DISPLAY
+
 export SSH_AUTH_SOCK
 
 clipmenud > /tmp/clipmenud.out 2> /tmp/clipmenud.err &

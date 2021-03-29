@@ -2,7 +2,7 @@
 
 DMENU='dmenu  -z 1900 -x 10 -y 10 -i'
 blacklist="powerlevel10k|secret|gitignore|log|plugins|patch"
-whitelist="config.h|keybind.h|colors.h|color.h"
+whitelist="config.h|keybind.h|colors.h|color.h|rules.h"
 declare -A mappings
 
 items=$(find "$HOME/.dotfiles/config" -type f | grep -Ev $blacklist | sed -n "s|$HOME/.dotfiles/config/|config/|p")

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 LANGUAGE=en
-BROWSER=brave-nightly
+BROWSER=surf
 
 entries=$(find "/usr/share/doc/arch-wiki/html/$LANGUAGE" -type f | sed -n "s|/usr/share/doc/arch-wiki/html/$LANGUAGE/||p" | sed -n "s/\.html$//p")
 
