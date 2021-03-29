@@ -7,11 +7,11 @@ do
     then ((i++))
 	    filename=${!i};
     fi
-    
-    if [ ${!i} = "--version" ] 
+
+    if [ ${!i} = "--version" ]
     then
-            echo "someversion" 
-            exit 
+            echo "someversion"
+            exit
     fi
 
 done;
@@ -20,7 +20,7 @@ path=$( echo ${filename%/*} )
 file=$( echo ${filename##/*/} )
 
 rm /tmp/ranger-chrome-choosed
-st -c ranger -n ranger -e "ranger" -t file-chooser-ranger
+st -c ranger -n ranger -e ranger --choosefiles=/tmp/ranger-chrome-choosed
 selected=$(cat /tmp/ranger-chrome-choosed 2> /dev/null)
 if [ ! $? = 0 ]
 then

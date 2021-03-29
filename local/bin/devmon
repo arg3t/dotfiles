@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Script Name: devmon    http://igurublog.wordpress.com/downloads/script-devmon/ 
 # Requires:    udevil bash>=4        Recommended: eject spacefm|zenity
 # Optional:    udisks v1 may be substituted for udevil

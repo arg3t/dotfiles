@@ -11,7 +11,7 @@ mvie(){
 
 # Configuring for your username
 if [ ! "$username" = "yigit" ]; then
-  grep -rl "/home/$username/.dotfiles" | xargs sed -i  "s/\/home\/yigit/\/home\/$username/g"
+  grep -rl "yigit" | xargs sed -i  "s/yigit/$username/g"
 fi
 
 # Install packages
@@ -52,15 +52,8 @@ for d in ~/.dotfiles/local/share/* ; do
   ln -s $d ~/.local/share
 done
 
-
-# Binaries
-mkdir -p ~/.local/bin
-mkdir -p ~/.dotfiles_backup/local/bin
-for d in ~/.dotfiles/local/bin/* ; do
-  filename=$(echo "$d" | rev | cut -d"/" -f 1 | rev)
-  mvie ~/.local/bin/$filename ~/.dotfiles_backup/local/bin
-  ln -s $d ~/.local/bin
-done
+mvie ~/.local/share/bin ~/.dotfiles_backup/local/share/bin
+ln -s ~/.dotfiles/local/bin ~/.local/share/bin
 
 mvie ~/.local/backgrounds ~/.dotfiles_backup/local/backgrounds
 ln -s ~/.dotfiles/local/backgrounds ~/.local/backgrounds

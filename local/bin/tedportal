@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 selection=$(cat ~/.cache/tedportal | dmenu -i -l 8)
 echo $selection

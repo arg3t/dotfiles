@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 source $HOME/.config/nextcloud/nextcloud
 

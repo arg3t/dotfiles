@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 cat ~/.surf/history.txt > ~/.surf/history.txt 
 cat ~/.surf/history.txt | sort | uniq >~/.surf/history.txt

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 power=$(bluetoothctl show | grep "Powered: yes" | wc -w)
 

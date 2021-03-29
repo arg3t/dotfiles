@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Put the message, send to stdin, in a variable
 m="$(cat -)"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 SINK=$(pactl list short sinks | grep -n RUNNING | cut -d":"  -f1)
 if [ "$SINK" = "" ]; then

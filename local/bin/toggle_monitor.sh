@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 extern=HDMI1
 
 if xrandr | grep -v "$extern disconnected"; then

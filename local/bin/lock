@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 curl 'http://yeetclock/setcolor?R=2000&G=10&B=000&O=0' &
 /home/yigit/.local/bin/pacontrol.sh open-mute
 /home/yigit/.local/bin/dunst_toggle.sh -s

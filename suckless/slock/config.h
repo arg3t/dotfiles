@@ -1,6 +1,16 @@
 /* user and group to drop privileges to */
-static const char *user  = "nobody";
-static const char *group = "nobody";
+/* Drop privilegs to a regular user, very insecure but hey, it works for now */
+static const char *user  = "yigit";
+static const char *group = "yigit";
+
+
+static const char *lights_on[]  = { "/bin/curl", "http://yeetclock/setcolor?R=136&G=192&B=208&O=1", NULL };
+static const char *lights_off[]  = { "/bin/curl", "http://yeetclock/setcolor?R=0&G=0&B=0&O=0", NULL };
+static const char *notifications_on[]  = { "/home/yigit/.local/bin/dunst_toggle.sh", "-e", NULL };
+static const char *notifications_off[]  = { "/home/yigit/.local/bin/dunst_toggle.sh", "-s", NULL };
+
+static const char **prelock[] = {lights_off, notifications_off};
+static const char **postlock[] = {lights_on, notifications_on};
 
 static const char *colorname[NUMCOLS] = {
 	[INIT] =   "black",     /* after initialization */

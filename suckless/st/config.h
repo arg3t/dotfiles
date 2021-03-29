@@ -181,12 +181,8 @@ static uint forcemousemod = ShiftMask;
 static MouseShortcut mshortcuts[] = {
 	/* mask                 button   function        argument       release */
 	{ XK_ANY_MOD,           Button2, selpaste,       {.i = 0},      1 },
-	{ ShiftMask,            Button4, ttysend,        {.s = "\033[5;2~"} },
-	{ XK_ANY_MOD,           Button4, ttysend,        {.s = "\031"} },
-	{ ShiftMask,            Button5, ttysend,        {.s = "\033[6;2~"} },
-	{ XK_ANY_MOD,           Button5, ttysend,        {.s = "\005"} },
-  { XK_NO_MOD,            Button4, ttysend,        {.s = "\033[1;3A"}, 0, -1 },
-  { XK_NO_MOD,            Button5, ttysend,        {.s = "\033[1;3B"}, 0, -1 },
+	{ ShiftMask,            Button4, kscrollup,      {.i = 5} },
+	{ ShiftMask,            Button5, kscrolldown,    {.i = 5} },
 };
 
 /* Internal keyboard shortcuts. */
@@ -216,15 +212,19 @@ static Shortcut shortcuts[] = {
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
 	{ TERMMOD,              XK_I,           iso14755,       {.i =  0} },
-	{ ALTMOD,              XK_Up,          zoom,           {.f = +1} },
-	{ ALTMOD,              XK_Down,        zoom,           {.f = -1} },
-	{ ALTMOD,              XK_K,           zoom,           {.f = +1} },
-	{ ALTMOD,              XK_J,           zoom,           {.f = -1} },
-	{ ALTMOD,              XK_U,           zoom,           {.f = +2} },
-	{ ALTMOD,              XK_D,           zoom,           {.f = -2} },
+	{ ALTMOD,               XK_Up,          zoom,           {.f = +1} },
+	{ ALTMOD,               XK_Down,        zoom,           {.f = -1} },
+	{ ALTMOD,               XK_K,           zoom,           {.f = +1} },
+	{ ALTMOD,               XK_J,           zoom,           {.f = -1} },
+	{ ALTMOD,               XK_U,           zoom,           {.f = +2} },
+	{ ALTMOD,               XK_D,           zoom,           {.f = -2} },
 	{ MODKEY,               XK_l,           externalpipe,   {.v = openurlcmd } },
 	{ MODKEY,               XK_y,           externalpipe,   {.v = copyurlcmd } },
 	{ MODKEY,               XK_o,           externalpipe,   {.v = copyoutput } },
+	{ MODKEY,               XK_u,           kscrollup,      {.i = -1} },
+	{ MODKEY,               XK_d,           kscrolldown,    {.i = -1} },
+	{ MODKEY,               XK_k,           kscrollup,      {.i = 2} },
+	{ MODKEY,               XK_j,           kscrolldown,    {.i = 2} },
 };
 
 /*
@@ -264,6 +264,7 @@ static uint ignoremod = Mod2Mask|XK_SWITCH_MOD;
  * This is the huge key array which defines all compatibility to the Linux
  * world. Please decide about changes wisely.
  */
+
 static Key key[] = {
 	/* keysym           mask            string      appkey appcursor */
 	{ XK_KP_Home,       ShiftMask,      "\033[2J",       0,   -1},

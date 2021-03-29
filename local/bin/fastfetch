@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ ! -f "$HOME/.cache/neofetch" ]; then
   mkdir -p "$HOME/.cache"

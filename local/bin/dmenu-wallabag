@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 
 itemcache="${XDG_DATA_HOME:-$HOME/.cache}/wallabag-dmenu"

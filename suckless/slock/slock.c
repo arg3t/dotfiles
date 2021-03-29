@@ -18,11 +18,14 @@
 #include <X11/extensions/Xinerama.h>
 #include <X11/keysym.h>
 #include <X11/Xlib.h>
+#include <signal.h>
 #include <X11/Xutil.h>
 #include <X11/XKBlib.h>
 
 #include "arg.h"
 #include "util.h"
+
+#define LENGTH(X)               (sizeof X / sizeof X[0])
 
 char *argv0;
 
@@ -62,6 +65,7 @@ die(const char *errstr, ...)
 	va_end(ap);
 	exit(1);
 }
+
 
 #ifdef __linux__
 #include <fcntl.h>
@@ -409,6 +413,24 @@ usage(void)
 	die("usage: slock [-v] [-f] [-m message] [cmd [arg ...]]\n");
 }
 
+void runprelock(){
+	for(int i = 0; i < LENGTH(prelock); i++){
+		if(fork() == 0)
+			execvp(prelock[i][0], (char **)prelock[i]);
+	}
+}
+
+void runpostlock(){
+	signal(SIGUSR1,runpostlock);
+	printf("running post lock");
+	for(int i = 0; i < LENGTH(prelock); i++){
+		if(fork() == 0)
+			execvp(postlock[i][0], (char **)postlock[i]);
+	}
+	exit(0);
+}
+
+
 int
 main(int argc, char **argv) {
 	struct xrandr rr;
@@ -454,6 +476,7 @@ main(int argc, char **argv) {
 		    errno ? strerror(errno) : "group entry not found");
 	dgid = grp->gr_gid;
 
+
 #ifdef __linux__
 	dontkillme();
 #endif
@@ -466,6 +489,14 @@ main(int argc, char **argv) {
 	if (!(dpy = XOpenDisplay(NULL)))
 		die("slock: cannot open display\n");
 
+
+	runprelock();
+	int postlock_p = fork();
+	if ( postlock_p  == 0 ) {
+		signal(SIGUSR1,runpostlock);
+		while(1);
+	}
+
 	/* drop privileges */
 	if (setgroups(0, NULL) < 0)
 		die("slock: setgroups: %s\n", strerror(errno));
@@ -473,6 +504,7 @@ main(int argc, char **argv) {
 		die("slock: setgid: %s\n", strerror(errno));
 	if (setuid(duid) < 0)
 		die("slock: setuid: %s\n", strerror(errno));
+
 
 	/* check for Xrandr support */
 	rr.active = XRRQueryExtension(dpy, &rr.evbase, &rr.errbase);
@@ -511,6 +543,7 @@ main(int argc, char **argv) {
 
 	/* everything is now blank. Wait for the correct password */
 	readpw(dpy, &rr, locks, nscreens, hash);
+	kill(postlock_p, SIGUSR1);
 
 	return 0;
 }
