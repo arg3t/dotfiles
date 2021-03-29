@@ -40,16 +40,17 @@ if [ "$ACTIVITYWATCHER" = true ] ; then
     aw-watcher-window &
     aw-watcher-afk &
 fi
-mpd &
+mpd
 mpd-mpris &
 touch ~/.cache/nextcloud-track
 xss-lock -- slock &
-echo "on" > ~/.cache/screensaver
-dbus-update-activation-environment --systemd DISPLAY
 picom --no-fading-openclose &
 brave-start &
 bitwarden-desktop &
 curl 'http://yeetclock/setcolor?R=136&G=192&B=208' &
+
+dunst &
+
 xbanish -t 2000 -s &
 
 pactl upload-sample /usr/share/sounds/freedesktop/stereo/bell.oga x11-bell

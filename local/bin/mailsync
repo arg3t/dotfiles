@@ -1,5 +1,9 @@
 #!/bin/sh
 
+
+export XDG_CONFIG_HOME="$HOME"/.config
+export MBSYNCRC="$XDG_CONFIG_HOME"/isync/mbsyncrc
+
 # - Syncs mail for all accounts, or a single account given as an argument.
 # - Displays a notification showing the number of new mails.
 # - Displays a notification for each new mail with its subject displayed.

@@ -66,4 +66,5 @@ export RANDFILE="$XDG_DATA_HOME"/openssl/rnd
 export _Z_DATA="$XDG_DATA_HOME/z"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
 export WAKATIME_HOME="$XDG_CONFIG_HOME/wakatime"
-
+export XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
+export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc

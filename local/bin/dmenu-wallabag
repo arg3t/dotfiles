@@ -9,6 +9,7 @@ usage() {
     cat <<-EOF
 	usage: dmenu-wallabag [-lah]
 	     -l List Entries
+	     -s Select Menu
 	     -a Add an entry
 	     -h Print help
 	EOF
@@ -47,9 +48,23 @@ add_entry() {
     wallabag list | head -n -1 | tail -n +2 > $itemcache
 }
 
-while getopts ':lah' opt; do
+select_mode() {
+    menu="Read\nAdd"
+    action=$(echo -e "$menu" | dmenu -p "Select action: ")
+    if [ "$action" = "" ]; then
+        return
+    fi
+    if [ "$action" = "Read" ];then
+        list_entries
+    else
+        add_entry
+    fi
+}
+
+while getopts ':lahs' opt; do
     case "$opt" in
         l) list_entries ;;
+        s) select_mode;;
         a) add_entry ;;
         h) usage && exit;;
         /?) echo "Unrecognized command: $OPTARG";;

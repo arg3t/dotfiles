@@ -10,13 +10,16 @@ getargs() {
     esac
   done
 }
+
 start_dnd() {
+  dunstify -r 52 -a "  Notifications" "Switching to do not disturb"
+  sleep 0.5
   dunstctl set-paused true
 }
 
 end_dnd() {
   dunstctl set-paused false
-  notify-send "Do Not Disturb" "Do Not Disturb mode ended. Notifications will be shown.";
+  dunstify -r 52 -a "  Notifications" "Turning off do not disturb"
 }
 
 toggle_dnd() {

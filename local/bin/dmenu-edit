@@ -1,18 +1,22 @@
 #!/bin/sh
 
 DMENU='dmenu  -z 1900 -x 10 -y 10 -i'
-
+blacklist="powerlevel10k|secret|gitignore|log|plugins|patch"
+whitelist="config.h|keybind.h|colors.h|color.h"
 declare -A mappings
 
-mappings=(
-  ["Test"]="Test"
-  ["Test2"]="Test2"
-)
+items=$(find "$HOME/.dotfiles/config" -type f | grep -Ev $blacklist | sed -n "s|$HOME/.dotfiles/config/|config/|p")
+scripts=$(find "$HOME/.dotfiles/local/bin" -type f | grep -Ev $blacklist | sed -n "s|$HOME/.dotfiles/local/bin/|scripts/|p")
+suckless=$(find "$HOME/.dotfiles/suckless" -type f | grep -Ev $blacklist | grep -E $whitelist | sed -n "s|$HOME/.dotfiles/suckless/|suckless/|p")
 
-items=""
+selection=$(echo "$items\n$scripts\n$suckless" | $DMENU)
 
-for i in "${!mappings[@]}"; do
-  items=$(echo -e "$items\n$i")
-done
-
-selection=$(echo "$items" | tail -n +2 | $DMENU)
+if [ ! "$selection" = "" ]; then
+  if [ $(echo $selection | cut -d"/" -f 1) = "scripts" ]; then
+    st -c vim -n vim -e vim "$(echo $selection | sed -n "s|scripts/|$HOME/.dotfiles/local/bin/|p")"
+  elif [ $(echo $selection | cut -d"/" -f 1) = "suckless" ]; then
+    st -c vim -n vim -e vim "$(echo $selection | sed -n "s|suckless/|$HOME/.dotfiles/suckless/|p")"
+  else
+    st -c vim -n vim -e vim "$(echo $selection | sed -n "s|config/|$HOME/.dotfiles/config/|p")"
+  fi
+fi

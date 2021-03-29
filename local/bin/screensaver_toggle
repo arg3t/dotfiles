@@ -9,19 +9,18 @@ getargs() {
     esac
   done
 }
+
 start_dnd() {
   xset s off -dpms
-  echo "off" > ~/.cache/screensaver
-  notify-send "Screensaver off";
+  dunstify -r 51 -a "  System" "Screensaver off"
 }
 end_dnd() {
   xset s off +dpms
-  echo "on" > ~/.cache/screensaver
-  notify-send "Screensaver on.";
+  dunstify -r 51 -a "  System" "Screensaver on"
 }
 
 toggle_dnd() {
-  if [ $(cat ~/.cache/screensaver) = "on" ]; then
+  if [ $(xset q | grep "DPMS is" | xargs | cut -c9-) = "Enabled" ]; then
     start_dnd
   else
     end_dnd

@@ -12,13 +12,13 @@
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 static char dmenumon[2] = "0";
-static const char *dmenucmd[] = { "/home/yigit/.local/bin/dmenu_run_history", "-m", dmenumon, "-z", "1900", "-x", "10", "-y", "10"};
+static const char *dmenucmd[] = { "/home/yigit/.local/share/bin/dmenu_run_history", "-m", dmenumon, "-z", "1900", "-x", "10", "-y", "10"};
 static const char *termcmd[]  = { "/usr/local/bin/st", NULL };
-static const char *tmuxcmd[]  = { "/usr/local/bin/st","-e", "/home/yigit/.local/bin/st_tmux", NULL };
+static const char *tmuxcmd[]  = { "/usr/local/bin/st","-e", "/home/yigit/.local/share/bin/st_tmux", NULL };
 static const char *rangercmd[]  = { "/usr/local/bin/st","-c","ranger","-n","ranger","-e", "ranger", NULL };
-static const char *upvol[]   = { "/home/yigit/.local/bin/pacontrol.sh", "up",     NULL };
-static const char *downvol[]   = { "/home/yigit/.local/bin/pacontrol.sh", "down",     NULL };
-static const char *mutevol[]   = { "/home/yigit/.local/bin/pacontrol.sh", "toggle-mute",     NULL };
+static const char *upvol[]   = { "/home/yigit/.local/share/bin/pacontrol.sh", "up",     NULL };
+static const char *downvol[]   = { "/home/yigit/.local/share/bin/pacontrol.sh", "down",     NULL };
+static const char *mutevol[]   = { "/home/yigit/.local/share/bin/pacontrol.sh", "toggle-mute",     NULL };
 
 static const char *upbright[] = {"/usr/bin/xbacklight","-inc","10",NULL};
 static const char *downbright[] = {"/usr/bin/xbacklight","-dec","10",NULL};
@@ -28,38 +28,39 @@ static const char *clipmenu[] = {"/usr/bin/clipmenu","-i",NULL};
 static const char *play[] = {"/usr/bin/playerctl","play-pause",NULL};
 static const char *prev[] = {"/usr/bin/playerctl","previous",NULL};
 static const char *next[] = {"/usr/bin/playerctl","next",NULL};
-static const char *outmenu[] = {"/home/yigit/.local/bin/dmenu-logout", NULL};
-static const char *refresh[] = {"/home/yigit/.local/bin/dmenu-refresh", NULL};
-static const char *keyboard[] = {"/home/yigit/.local/bin/kbmap_toggle", NULL};
+static const char *outmenu[] = {"/home/yigit/.local/share/bin/dmenu-logout", NULL};
+static const char *refresh[] = {"/home/yigit/.local/share/bin/dmenu-refresh", NULL};
+static const char *keyboard[] = {"/home/yigit/.local/share/bin/kbmap_toggle", NULL};
 
 static const char *screenshot[] = { "scrot", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send \"SNAP\" \"$f\"", NULL };
 static const char *windowshot[] = { "scrot", "-u", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send \"SNAP\" \"$f\"", NULL };
 static const char *simcrop[] = {"simcrop","-fc","-sc", "-g", "900x500",NULL};
 
-static const char *notification[] = {"/home/yigit/.local/bin/dunst_toggle.sh", "-t",NULL};
+static const char *notification[] = {"/home/yigit/.local/share/bin/dunst_toggle.sh", "-t",NULL};
 
-static const char *screensaver[] = {"/home/yigit/.local/bin/screensaver_toggle", "-t",NULL};
+static const char *screensaver[] = {"/home/yigit/.local/share/bin/screensaver_toggle", "-t",NULL};
 
-static const char *online_class[] = {"/home/yigit/.local/bin/tedportal",NULL};
+static const char *online_class[] = {"/home/yigit/.local/share/bin/tedportal",NULL};
 
-static const char *bwmenu[] = {"/home/yigit/.local/bin/password_manager", NULL};
+static const char *bwmenu[] = {"/home/yigit/.local/share/bin/password_manager", NULL};
 
 
-static const char *wallabag_read[] = {"/home/yigit/.local/bin/dmenu-wallabag", "-l",NULL};
-static const char *wallabag_add[] = {"/home/yigit/.local/bin/dmenu-wallabag", "-a", NULL};
+static const char *wallabag[] = {"/home/yigit/.local/share/bin/dmenu-wallabag", "-s", NULL};
+static const char *wiki[] = {"/home/yigit/.local/share/bin/dmenu-arch", NULL};
 
-static const char *network_manager[] = {"/home/yigit/.local/bin/networkmanager_dmenu", NULL};
-static const char *killall[] = {"/home/yigit/.local/bin/dmenu-killall", NULL};
-static const char *mconnect[] = {"/home/yigit/.local/bin/dmenu-mconnect"};
-static const char *udevil[] = {"/home/yigit/.local/bin/dmenu-udevil"};
-static const char *udevil_umount[] = {"/home/yigit/.local/bin/dmenu-udevil", "-u"};
+static const char *network_manager[] = {"/home/yigit/.local/share/bin/networkmanager_dmenu", NULL};
+static const char *killall[] = {"/home/yigit/.local/share/bin/dmenu-killall", NULL};
+static const char *mconnect[] = {"/home/yigit/.local/share/bin/dmenu-mconnect"};
+static const char *udevil[] = {"/home/yigit/.local/share/bin/dmenu-udevil"};
+static const char *udevil_umount[] = {"/home/yigit/.local/share/bin/dmenu-udevil", "-u"};
 static const char *genpwd[] = {"sh", "-c","/sbin/bw generate | xclip" };
-static const char *trackpad[] = {"/home/yigit/.local/bin/toggle_touchpad.sh"};
-static const char *bluetooth[] = {"/home/yigit/.local/bin/dmenu-bluetooth", NULL};
-static const char *url[] = {"/home/yigit/.local/bin/dmenu_surf", NULL};
-static const char *surf[] = {"/home/yigit/.local/bin/tabbed_surf", NULL};
-static const char *google[] = {"/home/yigit/.local/bin/menu-surfraw", "google", NULL};
-static const char *youtube[] = {"/home/yigit/.local/bin/ytfzf_dmenu", NULL};
+static const char *trackpad[] = {"/home/yigit/.local/share/bin/toggle_touchpad.sh"};
+static const char *bluetooth[] = {"/home/yigit/.local/share/bin/dmenu-bluetooth", NULL};
+static const char *url[] = {"/home/yigit/.local/share/bin/dmenu_surf", NULL};
+static const char *edit[] = {"/home/yigit/.local/share/bin/dmenu-edit", NULL};
+static const char *surf[] = {"/home/yigit/.local/share/bin/tabbed_surf", NULL};
+static const char *google[] = {"/home/yigit/.local/share/bin/menu-surfraw", "google", NULL};
+static const char *youtube[] = {"/home/yigit/.local/share/bin/ytfzf_dmenu", NULL};
 
 /* commands */
 static Key keys[] = {
@@ -132,9 +133,10 @@ static Key keys[] = {
 	{ 0,                            XK_Print, spawn, {.v = screenshot  } },
 	{ MODKEY,                       XK_Print, spawn, {.v = windowshot  } },
 	{ MODKEY|ShiftMask, 						XK_e, spawn, {.v = simcrop } },
+	{ MODKEY,                       XK_e, spawn, {.v = edit} },
 	{ MODKEY,                       XK_u, spawn, {.v = url} },
-	{ MODKEY,                       XK_w, spawn, {.v = wallabag_read} },
-	{ MODKEY|ShiftMask,             XK_w, spawn, {.v = wallabag_add} },
+	{ MODKEY|ShiftMask,             XK_w, spawn, {.v = wallabag} },
+	{ MODKEY,            					  XK_w, spawn, {.v = wiki} },
 	{ MODKEY,                       XK_g, spawn, {.v = google} },
 	{ MODKEY|ShiftMask,							XK_c, spawn, {.v = online_class} },
 	{ MODKEY|ShiftMask,							XK_m, spawn, {.v = mconnect} },
