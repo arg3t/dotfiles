@@ -40,13 +40,14 @@
     icon_position = left
     #icon_path = /home/yigit/.icons/Tela-dark/16/actions:/home/yigit/.icons/Tela-dark/16/apps:/home/yigit/.icons/Tela-dark/16/devices:/home/yigit/.icons/Tela-dark/16/mimetypes:/home/yigit/.icons/Tela-dark/16/panel:/home/yigit/.icons/Tela-dark/16/places:/home/yigit/.icons/Tela-dark/16/status
     max_icon_size=32
-    mouse_middle_click = close_all
-    mouse_right_click = do_action
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
 
 [shortcuts]
     close_all = ctrl+mod1+space
     history = shift+mod4+h
-    context = shift+mod1+space
+    context = ctrl+shift+period
 
 [urgency_low]
     background	= "#0F111A"
