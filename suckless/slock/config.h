@@ -7,9 +7,11 @@ static const char *lights_on[]  = { "/bin/curl", "http://yeetclock/setcolor?R=13
 static const char *lights_off[]  = { "/bin/curl", "http://yeetclock/setcolor?R=0&G=0&B=0&O=0", NULL };
 static const char *notifications_on[]  = { "/home/yigit/.local/bin/dunst_toggle.sh", "-e", NULL };
 static const char *notifications_off[]  = { "/home/yigit/.local/bin/dunst_toggle.sh", "-s", NULL };
+static const char *mute_on[]  = { "/home/yigit/.local/bin/pacontrol.sh", "open-mute", NULL };
+static const char *mute_off[]  = { "/home/yigit/.local/bin/pacontrol.sh", "close-mute", NULL };
 
-static const char **prelock[] = {lights_off, notifications_off};
-static const char **postlock[] = {lights_on, notifications_on};
+static const char **prelock[] = {lights_off, notifications_off, mute_on};
+static const char **postlock[] = {lights_on, notifications_on, mute_off};
 
 static const char *colorname[NUMCOLS] = {
 	[INIT] =   "black",     /* after initialization */

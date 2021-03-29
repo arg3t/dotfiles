@@ -23,7 +23,7 @@ static const char *mutevol[]   = { "/home/yigit/.local/bin/pacontrol.sh", "toggl
 static const char *upbright[] = {"/usr/bin/xbacklight","-inc","10",NULL};
 static const char *downbright[] = {"/usr/bin/xbacklight","-dec","10",NULL};
 
-static const char *lock[] = {"/home/yigit/.local/bin/lock",NULL};
+static const char *lock[] = {"/usr/local/bin/slock",NULL};
 static const char *clipmenu[] = {"/usr/bin/clipmenu","-i",NULL};
 static const char *play[] = {"/usr/bin/playerctl","play-pause",NULL};
 static const char *prev[] = {"/usr/bin/playerctl","previous",NULL};

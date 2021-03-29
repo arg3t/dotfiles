@@ -415,15 +415,25 @@ usage(void)
 
 void runprelock(){
 	for(int i = 0; i < LENGTH(prelock); i++){
-		if(fork() == 0)
+		if(fork() == 0){
+			int fd = open("/dev/null", O_WRONLY);
+			dup2(fd, 1);
+			dup2(fd, 2);
+			close(fd);
 			execvp(prelock[i][0], (char **)prelock[i]);
+		}
 	}
 }
 
 void runpostlock(){
 	for(int i = 0; i < LENGTH(prelock); i++){
-		if(fork() == 0)
+		if(fork() == 0){
+			int fd = open("/dev/null", O_WRONLY);
+			dup2(fd, 1);
+			dup2(fd, 2);
+			close(fd);
 			execvp(postlock[i][0], (char **)postlock[i]);
+		}
 	}
 }
 

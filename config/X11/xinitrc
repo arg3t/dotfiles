@@ -43,7 +43,7 @@ fi
 mpd &
 mpd-mpris &
 touch ~/.cache/nextcloud-track
-xss-lock -- /home/yigit/.local/share/bin/lock &
+xss-lock -- slock &
 echo "on" > ~/.cache/screensaver
 dbus-update-activation-environment --systemd DISPLAY
 picom --no-fading-openclose &

@@ -20,11 +20,14 @@ case $1 in
     "down")
         pactl set-sink-volume $latest_sink -$vol_interval%
         ;;
-    "toggle-mute") 
+    "toggle-mute")
         pactl set-sink-mute $latest_sink toggle
         ;;
-    "open-mute") 
+    "open-mute")
         pactl set-sink-mute $latest_sink 1
+        ;;
+    "close-mute")
+        pactl set-sink-mute $latest_sink 0
         ;;
     *) usage ;;
 esac
