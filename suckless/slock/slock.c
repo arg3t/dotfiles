@@ -421,29 +421,61 @@ void runprelock(){
 }
 
 void runpostlock(){
-	signal(SIGUSR1,runpostlock);
-	printf("running post lock");
 	for(int i = 0; i < LENGTH(prelock); i++){
 		if(fork() == 0)
 			execvp(postlock[i][0], (char **)postlock[i]);
 	}
-	exit(0);
 }
 
+int lock(Display *dpy, uid_t duid, gid_t dgid, char* hash){
+	struct xrandr rr;
+	struct lock **locks;
+	int i, s, nlocks, nscreens;
+
+	/* drop privileges */
+	if (setgroups(0, NULL) < 0)
+		die("slock: setgroups: %s\n", strerror(errno));
+	if (setgid(dgid) < 0)
+		die("slock: setgid: %s\n", strerror(errno));
+	if (setuid(duid) < 0)
+		die("slock: setuid: %s\n", strerror(errno));
+
+	/* check for Xrandr support */
+	rr.active = XRRQueryExtension(dpy, &rr.evbase, &rr.errbase);
+
+	/* get number of screens in display "dpy" and blank them */
+	nscreens = ScreenCount(dpy);
+	if (!(locks = calloc(nscreens, sizeof(struct lock *))))
+		die("slock: out of memory\n");
+	for (nlocks = 0, s = 0; s < nscreens; s++) {
+		if ((locks[s] = lockscreen(dpy, &rr, s)) != NULL) {
+			writemessage(dpy, locks[s]->win, s);
+			nlocks++;
+		} else {
+			break;
+		}
+	}
+	XSync(dpy, 0);
+
+	/* did we manage to lock everything? */
+	if (nlocks != nscreens)
+		return 1;
+
+	readpw(dpy, &rr, locks, nscreens, hash);
+	return 0;
+}
 
 int
 main(int argc, char **argv) {
-	struct xrandr rr;
-	struct lock **locks;
+	Display *dpy;
 	struct passwd *pwd;
 	struct group *grp;
+	int count_fonts;
+	char **font_names;
+	int i;
 	uid_t duid;
 	gid_t dgid;
 	const char *hash;
-	Display *dpy;
-	int i, s, nlocks, nscreens;
-	int count_fonts;
-	char **font_names;
 
 	ARGBEGIN {
 	case 'v':
@@ -489,61 +521,15 @@ main(int argc, char **argv) {
 	if (!(dpy = XOpenDisplay(NULL)))
 		die("slock: cannot open display\n");
 
-
 	runprelock();
-	int postlock_p = fork();
-	if ( postlock_p  == 0 ) {
-		signal(SIGUSR1,runpostlock);
-		while(1);
+
+	int lock_pid = fork();
+	if(lock_pid == 0){
+		lock(dpy, duid, dgid, hash);
+	}else{
+		waitpid(lock_pid);
 	}
 
-	/* drop privileges */
-	if (setgroups(0, NULL) < 0)
-		die("slock: setgroups: %s\n", strerror(errno));
-	if (setgid(dgid) < 0)
-		die("slock: setgid: %s\n", strerror(errno));
-	if (setuid(duid) < 0)
-		die("slock: setuid: %s\n", strerror(errno));
-
-
-	/* check for Xrandr support */
-	rr.active = XRRQueryExtension(dpy, &rr.evbase, &rr.errbase);
-
-	/* get number of screens in display "dpy" and blank them */
-	nscreens = ScreenCount(dpy);
-	if (!(locks = calloc(nscreens, sizeof(struct lock *))))
-		die("slock: out of memory\n");
-	for (nlocks = 0, s = 0; s < nscreens; s++) {
-		if ((locks[s] = lockscreen(dpy, &rr, s)) != NULL) {
-			writemessage(dpy, locks[s]->win, s);
-			nlocks++;
-		} else {
-			break;
-		}
-	}
-	XSync(dpy, 0);
-
-	/* did we manage to lock everything? */
-	if (nlocks != nscreens)
-		return 1;
-
-	/* run post-lock command */
-	if (argc > 0) {
-		switch (fork()) {
-		case -1:
-			die("slock: fork failed: %s\n", strerror(errno));
-		case 0:
-			if (close(ConnectionNumber(dpy)) < 0)
-				die("slock: close: %s\n", strerror(errno));
-			execvp(argv[0], argv);
-			fprintf(stderr, "slock: execvp %s: %s\n", argv[0], strerror(errno));
-			_exit(1);
-		}
-	}
-
-	/* everything is now blank. Wait for the correct password */
-	readpw(dpy, &rr, locks, nscreens, hash);
-	kill(postlock_p, SIGUSR1);
-
+	runpostlock();
 	return 0;
 }

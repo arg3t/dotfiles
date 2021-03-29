@@ -1,7 +1,6 @@
 /* user and group to drop privileges to */
-/* Drop privilegs to a regular user, very insecure but hey, it works for now */
-static const char *user  = "yigit";
-static const char *group = "yigit";
+static const char *user  = "nobody";
+static const char *group = "nobody";
 
 
 static const char *lights_on[]  = { "/bin/curl", "http://yeetclock/setcolor?R=136&G=192&B=208&O=1", NULL };
