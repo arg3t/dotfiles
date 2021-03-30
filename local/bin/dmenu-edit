@@ -1,7 +1,7 @@
 #!/bin/sh
 
 DMENU='dmenu  -z 1900 -x 10 -y 10 -i'
-blacklist="powerlevel10k|secret|gitignore|log|plugins|patch"
+blacklist="powerlevel10k|secret|gitignore|log|plugins|patches|config/surf"
 whitelist="config.h|keybind.h|colors.h|color.h|rules.h"
 declare -A mappings
 
@@ -9,7 +9,7 @@ items=$(find "$HOME/.dotfiles/config" -type f | grep -Ev $blacklist | sed -n "s|
 scripts=$(find "$HOME/.dotfiles/local/bin" -type f | grep -Ev $blacklist | sed -n "s|$HOME/.dotfiles/local/bin/|scripts/|p")
 suckless=$(find "$HOME/.dotfiles/suckless" -type f | grep -Ev $blacklist | grep -E $whitelist | sed -n "s|$HOME/.dotfiles/suckless/|suckless/|p")
 
-selection=$(echo "$items\n$scripts\n$suckless" | $DMENU)
+selection=$(echo -e "$items\n$scripts\n$suckless" | $DMENU)
 
 if [ ! "$selection" = "" ]; then
   if [ $(echo $selection | cut -d"/" -f 1) = "scripts" ]; then

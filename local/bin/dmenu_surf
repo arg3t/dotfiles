@@ -3,8 +3,6 @@
 lines=12
 blacklist='google'
 
-# cat ~/.surf/history.txt | sed -E 's/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} *([^ ]*) *(.*)/\2 : \1/g' | sort | uniq
-# selection=$(cat ~/.surf/history.txt | grep -Eiv $blacklist| sed -E 's/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} *([^ ]*) *(.*)/\2 : \1/g' | sort | uniq | dmenu -l $lines -i -p "Enter URL")
 selection=$(echo "" | dmenu -p "Enter URL")
 
 if [ ! -z "$selection" ]

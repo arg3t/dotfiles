@@ -1,0 +1,6 @@
+#!/bin/sh
+
+todos=$(calcurse -t | tail -n +2 | wc -l)
+
+echo -n "^c#81a1c1^ ^d^ $todos"
+

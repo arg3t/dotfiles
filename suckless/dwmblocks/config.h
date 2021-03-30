@@ -2,12 +2,14 @@
 #define PATH(name)			"/home/yigit/.local/share/bin/status-bar/"name
 
 static Block blocks[] = {
+//	{ "", PATH("clipboard"),		120,		28},
 	{ "", PATH("screensaver"),		120,		19},
 	{ "", PATH("dunst"),				  120,		18},
 	{ "", PATH("mail"),					  120,		23},
 	{ "", PATH("keyboard"),			  120,		24},
 	{ "", PATH("bluetooth"),		  120,		26},
 	{ "", PATH("mconnect"),			  120,		20},
+	{ "", PATH("todo"),					  120,		27},
 	{ "", PATH("nextcloud"),			600,		25},
 	{ "", PATH("cpu-temp"),				30,			17},
 	{ "", PATH("memory"),		  		120,		21},
