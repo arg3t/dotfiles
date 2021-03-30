@@ -8,7 +8,7 @@ collections = ["from a", "from b"]
 
 [storage nx_contacts_local]
 type = "filesystem"
-path = "~/.card/contacts"
+path = "~/.local/share/card/contacts"
 fileext = ".vcf"
 
 [storage nx_contacts_remote]

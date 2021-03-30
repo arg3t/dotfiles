@@ -25,9 +25,12 @@ static const Rule rules[] = {
 	RULE(.class = "Spotify", .tags = 1 << 9)
 	RULE(.instance = "spterm", .tags = SPTAG(0), .isfloating = 1)
 	RULE(.class = "spfeh", .tags = SPTAG(1), .isfloating = 1)
-	/* Terminal Window Rules */
 	RULE(.instance = "spmutt", .tags = SPTAG(2), .isfloating = 1)
+	RULE(.instance = "spfile", .tags = SPTAG(3), .isfloating = 1)
+	RULE(.instance = "spmusic", .tags = SPTAG(4), .isfloating = 1)
+	/* Terminal Window Rules */
 	RULE(.class = "ranger", 0, .isfloating = 1, .floatpos="50% 50% 800W 560H")
+	RULE(.class = "lf", 0, .isfloating = 1, .floatpos="50% 50% 800W 560H")
 	RULE(.class = "vim", 0, .isfloating = 1, .floatpos="50% 50% 1000W 700H")
 	RULE(.class = "stpulse", 0, .isfloating = 1, .floatpos="50% 50% 800W 560H")
 	RULE(.class = "mpv", 0, .isfloating = 1, .floatpos="100% 1% 600W 350H")

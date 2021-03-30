@@ -7,7 +7,7 @@ static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows sel
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static int showsystray        					 = 1;     /* 0 means no systray */
-static const int tag_padding        		 = 0;        
+static const int tag_padding        		 = 0;
 static const char *layoutmenu_cmd        = "/home/yigit/.scripts/layoutmenu.sh";
 static const char autostartblocksh[]     = "autostart_blocking.sh";
 static const char autostartsh[]          = "autostart.sh";
@@ -34,7 +34,7 @@ static char *tagicons[][NUMTAGS] = {
 	[DEFAULT_TAGS]        = { "1", "2", "3", "4", "5", "6", "7", "8", "9" },
 	[ALTERNATIVE_TAGS]    = { "A", "B", "C", "D", "E", "F", "G", "H", "I" },
 };
- 
+
 /* layout(s) */
 static const float mfact     = 0.5; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
@@ -43,7 +43,7 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "鉶",      tile },    /* first entry is default */
- 	{ "",      dwindle }, 
+ 	{ "",      dwindle },
 	{ "ﱖ",      grid },
 	{ "",      centeredmaster },
 	{ "",      centeredfloatingmaster },
@@ -55,11 +55,15 @@ static const Layout layouts[] = {
 const char *spcmd1[] = {"st", "-c", "scratchpad", "-n", "spterm", "-g", "120x34", NULL };
 const char *spcmd2[] = {"feh", "--title", "scratchpad", "--class", "spfeh", "-g","900x300+500+350", "/home/yigit/Pictures/us_keyboard.png", NULL};
 const char *spcmd3[] = {"st", "-c", "scratchpad", "-n", "spmutt", "-g", "180x51", "-e", "neomutt", NULL };
+static const char *spcmd4[]  = { "/usr/local/bin/st", "-g", "140x45", "-c", "spfile", "-n", "spfile", "-e", "/home/yigit/.local/share/bin/lf-ueberzug", NULL };
+static const char *spcmd5[]  = { "/usr/local/bin/st", "-g", "140x45", "-c", "spmusic", "-n", "spmusic", "-e", "ncmpcpp", NULL };
 
 static Sp scratchpads[] = {
    {"spterm",      spcmd1},
    {"spfeh",       spcmd2},
    {"spmutt",      spcmd3},
+   {"spfile",      spcmd4},
+   {"spmusic",      spcmd5},
 };
 
 static const BarRule barrules[] = {

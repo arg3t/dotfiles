@@ -19,9 +19,9 @@ done;
 path=$( echo ${filename%/*} )
 file=$( echo ${filename##/*/} )
 
-rm /tmp/ranger-chrome-choosed
-st -c ranger -n ranger -e ranger --choosefiles=/tmp/ranger-chrome-choosed
-selected=$(cat /tmp/ranger-chrome-choosed 2> /dev/null)
+rm /tmp/lf-chrome-choosed
+st -c lf -n lf -e $HOME/.local/share/bin/lf-ueberzug --selection-path=/tmp/lf-chrome-choosed
+selected=$(cat /tmp/lf-chrome-choosed 2> /dev/null)
 if [ ! $? = 0 ]
 then
 	exit 1

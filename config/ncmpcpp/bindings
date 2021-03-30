@@ -177,11 +177,6 @@
 #def_key "backspace"
 #  replay_song
 #
-#def_key "f"
-#  seek_forward
-#
-#def_key "b"
-#  seek_backward
 #
 #def_key "r"
 #  toggle_repeat
@@ -402,11 +397,6 @@
 #def_key "f"
 #	find_item_forward
 
-def_key "+"
-    show_clock
-def_key "="
-    volume_up
-
 def_key "j"
     scroll_down
 def_key "k"
@@ -469,11 +459,11 @@ def_key "s"
   reset_search_engine
 def_key "s"
   show_search_engine
-def_key "f"
-  show_browser
-def_key "f"
-  change_browse_mode
 def_key "x"
   delete_playlist_items
 def_key "P"
   show_playlist
+def_key "f"
+  seek_forward
+def_key "b"
+  seek_backward

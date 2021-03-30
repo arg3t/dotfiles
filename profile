@@ -10,6 +10,7 @@ export TMUX_PLUGIN_MANAGER_PATH=~/.tmux/plugins
 export BORG_KEYS_DIR=~/.keys/borg
 export BROWSER="/home/yigit/.local/bin/brave-start"
 export EDITOR=vim
+export OPENER=xdg-open
 export ANDROID_HOME=/home/yigit/Android
 export DEFAULT_RECIPIENT="yigitcolakoglu@hotmail.com"
 

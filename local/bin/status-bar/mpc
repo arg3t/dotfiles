@@ -1,0 +1,19 @@
+#!/bin/sh
+
+online=$(mpc 2> /dev/null)
+title=$(mpc -f "%title%" 2> /dev/null | head -n 1)
+artist=$(mpc -f "%artist%" 2> /dev/null | head -n 1)
+
+if [ ! "$online" = "" ]; then
+  if [ "$(echo "$online" | wc -l)" -le 1 ]; then
+    echo -n "^c#a48ead^ ^d^"
+  else
+    echo -n "^c#a48ead^ ^d^ ${title:0:30} - ${artist:0:30}"
+  fi
+else
+  echo -n "^c#a48ead^ﳌ ^d^"
+fi
+case $BLOCK_BUTTON in
+          1) setsid -f st -c htop -n htop -e htop;;
+esac
+
