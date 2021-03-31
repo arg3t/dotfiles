@@ -21,12 +21,17 @@ if [ ! "$wipe" = "n" ]; then
     fi
     echo "[INFO]: Wiping the partition table..."
     wipefs -a -f $device
-
+    sleep 1
 fi
 
+clear
 # Run cfdisk for manual partitioning
 cfdisk $device
+clear
 
+
+lsblk $device
+echo ""
 echo "Now you will specify the partitions you have created"
 echo "Please enter the suffix for each partition. For Ex:"
 echo "1 if boot partition is /dev/sda1 or p1 if boot is on /dev/nvme0n1p1 and the disk is /dev/nvme0n1"
