@@ -90,7 +90,7 @@ if [ "$home_s" = "y" ]; then
     chmod 600 /root/.keys/home-keyfile
     echo $home_pass | cryptsetup luksAddKey "$home" /root/.keys/home-keyfile
     echo "[INFO]: Keyfile saved to /root/.keys/home-keyfile"
-    cryptsetup open --key-file="/root/.keys/home-keyfile" "$home" root
+    cryptsetup open --key-file="/root/.keys/home-keyfile" "$home" home
     mkfs.ext4 /dev/mapper/home
     mkdir /mnt/sys/home
     mount "/dev/mapper/home" /mnt/sys/home
@@ -119,4 +119,4 @@ else
 fi
 
 pacman -Sy --noconfirm tmux
-tmux new-session -s "arch-setup" 'arch-chroot /install/chroot.sh'
+tmux new-session -s "arch-setup" 'arch-chroot /mnt/sys /install/chroot.sh'
