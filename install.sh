@@ -18,6 +18,7 @@ fi
 echo "Running update"
 sudo pacman --noconfirm -Syu
 sudo pacman --noconfirm --needed -S $(cat ~/.dotfiles/arch-setup/nonAUR.txt)
+sudo rm -rf /etc/urlview/system.urlview
 yay -S --noconfirm --needed $(cat ~/.dotfiles/arch-setup/AUR.txt)
 
 # Initial cleanup

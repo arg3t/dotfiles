@@ -55,8 +55,8 @@ static const Layout layouts[] = {
 const char *spcmd1[] = {"st", "-c", "scratchpad", "-n", "spterm", "-g", "120x34", NULL };
 const char *spcmd2[] = {"feh", "--title", "scratchpad", "--class", "spfeh", "-g","900x300+500+350", "/home/yigit/Pictures/us_keyboard.png", NULL};
 const char *spcmd3[] = {"st", "-c", "scratchpad", "-n", "spmutt", "-g", "180x51", "-e", "neomutt", NULL };
-static const char *spcmd4[]  = { "/usr/local/bin/st", "-g", "140x45", "-c", "spfile", "-n", "spfile", "-e", "/home/yigit/.local/share/bin/lf-ueberzug", NULL };
-static const char *spcmd5[]  = { "/usr/local/bin/st", "-g", "140x45", "-c", "spmusic", "-n", "spmusic", "-e", "ncmpcpp", NULL };
+static const char *spcmd4[]  = { "/usr/local/bin/st", "-g", "150x35", "-c", "spfile", "-n", "spfile", "-e", "/home/yigit/.local/share/bin/lf-ueberzug", NULL };
+static const char *spcmd5[]  = { "/usr/local/bin/st", "-g", "150x35", "-c", "spmusic", "-n", "spmusic", "-e", "ncmpcpp", NULL };
 
 static Sp scratchpads[] = {
    {"spterm",      spcmd1},

@@ -45,8 +45,6 @@
 #def_key "end"
 #  move_end
 #
-#def_key "insert"
-#  select_item
 #
 #def_key "enter"
 #  enter_directory
@@ -467,3 +465,13 @@ def_key "f"
   seek_forward
 def_key "b"
   seek_backward
+def_key "B"
+  select_item
+def_key "insert"
+  select_item
+def_key "shift-up"
+  select_item
+  scroll_up
+def_key "shift-down"
+  select_item
+  scroll_down

@@ -1,90 +1,90 @@
-# Basic Settings
+# Yeet's lf settings
+
+# Basic vars
+
 set previewer lf-ueberzug-previewer
 set cleaner lf-ueberzug-cleaner
 set preview true
-set hidden true
 set drawbox true
 set icons true
 set ignorecase true
 
-# Custom Functions
+set shell zsh
+set ifs "\n"
+set scrolloff 10
+set period 1
+set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
+
+# cmds/functions
 cmd open ${{
-    echo "$fx" > /tmp/b
-    case $fx in
-        *.py|*.java|*.json|*.h|*.c|*.cpp|*.js) $EDITOR "$f";;
-        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2|*.tar.gz|*.tgz|*.tar.xz|*.txz|*.zip|*.rar|*.iso)
-            mntdir="$f-archivemount"
-            echo $mntdir > /tmp/a
-            [ ! -d "$mntdir" ] && {
-                mkdir "$mntdir"
-                archivemount "$f" "$mntdir"
-                echo "$mntdir" >> "/tmp/__lf_archivemount_$id"
-            }
-            lf -remote "send $id cd \"$mntdir\""
-            lf -remote "send $id reload"
-            ;;
-        *)
-            for f in $fx; do
-                $OPENER $f > /dev/null 2> /dev/null &
-            done;;
+    case $(file --mime-type $f -b) in
+	image/vnd.djvu|application/pdf|application/octet-stream) setsid -f zathura $fx >/dev/null 2>&1 ;;
+        text/*) $EDITOR $fx;;
+	image/x-xcf) setsid -f gimp $f >/dev/null 2>&1 ;;
+	image/svg+xml) display -- $f ;;
+	image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\|ico\)\(_large\)*$" | sxiv -aio 2>/dev/null | lf-select ;;
+	audio/*) mpv --audio-display=no $f ;;
+	video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
+	application/pdf|application/vnd*|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
+        *) for f in $fx; do setsid -f $OPENER $f >/dev/null 2>&1; done;;
     esac
 }}
 
-cmd mkdir ${{
-  printf "Directory Name: "
-  read ans
-  mkdir $ans
-  cd $and
+cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
+
+cmd extract ${{
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	printf "%s\n\t" "$fx"
+	printf "extract?[y/N]"
+	read ans
+	[ $ans = "y" ] && ext $fx
 }}
 
-cmd mkfile ${{
-  printf "File Name: "
-  read ans
-  $EDITOR $ans
+cmd delete ${{
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	printf "%s\n\t" "$fx"
+	printf "delete?[y/N]"
+	read ans
+	[ $ans = "y" ] && rm -rf -- $fx
 }}
 
-cmd chmod ${{
-  printf "Mode Bits: "
-  read ans
-
-  for file in "$fx"
-  do
-    chmod $ans $file
-  done
-
-  lf -remote 'send reload'
+cmd moveto ${{
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	clear; echo "Move to where?"
+	dest="$(cut -d'	' -f2- ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/bm-dirs | fzf | sed 's|~|$HOME|' )" &&
+	for x in $fx; do
+		eval mv -iv \"$x\" \"$dest\"
+	done &&
+	notify-send "File(s) moved." "File(s) moved to $dest."
 }}
 
-cmd trash %trash-put $fx
+cmd copyto ${{
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	clear; echo "Copy to where?"
+	dest="$(cut -d'	' -f2- ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/bm-dirs | fzf | sed 's|~|$HOME|' )" &&
+	for x in $fx; do
+		eval cp -ivr \"$x\" \"$dest\"
+	done &&
+	notify-send " File(s) copied." "File(s) copies to $dest."
+}}
 
-cmd setwallpaper ${{
+cmd setbg ${{
   echo "$fx" > /tmp/c
   echo convert "$fx" "$HOME/.local/backgrounds/wall.jpg" > /tmp/d
   convert "$fx" "$HOME/.local/backgrounds/wall.jpg"
-  feh --bg-fill "$HOME/.local/backgrounds/wall.jpg"
+  feh --no-fehbg --bg-fill "$HOME/.local/backgrounds/wall.jpg"
 }}
+
 
 cmd git_branch ${{
     git branch | fzf | xargs git checkout
     pwd_shell=$(pwd)
     lf -remote "send $id updir"
     lf -remote "send $id cd \"$pwd_shell\""
-}}
-
-cmd fzf_jump ${{
-  res="$(find . -maxdepth 3 | fzf --reverse --header='Jump to location')"
-  if [ -f "$res" ]; then
-    cmd="select"
-  elif [ -d "$res" ]; then
-    cmd="cd"
-  fi
-  lf -remote "send $id $cmd \"$res\""
-}}
-
-cmd cd_jump ${{
-  printf "Keyword: "
-  read ans
-  lf -remote "send $id cd $ans"
 }}
 
 cmd on-cd &{{
@@ -100,109 +100,40 @@ cmd on-cd &{{
     lf -remote "send $id set promptfmt \"$fmt\""
 }}
 
-cmd open ${{
-    case "$f" in
-    esac
-}}
-
-# Archive bindings
-cmd unarchive ${{
-  case "$f" in
-      *.zip) unzip "$f" ;;
-      *.tar.gz) tar -xzvf "$f" ;;
-      *.tar.bz2) tar -xjvf "$f" ;;
-      *.tar) tar -xvf "$f" ;;
-      *) echo "Unsupported format" ;;
-  esac
-}}
-
-cmd zip %zip -r "$f" "$f"
-cmd tar %tar cvf "$f.tar" "$f"
+cmd bulkrename $vidir
 cmd targz %tar cvzf "$f.tar.gz" "$f"
-cmd tarbz2 %tar cjvf "$f.tar.bz2" "$f"
 
-# Trash cli bindings
-cmd trash ${{
-  files=$(printf "$fx" | tr '\n' ';')
-  while [ "$files" ]; do
-    file=${files%%;*}
-
-    trash-put "$(basename "$file")"
-    if [ "$files" = "$file" ]; then
-      files=''
-    else
-      files="${files#*;}"
-    fi
-  done
-}}
-
-cmd clear_trash %trash-empty
-cmd trash %trash-put $fx
-
-cmd restore_trash ${{
-  trash-restore
-}}
-
-cmd stripspace %stripspace "$f"
-
-# Old keybinds cleanup
-map m
-map o
-map n
-map "'"
-map '"'
-map d
-map c
-map e
-map f
-
-# File Openers
-map e $$EDITOR "$f"
-map u xdg-open "$f"
-
-# Archive Mappings
-map az zip
-map at tar
-map ag targz
-map ab targz
-map au unarchive
-
-# Trash Mappings
-map tt trash
-map tc clear_trash
-map tr restore_trash
-
-map ss stripspace
-
-# Basic Functions
-map . set hidden!
+# Bindings
+map <c-f> $lf -remote "send $id select '$(fzf)'"
+map gh
+map gg top
 map D delete
-map p paste
-map dd cut
-map y copy
-map <enter> open
-map mf mkfile
-map md mkdir
-map ch chmod
-map bg setwallpaper
-map o open_config
-map br $vimv $fx
-map r rename
-map H top
-map L bottom
-map R reload
-map C clear
-map U unselect
+map E extract
+map T targz
+map C copyto
+map M moveto
+map <c-n> push :mkdir<space>
+map <c-r> reload
+map <c-s> set hidden!
+map <enter> shell
+map x $$f
+map X !$f
+map o &mimeopen $f
+map O $mimeopen --ask $f
 
-map cd cd_jump
-map cf fzf_jump
+map A rename # at the very end
+map r push A<c-u> # new rename
+map I push A<c-a> # at the very beginning
+map i push A<a-b><a-b><a-f> # before extention
+map a push A<a-b> # after extention
+map B bulkrename
+map b setbg
 
-# Git Mappings
-map gib :git_branch
-map gip ${{clear; git pull --rebase || true; echo "press ENTER"; read ENTER}}
-map gis ${{clear; git status; echo "press ENTER"; read ENTER}}
-map gil ${{clear; git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit}}
+map <c-e> down
+map <c-y> up
+map V push :!vim<space>
 
+map cd push !cd<space>
 # Movement
 map ~ cd ~
 map g/ cd /
@@ -210,4 +141,10 @@ map gm cd /media
 map gd cd ~/.dotfiles
 map gc cd ~/.config
 map gs cd ~/.local/share/bin
+
+# Git Mappings
+map gib :git_branch
+map gip ${{clear; git pull --rebase || true; echo "press ENTER"; read ENTER}}
+map gis ${{clear; git status; echo "press ENTER"; read ENTER}}
+map gil ${{clear; git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit}}
 

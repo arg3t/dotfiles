@@ -19,7 +19,9 @@ mconnect
 dunst
 clipmenud
 quark
-devmon"
+devmon
+mpd
+mpd-mpris"
 
 # Open menu
 selection=$(printf '%s' "$items" | $DMENU)
@@ -44,6 +46,10 @@ case $selection in
 	mpd)
 		kill -9 $(pidof mpd)
 		mpd &
+		mpd-mpris &
+		;;
+	mpd-mpris)
+		kill -9 $(pidof mpd-mpris)
 		mpd-mpris &
 		;;
 	dunst)

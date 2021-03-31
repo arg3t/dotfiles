@@ -1,6 +1,6 @@
 #!/usr/bin/zsh
 
-alias feh="feh --scale-down --auto-zoom"
+alias feh="feh --scale-down --auto-zoom --no-fehbg"
 alias cclear="$(which clear)"
 alias clear="clear && paleofetch"
 alias neofetch="neofetch --ascii ~/.config/neofetch/ascii.txt"
