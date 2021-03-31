@@ -11,7 +11,7 @@ mvie(){
 
 # Configuring for your username
 if [ ! "$username" = "yigit" ]; then
-  grep -rl "yigit" | xargs sed -i  "s/yigit/$username/g"
+  grep -rl "/home/yigit" | grep -v ".git" | xargs sed -i  "s/\/home\/yigit/\/home\/$username/g"
 fi
 
 # Don't prompt for a password for the rest of the script
