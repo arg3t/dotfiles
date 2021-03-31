@@ -52,60 +52,84 @@ if [ "$home_s" = "y" ]; then
     home=$device$home_p
 fi
 
+clear
+
 # Create the boot partition
 echo "[INFO]: Formatting boot partition"
 mkfs.fat -F32 $boot
 
-# Create the swap partition
-echo "[INFO]: Enter password for swap encryption"
-read swap_pass
+echo -n "[INFO]: Would you like to enrypt your disks?(Y/n): "
+read $encryption
 
-echo $swap_pass | cryptsetup -q luksFormat "$swap"
-mkdir /root/.keys
-dd if=/dev/urandom of=/root/.keys/swap-keyfile bs=1024 count=4
-chmod 600 /root/.keys/swap-keyfile
-echo $swap_pass | cryptsetup luksAddKey "$swap" /root/.keys/swap-keyfile
-echo "[INFO]: Keyfile saved to /root/.keys/swap-keyfile"
-cryptsetup open --key-file="/root/.keys/swap-keyfile" "$swap" swap
-mkswap /dev/mapper/swap
-swapon /dev/mapper/swap
+if [ ! "$encryption" = "n" ]; then
+    # Create the swap partition
+    echo "[INFO]: Enter password for swap encryption"
+    read swap_pass
 
-# Create the root partition
-echo "[INFO]: Enter password for root encryption"
-read root_pass
+    echo $swap_pass | cryptsetup -q luksFormat "$swap"
+    mkdir /root/.keys
+    dd if=/dev/urandom of=/root/.keys/swap-keyfile bs=1024 count=4
+    chmod 600 /root/.keys/swap-keyfile
+    echo $swap_pass | cryptsetup luksAddKey "$swap" /root/.keys/swap-keyfile
+    echo "[INFO]: Keyfile saved to /root/.keys/swap-keyfile"
+    cryptsetup open --key-file="/root/.keys/swap-keyfile" "$swap" swap
+    mkswap /dev/mapper/swap
+    swapon /dev/mapper/swap
 
-echo $root_pass | cryptsetup -q luksFormat "$root"
-dd bs=512 count=4 if=/dev/random of=/root/.keys/root-keyfile iflag=fullblock
-chmod 600 /root/.keys/root-keyfile
-echo $root_pass | cryptsetup luksAddKey "$root" /root/.keys/root-keyfile
-echo "[INFO]: Keyfile saved to /root/.keys/root-keyfile"
-cryptsetup open --key-file="/root/.keys/root-keyfile" "$root" root
-mkfs.ext4 /dev/mapper/root
+    # Create the root partition
+    echo "[INFO]: Enter password for root encryption"
+    read root_pass
 
-if [ "$home_s" = "y" ]; then
-    echo "[INFO]: Enter password for home encryption"
-    read home_pass
-    echo $home_pass | cryptsetup -q luksFormat "$home"
-    dd bs=512 count=4 if=/dev/random of=/root/.keys/home-keyfile iflag=fullblock
-    chmod 600 /root/.keys/home-keyfile
-    echo $home_pass | cryptsetup luksAddKey "$home" /root/.keys/home-keyfile
-    echo "[INFO]: Keyfile saved to /root/.keys/home-keyfile"
-    cryptsetup open --key-file="/root/.keys/home-keyfile" "$home" home
-    mkfs.ext4 /dev/mapper/home
-    mkdir /mnt/sys/home
-    mount "/dev/mapper/home" /mnt/sys/home
+    echo $root_pass | cryptsetup -q luksFormat "$root"
+    dd bs=512 count=4 if=/dev/random of=/root/.keys/root-keyfile iflag=fullblock
+    chmod 600 /root/.keys/root-keyfile
+    echo $root_pass | cryptsetup luksAddKey "$root" /root/.keys/root-keyfile
+    echo "[INFO]: Keyfile saved to /root/.keys/root-keyfile"
+    cryptsetup open --key-file="/root/.keys/root-keyfile" "$root" root
+    mkfs.ext4 /dev/mapper/root
+
+    mkdir /mnt/sys
+    mount /dev/mapper/root /mnt/sys
+
+    if [ "$home_s" = "y" ]; then
+        echo "[INFO]: Enter password for home encryption"
+        read home_pass
+        echo $home_pass | cryptsetup -q luksFormat "$home"
+        dd bs=512 count=4 if=/dev/random of=/root/.keys/home-keyfile iflag=fullblock
+        chmod 600 /root/.keys/home-keyfile
+        echo $home_pass | cryptsetup luksAddKey "$home" /root/.keys/home-keyfile
+        echo "[INFO]: Keyfile saved to /root/.keys/home-keyfile"
+        cryptsetup open --key-file="/root/.keys/home-keyfile" "$home" home
+        mkfs.ext4 /dev/mapper/home
+        mkdir /mnt/sys/home
+        mount "/dev/mapper/home" /mnt/sys/home
+    fi
+else
+    mkswap $swap
+    swapon $swap
+    mkfs.ext4 $root
+    mkdir /mnt/sys
+    mount $root /mnt/sys
+    if [ "$home_s" = "y" ]; then
+        mkfs.ext4 $home
+        mkdir /mnt/sys/home
+        mount "/dev/mapper/home" /mnt/sys/home
+    fi
 fi
 
-mkdir /mnt/sys
-mount /dev/mapper/root /mnt/sys
 mkdir /mnt/sys/boot
 mount "$boot" /mnt/sys/boot
+
+clear
 
 pacstrap /mnt/sys base linux linux-firmware base-devel git nano sudo
 genfstab -U /mnt/sys >> /mnt/sys/etc/fstab
 
+clear
+
 # Run on chrooted arch install
 mkdir /mnt/sys/install
+
 cp -r /root/.keys /mnt/sys/root
 curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.minimal > /mnt/sys/install/packages.minimal
 curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.full > /mnt/sys/install/packages.full
@@ -116,6 +140,11 @@ if [ "$home_s" = "y" ]; then
     echo -en "$boot\n$root\n$swap\n$home" > /mnt/sys/install/device
 else
     echo -en "$boot\n$root\n$swap" > /mnt/sys/install/device
+fi
+
+
+if [ ! "$encryption" = "n" ]; then
+    touch /mnt/sys/install/encrypted
 fi
 
 pacman -Sy --noconfirm tmux

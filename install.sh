@@ -135,7 +135,10 @@ cd ~/.dotfiles/browser/startpage
 npm install
 npm run build
 cd $prev
-~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)
+
+if [ "$username" = "yigit" ]; then
+  ~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)
+fi
 
 # Install vim and tmux plugins
 mkdir -p ~/.tmux/plugins

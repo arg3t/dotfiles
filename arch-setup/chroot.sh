@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ln -sf /bin/bash /bin/sh
+
 if [ ! -f "/install/device" ]; then
     mkdir -p /install
     echo "Now you will specify the partitions you have created"
@@ -26,6 +28,8 @@ if [ ! -f "/install/device" ]; then
     fi
 fi
 
+clear
+
 boot=$(head -n 1 /install/device | tail -n 1)
 root=$(head -n 2 /install/device | tail -n 1)
 swap=$(head -n 3 /install/device | tail -n 1)
@@ -44,6 +48,7 @@ if [ ! -f "/tmp/.blackarch" ]; then
     /tmp/strap.sh
     touch /tmp/.blackarch
 fi
+clear
 echo "Please enter hostname: "
 read hostname
 echo $hostname > /etc/hostname
@@ -52,12 +57,14 @@ echo "Please enter name for regular user:"
 read username
 
 useradd -m $username
+echo "Set password for user $username: "
+passwd $username
 usermod -aG wheel $username
 
-systemctl enable fstrim.timer
 
 echo -e "127.0.0.1 localhost\n::1 localhost\n127.0.0.1 $hostname.localdomain $hostname" > /etc/hosts
 
+if [ -f "/install/encrypted" ]; then
 cat << EOF > /etc/initcpio/hooks/openswap
 run_hook ()
 {
@@ -127,6 +134,14 @@ FILES=()
 HOOKS=(base udev plymouth autodetect keyboard keymap consolefont modconf block plymouth-encrypt openswap resume filesystems fsck)
 EOF
 fi
+else
+cat << EOF > /etc/mkinitcpio.conf
+MODULES=(vfat i915)
+BINARIES=()
+FILES=()
+HOOKS=(base udev plymouth autodetect keyboard keymap consolefont modconf block plymouth resume filesystems fsck)
+EOF
+fi
 
 pacman --noconfirm -R vim
 
@@ -137,6 +152,7 @@ blkid | while IFS= read -r i; do
     ((line=line+1))
 done
 
+if [ -f "/install/encrypted" ]; then
 echo "Please select the device you will save the LUKS key to:"
 read keydev
 
@@ -144,24 +160,33 @@ uuid=$(blkid | sed -n 's/.*UUID=\"\([^\"]*\)\".*/\1/p'  | sed -n "$keydev"p)
 cat << EOF > /boot/refind_linux.conf
 "Boot with encryption"  "root=/dev/mapper/root resume=/dev/mapper/swap cryptdevice=UUID=$(blkid -s UUID -o value $root):root:allow-discards cryptkey=UUID=$uuid:vfat:key.yeet rw loglevel=3 quiet splash"
 EOF
+clear
+else
+cat << EOF > /boot/refind_linux.conf
+"Boot with encryption"  "root=UUID=$(blkid -s UUID -o value $root) resume=UUID=$(blkid -s UUID -o value $swap) rw loglevel=3 quiet splash"
+EOF
+fi
 
 mkdir -p /etc/sudoers.d
 echo "$username $hostname =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot,/usr/bin/systemctl hibernate" >> /etc/sudoers.d/wheel
 echo "Defaults env_reset,pwfeedback" >> /etc/sudoers.d/wheel
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/nopwd
 
-echo "Set password for user $username: "
-passwd $username
 
 sudo -u $username bash -c "git clone https://aur.archlinux.org/yay.git /tmp/yay"
 sudo -u $username bash -c "(cd /tmp/yay; makepkg --noconfirm -si)"
 sudo -u $username bash -c "yay --noconfirm -S plymouth"
 
+clear
+
 refind-install
 
+clear
 
 sudo -u $username bash -c "git clone --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotfiles"
 sudo -u $username bash -c "(cd ~/.dotfiles; ./install.sh)"
+
+clear
 
 git clone https://github.com/adi1090x/plymouth-themes.git /tmp/pthemes
 
@@ -171,24 +196,34 @@ Theme=sphere
 ShowDelay=0
 DeviceTimeout=8
 EOF
+
 cp -r /tmp/pthemes/pack_4/sphere /usr/share/plymouth/themes
 
 echo -e "/boot/EFI/refind\n2\n2" | sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/bobafetthotmail/refind-theme-regular/master/install.sh)"
 
 systemctl enable NetworkManager
 systemctl enable ly
+systemctl enable fstrim.timer
 systemctl enable cronie
+
+clear
 
 mkinitcpio -P
 
-vim /etc/fstab
+if [ -f "/install/encrypted" ]; then
+    vim /etc/fstab
+fi
 pacman -R nano # uninstall nano, eww
+
+clear
 
 rm -rf /etc/sudoers.d/nopwd
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers.d/wheel
 
 rm -rf /bin/sh
 ln -sf /bin/dash /bin/sh
+
+clear
 
 echo "SETUP COMPLETE"
 bash
