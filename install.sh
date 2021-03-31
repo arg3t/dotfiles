@@ -87,9 +87,9 @@ yay --noconfirm -S xsel clipnotify
 yay --noconfirm -S ttf-symbola
 (cd ~/.dotfiles/suckless; ~/.dotfiles/suckless/build.sh)
 
-if [ ! -f "/var/spool/cron$username" ]; then
+if [ ! -f "/var/spool/cron/$username" ]; then
   sudo touch "/var/spool/cron/$username"
-  sudo chown yigit:yigit "/var/spool/cron/$username"
+  sudo chown $username:$username "/var/spool/cron/$username"
   sudo chmod 755 "/var/spool/cron/$username"
 fi
 
@@ -111,10 +111,10 @@ mkdir -p "$JUPYTER_CONFIG_DIR"
 mkdir -p "$PYLINTHOME"
 touch "$_Z_DATA"
 
-echo "*/8 * * * * /home/$username/.local/bin/mailsync" >> /var/spool/cron/yigit
-echo "*/15 * * * * /home/$username/.local/bin/scripts/nextcloud-sync" >> /var/spool/cron/yigit
-echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/yigit
-echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/yigit
+echo "*/8 * * * * /home/$username/.local/bin/mailsync" >> /var/spool/cron/$username
+echo "*/15 * * * * /home/$username/.local/bin/scripts/nextcloud-sync" >> /var/spool/cron/$username
+echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/$username
+echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/$username
 
 # Root
 sudo cp ~/.dotfiles/root/dwm.desktop /usr/share/xsessions
