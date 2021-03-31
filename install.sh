@@ -39,6 +39,8 @@ for d in ~/.dotfiles/config/* ; do
 done
 
 # Config
+echo 'ZDOTDIR=$HOME/.config/zsh' > $HOME/.zshenv
+chmod +x .zshenv
 mkdir -p ~/.local/share
 mkdir -p ~/.dotfiles_backup/local/share
 mvie ~/.themes ~/.dotfiles_backup/themes
