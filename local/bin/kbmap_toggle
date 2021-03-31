@@ -5,7 +5,7 @@ layout=$(xkb-switch -p)
 layouts=$(xkb-switch -l | xargs)
 
 if [ ! "$layouts" = "us tr" ]; then
-  ~/.local/bin/keyboard
+  ~/.local/share/bin/keyboard
 fi
 
 

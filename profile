@@ -8,7 +8,7 @@ export SHELL=/bin/zsh
 export TERMINAL=/usr/local/bin/st
 export TMUX_PLUGIN_MANAGER_PATH=~/.tmux/plugins
 export BORG_KEYS_DIR=~/.keys/borg
-export BROWSER="/home/yigit/.local/bin/brave-start"
+export BROWSER="/home/yigit/.local/share/bin/brave-start"
 export EDITOR=vim
 export OPENER=xdg-open
 export ANDROID_HOME=/home/yigit/Android
@@ -18,7 +18,7 @@ export DEFAULT_RECIPIENT="yigitcolakoglu@hotmail.com"
 export PATH=$ANDROID_HOME/tools:$PATH
 export PATH=$ANDROID_HOME/platform-tools:$PATH
 export PATH=$FLUTTER_HOME/bin:$PATH
-export PATH="$PATH:$HOME/.local/bin:$HOME/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport"
+export PATH="$PATH:$HOME/.local/share/bin:$HOME/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport"
 export CPATH=/usr/include/opencv4
 
 # Set XDG Directories

@@ -9,5 +9,5 @@ else
 fi
 
 case $BLOCK_BUTTON in
-          1) ~/.local/bin/dunst_toggle.sh -t;;
+          1) ~/.local/share/bin/dunst_toggle.sh -t;;
 esac

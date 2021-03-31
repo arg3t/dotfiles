@@ -10,5 +10,5 @@ fi
 
 
 case $BLOCK_BUTTON in
-          1) ~/.local/bin/screensaver_toggle -t;;
+          1) ~/.local/share/bin/screensaver_toggle -t;;
 esac

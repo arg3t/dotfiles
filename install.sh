@@ -118,8 +118,8 @@ mkdir -p "$JUPYTER_CONFIG_DIR"
 mkdir -p "$PYLINTHOME"
 touch "$_Z_DATA"
 
-echo "*/8 * * * * /home/$username/.local/bin/mailsync" >> /var/spool/cron/$username
-echo "*/15 * * * * /home/$username/.local/bin/scripts/nextcloud-sync" >> /var/spool/cron/$username
+echo "*/8 * * * * /home/$username/.local/share/bin/mailsync" >> /var/spool/cron/$username
+echo "*/15 * * * * /home/$username/.local/share/bin/scripts/nextcloud-sync" >> /var/spool/cron/$username
 echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/$username
 echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/$username
 
@@ -178,3 +178,4 @@ sudo make install
 cd $prev
 
 sudo rm -rf /etc/sudoers.d/nopwd
+rm -rf ~/.bash_profile
