@@ -17,7 +17,7 @@ fi
 # Install packages
 echo "Running update"
 sudo rm -rf /etc/urlview/system.urlview
-yay -S --noconfirm --needed $(cat ~/.dotfiles/arch-setup/packages.minimal)
+yay -S --noconfirm $(cat ~/.dotfiles/arch-setup/packages.minimal)
 
 # Initial cleanup
 echo "Backing up your previous dotfiles to ~/.dotfiles_backup"

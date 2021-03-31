@@ -47,6 +47,7 @@ if [ ! -f "/tmp/.blackarch" ]; then
     chmod +x /tmp/strap.sh
     /tmp/strap.sh
     touch /tmp/.blackarch
+    clear
 fi
 clear
 echo "Please enter hostname: "
