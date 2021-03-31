@@ -11,6 +11,7 @@ mvie(){
 
 # Configuring for your username
 if [ ! "$username" = "yigit" ]; then
+  echo "Setting up the dotfiles according to your username"
   find . -type f -exec sed -i 's/\/home\/yigit/\/home\/$username/g' "{}" +
 fi
 
