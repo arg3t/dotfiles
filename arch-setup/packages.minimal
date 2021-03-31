@@ -760,7 +760,6 @@ libxfce4ui
 libxfce4util
 libxfixes
 libxfont2
-libxft-bgra
 libxi
 libxinerama
 libxkbcommon
@@ -881,7 +880,6 @@ nm-connection-editor
 node-gyp
 nodejs
 notion-app
-notion-enhancer
 notmuch
 notmuch-runtime
 noto-fonts
@@ -891,7 +889,6 @@ npth
 nspr
 nss
 ntfs-3g
-numix-icon-theme-git
 nuspell
 nvm
 oath-toolkit
@@ -1024,8 +1021,6 @@ pistol-git
 pixman
 pkgconf
 playerctl
-plymouth-git
-plymouth-theme-cubes-git
 pngquant
 podofo
 polkit

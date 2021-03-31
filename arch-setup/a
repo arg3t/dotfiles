@@ -30,10 +30,8 @@ googler
 gperf
 gradle
 kitty
-libxft-bgra
 mailcap
 openssl-1.0
-plymouth-git
 terminal_dimensions-git
 texlive-bibtexextra
 texlive-fontsextra
@@ -52,3 +50,5 @@ xf86-video-amdgpu
 xf86-video-vesa
 yasm
 zoom
+libxft-bgra
+plymouth-git

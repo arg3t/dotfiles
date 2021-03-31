@@ -914,7 +914,6 @@ nm-connection-editor
 node-gyp
 nodejs
 notion-app
-notion-enhancer
 notmuch
 notmuch-runtime
 noto-fonts
@@ -924,7 +923,6 @@ npth
 nspr
 nss
 ntfs-3g
-numix-icon-theme-git
 nuspell
 nvm
 oath-toolkit
@@ -1059,7 +1057,6 @@ pixman
 pkgconf
 playerctl
 plymouth-git
-plymouth-theme-cubes-git
 pngquant
 podofo
 polkit

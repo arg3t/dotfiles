@@ -12,7 +12,7 @@ mvie(){
 # Configuring for your username
 if [ ! "$username" = "yigit" ]; then
   echo "Setting up the dotfiles according to your username"
-  find . -type f -exec sed -i 's/\/home\/yigit/\/home\/$username/g' "{}" +
+  find . -type f -exec sed -i "s/\/home\/yigit/\/home\/$username/g" "{}" +
 fi
 
 # Don't prompt for a password for the rest of the script
@@ -41,7 +41,7 @@ done
 
 # Config
 echo 'ZDOTDIR=$HOME/.config/zsh' > $HOME/.zshenv
-chmod +x .zshenv
+chmod +x $HOME/.zshenv
 mkdir -p ~/.local/share
 mkdir -p ~/.dotfiles_backup/local/share
 mvie ~/.themes ~/.dotfiles_backup/themes
