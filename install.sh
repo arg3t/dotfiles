@@ -121,6 +121,7 @@ echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/$username
 echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/$username
 
 # Root
+sudo mkdir -p /usr/share/xsessions
 sudo cp ~/.dotfiles/root/dwm.desktop /usr/share/xsessions
 sudo cp ~/.dotfiles/root/nancyj.flf /usr/share/figlet/fonts
 sudo cp ~/.dotfiles/root/quark.service /usr/lib/systemd/system
