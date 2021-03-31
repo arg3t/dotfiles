@@ -14,6 +14,9 @@ if [ ! "$username" = "yigit" ]; then
   grep -rl "yigit" | xargs sed -i  "s/yigit/$username/g"
 fi
 
+# Don't prompt for a password for the rest of the script
+sudo echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nopwd
+
 # Install packages
 echo "Running update"
 sudo rm -rf /etc/urlview/system.urlview
@@ -168,3 +171,5 @@ git clone https://github.com/theFr1nge/simcrop.git /tmp/simcrop
 cd /tmp/simcrop
 sudo make install
 cd $prev
+
+sudo rm -rf /etc/sudoers.d/nopwd
