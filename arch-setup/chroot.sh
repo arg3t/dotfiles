@@ -52,7 +52,7 @@ echo "Please enter name for regular user:"
 read username
 
 useradd -m $username
-usermod -aG wheel yigit
+usermod -aG wheel $username
 
 systemctl enable fstrim.timer
 

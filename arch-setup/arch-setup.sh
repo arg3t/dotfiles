@@ -113,4 +113,4 @@ else
     echo -en "$boot\n$root\n$swap" > /mnt/sys/install/device
 fi
 
-arch-chroot /mnt/sys bash -c 'tmux new-session -s "arch-setup" /install/chroot.sh'
+ tmux new-session -s "arch-setup" 'arch-chroot /install/chroot.sh'
