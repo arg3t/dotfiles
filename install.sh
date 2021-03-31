@@ -88,6 +88,7 @@ done
 # Suckless
 yay --noconfirm -S xsel clipnotify
 yay --noconfirm -S ttf-symbola
+yay --noconfirm -S yajl
 (cd ~/.dotfiles/suckless; ~/.dotfiles/suckless/build.sh)
 
 if [ ! -f "/var/spool/cron/$username" ]; then
