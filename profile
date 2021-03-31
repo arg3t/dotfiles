@@ -18,7 +18,7 @@ export DEFAULT_RECIPIENT="yigitcolakoglu@hotmail.com"
 export PATH=$ANDROID_HOME/tools:$PATH
 export PATH=$ANDROID_HOME/platform-tools:$PATH
 export PATH=$FLUTTER_HOME/bin:$PATH
-export PATH="$PATH:/home/yigit/.local/bin:/home/yigit/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:/home/yigit/.local/bin"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport"
 export CPATH=/usr/include/opencv4
 
 # Set XDG Directories
