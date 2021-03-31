@@ -101,7 +101,7 @@ mount /dev/mapper/root /mnt/sys
 mkdir /mnt/sys/boot
 mount "$boot" /mnt/sys/boot
 
-pacstrap /mnt/sys base linux linux-firmware base-devel git nano tmux sudo
+pacstrap /mnt/sys base linux linux-firmware base-devel git nano sudo
 genfstab -U /mnt/sys >> /mnt/sys/etc/fstab
 
 # Run on chrooted arch install
@@ -118,4 +118,5 @@ else
     echo -en "$boot\n$root\n$swap" > /mnt/sys/install/device
 fi
 
- tmux new-session -s "arch-setup" 'arch-chroot /install/chroot.sh'
+pacman -Sy --noconfirm tmux
+tmux new-session -s "arch-setup" 'arch-chroot /install/chroot.sh'
