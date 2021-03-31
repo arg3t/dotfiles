@@ -101,7 +101,8 @@ run_hook ()
     umount crypto_key_device
 }
 EOF
-cat << EOF > /etc/initcpio/install/openhome
+
+cat << EOF > /etc/initcpio/install/openswap
 build ()
 {
    add_runscript
@@ -109,15 +110,9 @@ build ()
 help ()
 {
 cat<<HELPEOF
-  This opens the swap encrypted partition $home in /dev/mapper/home
+  This opens the swap encrypted partition $swap in /dev/mapper/swap
 HELPEOF
 }
-EOF
-cat << EOF > /etc/mkinitcpio.conf
-MODULES=(vfat i915)
-BINARIES=()
-FILES=()
-HOOKS=(base udev plymouth autodetect keyboard keymap consolefont modconf block plymouth-encrypt openswap openhome resume filesystems fsck)
 EOF
 else
 cat << EOF > /etc/mkinitcpio.conf
@@ -126,6 +121,7 @@ BINARIES=()
 FILES=()
 HOOKS=(base udev plymouth autodetect keyboard keymap consolefont modconf block plymouth-encrypt openswap resume filesystems fsck)
 EOF
+
 fi
 
 pacman --noconfirm -R vim

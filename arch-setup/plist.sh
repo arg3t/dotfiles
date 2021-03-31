@@ -1,4 +1,5 @@
 #!/bin/bash
-pacman -Qq | grep -v "$(pacman -Qqm)" | grep -v yay | grep -v texlive> ~/.dotfiles/arch-setup/nonAUR.txt
-pacman -Qqm | grep -v canon | grep -v capt | grep -v cups> ~/.dotfiles/arch-setup/AUR.txt
+
+comm -23 <(pacman -Qqt | sort) <(pacman -Qqg base 2> /dev/null | sort) > ~/.dotfiles/arch-setup/packages.full
+comm -13 packages.blacklist packages.full > packages.minimal
 

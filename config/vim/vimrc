@@ -103,7 +103,11 @@ endif
 
 let g:material_style='oceanic'
 set background=dark
-colorscheme vim-material
+try
+  colorscheme vim-material
+catch /^Vim\%((\a\+)\)\=:E185/
+  colorscheme default
+endtry
 let g:airline_theme='material'
 
 " Showcase comments in italics

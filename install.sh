@@ -16,10 +16,8 @@ fi
 
 # Install packages
 echo "Running update"
-sudo pacman --noconfirm -Syu
-sudo pacman --noconfirm --needed -S $(cat ~/.dotfiles/arch-setup/nonAUR.txt)
 sudo rm -rf /etc/urlview/system.urlview
-yay -S --noconfirm --needed $(cat ~/.dotfiles/arch-setup/AUR.txt)
+yay -S --noconfirm --needed $(cat ~/.dotfiles/arch-setup/packages.minimal)
 
 # Initial cleanup
 echo "Backing up your previous dotfiles to ~/.dotfiles_backup"
@@ -141,7 +139,7 @@ cd $prev
 
 # Install vim and tmux plugins
 mkdir -p ~/.tmux/plugins
-vim -c ':PlugInstall'
+vim +PlugInstall +qall
 
 # Install mconnect
 git clone https://github.com/theFr1nge/mconnect.git /tmp/mconnect
