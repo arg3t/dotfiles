@@ -59,7 +59,7 @@ echo "[INFO]: Formatting boot partition"
 mkfs.fat -F32 $boot
 
 echo -n "[INFO]: Would you like to enrypt your disks?(Y/n): "
-read $encryption
+read encryption
 
 if [ ! "$encryption" = "n" ]; then
     # Create the swap partition
