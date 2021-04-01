@@ -1,13 +1,13 @@
 #!/bin/sh
 
 DMENU='dmenu  -z 1900 -x 10 -y 10 -i'
-blacklist="powerlevel10k|secret|gitignore|log|plugins|patches|config/surf"
+blacklist="powerlevel10k|secret|gitignore|log|plugins|patches|config/surf|BetterDiscord"
 whitelist="config.h|keybind.h|colors.h|color.h|rules.h"
 declare -A mappings
 
-items=$(find "$HOME/.dotfiles/config" -type f | grep -Ev $blacklist | sed -n "s|$HOME/.dotfiles/config/|config/|p")
-scripts=$(find "$HOME/.dotfiles/local/bin" -type f | grep -Ev $blacklist | sed -n "s|$HOME/.dotfiles/local/bin/|scripts/|p")
-suckless=$(find "$HOME/.dotfiles/suckless" -type f | grep -Ev $blacklist | grep -E $whitelist | sed -n "s|$HOME/.dotfiles/suckless/|suckless/|p")
+items=$(cd ~/.config; git ls-files | grep -Ev $blacklist | sed -n "s|^|config/|p")
+scripts=$(cd ~/.local/bin ; git ls-files | grep -Ev $blacklist | sed -n "s|^|scripts/|p")
+suckless=$(cd ~/.dotfiles/suckless ; git ls-files | grep -Ev $blacklist | grep -E $whitelist | sed -n "s|^|suckless/|p")
 
 selection=$(echo -e "$items\n$scripts\n$suckless" | $DMENU)
 
