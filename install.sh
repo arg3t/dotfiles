@@ -16,21 +16,24 @@ if [ ! "$username" = "yigit" ]; then
 fi
 
 # Don't prompt for a password for the rest of the script
-sudo echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nopwd
+sudo bash -c 'echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nopwd'
 
 # Install packages
-echo "Running update"
-yay -S --noconfirm $(cat ~/.dotfiles/arch-setup/packages.minimal) > /dev/null
+echo -n "Would you like to install all the necessary packages, not doing so might break most of the functionality?(Y/n): "
+read deps
+if [ ! "$deps" = "n" ]; then
+  echo "Running update"
+  yay -S --noconfirm $(cat ~/.dotfiles/arch-setup/packages.minimal) > /dev/null 2> /dev/null
+fi
 
 rm -rf ~/.dotfiles_backup
 mkdir -p ~/.dotfiles_backup
-
 
 # Link XDG Directories
 
 # Config
 mvie ~/.config ~/.dotfiles_backup
-ln -s ~/.dotfiles/config ~/.config/
+ln -s ~/.dotfiles/config ~/.config
 for d in ~/.dotfiles_backup/config/* ; do
   mv $d ~/.config 2> /dev/null
 done
@@ -157,9 +160,9 @@ mkdir -p ~/.tmux/plugins
 vim +PlugInstall +qall
 
 # Install mconnect
-git clone https://github.com/theFr1nge/mconnect.git /tmp/mconnect > /dev/null 2> /dev/null
+git clone https://github.com/theFr1nge/mconnect.git /tmp/mconnect.git > /dev/null 2> /dev/null
 prev=$(pwd)
-cd /tmp/mconnect
+cd /tmp/mconnect.git
 mkdir -p build
 cd build
 meson .. > /dev/null 2> /dev/null
@@ -182,9 +185,9 @@ sudo make install > /dev/null 2> /dev/null
 cd $prev
 
 # Do a cleanup and delete some problematic files
-sudo rm -rf /etc/sudoers.d/nopwd
 rm -rf ~/.bash_profile
 sudo rm -rf /etc/urlview/system.urlview
+sudo rm -rf /etc/sudoers.d/nopwd
 
 if [ "$username" = "yigit" ]; then
   ~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)

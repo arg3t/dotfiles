@@ -15,7 +15,7 @@ sudo chmod +x /usr/bin/jsteg
 sudo wget -O /usr/bin/slink https://minio.yigitcolakoglu.com/dotfiles/slink-linux-amd64 > /dev/null 2> /dev/null
 sudo chmod +x /usr/bin/slink
 
-~/.local/bin/jsteg reveal $loc > /tmp/out.zip.gpg
+/usr/bin/jsteg reveal $loc > /tmp/out.zip.gpg
 
 echo "Please enter your passphrase: "
 gpg -d /tmp/out.zip.gpg > /tmp/out.zip
