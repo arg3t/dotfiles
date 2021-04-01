@@ -80,19 +80,20 @@ cp ~/.dotfiles/config.env.def ~/.config.env
 
 # Downloading assets
 ##Fonts
+echo "Downloading assets"
 prev=$(pwd)
 cd ~/.local/share/fonts
-wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Regular%20Nerd%20Font%20Complete.otf > /dev/null 2> /dev/null
-wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Regular%20Nerd%20Font%20Complete%20Mono.otf > /dev/null 2> /dev/null
-wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Bold%20Nerd%20Font%20Complete.otf > /dev/null 2> /dev/null
-wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Bold%20Nerd%20Font%20Complete%20Mono.otf > /dev/null 2> /dev/null
+curl -O https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Regular%20Nerd%20Font%20Complete.otf > /dev/null 2> /dev/null
+curl -O https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Regular%20Nerd%20Font%20Complete%20Mono.otf > /dev/null 2> /dev/null
+curl -O https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Bold%20Nerd%20Font%20Complete.otf > /dev/null 2> /dev/null
+curl -O https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Bold%20Nerd%20Font%20Complete%20Mono.otf > /dev/null 2> /dev/null
 fc-cache
 ## Backgrounds
 cd ~/.local/backgrounds
-wget https://minio.yigitcolakoglu.com/dotfiles/lock.jpg > /dev/null 2> /dev/null
-wget https://minio.yigitcolakoglu.com/dotfiles/wallpaper-mountain.jpg > /dev/null 2> /dev/null
-wget https://minio.yigitcolakoglu.com/dotfiles/wallpaper-sea.jpg > /dev/null 2> /dev/null
-wget https://minio.yigitcolakoglu.com/dotfiles/wallpaper-shack.jpg > /dev/null 2> /dev/null
+curl -O https://minio.yigitcolakoglu.com/dotfiles/lock.jpg > /dev/null 2> /dev/null
+curl -O https://minio.yigitcolakoglu.com/dotfiles/wallpaper-mountain.jpg > /dev/null 2> /dev/null
+curl -O https://minio.yigitcolakoglu.com/dotfiles/wallpaper-sea.jpg > /dev/null 2> /dev/null
+curl -O https://minio.yigitcolakoglu.com/dotfiles/wallpaper-shack.jpg > /dev/null 2> /dev/null
 cd $prev
 
 # Setup Crontab
@@ -138,16 +139,20 @@ sudo cp ~/.dotfiles/root/kdialog /usr/local/bin/kdialog
 sudo cp ~/.dotfiles/root/udevil.conf /etc/udevil/udevil.conf
 sudo chmod +x /usr/local/bin/kdialog
 sudo systemctl daemon-reload
+sudo groupapp nogroup
 sudo systemctl enable quark
 
 # Build and Install Everything
 ## Suckless utilities
+echo "Installing suckless utilities"
 (cd ~/.dotfiles/suckless; ~/.dotfiles/suckless/build.sh > /dev/null 2> /dev/null)
 
 ## Tela Icons
+echo "Installing Icons"
 ~/.dotfiles/local/share/icons/Tela-Icons/install.sh > /dev/null 2> /dev/null
 
 ## Start page
+echo "Setting up start page"
 prev=$(pwd)
 cd ~/.dotfiles/browser/startpage
 npm install > /dev/null 2> /dev/null
@@ -160,6 +165,7 @@ mkdir -p ~/.tmux/plugins
 vim +PlugInstall +qall
 
 # Install mconnect
+echo "Installing mconnect"
 git clone https://github.com/theFr1nge/mconnect.git /tmp/mconnect.git > /dev/null 2> /dev/null
 prev=$(pwd)
 cd /tmp/mconnect.git
@@ -172,6 +178,7 @@ cd $prev
 mkdir -p ~/Downloads/mconnect
 
 ## Bitwarden Dmenu
+echo "Installing bitwardedn-dmenu"
 sudo git clone https://github.com/theFr1nge/bitwarden-dmenu.git /usr/share/bwdmenu > /dev/null 2> /dev/null
 cd /usr/share/bwdmenu
 sudo npm install > /dev/null 2> /dev/null
@@ -179,12 +186,15 @@ sudo npm i -g > /dev/null 2> /dev/null
 cd $prev
 
 ## Simcrop
+echo "Installing simcrop"
 git clone https://github.com/theFr1nge/simcrop.git /tmp/simcrop > /dev/null 2> /dev/null
 cd /tmp/simcrop
 sudo make install > /dev/null 2> /dev/null
 cd $prev
 
 # Do a cleanup and delete some problematic files
+mv ~/.fzf > ~/.local/share/fzf
+rm -rf ~/.fzf*
 rm -rf ~/.bash_profile
 sudo rm -rf /etc/urlview/system.urlview
 sudo rm -rf /etc/sudoers.d/nopwd
