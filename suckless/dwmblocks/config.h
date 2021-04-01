@@ -1,5 +1,5 @@
 
-#define PATH(name)			"/home/yigit/.local/share/bin/status-bar/"name
+#define PATH(name)			"/home/yigit/.local/bin/status-bar/"name
 
 static Block blocks[] = {
 //	{ "", PATH("clipboard"),		120,		28},

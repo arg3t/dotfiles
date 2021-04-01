@@ -81,7 +81,7 @@ main(int argc, char *argv[])
 	size_t nslots = 64;
 	char *servedir = ".";
 	char *user = "nobody";
-	char *group = "nogroup";
+	char *group = "nobody";
 
 	ARGBEGIN {
 	case 'd':

@@ -20,56 +20,71 @@ sudo echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nopwd
 
 # Install packages
 echo "Running update"
-sudo rm -rf /etc/urlview/system.urlview
-yay -S --noconfirm $(cat ~/.dotfiles/arch-setup/packages.minimal)
+yay -S --noconfirm $(cat ~/.dotfiles/arch-setup/packages.minimal) > /dev/null
 
-# Initial cleanup
-echo "Backing up your previous dotfiles to ~/.dotfiles_backup"
+rm -rf ~/.dotfiles_backup
 mkdir -p ~/.dotfiles_backup
 
-mvie ~/.profile ~/.dotfiles_backup/profile
-ln -s ~/.dotfiles/profile ~/.profile
+
+# Link XDG Directories
 
 # Config
-mkdir -p ~/.config
-mkdir -p ~/.dotfiles_backup/config
-for d in ~/.dotfiles/config/* ; do
-  filename=$(echo "$d" | rev | cut -d"/" -f 1 | rev)
-  mvie ~/.config/$filename ~/.dotfiles_backup/config
-  ln -s $d ~/.config/
+mvie ~/.config ~/.dotfiles_backup
+ln -s ~/.dotfiles/config ~/.config/
+for d in ~/.dotfiles_backup/config/* ; do
+  mv $d ~/.config 2> /dev/null
 done
 
-# Config
-echo 'ZDOTDIR=$HOME/.config/zsh' > $HOME/.zshenv
-chmod +x $HOME/.zshenv
-mkdir -p ~/.local/share
-mkdir -p ~/.dotfiles_backup/local/share
+#Local
+mkdir -p ~/.dotfiles_backup/local
+mkdir -p ~/.local
+
+## Local/Share
+mvie ~/.local/share ~/.dotfiles_backup/local/share
+ln -s ~/.dotfiles/local/share ~/.local/share
+for d in ~/.dotfiles_backup/local/share/* ; do
+  mv $d ~/.local/share 2> /dev/null
+done
+
+## Local/Bin
+mvie ~/.local/bin ~/.dotfiles_backup/local/bin
+ln -s ~/.dotfiles/local/bin ~/.local/bin
+for d in ~/.dotfiles_backup/local/bin/* ; do
+  mv $d ~/.local/bin 2> /dev/null
+done
+
+## Local/Backgrounds
+mvie ~/.local/backgrounds ~/.dotfiles_backup/local/backgrounds
+ln -s ~/.dotfiles/local/backgrounds ~/.local/backgrounds
+for d in ~/.dotfiles_backup/local/backgrounds/* ; do
+  mv $d ~/.local/backgrounds 2> /dev/null
+done
+
+## Theme and Icon Folders
 mvie ~/.themes ~/.dotfiles_backup/themes
 ln -s ~/.dotfiles/local/share/themes ~/.themes
 mvie ~/.icons ~/.dotfiles_backup/icons
 ln -s ~/.dotfiles/local/share/icons ~/.icons
-~/.dotfiles/local/share/icons/Tela-Icons/install.sh
 
-for d in ~/.dotfiles/local/share/* ; do
-  filename=$(echo "$d" | rev | cut -d"/" -f 1 | rev)
-  echo $filename
-  mvie ~/.local/share/$filename ~/.dotfiles_backup/local/share
-  ln -s $d ~/.local/share
-done
+# Create individual files
+echo 'ZDOTDIR=$HOME/.config/zsh' > $HOME/.zshenv
+chmod +x $HOME/.zshenv
 
-mvie ~/.local/share/bin ~/.dotfiles_backup/local/share/bin
-ln -s ~/.dotfiles/local/bin ~/.local/share/bin
+mvie ~/.profile ~/.dotfiles_backup/profile
+ln -s ~/.dotfiles/profile ~/.profile
 
-mvie ~/.local/backgrounds ~/.dotfiles_backup/local/backgrounds
-ln -s ~/.dotfiles/local/backgrounds ~/.local/backgrounds
+cp ~/.dotfiles/config.env.def ~/.config.env
 
+# Downloading assets
+##Fonts
 prev=$(pwd)
 cd ~/.local/share/fonts
 wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Regular%20Nerd%20Font%20Complete.otf > /dev/null 2> /dev/null
 wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Regular%20Nerd%20Font%20Complete%20Mono.otf > /dev/null 2> /dev/null
 wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Bold%20Nerd%20Font%20Complete.otf > /dev/null 2> /dev/null
 wget https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Bold%20Nerd%20Font%20Complete%20Mono.otf > /dev/null 2> /dev/null
-
+fc-cache
+## Backgrounds
 cd ~/.local/backgrounds
 wget https://minio.yigitcolakoglu.com/dotfiles/lock.jpg > /dev/null 2> /dev/null
 wget https://minio.yigitcolakoglu.com/dotfiles/wallpaper-mountain.jpg > /dev/null 2> /dev/null
@@ -77,31 +92,24 @@ wget https://minio.yigitcolakoglu.com/dotfiles/wallpaper-sea.jpg > /dev/null 2> 
 wget https://minio.yigitcolakoglu.com/dotfiles/wallpaper-shack.jpg > /dev/null 2> /dev/null
 cd $prev
 
-fc-cache
-
-# Applications
-mkdir -p ~/.local/share/applications
-mkdir -p ~/.dotfiles_backup/local/share/applications
-for d in ~/.dotfiles/local/applications/* ; do
-  filename=$(echo "$d" | rev | cut -d"/" -f 1 | rev)
-  mvie ~/.local/share/applications/$filename ~/.dotfiles_backup/local/share/applications
-  ln -s $d ~/.local/share/applications/
-done
-
-# Suckless
-yay --noconfirm -S xsel clipnotify
-yay --noconfirm -S ttf-symbola
-yay --noconfirm -S yajl
-(cd ~/.dotfiles/suckless; ~/.dotfiles/suckless/build.sh)
-
+# Setup Crontab
 if [ ! -f "/var/spool/cron/$username" ]; then
   sudo touch "/var/spool/cron/$username"
   sudo chown $username:$username "/var/spool/cron/$username"
   sudo chmod 755 "/var/spool/cron/$username"
+else
+  echo -n "An existing cron file is detected, would you like to overwrite it?(Y/n): "
+  read cron
+  if [ ! "$cron" = "n" ]; then
+    cp /var/spool/cron/$username ~/.dotfiles_backup/crontab
+    echo "*/8 * * * * /home/$username/.local/bin/mailsync" > /var/spool/cron/$username
+    echo "*/15 * * * * /home/$username/.local/bin/scripts/nextcloud-sync" >> /var/spool/cron/$username
+    echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/$username
+    echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/$username
+  fi
 fi
 
 # Create necessary folders
-
 source ~/.profile
 mkdir -p "$HOME/.local/share/ncmpcpp/lyrics"
 mkdir -p "$HOME/.local/share/calcurse"
@@ -118,12 +126,7 @@ mkdir -p "$JUPYTER_CONFIG_DIR"
 mkdir -p "$PYLINTHOME"
 touch "$_Z_DATA"
 
-echo "*/8 * * * * /home/$username/.local/share/bin/mailsync" >> /var/spool/cron/$username
-echo "*/15 * * * * /home/$username/.local/share/bin/scripts/nextcloud-sync" >> /var/spool/cron/$username
-echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/$username
-echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/$username
-
-# Root
+# Root Files and Directories
 sudo mkdir -p /usr/share/xsessions
 sudo cp ~/.dotfiles/root/dwm.desktop /usr/share/xsessions
 sudo cp ~/.dotfiles/root/nancyj.flf /usr/share/figlet/fonts
@@ -134,48 +137,55 @@ sudo chmod +x /usr/local/bin/kdialog
 sudo systemctl daemon-reload
 sudo systemctl enable quark
 
-# Config
-cp ~/.dotfiles/config.env.def ~/.config.env
+# Build and Install Everything
+## Suckless utilities
+(cd ~/.dotfiles/suckless; ~/.dotfiles/suckless/build.sh > /dev/null 2> /dev/null)
 
-# Start page
+## Tela Icons
+~/.dotfiles/local/share/icons/Tela-Icons/install.sh > /dev/null 2> /dev/null
+
+## Start page
 prev=$(pwd)
 cd ~/.dotfiles/browser/startpage
-npm install
-npm run build
+npm install > /dev/null 2> /dev/null
+npm run build > /dev/null 2> /dev/null
 cd $prev
 
-if [ "$username" = "yigit" ]; then
-  ~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)
-fi
 
-# Install vim and tmux plugins
+# Vim and tmux plugins
 mkdir -p ~/.tmux/plugins
 vim +PlugInstall +qall
 
 # Install mconnect
-git clone https://github.com/theFr1nge/mconnect.git /tmp/mconnect
+git clone https://github.com/theFr1nge/mconnect.git /tmp/mconnect > /dev/null 2> /dev/null
 prev=$(pwd)
 cd /tmp/mconnect
 mkdir -p build
 cd build
-meson ..
-ninja
-sudo ninja install
+meson .. > /dev/null 2> /dev/null
+ninja > /dev/null 2> /dev/null
+sudo ninja install > /dev/null 2> /dev/null
 cd $prev
 mkdir -p ~/Downloads/mconnect
 
-sudo git clone https://github.com/theFr1nge/bitwarden-dmenu.git /usr/share/bwdmenu
+## Bitwarden Dmenu
+sudo git clone https://github.com/theFr1nge/bitwarden-dmenu.git /usr/share/bwdmenu > /dev/null 2> /dev/null
 cd /usr/share/bwdmenu
-sudo npm install
-sudo npm i -g
+sudo npm install > /dev/null 2> /dev/null
+sudo npm i -g > /dev/null 2> /dev/null
 cd $prev
 
-# Install simcrop
-sudo pacman --needed --noconfirm -S opencv
-git clone https://github.com/theFr1nge/simcrop.git /tmp/simcrop
+## Simcrop
+git clone https://github.com/theFr1nge/simcrop.git /tmp/simcrop > /dev/null 2> /dev/null
 cd /tmp/simcrop
-sudo make install
+sudo make install > /dev/null 2> /dev/null
 cd $prev
 
+# Do a cleanup and delete some problematic files
 sudo rm -rf /etc/sudoers.d/nopwd
 rm -rf ~/.bash_profile
+sudo rm -rf /etc/urlview/system.urlview
+
+if [ "$username" = "yigit" ]; then
+  ~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)
+fi

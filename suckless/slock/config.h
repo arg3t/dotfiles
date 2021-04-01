@@ -5,12 +5,12 @@ static const char *group = "nobody";
 
 static const char *lights_on[]  = { "/bin/curl", "http://yeetclock/setcolor?R=136&G=192&B=208&O=1", NULL };
 static const char *lights_off[]  = { "/bin/curl", "http://yeetclock/setcolor?R=0&G=0&B=0&O=0", NULL };
-static const char *notifications_on[]  = { "/home/yigit/.local/share/bin/dunst_toggle.sh", "-e", NULL };
-static const char *notifications_off[]  = { "/home/yigit/.local/share/bin/dunst_toggle.sh", "-s", NULL };
-static const char *mute_on[]  = { "/home/yigit/.local/share/bin/pacontrol.sh", "open-mute", NULL };
-static const char *mute_off[]  = { "/home/yigit/.local/share/bin/pacontrol.sh", "close-mute", NULL };
-static const char *screensaver_off[]  = { "/home/yigit/.local/share/bin/screensaver_toggle", "-s", NULL };
-static const char *screensaver_on[]  = { "/home/yigit/.local/share/bin/screensaver_toggle", "-e", NULL };
+static const char *notifications_on[]  = { "/home/yigit/.local/bin/dunst_toggle.sh", "-e", NULL };
+static const char *notifications_off[]  = { "/home/yigit/.local/bin/dunst_toggle.sh", "-s", NULL };
+static const char *mute_on[]  = { "/home/yigit/.local/bin/pacontrol.sh", "open-mute", NULL };
+static const char *mute_off[]  = { "/home/yigit/.local/bin/pacontrol.sh", "close-mute", NULL };
+static const char *screensaver_off[]  = { "/home/yigit/.local/bin/screensaver_toggle", "-s", NULL };
+static const char *screensaver_on[]  = { "/home/yigit/.local/bin/screensaver_toggle", "-e", NULL };
 
 static const char **prelock[] = {lights_off, notifications_off, mute_on, screensaver_off};
 static const char **postlock[] = {lights_on, notifications_on, mute_off, screensaver_on};

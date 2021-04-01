@@ -20,7 +20,7 @@ path=$( echo ${filename%/*} )
 file=$( echo ${filename##/*/} )
 
 rm /tmp/lf-chrome-choosed
-st -c lf -n lf -e $HOME/.local/share/bin/lf-ueberzug --selection-path=/tmp/lf-chrome-choosed
+st -c lf -n lf -e $HOME/.local/bin/lf-ueberzug --selection-path=/tmp/lf-chrome-choosed
 selected=$(cat /tmp/lf-chrome-choosed 2> /dev/null)
 if [ ! $? = 0 ]
 then

@@ -6,5 +6,5 @@ echo -n "^c#a3be8c^ ^d^$layout"
 
 
 case $BLOCK_BUTTON in
-          1) ~/.local/share/bin/kbmap_toggle;;
+          1) ~/.local/bin/kbmap_toggle;;
 esac

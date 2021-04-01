@@ -16,5 +16,5 @@ else
 fi
 
 case $BLOCK_BUTTON in
-  1) ~/.local/share/bin/dmenu-bluetooth;;
+  1) ~/.local/bin/dmenu-bluetooth;;
 esac

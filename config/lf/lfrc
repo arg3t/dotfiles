@@ -41,15 +41,6 @@ cmd extract ${{
 	[ $ans = "y" ] && ext $fx
 }}
 
-cmd delete ${{
-	clear; tput cup $(($(tput lines)/3)); tput bold
-	set -f
-	printf "%s\n\t" "$fx"
-	printf "delete?[y/N]"
-	read ans
-	[ $ans = "y" ] && rm -rf -- $fx
-}}
-
 cmd moveto ${{
 	clear; tput cup $(($(tput lines)/3)); tput bold
 	set -f
@@ -107,7 +98,7 @@ cmd targz %tar cvzf "$f.tar.gz" "$f"
 map <c-f> $lf -remote "send $id select '$(fzf)'"
 map gh
 map gg top
-map D delete
+map D $rm -r "$fx"
 map E extract
 map T targz
 map C copyto
@@ -140,7 +131,7 @@ map g/ cd /
 map gm cd /media
 map gd cd ~/.dotfiles
 map gc cd ~/.config
-map gs cd ~/.local/share/bin
+map gs cd ~/.local/bin
 
 # Git Mappings
 map gib :git_branch

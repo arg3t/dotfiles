@@ -21,10 +21,10 @@ export SSH_AUTH_SOCK
 clipmenud > /tmp/clipmenud.out 2> /tmp/clipmenud.err &
 rm -f ~/.surf/tabbed-surf.xid
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-~/.local/share/bin/daily-update
-~/.local/share/bin/keyboard > /tmp/keyboard.out 2> /tmp/keyboard.err
+~/.local/bin/daily-update
+~/.local/bin/keyboard > /tmp/keyboard.out 2> /tmp/keyboard.err
 xrdb  ~/.config/X11/Xresources &
-~/.local/share/bin/mailsync &
+~/.local/bin/mailsync &
 
 if [ "$NEXTCLOUD" = true ] ; then
   nextcloud --background &
@@ -60,7 +60,7 @@ pactl load-module module-x11-bell sample=x11-bell display=$DISPLAY
 xset b 100
 xset dpms 600 600 600
 
-~/.local/share/bin/devmon --exec-on-drive "/sbin/notify-send '禍  drive mounted' '%l (%f) at %d '" \
+~/.local/bin/devmon --exec-on-drive "/sbin/notify-send '禍  drive mounted' '%l (%f) at %d '" \
     --exec-on-remove "/sbin/notify-send '禍  drive removed' '%l (%f) from %d '" \
     --exec-on-unmount  "/sbin/notify-send '禍  drive unmounted' '%l (%f) from %d '" \
     --no-unmount --no-gui &

@@ -15,6 +15,7 @@ alias yain="yay -Syu "
 alias ls="ls --color"
 alias yay="yay --sudoloop"
 alias lf=lf-ueberzug
+alias vim=nvim
 
 # Suffix aliases
 alias -g G=" | rg"

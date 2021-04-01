@@ -58,7 +58,7 @@ case $selection in
 		;;
 	devmon)
 		pkill -f devmon
-		~/.local/share/bin/devmon --exec-on-drive "/sbin/notify-send '禍  drive mounted' '%l (%f) at %d '" \
+		~/.local/bin/devmon --exec-on-drive "/sbin/notify-send '禍  drive mounted' '%l (%f) at %d '" \
 				--exec-on-remove "/sbin/notify-send '禍  drive removed' '%l (%f) from %d '" \
 				--exec-on-unmount  "/sbin/notify-send '禍  drive unmounted' '%l (%f) from %d '" \
 				--no-unmount --no-gui &
