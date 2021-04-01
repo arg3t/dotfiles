@@ -139,7 +139,7 @@ sudo cp ~/.dotfiles/root/kdialog /usr/local/bin/kdialog
 sudo cp ~/.dotfiles/root/udevil.conf /etc/udevil/udevil.conf
 sudo chmod +x /usr/local/bin/kdialog
 sudo systemctl daemon-reload
-sudo groupapp nogroup
+sudo groupadd nogroup
 sudo systemctl enable quark
 
 # Build and Install Everything
