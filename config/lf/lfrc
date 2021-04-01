@@ -32,6 +32,11 @@ cmd open ${{
 
 cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
 
+cmd select_dir ${{
+	echo $f > /tmp/lf-chrome-choosed
+  lf -remote "send $id quit"
+}}
+
 cmd extract ${{
 	clear; tput cup $(($(tput lines)/3)); tput bold
 	set -f
@@ -125,6 +130,8 @@ map <c-y> up
 map V push :!vim<space>
 
 map cd push !cd<space>
+map sd select_dir
+
 # Movement
 map ~ cd ~
 map g/ cd /

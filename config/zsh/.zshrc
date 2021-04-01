@@ -39,7 +39,8 @@ if [ -f "$XDG_CONFIG_HOME"/zsh/secret ]; then
 fi
 source "$XDG_CONFIG_HOME"/zsh/cmds
 
-[ -f "$XDG_CONFIG_HOME"/zsh/fzf.zsh ] && source "$XDG_CONFIG_HOME"/zsh/fzf.zsh
+source "/usr/share/fzf/completion.zsh" 2> /dev/null
+source "/usr/share/fzf/key-bindings.zsh"
 
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=241,bold'
 export KEYTIMEOUT=5

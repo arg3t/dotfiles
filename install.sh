@@ -122,12 +122,12 @@ mkdir -p "$GOPATH"
 mkdir -p "$ANDROID_HOME"
 mkdir -p "$FLUTTER_HOME"
 mkdir -p "$LEIN_HOME"
-mkdir -p "$NPM_CONFIG_USERCONFIG"
 mkdir -p "$NVM_DIR"
 mkdir -p "$GNUPGHOME"
 mkdir -p "$WEECHAT_HOME"
 mkdir -p "$JUPYTER_CONFIG_DIR"
 mkdir -p "$PYLINTHOME"
+mkdir -p "$HOME/.local/share/zsh"
 touch "$_Z_DATA"
 
 # Root Files and Directories
@@ -193,7 +193,7 @@ sudo make install > /dev/null 2> /dev/null
 cd $prev
 
 # Do a cleanup and delete some problematic files
-mv ~/.fzf > ~/.local/share/fzf
+mv ~/.fzf ~/.local/share/fzf
 rm -rf ~/.fzf*
 rm -rf ~/.bash_profile
 sudo rm -rf /etc/urlview/system.urlview
