@@ -175,3 +175,12 @@ command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> - |fmt -cs
 autocmd VimLeave * call system("xsel -ib", getreg('+'))
 packadd termdebug
 
+if has("autocmd")
+    augroup templates
+        autocmd BufNewFile main.* silent! execute '0r ~/.local/share/vim/templates/skeleton-main.'.expand("<afile>:e")
+        autocmd BufNewFile *.* silent! execute '0r ~/.local/share/vim/templates/skeleton.'.expand("<afile>:e")
+        autocmd BufNewFile * %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
+    augroup END
+
+    autocmd BufWinLeave *.tex !texclear %:p
+endif

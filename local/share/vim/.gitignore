@@ -1,3 +1,5 @@
 # Folder Created By vim-plug
 plugged
 after
+undo
+view

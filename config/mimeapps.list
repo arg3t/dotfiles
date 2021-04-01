@@ -14,13 +14,13 @@ video/x-matroska=mpv.desktop
 text/html=brave-browser.desktop
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop
 application/x-shellscript=vim.desktop
-inode/directory=ranger.desktop
-application/x-gnome-saved-search=ranger.desktop
-application/pdf=userapp-zathura-N034Y0.desktop
+inode/directory=lf.desktop
+application/x-gnome-saved-search=lf.desktop
+application/pdf=zathura.desktop
 video/webm=mpv.desktop
 application/zip=engrampa.desktop
 x-scheme-handler/tg=userapp-Telegram Desktop-RUP9V0.desktop
 x-scheme-handler/mailto=neomutt.desktop
 message/rfc822=userapp-neomutt.desktop
-application/x-directory=ranger.desktop
+application/x-directory=lf.desktop
 
