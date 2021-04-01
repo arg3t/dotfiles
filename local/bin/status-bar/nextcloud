@@ -1,0 +1,6 @@
+#!/bin/sh
+
+nsync=$(cat ~/.cache/nextcloud-track)
+
+echo -n "^c#88c0d0^מּ ^d^ $nsync"
+

@@ -1,12 +1,5 @@
 .gitsecret/keys/random_seed
 !*.secret
-zsh/secret
-mail/mbsyncrc
-mail/msmtp/config
-misc/spotifyd.conf
-misc/wakatime.cfg
-misc/nextcloud
-misc/calcurse/caldav/config
 config/msmtp/config
 config/isync/mbsyncrc
 config/calcurse/caldav/config
@@ -14,4 +7,3 @@ config/wakatime/wakatime.cfg
 config/zsh/secret
 config/nextcloud/nextcloud
 config/spotifyd/spotifyd.conf
-config/wakatime/.wakatime.cfg
