@@ -113,7 +113,7 @@ else
     if [ "$home_s" = "y" ]; then
         mkfs.ext4 $home
         mkdir /mnt/sys/home
-        mount "/dev/mapper/home" /mnt/sys/home
+        mount "$home" /mnt/sys/home
     fi
 fi
 
