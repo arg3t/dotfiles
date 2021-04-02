@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 source ~/.config.env
 
-is_eth_used=$(cat /sys/class/net/${ETH_IT}/carrier)
-is_wlan_used=$(cat /sys/class/net/${WLAN_IT}/carrier)
+is_eth_used=$(cat /sys/class/net/$ETH_IT/carrier)
+is_wlan_used=$(cat /sys/class/net/$WLAN_IT/carrier)
 
 echo -n "^c#88c0d0^"
 

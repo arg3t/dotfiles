@@ -27,6 +27,19 @@ fi
 clear
 # Run cfdisk for manual partitioning
 cfdisk $device
+partprobe
+
+lsblk $device
+echo -n "Are you satisfied with your partitions?(Y/n): "
+read satisfied
+
+while [ ! "$satisfied" = "n" ]; do
+    cfdisk $device
+    partprobe
+    lsblk $device
+    echo -n "Are you satisfied with your partitions?(Y/n): "
+    read satisfied
+done
 clear
 
 

@@ -26,6 +26,8 @@ gpg --import /tmp/keys/gpg.key
 
 mkdir -p ~/.ssh
 
+chmod 700 ~/.ssh
+
 cp /tmp/keys/id_* ~/.ssh
 
 

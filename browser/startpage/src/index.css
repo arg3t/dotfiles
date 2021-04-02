@@ -82,8 +82,8 @@ html {
 
 body {
   padding: var(--spacing-4);
-  font-family: var(--font-family-sans);
   overflow: hidden;
+  font-family: var(--font-family-sans);
 }
 
 grid {

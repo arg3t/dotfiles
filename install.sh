@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ~/.dotfiles/profile
+
 username=$(whoami)
 
 mvie(){
@@ -23,7 +25,7 @@ echo -n "Would you like to install all the necessary packages, not doing so migh
 read deps
 if [ ! "$deps" = "n" ]; then
   echo "Running update"
-  yay -S --noconfirm $(cat ~/.dotfiles/arch-setup/packages.minimal) > /dev/null 2> /dev/null
+  yay -S --needed --noconfirm $(cat ~/.dotfiles/arch-setup/packages.minimal)
 fi
 
 rm -rf ~/.dotfiles_backup
@@ -114,7 +116,6 @@ else
 fi
 
 # Create necessary folders
-source ~/.profile
 mkdir -p "$HOME/.local/share/ncmpcpp/lyrics"
 mkdir -p "$HOME/.local/share/calcurse"
 mkdir -p "$CARGO_HOME"
@@ -128,6 +129,9 @@ mkdir -p "$WEECHAT_HOME"
 mkdir -p "$JUPYTER_CONFIG_DIR"
 mkdir -p "$PYLINTHOME"
 mkdir -p "$HOME/.local/share/zsh"
+mkdir -p "$XDG_DATA_DIR/mail"
+
+chmod 700 "$GNUPGHOME"
 touch "$_Z_DATA"
 
 # Root Files and Directories
@@ -163,11 +167,14 @@ cd $prev
 # Vim and tmux plugins
 mkdir -p ~/.tmux/plugins
 vim +PlugInstall +qall
+cd ~/.config/coc/extensions
+yarn
+cd $prev
+
 
 # Install mconnect
 echo "Installing mconnect"
 git clone https://github.com/theFr1nge/mconnect.git /tmp/mconnect.git > /dev/null 2> /dev/null
-prev=$(pwd)
 cd /tmp/mconnect.git
 mkdir -p build
 cd build
@@ -197,8 +204,12 @@ mv ~/.fzf ~/.local/share/fzf
 rm -rf ~/.fzf*
 rm -rf ~/.bash_profile
 sudo rm -rf /etc/urlview/system.urlview
-sudo rm -rf /etc/sudoers.d/nopwd
 
 if [ "$username" = "yigit" ]; then
   ~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)
+  mkdir -p "$XDG_DATA_DIR/mail/yigitcolakoglu@hotmail.com"
+  git config --global user.email "yigitcolakoglu@hotmail.com"
+  git config --global user.name "Yigit Colakoglu"
 fi
+
+sudo rm -rf /etc/sudoers.d/nopwd

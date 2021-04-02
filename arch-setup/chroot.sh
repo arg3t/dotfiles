@@ -180,9 +180,6 @@ sudo -u $username bash -c "yay --noconfirm -S plymouth"
 
 clear
 
-refind-install
-
-clear
 
 sudo -u $username bash -c "git clone --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotfiles"
 sudo -u $username bash -c "(cd ~/.dotfiles; ./install.sh)"
@@ -200,12 +197,18 @@ EOF
 
 cp -r /tmp/pthemes/pack_4/sphere /usr/share/plymouth/themes
 
+clear
+
+
+refind-install
+
 echo -e "/boot/EFI/refind\n2\n2" | sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/bobafetthotmail/refind-theme-regular/master/install.sh)"
 
 systemctl enable NetworkManager
 systemctl enable ly
 systemctl enable fstrim.timer
 systemctl enable cronie
+systemctl enable bluetooth
 
 clear
 

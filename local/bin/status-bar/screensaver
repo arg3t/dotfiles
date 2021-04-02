@@ -1,8 +1,8 @@
 #!/bin/sh
 
-stats=$(<~/.cache/screensaver)
+stats=$(xset q | grep "DPMS is" | cut -c11-)
 
-if [ "$stats" = "off" ]; then
+if [ "$stats" = "Disabled" ]; then
   echo "^c#a48ead^零 ^d^"
 else
   echo "^c#a48ead^鈴 ^d^"
