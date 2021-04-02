@@ -4,8 +4,6 @@ icon=
 
 cmd=$(date +"%R")
 
-
-#echo "$ifg $icon $tfg$cmd"
 echo -n "^c#0f111a^^b#bf616a^ $icon $cmd ^d^"
 
 ~/.local/bin/daily-update & # update wallpaper as well

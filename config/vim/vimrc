@@ -1,3 +1,4 @@
+" XDG Base Directory Specification
 set runtimepath^=$XDG_CONFIG_HOME/vim
 set runtimepath+=$XDG_DATA_HOME/vim
 set runtimepath+=$XDG_CONFIG_HOME/vim/after
@@ -17,6 +18,7 @@ let s:MRU_File = $XDG_CACHE_HOME."/vim/mru"
 
 if !has('nvim') | set viminfofile=$XDG_CACHE_HOME/vim/viminfo | endif
 
+
 source ~/.local/share/vim/plugin/plugins.vim
 
 " Set leader
@@ -32,7 +34,8 @@ map <Leader>gs :Gstatus<CR>
 map <Leader>h :History<CR>
 
 " CtrlP use FZF (faster!)
-nnoremap <C-p> :Files<Cr>
+nnoremap <C-p> :Files<CR>
+nnoremap <leader>b :Buffers<CR>
 noremap <leader>u :w<Home>silent <End> !urlview<CR>
 
 syntax on
@@ -60,13 +63,24 @@ set nobackup nowritebackup noswapfile " Turn off backup files
 set noerrorbells novisualbell         " Turn off visual and audible bells
 set expandtab shiftwidth=2 tabstop=2  " Two spaces for tabs everywhere
 set history=500
-" set hlsearch                          " Highlight search results
+set hidden                            " Save buffers automatically
 set ignorecase smartcase              " Search queries intelligently set case
 set incsearch                         " Show search results as you type
 set timeoutlen=1000 ttimeoutlen=0     " Remove timeout when hitting escape
 set showcmd                           " Show size of visual selection
+set cmdheight=2
 set t_Co=256
 set clipboard=unnamedplus
+set shortmess+=c
+set updatetime=300
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " Persistent undo
 set undodir=~/.local/share/vim/undo/
@@ -84,7 +98,6 @@ set wildignore+=*/node_modules/
 "-------------------------------------------------------------------------------
 " Interface
 "-------------------------------------------------------------------------------
-
 set number            " Enable line numbers
 set scrolloff=5       " Leave 5 lines of buffer when scrolling
 set sidescrolloff=10  " Leave 10 characters of horizontal buffer when scrolling
@@ -101,20 +114,19 @@ if (has("termguicolors"))
 endif
 
 
-let g:material_style='oceanic'
+let g:material_theme_style='ocean-community'
+let g:material_style='ocean'
+
+
 set background=dark
 try
-  colorscheme vim-material
+  colorscheme material
 catch /^Vim\%((\a\+)\)\=:E185/
   colorscheme default
 endtry
-let g:airline_theme='material'
 
 " Showcase comments in italics
 highlight Comment cterm=italic gui=italic
-
-" Open most recently used files on start
-" autocmd VimEnter * Mru .
 
 " Easy tab navigation
 nnoremap <C-Left> :tabprevious<CR>
@@ -135,6 +147,8 @@ let g:go_fmt_command = "goimports"
 
 " Find/replace
 vnoremap <C-r> "hy:%s/<C-r>h//g<left><left><left>
+
+" Disable highlight
 nnoremap <leader>e :noh<CR>
 
 " let g:auto_save = 1  " enable AutoSave on Vim startup
@@ -154,7 +168,6 @@ let g:Tlist_WinWidth = 40
 " Syntastic max file size for python
 let g:syntastic_python_pylint_post_args="--max-line-length=120"
 
-
 "-------------------------------------------------------------------------------
 " Neovim-specific configurations
 "-------------------------------------------------------------------------------
@@ -162,6 +175,7 @@ let g:syntastic_python_pylint_post_args="--max-line-length=120"
 if has('nvim')
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   set termguicolors
+
 
   " Fix vim-tmux-navigator <C-h> https://git.io/viGRU
   nmap <BS> <C-W>h
@@ -171,10 +185,13 @@ if has('nvim')
 endif
 
 
-command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> - |fmt -csw78
+" Don't clear clipboard on exit
 autocmd VimLeave * call system("xsel -ib", getreg('+'))
+
+" Useful for GDB debugging
 packadd termdebug
 
+" Use skeleton files
 if has("autocmd")
     augroup templates
         autocmd BufNewFile main.* silent! execute '0r ~/.local/share/vim/templates/skeleton-main.'.expand("<afile>:e")
@@ -184,3 +201,4 @@ if has("autocmd")
 
     autocmd BufWinLeave *.tex !texclear %:p
 endif
+

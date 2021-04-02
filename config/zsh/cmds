@@ -108,6 +108,18 @@ tmate-pair() {
   tmate -S "$TMATE_SOCKET_LOCATION" attach-session -t "$TMATE_PAIR_NAME"
 }
 
+genccls() {
+cat > .ccls << EOF
+-I
+../include
+-I
+../vendor/include
+-std=c++14
+-stdlib=libc++
+-fPIC
+EOF
+}
+
 # Close the pair because security
 tmate-unpair() {
   if [ -e "$TMATE_SOCKET_LOCATION" ]; then

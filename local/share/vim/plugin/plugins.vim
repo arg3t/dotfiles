@@ -1,16 +1,17 @@
 call plug#begin('~/.local/share/vim/plugged')
 
-" Themes
-"
-Plug 'hzchirs/vim-material'
+" Look & Feel
+Plug 'kaicataldo/material.vim'
+Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'
+Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons' " lua
 
 " Addons
 Plug 'scrooloose/nerdtree'
-"Plug 'yegappan/mru'
 Plug 'alvan/vim-closetag'
 Plug 'vim-scripts/vim-auto-save'
 Plug 'airblade/vim-gitgutter'
-"Plug 'ervandew/supertab'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-bundler'
@@ -23,19 +24,19 @@ Plug 'blarghmatey/split-expander'
 Plug 'farmergreg/vim-lastplace'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
-Plug 'vigoux/LanguageTool.nvim'
+Plug 'dpelle/vim-LanguageTool'
 
 "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'sheerun/vim-polyglot'
 Plug 'M4R7iNP/vim-inky'
-Plug 'vim-airline/vim-airline'
-Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
+" Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 Plug 'vim-scripts/indentpython.vim'
 Plug 'frazrepo/vim-rainbow'
 Plug 'preservim/nerdcommenter'
 Plug 'mileszs/ack.vim'
 Plug 'yegappan/taglist'
-Plug 'ryanoasis/vim-devicons'
 Plug 'puremourning/vimspector'
 Plug 'lervag/vimtex'
 Plug 'wakatime/vim-wakatime'
@@ -70,7 +71,8 @@ Plug 'leafgarland/typescript-vim'
 Plug 'arrufat/vala.vim'
 
 " Syntax errors
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
+Plug 'dense-analysis/ale'
 Plug 'ntpeters/vim-better-whitespace'
 
 " Git support
