@@ -6,6 +6,7 @@ let g:lightline#bufferline#unnamed      = '[No Name]'
 let g:lightline#bufferline#enable_nerdfont = 1
 let g:lightline#bufferline#modified = ' *'
 let g:lightline#bufferline#read_only = ' '
+let g:lightline#bufferline#min_buffer_count = 2
 
 " Movement bindings
 nmap <Leader>1 <Plug>lightline#bufferline#go(1)
