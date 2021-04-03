@@ -240,7 +240,6 @@ echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers.d/wheel
 
 rm -rf /bin/sh
 ln -sf /bin/dash /bin/sh
-chsh -s $(which mksh) $username
 
 clear
 
