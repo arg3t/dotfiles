@@ -42,6 +42,7 @@
 !screensaver_toggle
 !start-spotifyd
 !status-bar
+!status-bar/**
 !st-copyout
 !stop-spotifyd
 !st_tmux
@@ -58,3 +59,4 @@
 !ytfzf_dmenu
 !zaread
 !texclear
+!check-updated
