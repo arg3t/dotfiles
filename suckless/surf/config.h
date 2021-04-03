@@ -5,10 +5,10 @@ static char *scriptfiles[] = {
 	"~/.config/surf/scripts/default.js",
 };
 static char *styledir       = "~/.config/surf/styles/";
-static char *certdir        = "~/.config/surf/certificates/";
-static char *cachedir       = "~/.config/surf/cache/";
-static char *historyfile    = "~/.config/surf/history.txt";
-static char *cookiefile     = "~/.config/surf/cookies.txt";
+static char *certdir        = "~/.cache/surf/certificates/";
+static char *cachedir       = "~/.cache/surf/cache/";
+static char *historyfile    = "~/.cache/surf/history.txt";
+static char *cookiefile     = "~/.cache/surf/cookies.txt";
 static char *searchengine   = "https://google.com/search?q=";
 static char **plugindirs    = (char*[]){
 	"~/.config/surf/plugins/",

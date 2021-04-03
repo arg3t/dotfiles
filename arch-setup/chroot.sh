@@ -43,16 +43,22 @@ echo -e "en_US.UTF-8 UTF-8\ntr_TR.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 if [ ! -f "/tmp/.blackarch" ]; then
+    echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
     curl https://blackarch.org/strap.sh > /tmp/strap.sh
     chmod +x /tmp/strap.sh
     /tmp/strap.sh
     touch /tmp/.blackarch
     clear
 fi
+
 clear
+
 echo "Please enter hostname: "
 read hostname
 echo $hostname > /etc/hostname
+
+echo "Set password for root: "
+passwd root
 
 echo "Please enter name for regular user:"
 read username
@@ -199,7 +205,6 @@ cp -r /tmp/pthemes/pack_4/sphere /usr/share/plymouth/themes
 
 clear
 
-
 refind-install
 
 echo -e "/boot/EFI/refind\n2\n2" | sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/bobafetthotmail/refind-theme-regular/master/install.sh)"
@@ -217,7 +222,7 @@ mkinitcpio -P
 if [ -f "/install/encrypted" ]; then
     vim /etc/fstab
 fi
-pacman -R nano # uninstall nano, eww
+pacman --noconfirm -R nano # uninstall nano, eww
 
 clear
 
@@ -226,6 +231,7 @@ echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers.d/wheel
 
 rm -rf /bin/sh
 ln -sf /bin/dash /bin/sh
+chsh -s $(which mksh) $username
 
 clear
 

@@ -65,6 +65,10 @@ for d in ~/.dotfiles_backup/local/backgrounds/* ; do
   mv $d ~/.local/backgrounds 2> /dev/null
 done
 
+## Local/Src
+mvie ~/.local/src ~/.dotfiles_backup/local/src
+ln -s ~/.dotfiles/suckless ~/.local/src
+
 ## Theme and Icon Folders
 mvie ~/.themes ~/.dotfiles_backup/themes
 ln -s ~/.dotfiles/local/share/themes ~/.themes
@@ -103,6 +107,10 @@ if [ ! -f "/var/spool/cron/$username" ]; then
   sudo touch "/var/spool/cron/$username"
   sudo chown $username:$username "/var/spool/cron/$username"
   sudo chmod 755 "/var/spool/cron/$username"
+  echo "*/8 * * * * /home/$username/.local/bin/mailsync" > /var/spool/cron/$username
+  echo "*/15 * * * * /home/$username/.local/bin/scripts/nextcloud-sync" >> /var/spool/cron/$username
+  echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/$username
+  echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/$username
 else
   echo -n "An existing cron file is detected, would you like to overwrite it?(Y/n): "
   read cron
@@ -130,6 +138,8 @@ mkdir -p "$JUPYTER_CONFIG_DIR"
 mkdir -p "$PYLINTHOME"
 mkdir -p "$HOME/.local/share/zsh"
 mkdir -p "$XDG_DATA_DIR/mail"
+mkdir -p "$XDG_CONFIG_DIR/git"
+mkdir -p "$XDG_CACHE_DIR/surf"
 
 chmod 700 "$GNUPGHOME"
 touch "$_Z_DATA"
@@ -145,6 +155,13 @@ sudo chmod +x /usr/local/bin/kdialog
 sudo systemctl daemon-reload
 sudo groupadd nogroup
 sudo systemctl enable quark
+
+if [ "$username" = "yigit" ]; then
+  ~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)
+  mkdir -p "$XDG_DATA_DIR/mail/yigitcolakoglu@hotmail.com"
+  git config --global user.email "yigitcolakoglu@hotmail.com"
+  git config --global user.name "Yigit Colakoglu"
+fi
 
 # Build and Install Everything
 ## Suckless utilities
@@ -170,7 +187,6 @@ vim +PlugInstall +qall
 cd ~/.config/coc/extensions
 yarn
 cd $prev
-
 
 # Install mconnect
 echo "Installing mconnect"
@@ -205,11 +221,5 @@ rm -rf ~/.fzf*
 rm -rf ~/.bash_profile
 sudo rm -rf /etc/urlview/system.urlview
 
-if [ "$username" = "yigit" ]; then
-  ~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)
-  mkdir -p "$XDG_DATA_DIR/mail/yigitcolakoglu@hotmail.com"
-  git config --global user.email "yigitcolakoglu@hotmail.com"
-  git config --global user.name "Yigit Colakoglu"
-fi
 
 sudo rm -rf /etc/sudoers.d/nopwd

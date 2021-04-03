@@ -11,10 +11,10 @@ fi
 
 if [ "$layout" = "tr" ]; then
   xkb-switch -s "us"
-  notify-send "Keyboard layout switched to us"
+  dunstify -r 169 -a "  Keyboard" "Layout switched to us"
 else
   xkb-switch -s "tr"
-  notify-send "Keyboard layout switched to tr"
+  dunstify -r 169 -a "  Keyboard" "Layout switched to tr"
 fi
 
 kill -58 $(pidof dwmblocks)
