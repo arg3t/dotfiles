@@ -108,7 +108,8 @@ if [ ! -f "/var/spool/cron/$username" ]; then
   sudo chown $username:$username "/var/spool/cron/$username"
   sudo chmod 755 "/var/spool/cron/$username"
   echo "*/8 * * * * /home/$username/.local/bin/mailsync" > /var/spool/cron/$username
-  echo "*/15 * * * * /home/$username/.local/bin/scripts/nextcloud-sync" >> /var/spool/cron/$username
+  echo "*/15 * * * * /home/$username/.local/bin/nextcloud-sync" >> /var/spool/cron/$username
+  echo "* */1 * * * /home/$username/.local/bin/check-updates" >> /var/spool/cron/$username
   echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/$username
   echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/$username
 else
@@ -117,7 +118,8 @@ else
   if [ ! "$cron" = "n" ]; then
     cp /var/spool/cron/$username ~/.dotfiles_backup/crontab
     echo "*/8 * * * * /home/$username/.local/bin/mailsync" > /var/spool/cron/$username
-    echo "*/15 * * * * /home/$username/.local/bin/scripts/nextcloud-sync" >> /var/spool/cron/$username
+    echo "*/15 * * * * /home/$username/.local/bin/nextcloud-sync" >> /var/spool/cron/$username
+    echo "* */1 * * * /home/$username/.local/bin/check-updates" >> /var/spool/cron/$username
     echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/$username
     echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/$username
   fi

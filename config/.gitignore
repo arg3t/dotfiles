@@ -27,7 +27,6 @@
 !mimeapps.list
 !mimeapps.list/**
 !mpd
-!mpd/**
 !mpv
 !mpv/**
 !nvim

@@ -87,4 +87,6 @@ display_bitrate = "yes"
 enable_window_title = "yes"
 empty_tag_marker = ""
 
+mpd_crossfade_time=3
+
 execute_on_song_change="kill -63 $(pidof dwmblocks)"

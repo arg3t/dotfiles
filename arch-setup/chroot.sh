@@ -51,6 +51,17 @@ if [ ! -f "/tmp/.blackarch" ]; then
     pacman -Syy
     touch /tmp/.blackarch
 
+    echo -n "Are you going to use a flexo server?(y/N): "
+    read flexo
+
+    while [ "$flex" = "y" ]; do
+        echo -n "Please enter ip address of flexo server: "
+        read flexo_ip
+        echo "\nServer = http://$flexo_ip:7878/\$repo/os/\$arch\n" >> /etc/pacman.d/mirrorlist
+    done
+
+    pacman -Syy
+
     echo -n "Did any errors occur?(y/N): "
     read errors
 
@@ -184,9 +195,9 @@ EOF
 fi
 
 mkdir -p /etc/sudoers.d
-echo "$username $hostname =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot,/usr/bin/systemctl hibernate" > /etc/sudoers.d/wheel
 echo "Defaults env_reset,pwfeedback" >> /etc/sudoers.d/wheel
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nopwd
+echo "$username $hostname =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot,/usr/bin/systemctl hibernate,/bin/pacman -Syyuw --noconfirm" > /etc/sudoers.d/wheel
 
 
 sudo -u $username bash -c "git clone https://aur.archlinux.org/yay.git /tmp/yay"

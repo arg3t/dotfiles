@@ -67,8 +67,6 @@
 #def_key "space"
 #  toggle_visualization_type
 #
-#def_key "delete"
-#  delete_playlist_items
 #
 #def_key "delete"
 #  delete_browser_items
@@ -239,8 +237,6 @@
 #def_key "/"
 #  find
 #
-#def_key "/"
-#  find_item_forward
 #
 #def_key "?"
 #  find
@@ -388,28 +384,17 @@
 #
 #def_key "q"
 #  quit
-#
-#
-#def_key "f"
-#	find
-#def_key "f"
-#	find_item_forward
 
 def_key "j"
     scroll_down
 def_key "k"
     scroll_up
 
+#push_characters "jjjjjjjjjjjjjjj"
 def_key "ctrl-u"
     page_up
 #push_characters "kkkkkkkkkkkkkkk"
 def_key "ctrl-d"
-    page_down
-#push_characters "jjjjjjjjjjjjjjj"
-def_key "u"
-    page_up
-#push_characters "kkkkkkkkkkkkkkk"
-def_key "d"
     page_down
 #push_characters "jjjjjjjjjjjjjjj"
 def_key "h"
@@ -475,3 +460,9 @@ def_key "shift-up"
 def_key "shift-down"
   select_item
   scroll_down
+def_key "d"
+  delete_playlist_items
+def_key "/"
+  find_item_forward
+def_key "space"
+  select_item
