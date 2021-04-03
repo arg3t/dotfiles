@@ -38,12 +38,15 @@ cmd select_dir ${{
 }}
 
 cmd extract ${{
-	clear; tput cup $(($(tput lines)/3)); tput bold
 	set -f
-	printf "%s\n\t" "$fx"
-	printf "extract?[y/N]"
-	read ans
-	[ $ans = "y" ] && ext $fx
+	case $f in
+			*.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
+			*.tar.gz|*.tgz) tar xzvf $f;;
+			*.tar.xz|*.txz) tar xJvf $f;;
+			*.zip) unzip $f;;
+			*.rar) unrar x $f;;
+			*.7z) 7z x $f;;
+	esac
 }}
 
 cmd moveto ${{

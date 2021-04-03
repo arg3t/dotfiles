@@ -88,19 +88,15 @@ cp ~/.dotfiles/config.env.def ~/.config.env
 ##Fonts
 echo "Downloading assets"
 prev=$(pwd)
-cd ~/.local/share/fonts
-curl -O https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Regular%20Nerd%20Font%20Complete.otf > /dev/null 2> /dev/null
-curl -O https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Regular%20Nerd%20Font%20Complete%20Mono.otf > /dev/null 2> /dev/null
-curl -O https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Bold%20Nerd%20Font%20Complete.otf > /dev/null 2> /dev/null
-curl -O https://minio.yigitcolakoglu.com/dotfiles/Caskaydia%20Cove%20Bold%20Nerd%20Font%20Complete%20Mono.otf > /dev/null 2> /dev/null
+
+curl https://minio.yigitcolakoglu.com/minio/dotfiles/tools/mc > "$HOME/.local/bin"
+chmod +x "$HOME/.local/bin/mc"
+$HOME/.local/bin/mc alias set fr1nge-dots https://minio.yigitcolakoglu.com "" ""
+mc cp -r yeet-dots/dotfiles/fonts/* ~/.local/share/fonts/
 fc-cache
+
 ## Backgrounds
-cd ~/.local/backgrounds
-curl -O https://minio.yigitcolakoglu.com/dotfiles/lock.jpg > /dev/null 2> /dev/null
-curl -O https://minio.yigitcolakoglu.com/dotfiles/wallpaper-mountain.jpg > /dev/null 2> /dev/null
-curl -O https://minio.yigitcolakoglu.com/dotfiles/wallpaper-sea.jpg > /dev/null 2> /dev/null
-curl -O https://minio.yigitcolakoglu.com/dotfiles/wallpaper-shack.jpg > /dev/null 2> /dev/null
-cd $prev
+mc cp -r yeet-dots/dotfiles/backgrounds/* ~/.local/backgrounds/
 
 # Setup Crontab
 if [ ! -f "/var/spool/cron/$username" ]; then

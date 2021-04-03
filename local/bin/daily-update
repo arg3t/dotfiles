@@ -9,22 +9,23 @@ cached=$(cat /tmp/day_cache)
 
 if [ $hour -le $morning ]; then
   if [ ! "$cached" = "night"  ]; then
-    feh --no-fehbg --bg-fill /home/yigit/.local/backgrounds/wallpaper-shack.jpg
+    feh --no-fehbg --bg-fill ~/.local/backgrounds/evening/$(ls ~/.local/backgrounds/evening | sort -R | tail -1 )
     echo "night" > /tmp/day_cache
   fi
 elif [ $night -le $hour ]; then
   if [ ! "$cached" = "night"  ]; then
-    feh --no-fehbg --bg-fill /home/yigit/.local/backgrounds/wallpaper-shack.jpg
+
+    feh --no-fehbg --bg-fill ~/.local/backgrounds/evening/$(ls ~/.local/backgrounds/evening | sort -R | tail -1 )
     echo "night" > /tmp/day_cache
   fi
 elif [ $afternoon -le $hour ]; then
   if [ ! "$cached" = "afternoon"  ]; then
-    feh --no-fehbg --bg-fill /home/yigit/.local/backgrounds/wallpaper-sea.jpg
+    feh --no-fehbg --bg-fill ~/.local/backgrounds/afternoon/$(ls ~/.local/backgrounds/afternoon| sort -R | tail -1 )
     echo "afternoon" > /tmp/day_cache
   fi
 else
   if [ ! "$cached" = "morning"  ]; then
-    feh --no-fehbg --bg-fill /home/yigit/.local/backgrounds/wallpaper-mountain.jpg
+    feh --no-fehbg --bg-fill ~/.local/backgrounds/morning/$(ls ~/.local/backgrounds/morning | sort -R | tail -1 )
     echo "morning" > /tmp/day_cache
   fi
 fi

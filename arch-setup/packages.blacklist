@@ -6,7 +6,6 @@ aria2
 autoconf2.13
 baobab
 base
-betterdiscord-git
 bfg
 bison
 bitwarden
@@ -31,10 +30,8 @@ googler
 gperf
 gradle
 kitty
-libxft-bgra
 mailcap
 openssl-1.0
-plymouth-git
 postman-bin
 readability-cli
 terminal_dimensions-git
