@@ -70,3 +70,5 @@
 !coc
 !npm
 !zsh
+!weechat
+!weechat/**
