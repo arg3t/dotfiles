@@ -39,6 +39,8 @@ bash
 bat
 bc
 bcg729
+betterdiscord
+betterdiscordctl-git
 binutils
 binwalk
 blas
@@ -107,6 +109,7 @@ dconf
 dejagnu
 desktop-file-utils
 device-mapper
+dialog
 diffutils
 direnv
 discord
@@ -149,6 +152,7 @@ file
 filesystem
 findutils
 flac
+flex
 fltk
 fluidsynth
 fmt
@@ -485,6 +489,7 @@ kwindowsystem
 kxmlgui
 kyotocabinet
 lame
+languagetool
 lapack
 lcms2
 ldb
@@ -758,6 +763,7 @@ libxfce4ui
 libxfce4util
 libxfixes
 libxfont2
+libxft
 libxi
 libxinerama
 libxkbcommon
@@ -1019,6 +1025,7 @@ pistol-git
 pixman
 pkgconf
 playerctl
+plymouth
 pngquant
 podofo
 polkit
@@ -1135,6 +1142,7 @@ python-docopt
 python-docutils
 python-entrypoints
 python-exifread
+python-fasteners
 python-feedparser
 python-filebytes
 python-gnupg
@@ -1174,6 +1182,7 @@ python-markupsafe
 python-mccabe
 python-mechanize
 python-mistune
+python-monotonic
 python-more-itertools
 python-mpv
 python-mpv-jsonipc

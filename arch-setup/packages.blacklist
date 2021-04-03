@@ -6,6 +6,7 @@ aria2
 autoconf2.13
 baobab
 base
+betterdiscord-git
 bfg
 bison
 bitwarden
@@ -13,7 +14,6 @@ bitwarden-cli
 blackarch-keyring
 borgmatic
 botan
-betterdiscord-git
 canon-pixma-ts5055-complete
 canto-next-git
 capt-src
