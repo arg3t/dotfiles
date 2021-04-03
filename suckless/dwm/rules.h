@@ -28,6 +28,7 @@ static const Rule rules[] = {
 	RULE(.instance = "spmutt", .tags = SPTAG(2), .isfloating = 1)
 	RULE(.instance = "spfile", .tags = SPTAG(3), .isfloating = 1)
 	RULE(.instance = "spmusic", .tags = SPTAG(4), .isfloating = 1)
+	RULE(.instance = "spcal", .tags = SPTAG(5), .isfloating = 1)
 	/* Terminal Window Rules */
 	RULE(.class = "ranger", 0, .isfloating = 1, .floatpos="50% 50% 800W 560H")
 	RULE(.class = "lf", 0, .isfloating = 1, .floatpos="50% 50% 800W 560H")

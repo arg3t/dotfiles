@@ -57,6 +57,7 @@ const char *spcmd2[] = {"feh", "--title", "scratchpad", "--class", "spfeh", "-g"
 const char *spcmd3[] = {"st", "-c", "scratchpad", "-n", "spmutt", "-g", "180x51", "-e", "neomutt", NULL };
 static const char *spcmd4[]  = { "/usr/local/bin/st", "-g", "150x35", "-c", "spfile", "-n", "spfile", "-e", "/home/yigit/.local/bin/lf-ueberzug", NULL };
 static const char *spcmd5[]  = { "/usr/local/bin/st", "-g", "150x35", "-c", "spmusic", "-n", "spmusic", "-e", "ncmpcpp", NULL };
+static const char *spcmd6[]  = { "/usr/local/bin/st", "-g", "150x35", "-c", "spcal", "-n", "spcal", "-e", "calcurse", NULL };
 
 static Sp scratchpads[] = {
    {"spterm",      spcmd1},
@@ -64,6 +65,7 @@ static Sp scratchpads[] = {
    {"spmutt",      spcmd3},
    {"spfile",      spcmd4},
    {"spmusic",      spcmd5},
+   {"spcal",      spcmd6},
 };
 
 static const BarRule barrules[] = {

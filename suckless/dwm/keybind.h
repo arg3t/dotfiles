@@ -136,7 +136,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_w, spawn, {.v = wallabag} },
 	{ MODKEY,            					  XK_w, spawn, {.v = wiki} },
 	{ MODKEY,                       XK_g, spawn, {.v = google} },
-	{ MODKEY|ShiftMask,							XK_c, spawn, {.v = online_class} },
+	{ MODKEY,        	 							XK_t, spawn, {.v = online_class} },
 	{ MODKEY|ShiftMask,							XK_m, spawn, {.v = mconnect} },
 	{ MODKEY|ShiftMask,							XK_d, spawn, {.v = udevil} },
 	{ MODKEY|ShiftMask,							XK_u, spawn, {.v = udevil_umount} },
@@ -146,6 +146,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_m,      togglescratch,          {.ui = 2 } },
 	{ MODKEY|ShiftMask,             XK_f, 		 togglescratch,          {.ui = 3} },
 	{ MODKEY,   					          XK_n, 		 togglescratch,          {.ui = 4} },
+	{ MODKEY|ShiftMask,             XK_c, 		 togglescratch,          {.ui = 5} },
 	/* FloatPos Patch Keybinds */
 	{ Mod3Mask,                     XK_u,            floatpos,               {.v = "-26x -26y" } }, // ↖
 	{ Mod3Mask,                     XK_i,            floatpos,               {.v = "  0x -26y" } }, // ↑
