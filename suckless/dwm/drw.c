@@ -5,11 +5,9 @@
 #include <X11/Xlib.h>
 #include <X11/Xft/Xft.h>
 
-#include "patches.h"
 #include "drw.h"
 #include "util.h"
 
-#if !BAR_PANGO_PATCH
 #define UTF_INVALID 0xFFFD
 #define UTF_SIZ     4
 
@@ -17,13 +15,8 @@ static const unsigned char utfbyte[UTF_SIZ + 1] = {0x80,    0, 0xC0, 0xE0, 0xF0}
 static const unsigned char utfmask[UTF_SIZ + 1] = {0xC0, 0x80, 0xE0, 0xF0, 0xF8};
 static const long utfmin[UTF_SIZ + 1] = {       0,    0,  0x80,  0x800,  0x10000};
 static const long utfmax[UTF_SIZ + 1] = {0x10FFFF, 0x7F, 0x7FF, 0xFFFF, 0x10FFFF};
-#endif // BAR_PANGO_PATCH
 
-#if BAR_POWERLINE_TAGS_PATCH || BAR_POWERLINE_STATUS_PATCH
-Clr transcheme[3];
-#endif // BAR_POWERLINE_TAGS_PATCH | BAR_POWERLINE_STATUS_PATCH
 
-#if !BAR_PANGO_PATCH
 static long
 utf8decodebyte(const char c, size_t *i)
 {
@@ -67,14 +60,9 @@ utf8decode(const char *c, long *u, size_t clen)
 
 	return len;
 }
-#endif // BAR_PANGO_PATCH
 
 Drw *
-#if BAR_ALPHA_PATCH
-drw_create(Display *dpy, int screen, Window root, unsigned int w, unsigned int h, Visual *visual, unsigned int depth, Colormap cmap)
-#else
 drw_create(Display *dpy, int screen, Window root, unsigned int w, unsigned int h)
-#endif // BAR_ALPHA_PATCH
 {
 	Drw *drw = ecalloc(1, sizeof(Drw));
 
@@ -84,16 +72,8 @@ drw_create(Display *dpy, int screen, Window root, unsigned int w, unsigned int h
 	drw->w = w;
 	drw->h = h;
 
-	#if BAR_ALPHA_PATCH
-	drw->visual = visual;
-	drw->depth = depth;
-	drw->cmap = cmap;
-	drw->drawable = XCreatePixmap(dpy, root, w, h, depth);
-	drw->gc = XCreateGC(dpy, drw->drawable, 0, NULL);
-	#else
 	drw->drawable = XCreatePixmap(dpy, root, w, h, DefaultDepth(dpy, screen));
 	drw->gc = XCreateGC(dpy, root, 0, NULL);
-	#endif // BAR_ALPHA_PATCH
 	XSetLineAttributes(dpy, drw->gc, 1, LineSolid, CapButt, JoinMiter);
 
 	return drw;
@@ -109,11 +89,7 @@ drw_resize(Drw *drw, unsigned int w, unsigned int h)
 	drw->h = h;
 	if (drw->drawable)
 		XFreePixmap(drw->dpy, drw->drawable);
-	#if BAR_ALPHA_PATCH
-	drw->drawable = XCreatePixmap(drw->dpy, drw->root, w, h, drw->depth);
-	#else
 	drw->drawable = XCreatePixmap(drw->dpy, drw->root, w, h, DefaultDepth(drw->dpy, drw->screen));
-	#endif // BAR_ALPHA_PATCH
 }
 
 void
@@ -125,41 +101,6 @@ drw_free(Drw *drw)
 	free(drw);
 }
 
-#if BAR_PANGO_PATCH
-/* This function is an implementation detail. Library users should use
- * drw_font_create instead.
- */
-static Fnt *
-xfont_create(Drw *drw, const char *fontname)
-{
-	Fnt *font;
-	PangoFontMap *fontmap;
-	PangoContext *context;
-	PangoFontDescription *desc;
-	PangoFontMetrics *metrics;
-
-	if (!fontname) {
-		die("no font specified.");
-	}
-
-	font = ecalloc(1, sizeof(Fnt));
-	font->dpy = drw->dpy;
-
-	fontmap = pango_xft_get_font_map(drw->dpy, drw->screen);
-	context = pango_font_map_create_context(fontmap);
-	desc = pango_font_description_from_string(fontname);
-	font->layout = pango_layout_new(context);
-	pango_layout_set_font_description(font->layout, desc);
-
-	metrics = pango_context_get_metrics(context, desc, pango_language_from_string ("en-us"));
-	font->h = pango_font_metrics_get_height(metrics) / PANGO_SCALE;
-
-	pango_font_metrics_unref(metrics);
-	g_object_unref(context);
-
-	return font;
-}
-#else
 /* This function is an implementation detail. Library users should use
  * drw_fontset_create instead.
  */
@@ -194,7 +135,6 @@ xfont_create(Drw *drw, const char *fontname, FcPattern *fontpattern)
 		die("no font specified.");
 	}
 
-	#if !BAR_COLOR_EMOJI_PATCH
 	/* Do not allow using color fonts. This is a workaround for a BadLength
 	 * error from Xft with color glyphs. Modelled on the Xterm workaround. See
 	 * https://bugzilla.redhat.com/show_bug.cgi?id=1498269
@@ -207,7 +147,6 @@ xfont_create(Drw *drw, const char *fontname, FcPattern *fontpattern)
 		XftFontClose(drw->dpy, xfont);
 		return NULL;
 	}
-	#endif // BAR_COLOR_EMOJI_PATCH
 
 	font = ecalloc(1, sizeof(Fnt));
 	font->xfont = xfont;
@@ -217,38 +156,18 @@ xfont_create(Drw *drw, const char *fontname, FcPattern *fontpattern)
 
 	return font;
 }
-#endif // BAR_PANGO_PATCH
 
 static void
 xfont_free(Fnt *font)
 {
 	if (!font)
 		return;
-	#if BAR_PANGO_PATCH
-	if (font->layout)
-		g_object_unref(font->layout);
-	#else
 	if (font->pattern)
 		FcPatternDestroy(font->pattern);
 	XftFontClose(font->dpy, font->xfont);
-	#endif // BAR_PANGO_PATCH
 	free(font);
 }
 
-#if BAR_PANGO_PATCH
-Fnt*
-drw_font_create(Drw* drw, const char font[])
-{
-	Fnt *fnt = NULL;
-
-	if (!drw || !font)
-		return NULL;
-
-	fnt = xfont_create(drw, font);
-
-	return (drw->fonts = fnt);
-}
-#else
 Fnt*
 drw_fontset_create(Drw* drw, const char *fonts[], size_t fontcount)
 {
@@ -266,15 +185,12 @@ drw_fontset_create(Drw* drw, const char *fonts[], size_t fontcount)
 	}
 	return (drw->fonts = ret);
 }
-#endif // BAR_PANGO_PATCH
 
 void
 drw_fontset_free(Fnt *font)
 {
 	if (font) {
-		#if !BAR_PANGO_PATCH
 		drw_fontset_free(font->next);
-		#endif // BAR_PANGO_PATCH
 		xfont_free(font);
 	}
 }
@@ -284,29 +200,16 @@ drw_clr_create(
 	Drw *drw,
 	Clr *dest,
 	const char *clrname
-	#if BAR_ALPHA_PATCH
-	, unsigned int alpha
-	#endif // BAR_ALPHA_PATCH
 ) {
 	if (!drw || !dest || !clrname)
 		return;
 
-	#if BAR_ALPHA_PATCH
-	if (!XftColorAllocName(drw->dpy, drw->visual, drw->cmap,
-	                       clrname, dest))
-		die("error, cannot allocate color '%s'", clrname);
-
-	dest->pixel = (dest->pixel & 0x00ffffffU) | (alpha << 24);
-	#else
 	if (!XftColorAllocName(drw->dpy, DefaultVisual(drw->dpy, drw->screen),
 	                       DefaultColormap(drw->dpy, drw->screen),
 	                       clrname, dest))
 		die("error, cannot allocate color '%s'", clrname);
 
-	#if NO_TRANSPARENT_BORDERS_PATCH
 	dest->pixel |= 0xff << 24;
-	#endif // NO_TRANSPARENT_BORDERS_PATCH
-	#endif // BAR_ALPHA_PATCH
 }
 
 /* Wrapper to create color schemes. The caller has to call free(3) on the
@@ -315,9 +218,6 @@ Clr *
 drw_scm_create(
 	Drw *drw,
 	char *clrnames[],
-	#if BAR_ALPHA_PATCH
-	const unsigned int alphas[],
-	#endif // BAR_ALPHA_PATCH
 	size_t clrcount
 ) {
 	size_t i;
@@ -328,22 +228,16 @@ drw_scm_create(
 		return NULL;
 
 	for (i = 0; i < clrcount; i++)
-		#if BAR_ALPHA_PATCH
-		drw_clr_create(drw, &ret[i], clrnames[i], alphas[i]);
-		#else
 		drw_clr_create(drw, &ret[i], clrnames[i]);
-		#endif // BAR_ALPHA_PATCH
 	return ret;
 }
 
-#if !BAR_PANGO_PATCH
 void
 drw_setfontset(Drw *drw, Fnt *set)
 {
 	if (drw)
 		drw->fonts = set;
 }
-#endif // BAR_PANGO_PATCH
 
 void
 drw_setscheme(Drw *drw, Clr *scm)
@@ -352,16 +246,6 @@ drw_setscheme(Drw *drw, Clr *scm)
 		drw->scheme = scm;
 }
 
-#if BAR_POWERLINE_TAGS_PATCH || BAR_POWERLINE_STATUS_PATCH
-void
-drw_settrans(Drw *drw, Clr *psc, Clr *nsc)
-{
-	if (drw) {
-		transcheme[0] = psc[ColBg]; transcheme[1] = nsc[ColBg]; transcheme[2] = psc[ColBorder];
-		drw->scheme = transcheme;
-	}
-}
-#endif // BAR_POWERLINE_TAGS_PATCH | BAR_POWERLINE_STATUS_PATCH
 
 void
 drw_rect(Drw *drw, int x, int y, unsigned int w, unsigned int h, int filled, int invert)
@@ -375,72 +259,6 @@ drw_rect(Drw *drw, int x, int y, unsigned int w, unsigned int h, int filled, int
 		XDrawRectangle(drw->dpy, drw->drawable, drw->gc, x, y, w - 1, h - 1);
 }
 
-#if BAR_PANGO_PATCH
-int
-drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lpad, const char *text, int invert, Bool markup)
-{
-	char buf[1024];
-	int ty;
-	unsigned int ew;
-	XftDraw *d = NULL;
-	size_t i, len;
-	int render = x || y || w || h;
-
-	if (!drw || (render && !drw->scheme) || !text || !drw->fonts)
-		return 0;
-
-	if (!render) {
-		w = ~w;
-	} else {
-		XSetForeground(drw->dpy, drw->gc, drw->scheme[invert ? ColFg : ColBg].pixel);
-		XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, y, w, h);
-		#if BAR_ALPHA_PATCH
-		d = XftDrawCreate(drw->dpy, drw->drawable, drw->visual, drw->cmap);
-		#else
-		d = XftDrawCreate(drw->dpy, drw->drawable,
-		                  DefaultVisual(drw->dpy, drw->screen),
-		                  DefaultColormap(drw->dpy, drw->screen));
-		#endif // BAR_ALPHA_PATCH
-		x += lpad;
-		w -= lpad;
-	}
-
-	len = strlen(text);
-
-	if (len) {
-		drw_font_getexts(drw->fonts, text, len, &ew, NULL, markup);
-		/* shorten text if necessary */
-		for (len = MIN(len, sizeof(buf) - 1); len && ew > w; len--)
-			drw_font_getexts(drw->fonts, text, len, &ew, NULL, markup);
-
-		if (len) {
-			memcpy(buf, text, len);
-			buf[len] = '\0';
-			if (len < strlen(text))
-				for (i = len; i && i > len - 3; buf[--i] = '.')
-					; /* NOP */
-
-			if (render) {
-				ty = y + (h - drw->fonts->h) / 2;
-				if (markup)
-					pango_layout_set_markup(drw->fonts->layout, buf, len);
-				else
-					pango_layout_set_text(drw->fonts->layout, buf, len);
-				pango_xft_render_layout(d, &drw->scheme[invert ? ColBg : ColFg],
-					drw->fonts->layout, x * PANGO_SCALE, ty * PANGO_SCALE);
-				if (markup) /* clear markup attributes */
-					pango_layout_set_attributes(drw->fonts->layout, NULL);
-			}
-			x += ew;
-			w -= ew;
-		}
-	}
-	if (d)
-		XftDrawDestroy(d);
-
-	return x + (render ? w : 0);
-}
-#else
 int
 drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lpad, const char *text, int invert, Bool ignored)
 {
@@ -467,13 +285,9 @@ drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lp
 	} else {
 		XSetForeground(drw->dpy, drw->gc, drw->scheme[invert ? ColFg : ColBg].pixel);
 		XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, y, w, h);
-		#if BAR_ALPHA_PATCH
-		d = XftDrawCreate(drw->dpy, drw->drawable, drw->visual, drw->cmap);
-		#else
 		d = XftDrawCreate(drw->dpy, drw->drawable,
 		                  DefaultVisual(drw->dpy, drw->screen),
 		                  DefaultColormap(drw->dpy, drw->screen));
-		#endif // BAR_ALPHA_PATCH
 		x += lpad;
 		w -= lpad;
 	}
@@ -575,40 +389,7 @@ drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lp
 
 	return x + (render ? w : 0);
 }
-#endif // BAR_PANGO_PATCH
 
-#if BAR_POWERLINE_TAGS_PATCH || BAR_POWERLINE_STATUS_PATCH
-void
-drw_arrow(Drw *drw, int x, int y, unsigned int w, unsigned int h, int direction, int slash)
-{
-	if (!drw || !drw->scheme)
-		return;
-
-	/* direction=1 draws right arrow */
-	x = direction ? x : x + w;
-	w = direction ? w : -w;
-	/* slash=1 draws slash instead of arrow */
-	unsigned int hh = slash ? (direction ? 0 : h) : h/2;
-
-	XPoint points[] = {
-		{x    , y      },
-		{x + w, y + hh },
-		{x    , y + h  },
-	};
-
-	XPoint bg[] = {
-		{x    , y    },
-		{x + w, y    },
-		{x + w, y + h},
-		{x    , y + h},
-	};
-
-	XSetForeground(drw->dpy, drw->gc, drw->scheme[ColBg].pixel);
-	XFillPolygon(drw->dpy, drw->drawable, drw->gc, bg, 4, Convex, CoordModeOrigin);
-	XSetForeground(drw->dpy, drw->gc, drw->scheme[ColFg].pixel);
-	XFillPolygon(drw->dpy, drw->drawable, drw->gc, points, 3, Nonconvex, CoordModeOrigin);
-}
-#endif // BAR_POWERLINE_TAGS_PATCH | BAR_POWERLINE_STATUS_PATCH
 
 void
 drw_map(Drw *drw, Window win, int x, int y, unsigned int w, unsigned int h)
@@ -628,27 +409,6 @@ drw_fontset_getwidth(Drw *drw, const char *text, Bool markup)
 	return drw_text(drw, 0, 0, 0, 0, 0, text, 0, markup);
 }
 
-#if BAR_PANGO_PATCH
-void
-drw_font_getexts(Fnt *font, const char *text, unsigned int len, unsigned int *w, unsigned int *h, Bool markup)
-{
-	if (!font || !text)
-		return;
-
-	PangoRectangle r;
-	if (markup)
-		pango_layout_set_markup(font->layout, text, len);
-	else
-		pango_layout_set_text(font->layout, text, len);
-	pango_layout_get_extents(font->layout, 0, &r);
-	if (markup) /* clear markup attributes */
-		pango_layout_set_attributes(font->layout, NULL);
-	if (w)
-		*w = r.width / PANGO_SCALE;
-	if (h)
-		*h = font->h;
-}
-#else
 void
 drw_font_getexts(Fnt *font, const char *text, unsigned int len, unsigned int *w, unsigned int *h)
 {
@@ -663,7 +423,6 @@ drw_font_getexts(Fnt *font, const char *text, unsigned int len, unsigned int *w,
 	if (h)
 		*h = font->h;
 }
-#endif // BAR_PANGO_PATCH
 
 Cur *
 drw_cur_create(Drw *drw, int shape)
