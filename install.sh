@@ -142,6 +142,7 @@ mkdir -p "$XDG_CONFIG_DIR/git"
 mkdir -p "$XDG_CACHE_DIR/surf"
 
 chmod 700 "$GNUPGHOME"
+touch "$XDG_CONFIG_DIR/git/config"
 touch "$_Z_DATA"
 
 # Root Files and Directories
