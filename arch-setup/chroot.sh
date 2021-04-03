@@ -47,8 +47,17 @@ if [ ! -f "/tmp/.blackarch" ]; then
     curl https://blackarch.org/strap.sh > /tmp/strap.sh
     chmod +x /tmp/strap.sh
     /tmp/strap.sh
+    echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n\n[options]\nILoveCandy\nTotalDownload\nColor"
+    pacman -Syy
     touch /tmp/.blackarch
-    clear
+
+    echo -n "Did any errors occur?(y/N): "
+    read errors
+
+    while [ "$errors" = "y" ]; do
+        echo "Dropping you into a shell so that you can fix them, once you quit the shell, the installation will continue from where you left off."
+        bash
+    done
 fi
 
 clear
