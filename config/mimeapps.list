@@ -24,3 +24,5 @@ x-scheme-handler/mailto=neomutt.desktop
 message/rfc822=userapp-neomutt.desktop
 application/x-directory=lf.desktop
 
+[Added Associations]
+application/javascript=gvim.desktop;vim.desktop;

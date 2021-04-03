@@ -33,6 +33,10 @@ map <Leader>gs :Gstatus<CR>
 " Recently edited files
 map <Leader>h :History<CR>
 
+" map gj and gk to j and k for seamless movement in tex
+map j gj
+map k gk
+
 " CtrlP use FZF (faster!)
 nnoremap <C-p> :Files<CR>
 nnoremap <leader>b :Buffers<CR>

@@ -13,10 +13,10 @@ selection=$(echo -e "$items\n$scripts\n$suckless" | $DMENU)
 
 if [ ! "$selection" = "" ]; then
   if [ $(echo $selection | cut -d"/" -f 1) = "scripts" ]; then
-    st -c vim -n vim -e vim "$(echo $selection | sed -n "s|scripts/|$HOME/.dotfiles/local/bin/|p")"
+    st -c vim -n vim -e $EDITOR "$(echo $selection | sed -n "s|scripts/|$HOME/.dotfiles/local/bin/|p")"
   elif [ $(echo $selection | cut -d"/" -f 1) = "suckless" ]; then
-    st -c vim -n vim -e vim "$(echo $selection | sed -n "s|suckless/|$HOME/.dotfiles/suckless/|p")"
+    st -c vim -n vim -e $EDITOR "$(echo $selection | sed -n "s|suckless/|$HOME/.dotfiles/suckless/|p")"
   else
-    st -c vim -n vim -e vim "$(echo $selection | sed -n "s|config/|$HOME/.dotfiles/config/|p")"
+    st -c vim -n vim -e $EDITOR "$(echo $selection | sed -n "s|config/|$HOME/.dotfiles/config/|p")"
   fi
 fi

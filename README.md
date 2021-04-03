@@ -20,9 +20,11 @@ Have fun! Another copy of all of this is [here](https://git.yigitcolakoglu.com/y
 ## Installation
 
 Just run 
+
 ```sh
 git clone --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotfiles && ~/.dotfiles/install.sh
 ```
+
 This will download everything you need. After that, I have a list of all the packages I have installed on my machine in the directory arch-setup/.
 If you have any problems regarding the setup, you should first check whether you have missing packages. 
 After the clone process, it is pretty straightforward, you can run the `install.sh` script which creates necessary symlinks. 
@@ -38,6 +40,6 @@ You might want to edit your crontab and the ~/.config.env.
 
 * [X] Neomutt further config
 * [X] Dwmblocks entry for tracking last mailsync time
-* Fix ISO4755 and externalpipe conflict
-* [ ] Better documentation
+* [X] Fix ISO4755 and externalpipe conflict
+* [ ] Better documentation (Perhaps an auto-documentation tool written in python?)
 * [X] Dmenu for restarting certain processes like dwm, dwmblocks, dunst, mconnect

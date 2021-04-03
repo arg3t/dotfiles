@@ -1,4 +1,5 @@
 set showtabline=2
+set guioptions-=e
 
 let g:lightline#bufferline#show_number  = 2
 let g:lightline#bufferline#shorten_path = 0

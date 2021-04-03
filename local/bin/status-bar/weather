@@ -67,11 +67,11 @@ showweather() {
     data=$(echo -ne $(echo $data | cut -d' ' -f 1-4)" ${WCODES[$(echo $data | cut -d' ' -f 5)]}")
     echo $data | awk -F' ' '{
 		if ($4 > 30)
-			print "^c#ffffff^  ^d^" $4 "kh / "$5 " ^d^ " $1 "°C"
+			print "^c#ffffff^  ^d^" $4 "kh "$5 " ^d^ " $1 "°C"
 		else if ($2 < $3)
-			print "^c#ffffff^ ^d^" $3 "% / "$5 " ^d^ " $1 "°C"
+			print "^c#ffffff^ ^d^" $3 "% "$5 " ^d^ " $1 "°C"
 		else
-			print "^c#81a1c1^ ^d^" $2 "% / " $5 " ^d^ " $1 "°C"}'
+			print "^c#81a1c1^ ^d^" $2 "% " $5 " ^d^ " $1 "°C"}'
 }
 
 case $BLOCK_BUTTON in
