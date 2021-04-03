@@ -4,8 +4,7 @@ call plug#begin('~/.local/share/vim/plugged')
 Plug 'kaicataldo/material.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
-Plug 'ryanoasis/vim-devicons'
-Plug 'kyazdani42/nvim-web-devicons' " lua
+Plug 'lambdalisue/nerdfont.vim'
 
 " Addons
 Plug 'scrooloose/nerdtree'

@@ -18,6 +18,7 @@
 !mimeapps.list
 !mpd
 !mpv
+!nvim
 !msmtp
 !mutt
 !ncmpcpp
@@ -35,6 +36,7 @@
 !tmux
 !vdirsyncer
 !vim
+!vim/**
 !wakatime
 !wgetrc
 !X11

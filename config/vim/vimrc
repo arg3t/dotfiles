@@ -19,7 +19,7 @@ let s:MRU_File = $XDG_CACHE_HOME."/vim/mru"
 if !has('nvim') | set viminfofile=$XDG_CACHE_HOME/vim/viminfo | endif
 
 
-source ~/.local/share/vim/plugin/plugins.vim
+source ~/.config/vim/plugin/plugins.vim
 
 " Set leader
 let mapleader = ","
@@ -73,14 +73,12 @@ set t_Co=256
 set clipboard=unnamedplus
 set shortmess+=c
 set updatetime=300
-
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+if has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
 
 " Persistent undo
 set undodir=~/.local/share/vim/undo/
@@ -201,4 +199,3 @@ if has("autocmd")
 
     autocmd BufWinLeave *.tex !texclear %:p
 endif
-
