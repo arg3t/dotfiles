@@ -2,12 +2,11 @@ zsh-users/zsh-completions
 
 # robbyrussell/oh-my-zsh path:plugins/aws
 
-~/.config/antibody/powerlevel10k
-
 zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-history-substring-search
 zsh-users/zsh-autosuggestions
 le0me55i/zsh-extract
+romkatv/powerlevel10k
 # Aloxaf/fzf-tab
 rupa/z
 
