@@ -71,6 +71,7 @@ c-ares
 catdoc
 cbindgen
 cblas
+ccls
 cdparanoia
 ceph-libs
 checkupdates+aur
@@ -1037,7 +1038,6 @@ poppler-glib
 popt
 portaudio
 postgresql-libs
-postman-bin
 potrace
 powertop
 procps-ng
@@ -1328,7 +1328,6 @@ rasqal
 rav1e
 rclone
 re2
-readability-cli
 readline
 redis
 redland

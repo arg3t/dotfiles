@@ -35,6 +35,8 @@ libxft-bgra
 mailcap
 openssl-1.0
 plymouth-git
+postman-bin
+readability-cli
 terminal_dimensions-git
 texlive-bibtexextra
 texlive-fontsextra
