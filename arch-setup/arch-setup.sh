@@ -31,14 +31,16 @@ fi
 clear
 # Run cfdisk for manual partitioning
 cfdisk $device
-[ ! $(command -v partprobe) = "" ] && partprobe
+clear
 sleep 2
+[ ! $(command -v partprobe) = "" ] && partprobe
 lsblk $device
 echo -n "Are you satisfied with your partitions?(Y/n): "
 read satisfied
 
 while [ "$satisfied" = "n" ]; do
     cfdisk $device
+    clear
     [ ! $(command -v partprobe) = "" ] && partprobe
     lsblk $device
     echo -n "Are you satisfied with your partitions?(Y/n): "
