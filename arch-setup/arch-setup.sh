@@ -103,7 +103,7 @@ if [ ! "$encryption" = "n" ]; then
     echo $root_pass | cryptsetup luksAddKey "$root" /root/.keys/root-keyfile
     echo "[INFO]: Keyfile saved to /root/.keys/root-keyfile"
     cryptsetup open --key-file="/root/.keys/root-keyfile" "$root" root
-    mkfs.ext4 /dev/mapper/root
+    mkfs.ext4 -F /dev/mapper/root
 
     mkdir /mnt/sys
     mount /dev/mapper/root /mnt/sys
@@ -117,18 +117,18 @@ if [ ! "$encryption" = "n" ]; then
         echo $home_pass | cryptsetup luksAddKey "$home" /root/.keys/home-keyfile
         echo "[INFO]: Keyfile saved to /root/.keys/home-keyfile"
         cryptsetup open --key-file="/root/.keys/home-keyfile" "$home" home
-        mkfs.ext4 /dev/mapper/home
+        mkfs.ext4 -F /dev/mapper/home
         mkdir /mnt/sys/home
         mount "/dev/mapper/home" /mnt/sys/home
     fi
 else
     mkswap $swap
     swapon $swap
-    mkfs.ext4 $root
+    mkfs.ext4 -F $root
     mkdir /mnt/sys
     mount $root /mnt/sys
     if [ "$home_s" = "y" ]; then
-        mkfs.ext4 $home
+        mkfs.ext4 -F $home
         mkdir /mnt/sys/home
         mount "$home" /mnt/sys/home
     fi
@@ -140,10 +140,10 @@ mount "$boot" /mnt/sys/boot
 clear
 
 if [ "$distro" = "1" ];then
-    pacstrap /mnt/sys base linux linux-firmware base-devel git vi nano sudo
+    pacstrap /mnt/sys base linux linux-firmware base-devel vi nano
     genfstab -U /mnt/sys >> /mnt/sys/etc/fstab
 else
-    basestrap /mnt/sys base linux linux-firmware base-devel git vi nano sudo openrc
+    basestrap /mnt/sys base linux linux-firmware base-devel vi nano openrc
     fstabgen -U /mnt/sys >> /mnt/sys/etc/fstab
 fi
 
@@ -164,6 +164,7 @@ mkdir /mnt/sys/install
 cp -r /root/.keys /mnt/sys/root
 curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.minimal > /mnt/sys/install/packages.minimal
 curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.full > /mnt/sys/install/packages.full
+curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.base > /mnt/sys/install/packages.base
 curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/chroot.sh > /mnt/sys/install/chroot.sh
 chmod +x /mnt/sys/install/chroot.sh
 

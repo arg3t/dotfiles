@@ -48,22 +48,20 @@ if [ ! -f "/tmp/.blackarch" ]; then
     /tmp/strap.sh
 
     if [ -f "/install/artix" ]; then
-        echo -e "[lib32]\nInclude = /etc/pacman.d/mirrorlist\n\n[options]\nILoveCandy\nTotalDownload\nColor"
+        echo -e "\n[lib32]\nInclude = /etc/pacman.d/mirrorlist\n\n[options]\nILoveCandy\nTotalDownload\nColor" >> /etc/pacman.conf
     else
-        echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n\n[options]\nILoveCandy\nTotalDownload\nColor"
+        echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n\n[options]\nILoveCandy\nTotalDownload\nColor" >> /etc/pacman.conf
     fi
-    pacman -Syy
-    touch /tmp/.blackarch
+
 
     echo -n "Are you going to use a flexo server?(y/N): "
     read flexo
 
-    while [ "$flex" = "y" ]; do
+    while [ "$flexo" = "y" ]; do
         echo -n "Please enter ip address of flexo server: "
         read flexo_ip
         echo "\nServer = http://$flexo_ip:7878/\$repo/os/\$arch\n" >> /etc/pacman.d/mirrorlist
     done
-
     pacman -Syy
 
     echo -n "Did any errors occur?(y/N): "
@@ -73,6 +71,7 @@ if [ ! -f "/tmp/.blackarch" ]; then
         echo "Dropping you into a shell so that you can fix them, once you quit the shell, the installation will continue from where you left off."
         bash
     fi
+    touch /tmp/.blackarch
 fi
 
 clear
@@ -174,8 +173,12 @@ HOOKS=(base udev plymouth autodetect keyboard keymap consolefont modconf block p
 EOF
 fi
 
+pacman -Syu --noconfirm $(cat /install/packages.base)
 pacman --noconfirm -R vim
 
+refind-install
+
+if [ -f "/install/encrypted" ]; then
 line=1
 
 blkid | while IFS= read -r i; do
@@ -183,8 +186,7 @@ blkid | while IFS= read -r i; do
     ((line=line+1))
 done
 
-if [ -f "/install/encrypted" ]; then
-echo "Please select the device you will save the LUKS key to:"
+echo -n "Please select the device you will save the LUKS key to: "
 read keydev
 
 uuid=$(blkid | sed -n 's/.*UUID=\"\([^\"]*\)\".*/\1/p'  | sed -n "$keydev"p)
@@ -210,30 +212,30 @@ fi
 
 sudo -u $username bash -c "git clone https://aur.archlinux.org/yay.git /tmp/yay"
 sudo -u $username bash -c "(cd /tmp/yay; makepkg --noconfirm -si)"
-sudo -u $username bash -c "yay --noconfirm -S plymouth"
-
-clear
 
 
-sudo -u $username bash -c "git clone --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotfiles"
-sudo -u $username bash -c "(cd ~/.dotfiles; ./install.sh)"
+echo -n "Would you like to automatically install my dotfiles?(y/N): "
+read dotfiles
 
-clear
-
-git clone https://github.com/adi1090x/plymouth-themes.git /tmp/pthemes
-
+if [ "$dotfiles" = "y" ]; then
+    pacman -R --noconfirm vim
+    sudo -u $username bash -c "yay --noconfirm -S plymouth"
+    clear
+    sudo -u $username bash -c "git clone --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotfiles"
+    sudo -u $username bash -c "(cd ~/.dotfiles; ./install.sh)"
+    clear
+    git clone https://github.com/adi1090x/plymouth-themes.git /tmp/pthemes
 cat << EOF > /etc/plymouth/plymouthd.conf
 [Daemon]
 Theme=sphere
 ShowDelay=0
 DeviceTimeout=8
 EOF
+    cp -r /tmp/pthemes/pack_4/sphere /usr/share/plymouth/themes
+    clear
+fi
 
-cp -r /tmp/pthemes/pack_4/sphere /usr/share/plymouth/themes
 
-clear
-
-refind-install
 
 echo -e "/boot/EFI/refind\n2\n2" | sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/bobafetthotmail/refind-theme-regular/master/install.sh)"
 
