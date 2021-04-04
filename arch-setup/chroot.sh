@@ -173,7 +173,7 @@ HOOKS=(base udev plymouth autodetect keyboard keymap consolefont modconf block p
 EOF
 fi
 
-pacman -Syu --noconfirm $(cat /install/packages.base)
+pacman -Syu --noconfirm $(cat /install/packages.base | xargs)
 pacman --noconfirm -R vim
 
 refind-install
@@ -212,15 +212,15 @@ fi
 
 sudo -u $username bash -c "git clone https://aur.archlinux.org/yay.git /tmp/yay"
 sudo -u $username bash -c "(cd /tmp/yay; makepkg --noconfirm -si)"
+sudo -u $username bash -c "yay --noconfirm -S plymouth"
 
+clear
 
 echo -n "Would you like to automatically install my dotfiles?(y/N): "
 read dotfiles
 
 if [ "$dotfiles" = "y" ]; then
     pacman -R --noconfirm vim
-    sudo -u $username bash -c "yay --noconfirm -S plymouth"
-    clear
     sudo -u $username bash -c "git clone --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotfiles"
     sudo -u $username bash -c "(cd ~/.dotfiles; ./install.sh)"
     clear

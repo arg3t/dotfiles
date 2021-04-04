@@ -6,7 +6,7 @@ python
 git
 vim
 xorg-server
-xorg-init
+xorg-xinit
 xorg-apps
 xf86-video-intel
 sudo

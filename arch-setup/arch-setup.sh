@@ -31,7 +31,7 @@ fi
 clear
 # Run cfdisk for manual partitioning
 cfdisk $device
-[ ! $(which partprobe 2> /dev/null) ] || partprobe
+[ ! $(command -v partprobe) = "" ] && partprobe
 
 lsblk $device
 echo -n "Are you satisfied with your partitions?(Y/n): "
@@ -39,7 +39,7 @@ read satisfied
 
 while [ "$satisfied" = "n" ]; do
     cfdisk $device
-    [ ! $(which partprobe 2> /dev/null) ] || partprobe
+    [ ! $(command -v partprobe) = "" ] && partprobe
     lsblk $device
     echo -n "Are you satisfied with your partitions?(Y/n): "
     read satisfied
@@ -161,7 +161,6 @@ clear
 # Run on chrooted arch install
 mkdir /mnt/sys/install
 
-cp -r /root/.keys /mnt/sys/root
 curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.minimal > /mnt/sys/install/packages.minimal
 curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.full > /mnt/sys/install/packages.full
 curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.base > /mnt/sys/install/packages.base
@@ -177,6 +176,7 @@ fi
 
 if [ ! "$encryption" = "n" ]; then
     touch /mnt/sys/install/encrypted
+    cp -r /root/.keys /mnt/sys/root
 fi
 
 
@@ -188,7 +188,7 @@ pacman -Sy --noconfirm tmux
 
 
 if [ "$distro" = "1" ];then
-    [ ! $(tmux new-session -s "arch-setup" 'arch-chroot /mnt/sys /install/chroot.sh') ] || arch-chroot /mnt/sys /install/chroot.sh
+    tmux new-session -s "arch-setup" 'arch-chroot /mnt/sys /install/chroot.sh' || arch-chroot /mnt/sys /install/chroot.sh
 else
-    [ ! $(tmux new-session -s "artix-setup" 'artix-chroot /mnt/sys /install/chroot.sh') ] || artix-chroot /mnt/sys /install/chroot.sh
+    tmux new-session -s "artix-setup" 'artix-chroot /mnt/sys /install/chroot.sh' || artix-chroot /mnt/sys /install/chroot.sh
 fi
