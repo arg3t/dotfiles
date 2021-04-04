@@ -33,15 +33,15 @@ case $selection in
 		;;
 	dwmblocks)
 		kill -9 $(pidof dwmblocks)
-		dwmblocks > /tmp/dwmblocks.out 2> /tmp/dwmblocks.err &
+		dwmblocks > $XDG_RUNTIME_DIR/dwmblocks.out 2> $XDG_RUNTIME_DIR/dwmblocks.err &
 		;;
 	mconnect)
 		kill -9 $(pidof mconnect)
-    (cd ~/Downloads/mconnect; mconnect -d > /tmp/mconnect 2> /tmp/mconnect.err &)
+    (cd ~/Downloads/mconnect; mconnect -d > $XDG_RUNTIME_DIR/mconnect 2> $XDG_RUNTIME_DIR/mconnect.err &)
 		;;
 	clipmenud)
 		pkill -f clipmenud
-		clipmenud > /tmp/clipmenud.out 2> /tmp/clipmenud.err &
+		clipmenud > $XDG_RUNTIME_DIR/clipmenud.out 2> $XDG_RUNTIME_DIR/clipmenud.err &
 		;;
 	mpd)
 		kill -9 $(pidof mpd)

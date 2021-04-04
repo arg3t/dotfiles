@@ -13,17 +13,17 @@ mkfifo "$LF_UEBERZUG_FIFO"
 tail -f "$LF_UEBERZUG_FIFO" | ueberzug layer --silent &
 ueberzugpid=$!
 
-last_dir=$(cat /tmp/lf-last-dir)
+last_dir="$([ ! -f $XDG_RUNTIME_DIR/lf-last-dir ] || cat $XDG_RUNTIME_DIR/lf-last-dir)"
 
 
 fid="$(mktemp)"
 
 prev=$(pwd)
 cd $last_dir
-lf  -command '$printf $id > '"$fid"''  -last-dir-path=/tmp/lf-last-dir "$@"
+lf  -command '$printf $id > '"$fid"''  -last-dir-path=$XDG_RUNTIME_DIR/lf-last-dir "$@"
 cd $prev
 id="$(cat "$fid")"
-archivemount_dir="/tmp/__lf_archivemount_$id"
+archivemount_dir="$XDG_RUNTIME_DIR/__lf_archivemount_$id"
 if [ -f "$archivemount_dir" ]; then
 		cat "$archivemount_dir" | \
 				while read -r line; do

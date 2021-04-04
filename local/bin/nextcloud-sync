@@ -2,14 +2,14 @@
 
 source $HOME/.config/nextcloud/nextcloud
 
-rm -rf /tmp/nextcloud.out
-rm -rf /tmp/nextcloud.err
+rm -rf $XDG_RUNTIME_DIR/nextcloud.out
+rm -rf $XDG_RUNTIME_DIR/nextcloud.err
 
 for i in "${!mappings[@]}"; do
   echo "Syncing: $i"
   mkdir -p "${mappings[$i]}"
   nextcloudcmd -h -u "$NEXTCLOUD_USERNAME" -p "$NEXTCLOUD_PASSWORD" \
-    "${mappings[$i]}" "$i" >> /tmp/nextcloud.out 2>> /tmp/nextcloud.err
+    "${mappings[$i]}" "$i" >> $XDG_RUNTIME_DIR/nextcloud.out 2>> $XDG_RUNTIME_DIR/nextcloud.err
 done
 
 echo $(date '+%R') > $HOME/.cache/nextcloud-track

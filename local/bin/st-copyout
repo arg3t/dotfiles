@@ -3,7 +3,7 @@
 # allowing the user to copy the output of one.
 # xclip required for this script.
 # By Jaywalker and Luke
-tmpfile=$(mktemp /tmp/st-cmd-output.XXXXXX)
+tmpfile=$(mktemp $XDG_RUNTIME_DIR/st-cmd-output.XXXXXX)
 trap 'rm "$tmpfile"' 0 1 15
 sed -n "w $tmpfile"
 sed -i 's/\x0//g' "$tmpfile"

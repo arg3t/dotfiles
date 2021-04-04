@@ -2,8 +2,8 @@
 
 source ~/.config.env
 
-weatherreport="${XDG_DATA_HOME:-$HOME/.local/share}/weatherreport"
-weatherreportjson="${XDG_DATA_HOME:-$HOME/.local/share}/weatherreportjson"
+weatherreport="${XDG_CACHE_HOME:-$HOME/.local/share}/weatherreport"
+weatherreportjson="${XDG_CACHE_HOME:-$HOME/.local/share}/weatherreportjson"
 
 WCODES=(
     ["113"]="^c#ebcb8b^ "
@@ -87,10 +87,10 @@ esac
 
 # The test if our forcecast is updated to the day. If it isn't download a new
 # weather report from wttr.in with the above function.
-[ "$(date -r "/home/yigit/.local/share/weatherreport" "+%d-%m-%Y")" = "$(date '+%d-%m-%Y')" ] ||
+[ "$(date -r "$XDG_CACHE_HOME/weatherreport" "+%d-%m-%Y")" = "$(date '+%d-%m-%Y')" ] ||
 	getforecast
 
-[ "$(date -r "/home/yigit/.local/share/weatherreportjson" "+%d-%m-%Y %H")" = "$(date '+%d-%m-%Y %H')" ] ||
+[ "$(date -r "$XDG_CACHE_HOME/weatherreportjson" "+%d-%m-%Y %H")" = "$(date '+%d-%m-%Y %H')" ] ||
 	getforecastjson
 
 showweather

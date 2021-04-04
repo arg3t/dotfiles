@@ -79,7 +79,7 @@ show_devices (){
 
 SendKeys(){
     output="?"
-    TEMPFILE=/tmp/VimFloat
+    TEMPFILE=$XDG_RUNTIME_DIR/VimFloat
     > $TEMPFILE
     st -t "vim-anywhere" -n 'popup' -e "${EDITOR:-vi}" -c 'startinsert' $TEMPFILE
     xsel -i < $TEMPFILE
@@ -96,11 +96,11 @@ show_menu () {
     case "$menu" in
 	*'Send File') 
 	    if [ $Picker == 'ranger' ]; then
-			mkdir -p /tmp/ranger/
-			rm -rf /tmp/ranger/sentfile
-			st -c ranger -e ranger --choosefile=/tmp/ranger/sentfile
-			if [ -f /tmp/ranger/sentfile ]; then
-					mconnectctl share-file "$2" "$(cat /tmp/ranger/sentfile)" 
+			mkdir -p $XDG_RUNTIME_DIR/ranger/
+			rm -rf $XDG_RUNTIME_DIR/ranger/sentfile
+			st -c ranger -e ranger --choosefile=$XDG_RUNTIME_DIR/ranger/sentfile
+			if [ -f $XDG_RUNTIME_DIR/ranger/sentfile ]; then
+					mconnectctl share-file "$2" "$(cat $XDG_RUNTIME_DIR/ranger/sentfile)" 
 			fi
 	    fi;;
 	*'Send SMS' ) 

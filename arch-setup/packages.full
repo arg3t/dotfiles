@@ -332,6 +332,7 @@ haskell-data-default-instances-containers
 haskell-data-default-instances-dlist
 haskell-data-default-instances-old-locale
 haskell-data-fix
+haskell-diff
 haskell-digest
 haskell-distributive
 haskell-dlist
@@ -374,6 +375,8 @@ haskell-pem
 haskell-primitive
 haskell-quickcheck
 haskell-random
+haskell-regex-base
+haskell-regex-tdfa
 haskell-resourcet
 haskell-safe
 haskell-scientific
@@ -1379,6 +1382,7 @@ serd
 shaderc
 shadow
 shared-mime-info
+shellcheck
 simplescreenrecorder
 slang
 smbclient

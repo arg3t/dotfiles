@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/bin/python
 #
 # [:VIM_EVAL:]expand('%:t')[:END_EVAL:]
 # [:VIM_EVAL:]expand('%:p:h:t')[:END_EVAL:]

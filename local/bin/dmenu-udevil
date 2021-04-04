@@ -3,7 +3,7 @@
 DMENU=${DMENU:-dmenu}
 
 DEV_LABEL="/dev/disk/by-label/"
-TMP="/tmp/dmnt-udevil-$(date +%s)"
+TMP="$XDG_RUNTIME_DIR/dmnt-udevil-$(date +%s)"
 
 trap "rm -f $TMP" EXIT
 

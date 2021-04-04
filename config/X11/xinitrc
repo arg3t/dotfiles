@@ -1,14 +1,12 @@
 #!/bin/bash
 
-mkdir -p /tmp/yigit
-
 pkill -f clipmenud
 pkill -9 devmon
 pkill -f "bash /sbin/clipmenud"
 pkill -f "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
 pkill -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 pkill -f devmon
-rm -rf /tmp/day_cache
+rm -rf $XDG_RUNTIME_DIR/day_cache
 
 source ~/.config.env
 gpgconf --dry-run --create-socketdir
@@ -18,11 +16,11 @@ dbus-update-activation-environment --systemd DISPLAY
 
 export SSH_AUTH_SOCK
 
-clipmenud > /tmp/clipmenud.out 2> /tmp/clipmenud.err &
+clipmenud > $XDG_RUNTIME_DIR/clipmenud.out 2> $XDG_RUNTIME_DIR/clipmenud.err &
 rm -f ~/.surf/tabbed-surf.xid
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 ~/.local/bin/daily-update
-~/.local/bin/keyboard > /tmp/keyboard.out 2> /tmp/keyboard.err
+~/.local/bin/keyboard > $XDG_RUNTIME_DIR/keyboard.out 2> $XDG_RUNTIME_DIR/keyboard.err
 xrdb  ~/.config/X11/Xresources &
 ~/.local/bin/mailsync &
 
@@ -32,7 +30,7 @@ fi
 mkdir -p ~/Downloads/neomutt
 if [ "$MCONNECT" = true ] ; then
     mkdir -p ~/Downloads/mconnect
-    (cd ~/Downloads/mconnect; mconnect -d > /tmp/mconnect 2> /tmp/mconnect.err &)
+    (cd ~/Downloads/mconnect; mconnect -d > $XDG_RUNTIME_DIR/mconnect 2> $XDG_RUNTIME_DIR/mconnect.err &)
 fi
 if [ "$ACTIVITYWATCHER" = true ] ; then
     pkill -f aw-watcher-window
@@ -72,7 +70,7 @@ touch ~/.cache/dwm-restart
 while [ -f /home/yigit/.cache/dwm-restart ];
 do
     rm -rf /home/yigit/.cache/dwm-restart
-    dwmblocks > /tmp/dwmblocks.out 2> /tmp/dwmblocks.err &
-    dwm > /tmp/dwm.log 2> /tmp/dwm.err
+    dwmblocks > $XDG_RUNTIME_DIR/dwmblocks.out 2> $XDG_RUNTIME_DIR/dwmblocks.err &
+    dwm > $XDG_RUNTIME_DIR/dwm.log 2> $XDG_RUNTIME_DIR/dwm.err
     sleep 0.2
 done

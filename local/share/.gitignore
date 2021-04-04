@@ -3,7 +3,7 @@
 !fonts
 !icons
 !themes
-!applications
+!applications/**
 !vim
 !nerdfont_icons
 !vim/**
