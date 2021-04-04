@@ -163,8 +163,6 @@ clear
 # Run on chrooted arch install
 mkdir /mnt/sys/install
 
-curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.minimal > /mnt/sys/install/packages.minimal
-curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.full > /mnt/sys/install/packages.full
 if [ "$distro" = "1" ];then
     curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.base.arch > /mnt/sys/install/packages.base
 else

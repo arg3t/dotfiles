@@ -5,6 +5,7 @@ dhcpcd
 python
 git
 vim
+pulseaudio
 xorg
 xorg-server
 xorg-xinit
@@ -14,3 +15,5 @@ sudo
 cronie
 wget
 curl
+dash
+mksh

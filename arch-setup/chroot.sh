@@ -174,7 +174,6 @@ EOF
 fi
 
 pacman -Syu --noconfirm $(cat /install/packages.base | xargs)
-pacman --noconfirm -R vim
 
 refind-install
 
@@ -196,7 +195,7 @@ EOF
 clear
 else
 cat << EOF > /boot/refind_linux.conf
-"Boot with encryption"  "root=UUID=$(blkid -s UUID -o value $root) resume=UUID=$(blkid -s UUID -o value $swap) rw loglevel=3 quiet splash"
+"Boot without encryption"  "root=UUID=$(blkid -s UUID -o value $root) resume=UUID=$(blkid -s UUID -o value $swap) rw loglevel=3 quiet splash"
 EOF
 fi
 
@@ -210,6 +209,9 @@ sudo -u $username bash -c "git clone https://aur.archlinux.org/yay.git /tmp/yay"
 sudo -u $username bash -c "(cd /tmp/yay; makepkg --noconfirm -si)"
 sudo -u $username bash -c "yay --noconfirm -S plymouth"
 
+if [ -f "/install/artix" ]; then
+    sudo -u $username bash -c "yay --noconfirm -S plymouth-openrc-plugin"
+fi
 clear
 
 echo -n "Would you like to automatically install my dotfiles?(y/N): "
