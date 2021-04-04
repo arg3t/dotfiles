@@ -32,7 +32,7 @@ clear
 # Run cfdisk for manual partitioning
 cfdisk $device
 [ ! $(command -v partprobe) = "" ] && partprobe
-
+sleep 2
 lsblk $device
 echo -n "Are you satisfied with your partitions?(Y/n): "
 read satisfied
@@ -163,7 +163,11 @@ mkdir /mnt/sys/install
 
 curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.minimal > /mnt/sys/install/packages.minimal
 curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.full > /mnt/sys/install/packages.full
-curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.base > /mnt/sys/install/packages.base
+if [ "$distro" = "1" ];then
+    curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.base.arch > /mnt/sys/install/packages.base
+else
+    curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/packages.base.artix > /mnt/sys/install/packages.base
+fi
 curl https://raw.githubusercontent.com/theFr1nge/dotfiles/main/arch-setup/chroot.sh > /mnt/sys/install/chroot.sh
 chmod +x /mnt/sys/install/chroot.sh
 

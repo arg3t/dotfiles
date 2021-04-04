@@ -1,10 +1,10 @@
-networkmanager
+networkmanager-openrc
 efibootmgr
 refind
-dhcpcd
 python
 git
 vim
+xorg
 xorg-server
 xorg-xinit
 xorg-apps

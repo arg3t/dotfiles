@@ -1,0 +1,16 @@
+networkmanager
+efibootmgr
+refind
+dhcpcd
+python
+git
+vim
+xorg
+xorg-server
+xorg-xinit
+xorg-apps
+xf86-video-intel
+sudo
+cronie
+wget
+curl
