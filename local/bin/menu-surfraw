@@ -7,8 +7,6 @@
 # it in your browser of choice.
 
 # Edit here to change what browser you open links in
-browser="brave"
-
 usage() {
     echo "Usage: $0 [OPTIONS] [ELVIS [SEARCHTERM]]
 
@@ -51,5 +49,5 @@ if [ "$action" = "" ]; then
     exit
 fi
 
-surfraw -browser=$browser $answerA $action
+surfraw -browser=$BROWSER $answerA $action
 

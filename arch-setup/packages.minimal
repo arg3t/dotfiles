@@ -1,3 +1,4 @@
+6cord
 a52dec
 aalib
 abook
@@ -16,6 +17,7 @@ antibody
 antlr4-runtime
 aom
 arandr
+arch-install-scripts
 archlinux-keyring
 arch-wiki-docs
 argon2
@@ -129,6 +131,7 @@ efibootmgr
 efitools
 efivar
 electron
+electron11
 electron6
 elfutils
 elinks
@@ -152,6 +155,7 @@ figlet
 file
 filesystem
 findutils
+firefox
 flac
 flex
 fltk
@@ -207,14 +211,8 @@ glxinfo
 gmime3
 gmp
 gn-m85
-gnome-autoar
-gnome-bluetooth
-gnome-common
 gnome-desktop
-gnome-disk-utility
 gnome-keyring
-gnome-online-accounts
-gnome-settings-daemon
 gnome-themes-extra
 gnome-video-effects
 gnu-free-fonts
@@ -222,7 +220,6 @@ gnupg
 gnuplot
 gnutls
 go
-gobject-introspection
 gobject-introspection-runtime
 gparted
 gpgme
@@ -234,7 +231,6 @@ graphite
 graphviz
 grep
 groff
-grub
 gsasl
 gsettings-desktop-schemas
 gsfonts
@@ -329,7 +325,6 @@ haskell-http
 haskell-http-client
 haskell-http-client-tls
 haskell-http-types
-haskell-hxt
 haskell-hxt-charproperties
 haskell-hxt-regex-xmlschema
 haskell-hxt-unicode
@@ -394,7 +389,6 @@ haskell-zip-archive
 haskell-zlib
 hdf5
 hdparm
-hexchat
 hicolor-icon-theme
 hidapi
 highlight
@@ -405,11 +399,9 @@ hunspell
 hwids
 hwloc
 hyphen
-i3lock-color
 i7z
 iana-etc
 icu
-ifuse
 ijs
 imagemagick
 imake
@@ -424,7 +416,6 @@ iproute2
 iptables
 iputils
 ipython
-irssi
 iso-codes
 isync
 itstool
@@ -436,7 +427,6 @@ java-environment-common
 java-runtime-common
 jbig2dec
 jdk11-openjdk
-jellyfin-mpv-shim
 jemalloc
 jetbrains-toolbox
 jq
@@ -458,7 +448,6 @@ jxrlib
 karchive
 kauth
 kbd
-kbookmarks
 kcodecs
 kcompletion
 kconfig
@@ -471,19 +460,14 @@ keepass
 keyutils
 kglobalaccel
 kguiaddons
-khal
 khard
 ki18n
 kiconthemes
 kitemviews
 kitty-terminfo
-kjobwidgets
 kmod
-knotifications
 krb5
 kservice
-ktextwidgets
-kunst-git
 kwayland
 kwidgetsaddons
 kwindowsystem
@@ -578,10 +562,7 @@ libfishsound
 libfontenc
 libfreehand
 libgcrypt
-libgdata
 libgdiplus
-libgdm
-libgee
 libgexiv2
 libgksu
 libglade
@@ -697,7 +678,6 @@ libsidplayfp
 libsigc++
 libsigsegv
 libsm
-libsmbios
 libsndfile
 libsodium
 libsoup
@@ -744,7 +724,6 @@ libvterm
 libwacom
 libwebp
 libwmf
-libwnck3
 libwpd
 libwpe
 libwpg
@@ -773,7 +752,6 @@ libxkbfile
 libxklavier
 libxml2
 libxmu
-libxnvctrl
 libxpm
 libxrandr
 libxrender
@@ -794,7 +772,6 @@ libzmf
 licenses
 lightdm
 lightdm-gtk-greeter
-lighttpd
 lilv
 linux
 linux-api-headers
@@ -852,12 +829,11 @@ mpfr
 mpg123
 mpris-ctl
 mpv
-mpv-mpris-git
 msgpack-c
 msmtp
 mtdev
+mtools
 mujs
-mutter
 mutt-wizard
 mypaint-brushes1
 mysql-workbench
@@ -872,19 +848,15 @@ neofetch
 neomutt
 neon
 neovim
-nerd-fonts-hack
 netpbm
 nettle
 net-tools
 networkmanager
 newsboat
 nextcloud-client
-ngrok
 ninja
-nm-connection-editor
 node-gyp
 nodejs
-notion-app
 notmuch
 notmuch-runtime
 noto-fonts
@@ -903,6 +875,7 @@ openal
 opencore-amr
 opencv
 openexr
+openh264
 openjpeg2
 openmpi
 openssh
@@ -954,6 +927,7 @@ perl-exporter-tiny
 perl-extutils-config
 perl-extutils-helpers
 perl-extutils-installpaths
+perl-file-copy-recursive
 perl-file-listing
 perl-file-next
 perl-file-remove
@@ -996,6 +970,7 @@ perl-package-stash-xs
 perl-params-util
 perl-par-dist
 perl-parse-yapp
+perl-pod-parser
 perl-sub-exporter
 perl-sub-exporter-progressive
 perl-sub-identify
@@ -1012,7 +987,6 @@ perl-www-aur
 perl-www-robotrules
 perl-xml-parser
 perl-yaml-tiny
-phonon-qt4
 phonon-qt5
 phonon-qt5-gstreamer
 php
@@ -1022,12 +996,10 @@ pinentry
 pipes.sh
 pipewire
 pipewire-media-session
-pistol-git
 pixman
 pkgconf
 playerctl
 plymouth
-pngquant
 podofo
 polkit
 polkit-gnome
@@ -1338,7 +1310,6 @@ rest
 rhash
 ripgrep
 rofi
-rofi-bluetooth-git
 rsync
 rtkit
 rtmpdump
@@ -1376,7 +1347,6 @@ serd
 shaderc
 shadow
 shared-mime-info
-shotwell
 simplescreenrecorder
 slang
 smbclient
@@ -1415,6 +1385,7 @@ sxhkd
 sxiv
 sysbench
 sysfsutils
+syslinux
 system-config-printer
 systemd
 systemd-libs
@@ -1472,6 +1443,7 @@ ueberzug
 unclutter
 unibilium
 unixodbc
+unp
 unrar
 unzip
 upower
@@ -1554,6 +1526,7 @@ xorg-fonts-alias-100dpi
 xorg-fonts-alias-75dpi
 xorg-fonts-encodings
 xorg-font-util
+xorg-font-utils
 xorg-iceauth
 xorg-mkfontscale
 xorgproto
@@ -1615,7 +1588,6 @@ ytfzf
 zathura
 zathura-pdf-mupdf
 zbar
-zenity
 zeromq
 zimg
 zip

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+if [ ! "$BROWSER" = "firefox" ]; then
+	echo "Default browser is not firefox, exiting..."
+	exit 0
+fi
+
+source $HOME/.config.env
+
+static=static-$FIREFOX_PROFILE
+link=$FIREFOX_PROFILE
+volatile=/dev/shm/firefox-$FIREFOX_PROFILE-$USER
+
+IFS=
+set -efu
+
+cd ~/.mozilla/firefox
+
+if [ ! -r $volatile ]; then
+	mkdir -m0700 $volatile
+fi
+
+if [ "$(readlink $link)" != "$volatile" ]; then
+	mv $link $static
+	ln -s $volatile $link
+fi
+
+if [ -e $link/.unpacked ]; then
+	rsync -av --delete --exclude .unpacked ./$link/ ./$static/
+else
+	rsync -av ./$static/ ./$link/
+	touch $link/.unpacked
+fi

@@ -21,7 +21,7 @@ Mandatory,Package_Name,Install_Method,Command
 1,blueman
 0,borgmatic
 0,botan
-1,brave-bin
+0,brave-bin
 1,calcurse
 0,calibre
 0,canon-pixma-ts5055-complete
@@ -69,6 +69,7 @@ Mandatory,Package_Name,Install_Method,Command
 0,gradle
 1,gtk2-perl
 1,gtk2_prefs
+1,firefox
 1,htop
 1,i7z
 1,imake

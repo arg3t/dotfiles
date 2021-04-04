@@ -1,8 +1,8 @@
 [Default Applications]
 x-scheme-handler/jetbrains=jetbrains-toolbox.desktop
 x-scheme-handler/mailspring=mailspring.desktop
-x-scheme-handler/http=brave-browser.desktop
-x-scheme-handler/https=brave-browser.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
 image/png=sxiv.desktop
 image/jpeg=sxiv.desktop
 text/plain=vim.desktop
@@ -11,7 +11,7 @@ x-scheme-handler/gitkraken=GitKraken.desktop
 x-scheme-handler/ssh=ktelnetservice5.desktop
 video/mp4=mpv.desktop
 video/x-matroska=mpv.desktop
-text/html=brave-browser.desktop
+text/html=firefox.desktop
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop
 application/x-shellscript=vim.desktop
 inode/directory=lf.desktop

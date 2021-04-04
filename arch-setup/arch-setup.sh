@@ -138,6 +138,15 @@ clear
 pacstrap /mnt/sys base linux linux-firmware base-devel git nano sudo
 genfstab -U /mnt/sys >> /mnt/sys/etc/fstab
 
+echo -n "Would you like to use tmpfs (This can drastically improve performance)?(Y/n): "
+read tmpfs_ok
+
+if [ ! "$tmpfs_ok" = "n" ]; then
+    echo -n "How big should the tmpfs be?(end with G or M): "
+    read tmpfs_size
+    echo -e "\n#tmpfs\ntmpfs   /tmp         tmpfs   rw,nodev,nosuid,size=$tmpfs_size""G          0  0\n" >> /mnt/sys/etc/fstab
+fi
+
 clear
 
 # Run on chrooted arch install

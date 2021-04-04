@@ -7,5 +7,5 @@ selection=$(echo "" | dmenu -p "Enter URL")
 
 if [ ! -z "$selection" ]
 then
-  brave $selection
+  $BROWSER $selection
 fi

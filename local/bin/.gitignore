@@ -2,8 +2,8 @@
 
 !.gitignore
 !autotrim
-!brave
 !convertToHtmlMultipart
+!firefox-sync
 !daily-update
 !devmon
 !dmenu-arch

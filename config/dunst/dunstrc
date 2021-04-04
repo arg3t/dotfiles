@@ -36,7 +36,7 @@
     separator_color = auto
     startup_notification = false
     dmenu = /usr/local/bin/dmenu -p dmenu:
-    browser = /bin/brave
+    browser = /bin/firefox
     icon_position = left
     #icon_path = /home/yigit/.icons/Tela-dark/16/actions:/home/yigit/.icons/Tela-dark/16/apps:/home/yigit/.icons/Tela-dark/16/devices:/home/yigit/.icons/Tela-dark/16/mimetypes:/home/yigit/.icons/Tela-dark/16/panel:/home/yigit/.icons/Tela-dark/16/places:/home/yigit/.icons/Tela-dark/16/status
     max_icon_size=32

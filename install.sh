@@ -80,7 +80,10 @@ echo 'ZDOTDIR=$HOME/.config/zsh' > $HOME/.zshenv
 chmod +x $HOME/.zshenv
 
 mvie ~/.profile ~/.dotfiles_backup/profile
-ln -s ~/.dotfiles/profile ~/.profile
+ln -sf ~/.dotfiles/profile ~/.profile
+
+mvie ~/.bash_logout ~/.dotfiles_backup/bash_logout
+ln -sf ~/.dotfiles/bash_logout ~/.bash_logout
 
 cp ~/.dotfiles/config.env.def ~/.config.env
 
@@ -106,6 +109,7 @@ if [ ! -f "/var/spool/cron/$username" ]; then
   echo "*/8 * * * * /home/$username/.local/bin/mailsync" > /var/spool/cron/$username
   echo "*/15 * * * * /home/$username/.local/bin/nextcloud-sync" >> /var/spool/cron/$username
   echo "* */1 * * * /home/$username/.local/bin/check-updates" >> /var/spool/cron/$username
+  echo "*/30 * * * * /home/$username/.local/bin/firefox-sync" >> /var/spool/cron/$username
   echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/$username
   echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/$username
 else
@@ -116,6 +120,7 @@ else
     echo "*/8 * * * * /home/$username/.local/bin/mailsync" > /var/spool/cron/$username
     echo "*/15 * * * * /home/$username/.local/bin/nextcloud-sync" >> /var/spool/cron/$username
     echo "* */1 * * * /home/$username/.local/bin/check-updates" >> /var/spool/cron/$username
+    echo "*/30 * * * * /home/$username/.local/bin/firefox-sync" >> /var/spool/cron/$username
     echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/$username
     echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/$username
   fi
