@@ -203,12 +203,8 @@ fi
 mkdir -p /etc/sudoers.d
 echo "Defaults env_reset,pwfeedback" >> /etc/sudoers.d/wheel
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nopwd
+echo "$username $hostname =NOPASSWD: /sbin/shutdown ,/sbin/halt,/sbin/reboot,/sbin/hibernate, /bin/pacman -Syyuw --noconfirm" > /etc/sudoers.d/wheel
 
-if [ -f "/install/artix" ]; then
-    echo "$username $hostname =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot,/usr/bin/systemctl hibernate,/bin/pacman -Syyuw --noconfirm" > /etc/sudoers.d/wheel
-else
-    echo "$username $hostname =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot,/usr/bin/systemctl hibernate,/bin/pacman -Syyuw --noconfirm" > /etc/sudoers.d/wheel
-fi
 
 sudo -u $username bash -c "git clone https://aur.archlinux.org/yay.git /tmp/yay"
 sudo -u $username bash -c "(cd /tmp/yay; makepkg --noconfirm -si)"

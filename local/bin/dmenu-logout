@@ -13,11 +13,6 @@ killprogs() {
 	pkill -x redshift
 }
 
-# Restart function
-# shellcheck source=/dev/null
-restart() {
-    reboot
-}
 
 # Logout function
 logout() {
@@ -39,23 +34,20 @@ poweroff"
 selection=$(printf '%s' "$items" | $DMENU)
 
 case $selection in
-	restart)
-		restart
-		;;
 	logout)
 		logout
 		;;
 	hibernate)
-		sudo systemctl hibernate
+		loginctl hibernate
 		;;
 	suspend)
-		sudo systemctl suspend
+		sudo /sbin/sleep
 		;;
 	reboot)
-		sudo systemctl reboot
+		sudo /sbin/reboot
 		;;
 	halt|poweroff|shutdown)
-		sudo systemctl poweroff
+		sudo /sbin/shutdown
 		;;
 esac
 
