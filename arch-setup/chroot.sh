@@ -43,11 +43,15 @@ echo -e "en_US.UTF-8 UTF-8\ntr_TR.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 if [ ! -f "/tmp/.blackarch" ]; then
-    echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
     curl https://blackarch.org/strap.sh > /tmp/strap.sh
     chmod +x /tmp/strap.sh
     /tmp/strap.sh
-    echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n\n[options]\nILoveCandy\nTotalDownload\nColor"
+
+    if [ -f "/install/artix" ]; then
+        echo -e "[lib32]\nInclude = /etc/pacman.d/mirrorlist\n\n[options]\nILoveCandy\nTotalDownload\nColor"
+    else
+        echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n\n[options]\nILoveCandy\nTotalDownload\nColor"
+    fi
     pacman -Syy
     touch /tmp/.blackarch
 
@@ -65,10 +69,10 @@ if [ ! -f "/tmp/.blackarch" ]; then
     echo -n "Did any errors occur?(y/N): "
     read errors
 
-    while [ "$errors" = "y" ]; do
+    if [ "$errors" = "y" ]; then
         echo "Dropping you into a shell so that you can fix them, once you quit the shell, the installation will continue from where you left off."
         bash
-    done
+    fi
 fi
 
 clear
@@ -197,8 +201,12 @@ fi
 mkdir -p /etc/sudoers.d
 echo "Defaults env_reset,pwfeedback" >> /etc/sudoers.d/wheel
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nopwd
-echo "$username $hostname =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot,/usr/bin/systemctl hibernate,/bin/pacman -Syyuw --noconfirm" > /etc/sudoers.d/wheel
 
+if [ -f "/install/artix" ]; then
+    echo "$username $hostname =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot,/usr/bin/systemctl hibernate,/bin/pacman -Syyuw --noconfirm" > /etc/sudoers.d/wheel
+else
+    echo "$username $hostname =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot,/usr/bin/systemctl hibernate,/bin/pacman -Syyuw --noconfirm" > /etc/sudoers.d/wheel
+fi
 
 sudo -u $username bash -c "git clone https://aur.archlinux.org/yay.git /tmp/yay"
 sudo -u $username bash -c "(cd /tmp/yay; makepkg --noconfirm -si)"
@@ -229,11 +237,15 @@ refind-install
 
 echo -e "/boot/EFI/refind\n2\n2" | sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/bobafetthotmail/refind-theme-regular/master/install.sh)"
 
-systemctl enable NetworkManager
-systemctl enable ly
-systemctl enable fstrim.timer
-systemctl enable cronie
-systemctl enable bluetooth
+if [ -f "/install/artix" ]; then
+    echo "Manually enable services, not implemented"
+else
+    systemctl enable NetworkManager
+    systemctl enable ly
+    systemctl enable fstrim.timer
+    systemctl enable cronie
+    systemctl enable bluetooth
+fi
 
 clear
 

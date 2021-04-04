@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Learn distro
+echo -n "Is this an arch or artix installation?(1: Arch, 2: Artix): "
+read distro
+
 # Disk setup
 echo -n "What is the install device: "
 read device
@@ -27,15 +31,15 @@ fi
 clear
 # Run cfdisk for manual partitioning
 cfdisk $device
-partprobe
+[ ! $(which partprobe 2> /dev/null) ] || partprobe
 
 lsblk $device
 echo -n "Are you satisfied with your partitions?(Y/n): "
 read satisfied
 
-while [ ! "$satisfied" = "n" ]; do
+while [ "$satisfied" = "n" ]; do
     cfdisk $device
-    partprobe
+    [ ! $(which partprobe 2> /dev/null) ] || partprobe
     lsblk $device
     echo -n "Are you satisfied with your partitions?(Y/n): "
     read satisfied
@@ -135,8 +139,13 @@ mount "$boot" /mnt/sys/boot
 
 clear
 
-pacstrap /mnt/sys base linux linux-firmware base-devel git nano sudo
-genfstab -U /mnt/sys >> /mnt/sys/etc/fstab
+if [ "$distro" = "1" ];then
+    pacstrap /mnt/sys base linux linux-firmware base-devel git vi nano sudo
+    genfstab -U /mnt/sys >> /mnt/sys/etc/fstab
+else
+    basestrap /mnt/sys base linux linux-firmware base-devel git vi nano sudo openrc
+    fstabgen -U /mnt/sys >> /mnt/sys/etc/fstab
+fi
 
 echo -n "Would you like to use tmpfs (This can drastically improve performance)?(Y/n): "
 read tmpfs_ok
@@ -169,5 +178,16 @@ if [ ! "$encryption" = "n" ]; then
     touch /mnt/sys/install/encrypted
 fi
 
+
+if [ "$distro" = "2" ];then
+    touch /mnt/sys/install/artix
+fi
+
 pacman -Sy --noconfirm tmux
-tmux new-session -s "arch-setup" 'arch-chroot /mnt/sys /install/chroot.sh'
+
+
+if [ "$distro" = "1" ];then
+    [ ! $(tmux new-session -s "arch-setup" 'arch-chroot /mnt/sys /install/chroot.sh') ] || arch-chroot /mnt/sys /install/chroot.sh
+else
+    [ ! $(tmux new-session -s "artix-setup" 'artix-chroot /mnt/sys /install/chroot.sh') ] || artix-chroot /mnt/sys /install/chroot.sh
+fi
