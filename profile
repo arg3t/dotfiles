@@ -79,6 +79,7 @@ esac
 
 if [ ! "$SSH_AUTH_SOCK" ]; then
   eval "$(ssh-agent | head -n 2)"
+  grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add > /dev/null 2> /dev/null &
 fi
 
 if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ]; then

@@ -143,6 +143,8 @@ mkdir -p "$HOME/.local/share/zsh"
 mkdir -p "$XDG_DATA_HOME/mail"
 mkdir -p "$XDG_CONFIG_HOME/git"
 mkdir -p "$XDG_CACHE_HOME/surf"
+mkdir -p "$HOME/.ssh"
+echo "AddKeysToAgent yes" > "$HOME/.ssh/config"
 
 chmod 700 "$GNUPGHOME"
 touch "$XDG_CONFIG_HOME/git/config"
