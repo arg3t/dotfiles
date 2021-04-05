@@ -24,6 +24,7 @@ if [ ! "$wipe" = "n" ]; then
         cryptsetup -q close wipe
     fi
     echo "[INFO]: Wiping the partition table..."
+    cryptsetup erase $device
     wipefs -a -f $device
     sleep 1
 fi
@@ -77,15 +78,28 @@ clear
 echo "[INFO]: Formatting boot partition"
 mkfs.fat -F32 $boot
 
-echo -n "[INFO]: Would you like to enrypt your disks?(Y/n): "
+echo -n "[INFO]: Would you like to enrypt your disks?(y/N): "
 read encryption
 
-if [ ! "$encryption" = "n" ]; then
+if [ "$encryption" = "y" ]; then
+    clear
+    echo "Running benchmark"
+    cryptsetup benchmark
+    echo -n "Please select the ciphering algorithm(aes-xts-plain64): "
+    read cipher
+    if [ "$cipher" = "" ]; then
+        cipher="aes-xts-plain64"
+    fi
+    echo -n "Please select the iter time(750): "
+    read iter
+    if [ "$iter" = "" ]; then
+        iter="750"
+    fi
     # Create the swap partition
     echo "[INFO]: Enter password for swap encryption"
     read swap_pass
 
-    echo $swap_pass | cryptsetup -q luksFormat "$swap"
+    echo $swap_pass | cryptsetup --cipher "$cipher" --iter-time "$iter" -q luksFormat "$swap"
     mkdir /root/.keys
     dd if=/dev/urandom of=/root/.keys/swap-keyfile bs=1024 count=4
     chmod 600 /root/.keys/swap-keyfile
@@ -99,7 +113,7 @@ if [ ! "$encryption" = "n" ]; then
     echo "[INFO]: Enter password for root encryption"
     read root_pass
 
-    echo $root_pass | cryptsetup -q luksFormat "$root"
+    echo $root_pass | cryptsetup --cipher "$cipher" --iter-time "$iter" -q luksFormat "$root"
     dd bs=512 count=4 if=/dev/random of=/root/.keys/root-keyfile iflag=fullblock
     chmod 600 /root/.keys/root-keyfile
     echo $root_pass | cryptsetup luksAddKey "$root" /root/.keys/root-keyfile
@@ -113,7 +127,7 @@ if [ ! "$encryption" = "n" ]; then
     if [ "$home_s" = "y" ]; then
         echo "[INFO]: Enter password for home encryption"
         read home_pass
-        echo $home_pass | cryptsetup -q luksFormat "$home"
+        echo $home_pass | cryptsetup --cipher "$cipher" --iter-time "$iter" -q luksFormat "$home"
         dd bs=512 count=4 if=/dev/random of=/root/.keys/home-keyfile iflag=fullblock
         chmod 600 /root/.keys/home-keyfile
         echo $home_pass | cryptsetup luksAddKey "$home" /root/.keys/home-keyfile
