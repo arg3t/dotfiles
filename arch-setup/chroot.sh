@@ -57,11 +57,11 @@ if [ ! -f "/tmp/.blackarch" ]; then
     echo -n "Are you going to use a flexo server?(y/N): "
     read flexo
 
-    while [ "$flexo" = "y" ]; do
+    if [ "$flexo" = "y" ]; then
         echo -n "Please enter ip address of flexo server: "
         read flexo_ip
         echo "\nServer = http://$flexo_ip:7878/\$repo/os/\$arch\n" >> /etc/pacman.d/mirrorlist
-    done
+    fi
     pacman -Syy
 
     echo -n "Did any errors occur?(y/N): "
