@@ -3,3 +3,5 @@
 
 *.otf*
 *.ttf*
+
+.ccls-cache

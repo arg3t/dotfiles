@@ -4,7 +4,6 @@ pkill -f clipmenud
 pkill -9 devmon
 pkill -f "bash /sbin/clipmenud"
 pkill -f "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
-pkill -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 pkill -f devmon
 
 echo "$DBUS_SESSION_BUS_ADDRESS" > /tmp/bus-session
@@ -13,13 +12,13 @@ rm -rf $XDG_RUNTIME_DIR/day_cache
 
 source ~/.config.env
 gpgconf --dry-run --create-socketdir
-eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 
-export SSH_AUTH_SOCK
+#eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
+#export SSH_AUTH_SOCK
 
 clipmenud > $XDG_RUNTIME_DIR/clipmenud.out 2> $XDG_RUNTIME_DIR/clipmenud.err &
 rm -f ~/.surf/tabbed-surf.xid
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+/bin/polkit-dumb-agent &
 ~/.local/bin/daily-update
 ~/.local/bin/keyboard > $XDG_RUNTIME_DIR/keyboard.out 2> $XDG_RUNTIME_DIR/keyboard.err
 xrdb  ~/.config/X11/Xresources &

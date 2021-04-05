@@ -238,9 +238,10 @@ if [ -f "/install/artix" ]; then
     sudo rc-update add cronie
     sudo rc-update add acpi
     sudo rc-update add dbus
+    sudo rc-update add connmand
     sudo rc-update add syslog-ng
 else
-    systemctl enable NetworkManager
+    systemctl enable connman
     systemctl enable cronie
 fi
 

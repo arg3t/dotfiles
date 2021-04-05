@@ -17,8 +17,9 @@ mksh
 acpi
 dbus
 syslog-ng
+connman
 avahi-openrc
 acpi-openrc
 dbus-openrc
 syslog-ng-openrc
-networkmanager-openrc
+connman-openrc

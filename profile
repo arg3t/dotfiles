@@ -77,10 +77,17 @@ case "$(readlink -f /sbin/init)" in
 	*systemd*) export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ;;
 esac
 
-if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
-  if [ ! "$DBUS_SESSION_BUS_ADDRESS" ] && [ ! $(command -v dbus-launch) ]; then
-    exec dbus-launch --exit-with-session xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit || exit
+if [ ! "$SSH_AUTH_SOCK" ]; then
+  eval "$(ssh-agent | head -n 2)"
+fi
+
+if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ]; then
+  if [ "$DBUS_SESSION_BUS_ADDRESS" = "" ] && [ ! $(command -v dbus-launch)  = "" ]; then
+    sleep 2
+    eval "$(dbus-launch --exit-with-session --sh-syntax)"
+    exec xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit || exit
   else
-    exec xinit
+    sleep 2
+    exec xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit || exit
   fi
 fi

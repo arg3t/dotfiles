@@ -47,7 +47,7 @@ static const char *bwmenu[] = {"/home/yigit/.local/bin/password_manager", NULL};
 static const char *wallabag[] = {"/home/yigit/.local/bin/dmenu-wallabag", "-s", NULL};
 static const char *wiki[] = {"/home/yigit/.local/bin/dmenu-arch", NULL};
 
-static const char *network_manager[] = {"/home/yigit/.local/bin/networkmanager_dmenu", NULL};
+static const char *network_manager[] = {"/home/yigit/.local/bin/connman_dmenu", NULL};
 static const char *killall[] = {"/home/yigit/.local/bin/dmenu-killall", NULL};
 static const char *mconnect[] = {"/home/yigit/.local/bin/dmenu-mconnect"};
 static const char *udevil[] = {"/home/yigit/.local/bin/dmenu-udevil"};

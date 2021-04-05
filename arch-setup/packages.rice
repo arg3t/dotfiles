@@ -35,8 +35,7 @@ xmenu
 pacman-contrib
 clipmenu
 clipnotify
-polkit-gnome
-gnome-keyring
+polkit-dumb-agent
 feh
 sxiv
 udevil

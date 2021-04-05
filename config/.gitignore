@@ -58,7 +58,6 @@
 !tmux
 !tmux/**
 !vdirsyncer
-!vdirsyncer/**
 !vim
 !vim/**
 !wakatime

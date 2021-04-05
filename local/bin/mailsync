@@ -62,6 +62,7 @@ syncandnotify() {
     if [ -z "$opts" ]; then mbsync "$acc"; else mbsync "$opts" "$acc"; fi
     new=$(find "$HOME/.local/share/mail/$acc/INBOX/new/" "$HOME/.local/share/mail/$acc/Inbox/new/" "$HOME/.local/share/mail/$acc/inbox/new/" -type f -newer "${XDG_CONFIG_HOME:-$HOME/.config}/mutt/.mailsynclastrun" 2> /dev/null)
     newcount=$(echo "$new" | sed '/^\s*$/d' | wc -l)
+		echo -n "$newcount" > ~/.cache/mcount
     if [ "$newcount" -gt "0" ]; then
 	notify "$acc" "$newcount" &
         for file in $new; do
