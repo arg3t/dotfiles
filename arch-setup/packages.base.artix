@@ -1,4 +1,3 @@
-networkmanager-openrc
 efibootmgr
 refind
 python
@@ -16,6 +15,10 @@ curl
 dash
 mksh
 acpi
-acpi-openrc
 dbus
+syslog-ng
+avahi-openrc
+acpi-openrc
 dbus-openrc
+syslog-ng-openrc
+networkmanager-openrc

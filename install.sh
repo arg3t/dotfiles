@@ -105,10 +105,10 @@ mc cp -r fr1nge-dots/dotfiles/backgrounds/ ~/.local/backgrounds/
 if [ ! -f "/var/spool/cron/$username" ]; then
   sudo touch "/var/spool/cron/$username"
   sudo chown $username:$username "/var/spool/cron/$username"
-  sudo chmod 755 "/var/spool/cron/$username"
+  sudo chmod 0644 "/var/spool/cron/$username"
   echo "*/8 * * * * /home/$username/.local/bin/mailsync" > /var/spool/cron/$username
   echo "*/15 * * * * /home/$username/.local/bin/nextcloud-sync" >> /var/spool/cron/$username
-  echo "* */1 * * * /home/$username/.local/bin/check-updates" >> /var/spool/cron/$username
+  echo "0 * * * * /home/$username/.local/bin/check-updates" >> /var/spool/cron/$username
   echo "*/30 * * * * /home/$username/.local/bin/firefox-sync" >> /var/spool/cron/$username
   echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/$username
   echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/$username
@@ -119,7 +119,7 @@ else
     cp /var/spool/cron/$username ~/.dotfiles_backup/crontab
     echo "*/8 * * * * /home/$username/.local/bin/mailsync" > /var/spool/cron/$username
     echo "*/15 * * * * /home/$username/.local/bin/nextcloud-sync" >> /var/spool/cron/$username
-    echo "* */1 * * * /home/$username/.local/bin/check-updates" >> /var/spool/cron/$username
+    echo "0 * * * * /home/$username/.local/bin/check-updates" >> /var/spool/cron/$username
     echo "*/30 * * * * /home/$username/.local/bin/firefox-sync" >> /var/spool/cron/$username
     echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/$username
     echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/$username
@@ -154,7 +154,11 @@ sudo cp ~/.dotfiles/root/dwm.desktop /usr/share/xsessions
 sudo cp ~/.dotfiles/root/issue /etc/issue
 sudo cp ~/.dotfiles/root/motd /etc/motd
 sudo cp ~/.dotfiles/root/nancyj.flf /usr/share/figlet/fonts
-sudo cp ~/.dotfiles/root/quark.service /usr/lib/systemd/system
+if [ "$(grep artix < $(uname -a))" = "" ]; then
+  sudo cp ~/.dotfiles/root/quark /etc/init.d
+else
+  sudo cp ~/.dotfiles/root/quark.service /usr/lib/systemd/system
+fi
 sudo cp ~/.dotfiles/root/kdialog /usr/local/bin/kdialog
 sudo cp ~/.dotfiles/root/udevil.conf /etc/udevil/udevil.conf
 sudo chmod +x /usr/local/bin/kdialog
@@ -182,6 +186,7 @@ echo "Installing Icons"
 echo "Setting up start page"
 prev=$(pwd)
 cd ~/.dotfiles/browser/startpage
+sudo npm install -g parcel-bundler
 npm install > /dev/null 2> /dev/null
 npm run build > /dev/null 2> /dev/null
 cd $prev

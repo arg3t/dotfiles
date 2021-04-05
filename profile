@@ -73,6 +73,10 @@ export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
 export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 
+case "$(readlink -f /sbin/init)" in
+	*systemd*) export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ;;
+esac
+
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   if [ ! "$DBUS_SESSION_BUS_ADDRESS" ] && [ ! $(command -v dbus-launch) ]; then
     exec dbus-launch --exit-with-session xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit || exit

@@ -32,3 +32,11 @@ ncmpcpp
 cmake
 opencv
 xmenu
+pacman-contrib
+clipmenu
+clipnotify
+polkit-gnome
+gnome-keyring
+feh
+sxiv
+udevil

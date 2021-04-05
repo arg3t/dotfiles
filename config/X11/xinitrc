@@ -46,11 +46,7 @@ mpd-mpris &
 touch ~/.cache/nextcloud-track
 xss-lock -- slock &
 picom --no-fading-openclose &
-if [ "$BROWSER" =  "firefox" ]; then
-    ~/.local/bin/firefox-sync
-fi
-$BROWSER &
-bitwarden-desktop &
+~/.local/bin/firefox-sync
 curl 'http://yeetclock/setcolor?R=136&G=192&B=208' &
 
 dunst &
@@ -66,6 +62,10 @@ xset dpms 600 600 600
     --exec-on-remove "/sbin/notify-send '禍  drive removed' '%l (%f) from %d '" \
     --exec-on-unmount  "/sbin/notify-send '禍  drive unmounted' '%l (%f) from %d '" \
     --no-unmount --no-gui &
+
+
+$BROWSER &
+bitwarden-desktop &
 
 touch ~/.cache/dwm-restart
 while [ -f /home/yigit/.cache/dwm-restart ];

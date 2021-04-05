@@ -1,17 +1,24 @@
 #!/bin/sh
 
-icon= 
+icon=
 
-if ! updates=$(checkupdates 2> /dev/null | wc -l ); then
-    updates=0
+if [ ! -f ~/.cache/pacman_updates ]; then
+	updates=0
+else
+	updates=$(wc -l < ~/.cache/pacman_updates)
+	if [ "$updates" = "" ]; then
+		updates=0
+	fi
 fi
+
+checkupdates 2> /dev/null > ~/.cache/pacman_updates &
+
 case $BLOCK_BUTTON in
 	1) PATH="/opt/google-cloud-sdk/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/sbin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl" setsid -f "$TERMINAL" -c center -n center -e yay -Syu;;
 	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
 
-echo $updates > ~/.cache/pacman_updates
 
 #echo "$ifg $icon $tfg$(cat ~/.cache/pacman_updates)"
-echo "^c#a48ead^$icon ^d^ $(cat ~/.cache/pacman_updates)"
+echo "^c#a48ead^$icon ^d^ $updates"
 

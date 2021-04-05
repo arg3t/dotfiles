@@ -52,6 +52,7 @@
 !readline/**
 !spotifyd
 !surf
+!surf/**
 !tmate
 !tmate/**
 !tmux
