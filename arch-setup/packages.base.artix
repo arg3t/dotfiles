@@ -11,8 +11,11 @@ xorg-xinit
 xorg-apps
 xf86-video-intel
 sudo
-cronie
 wget
 curl
 dash
 mksh
+acpi
+acpi-openrc
+dbus
+dbus-openrc

@@ -6,13 +6,14 @@ pkill -f "bash /sbin/clipmenud"
 pkill -f "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
 pkill -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 pkill -f devmon
+
+echo "$DBUS_SESSION_BUS_ADDRESS" > /tmp/bus-session
+
 rm -rf $XDG_RUNTIME_DIR/day_cache
 
 source ~/.config.env
 gpgconf --dry-run --create-socketdir
 eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
-systemctl --user import-environment DISPLAY
-dbus-update-activation-environment --systemd DISPLAY
 
 export SSH_AUTH_SOCK
 
@@ -71,6 +72,6 @@ while [ -f /home/yigit/.cache/dwm-restart ];
 do
     rm -rf /home/yigit/.cache/dwm-restart
     dwmblocks > $XDG_RUNTIME_DIR/dwmblocks.out 2> $XDG_RUNTIME_DIR/dwmblocks.err &
-    dwm > $XDG_RUNTIME_DIR/dwm.log 2> $XDG_RUNTIME_DIR/dwm.err
+    exec dwm > $XDG_RUNTIME_DIR/dwm.log 2> $XDG_RUNTIME_DIR/dwm.err
     sleep 0.2
 done

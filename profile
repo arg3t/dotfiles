@@ -27,7 +27,6 @@ export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_CACHE_HOME="$HOME"/.cache
 export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 export XDG_CONFIG_DIRS="/etc/xdg"
-export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
 export XDG_RUNTIME_DIR="/run/user/1000"
 
 # LF Icons
@@ -73,3 +72,11 @@ export XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
 export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
+
+if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+  if [ ! "$DBUS_SESSION_BUS_ADDRESS" ] && [ ! $(command -v dbus-launch) ]; then
+    exec dbus-launch --exit-with-session xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit || exit
+  else
+    exec xinit
+  fi
+fi

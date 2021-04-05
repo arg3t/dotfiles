@@ -25,7 +25,7 @@ echo -n "Would you like to install all the necessary packages, not doing so migh
 read deps
 if [ ! "$deps" = "n" ]; then
   echo "Running update"
-  yay -S --needed --noconfirm $(cat ~/.dotfiles/arch-setup/packages.minimal)
+  yay -S --needed --noconfirm $(cat ~/.dotfiles/arch-setup/packages.rice) && exit 1
 fi
 
 rm -rf ~/.dotfiles_backup
@@ -92,14 +92,14 @@ cp ~/.dotfiles/config.env.def ~/.config.env
 echo "Downloading assets"
 prev=$(pwd)
 
-curl https://minio.yigitcolakoglu.com/minio/dotfiles/tools/mc > "$HOME/.local/bin"
+curl https://minio.yigitcolakoglu.com/dotfiles/tools/mc > "$HOME/.local/bin/mc"
 chmod +x "$HOME/.local/bin/mc"
 $HOME/.local/bin/mc alias set fr1nge-dots https://minio.yigitcolakoglu.com "" ""
-mc cp -r yeet-dots/dotfiles/fonts/* ~/.local/share/fonts/
+mc cp -r fr1nge-dots/dotfiles/fonts/ ~/.local/share/fonts/
 fc-cache
 
 ## Backgrounds
-mc cp -r yeet-dots/dotfiles/backgrounds/* ~/.local/backgrounds/
+mc cp -r fr1nge-dots/dotfiles/backgrounds/ ~/.local/backgrounds/
 
 # Setup Crontab
 if [ ! -f "/var/spool/cron/$username" ]; then
@@ -140,17 +140,19 @@ mkdir -p "$WEECHAT_HOME"
 mkdir -p "$JUPYTER_CONFIG_DIR"
 mkdir -p "$PYLINTHOME"
 mkdir -p "$HOME/.local/share/zsh"
-mkdir -p "$XDG_DATA_DIR/mail"
-mkdir -p "$XDG_CONFIG_DIR/git"
-mkdir -p "$XDG_CACHE_DIR/surf"
+mkdir -p "$XDG_DATA_HOME/mail"
+mkdir -p "$XDG_CONFIG_HOME/git"
+mkdir -p "$XDG_CACHE_HOME/surf"
 
 chmod 700 "$GNUPGHOME"
-touch "$XDG_CONFIG_DIR/git/config"
+touch "$XDG_CONFIG_HOME/git/config"
 touch "$_Z_DATA"
 
 # Root Files and Directories
 sudo mkdir -p /usr/share/xsessions
 sudo cp ~/.dotfiles/root/dwm.desktop /usr/share/xsessions
+sudo cp ~/.dotfiles/root/issue /etc/issue
+sudo cp ~/.dotfiles/root/motd /etc/motd
 sudo cp ~/.dotfiles/root/nancyj.flf /usr/share/figlet/fonts
 sudo cp ~/.dotfiles/root/quark.service /usr/lib/systemd/system
 sudo cp ~/.dotfiles/root/kdialog /usr/local/bin/kdialog
@@ -162,7 +164,7 @@ sudo systemctl enable quark
 
 if [ "$username" = "yigit" ]; then
   ~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)
-  mkdir -p "$XDG_DATA_DIR/mail/yigitcolakoglu@hotmail.com"
+  mkdir -p "$XDG_DATA_HOME/mail/yigitcolakoglu@hotmail.com"
   git config --global user.email "yigitcolakoglu@hotmail.com"
   git config --global user.name "Yigit Colakoglu"
 fi
@@ -220,9 +222,10 @@ sudo make install > /dev/null 2> /dev/null
 cd $prev
 
 # Do a cleanup and delete some problematic files
-mv ~/.fzf ~/.local/share/fzf
 rm -rf ~/.fzf*
 rm -rf ~/.bash_profile
+rm -rf ~/.dotfiles/yarn.lock
+rm -rf ~/.dotfiles/.git/hooks/*
 sudo rm -rf /etc/urlview/system.urlview
 
 

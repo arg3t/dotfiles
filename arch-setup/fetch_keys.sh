@@ -9,7 +9,7 @@ then
     exit
 fi
 
-mc cp -r yeet-dots/dotfiles/tools/* ~/.local/bin/
+mc cp -r fr1nge-dots/dotfiles/tools/ ~/.local/bin/
 sudo chmod +x ~/.local/bin/*
 
 ~/.local/bin/jsteg reveal $loc > /tmp/out.zip.gpg

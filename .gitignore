@@ -1,11 +1,5 @@
-.gitsecret/keys/random_seed
-!*.secret
-config/msmtp/config
-config/isync/mbsyncrc
-config/calcurse/caldav/config
-config/wakatime/wakatime.cfg
-config/zsh/secret
-config/nextcloud/nextcloud
-config/spotifyd/spotifyd.conf
-.ccls-cache
-**/.ccls-cache
+*.otf
+*.ttf
+
+*.otf*
+*.ttf*

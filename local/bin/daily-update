@@ -9,22 +9,22 @@ cached=$(cat "$XDG_RUNTIME_DIR"/day_cache)
 
 if [ "$hour" -le "$morning" ]; then
   if [ ! "$cached" = "night"  ]; then
-    feh --no-fehbg --bg-fill ~/.local/backgrounds/evening/"$(find ~/.local/backgrounds/evening | sort -R | tail -1 )"
+    feh --no-fehbg --bg-fill "$(find ~/.local/backgrounds/evening | sort -R | tail -1 )"
     echo "night" > "$XDG_RUNTIME_DIR/day_cache"
   fi
 elif [ "$night" -le "$hour" ]; then
   if [ ! "$cached" = "night"  ]; then
-    feh --no-fehbg --bg-fill ~/.local/backgrounds/evening/"$(find ~/.local/backgrounds/evening | sort -R | tail -1 )"
+    feh --no-fehbg --bg-fill "$(find ~/.local/backgrounds/evening | sort -R | tail -1 )"
     echo "night" > "$XDG_RUNTIME_DIR/day_cache"
   fi
 elif [ "$afternoon" -le "$hour" ]; then
   if [ ! "$cached" = "afternoon"  ]; then
-    feh --no-fehbg --bg-fill ~/.local/backgrounds/afternoon/"$(find ~/.local/backgrounds/afternoon| sort -R | tail -1 )"
+    feh --no-fehbg --bg-fill "$(find ~/.local/backgrounds/afternoon| sort -R | tail -1 )"
     echo "afternoon" > "$XDG_RUNTIME_DIR/day_cache"
   fi
 else
   if [ ! "$cached" = "morning"  ]; then
-    feh --no-fehbg --bg-fill ~/.local/backgrounds/morning/"$(find ~/.local/backgrounds/morning | sort -R | tail -1 )"
+    feh --no-fehbg --bg-fill "$(find ~/.local/backgrounds/morning | sort -R | tail -1 )"
     echo "morning" > "$XDG_RUNTIME_DIR/day_cache"
   fi
 fi

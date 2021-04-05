@@ -48,6 +48,7 @@ if [ ! -f "/tmp/.blackarch" ]; then
     /tmp/strap.sh
 
     if [ -f "/install/artix" ]; then
+        echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist-arch" >> /etc/pacman.conf
         echo -e "\n[lib32]\nInclude = /etc/pacman.d/mirrorlist\n\n[options]\nILoveCandy\nTotalDownload\nColor" >> /etc/pacman.conf
     else
         echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n\n[options]\nILoveCandy\nTotalDownload\nColor" >> /etc/pacman.conf
@@ -200,9 +201,7 @@ EOF
 fi
 
 mkdir -p /etc/sudoers.d
-echo "Defaults env_reset,pwfeedback" >> /etc/sudoers.d/wheel
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nopwd
-echo "$username $hostname =NOPASSWD: /sbin/shutdown ,/sbin/halt,/sbin/reboot,/sbin/hibernate, /bin/pacman -Syyuw --noconfirm" > /etc/sudoers.d/wheel
 
 
 sudo -u $username bash -c "git clone https://aur.archlinux.org/yay.git /tmp/yay"
@@ -222,29 +221,26 @@ if [ "$dotfiles" = "y" ]; then
     sudo -u $username bash -c "git clone --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotfiles"
     sudo -u $username bash -c "(cd ~/.dotfiles; ./install.sh)"
     clear
-    git clone https://github.com/adi1090x/plymouth-themes.git /tmp/pthemes
+fi
+git clone https://github.com/adi1090x/plymouth-themes.git /tmp/pthemes
 cat << EOF > /etc/plymouth/plymouthd.conf
 [Daemon]
 Theme=sphere
 ShowDelay=0
 DeviceTimeout=8
 EOF
-    cp -r /tmp/pthemes/pack_4/sphere /usr/share/plymouth/themes
-    clear
-fi
-
-
+cp -r /tmp/pthemes/pack_4/sphere /usr/share/plymouth/themes
+clear
 
 echo -e "/boot/EFI/refind\n2\n2" | sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/bobafetthotmail/refind-theme-regular/master/install.sh)"
 
 if [ -f "/install/artix" ]; then
-    echo "Manually enable services, not implemented"
+    sudo rc-update add cronie
+    sudo rc-update add acpi
+    sudo rc-update add dbus
 else
     systemctl enable NetworkManager
-    systemctl enable ly
-    systemctl enable fstrim.timer
     systemctl enable cronie
-    systemctl enable bluetooth
 fi
 
 clear
@@ -259,7 +255,9 @@ pacman --noconfirm -R nano # uninstall nano, eww
 clear
 
 rm -rf /etc/sudoers.d/nopwd
+echo "Defaults env_reset,pwfeedback" > /etc/sudoers.d/wheel
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers.d/wheel
+echo "$username $hostname =NOPASSWD: /sbin/shutdown ,/sbin/halt,/sbin/reboot,/sbin/hibernate, /bin/pacman -Syyuw --noconfirm" >> /etc/sudoers.d/wheel
 
 ln -sf /bin/dash /bin/sh
 
