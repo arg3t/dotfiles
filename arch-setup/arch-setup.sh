@@ -95,11 +95,16 @@ if [ "$encryption" = "y" ]; then
     if [ "$iter" = "" ]; then
         iter="750"
     fi
+    echo -n "Please select the key size(512): "
+    read keysize
+    if [ "$keysize" = "" ]; then
+        keysize="512"
+    fi
     # Create the swap partition
     echo "[INFO]: Enter password for swap encryption"
     read swap_pass
 
-    echo $swap_pass | cryptsetup --cipher "$cipher" --iter-time "$iter" -q luksFormat "$swap"
+    echo $swap_pass | cryptsetup --key-size "$keysize" --cipher "$cipher" --iter-time "$iter" -q luksFormat "$swap"
     mkdir /root/.keys
     dd if=/dev/urandom of=/root/.keys/swap-keyfile bs=1024 count=4
     chmod 600 /root/.keys/swap-keyfile
@@ -113,7 +118,7 @@ if [ "$encryption" = "y" ]; then
     echo "[INFO]: Enter password for root encryption"
     read root_pass
 
-    echo $root_pass | cryptsetup --cipher "$cipher" --iter-time "$iter" -q luksFormat "$root"
+    echo $root_pass | cryptsetup --key-size "$keysize" --cipher "$cipher" --iter-time "$iter" -q luksFormat "$root"
     dd bs=512 count=4 if=/dev/random of=/root/.keys/root-keyfile iflag=fullblock
     chmod 600 /root/.keys/root-keyfile
     echo $root_pass | cryptsetup luksAddKey "$root" /root/.keys/root-keyfile
@@ -127,7 +132,7 @@ if [ "$encryption" = "y" ]; then
     if [ "$home_s" = "y" ]; then
         echo "[INFO]: Enter password for home encryption"
         read home_pass
-        echo $home_pass | cryptsetup --cipher "$cipher" --iter-time "$iter" -q luksFormat "$home"
+        echo $home_pass | cryptsetup --key-size "$keysize" --cipher "$cipher" --iter-time "$iter" -q luksFormat "$home"
         dd bs=512 count=4 if=/dev/random of=/root/.keys/home-keyfile iflag=fullblock
         chmod 600 /root/.keys/home-keyfile
         echo $home_pass | cryptsetup luksAddKey "$home" /root/.keys/home-keyfile
