@@ -60,7 +60,7 @@ if [ ! -f "/tmp/.blackarch" ]; then
     if [ "$flexo" = "y" ]; then
         echo -n "Please enter ip address of flexo server: "
         read flexo_ip
-        echo "\nServer = http://$flexo_ip:7878/\$repo/os/\$arch\n" >> /etc/pacman.d/mirrorlist
+        echo -e "\nServer = http://$flexo_ip:7878/\$repo/os/\$arch\n" >> /etc/pacman.d/mirrorlist
     fi
     pacman -Syy
 
