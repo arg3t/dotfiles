@@ -38,7 +38,7 @@ Plug 'mileszs/ack.vim'
 Plug 'yegappan/taglist'
 Plug 'puremourning/vimspector'
 Plug 'lervag/vimtex'
-Plug 'wakatime/vim-wakatime'
+" Plug 'wakatime/vim-wakatime'
 Plug 'gu-fan/riv.vim'
 Plug 'gu-fan/InstantRst'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }

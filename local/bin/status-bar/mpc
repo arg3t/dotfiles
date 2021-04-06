@@ -8,7 +8,7 @@ if [ ! "$online" = "" ]; then
   if [ "$(echo "$online" | wc -l)" -le 1 ]; then
     echo -n "^c#a48ead^ ^d^"
   else
-    echo -n "^c#a48ead^ ^d^ ${title:0:20} - ${artist:0:20}"
+    echo -n "^c#a48ead^ ^d^ ${title:0:10} - ${artist:0:10}"
   fi
 else
   echo -n "^c#a48ead^ﳌ ^d^"

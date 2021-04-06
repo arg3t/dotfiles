@@ -4,6 +4,7 @@
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export AWT_TOOLKIT=MToolkit
+export TMATE_API_KEY=$(pass show AppPass/tmate.com/api-key)
 
 # Environment variables
 export SHELL=/bin/zsh
