@@ -1,25 +1,17 @@
 #!/bin/bash
 
-# Environment variables
+# Fixes for some bugs
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export AWT_TOOLKIT=MToolkit
+
+# Environment variables
 export SHELL=/bin/zsh
 export TERMINAL=/usr/local/bin/st
-export TMUX_PLUGIN_MANAGER_PATH=~/.tmux/plugins
-export BORG_KEYS_DIR=~/.keys/borg
 export BROWSER=firefox
 export EDITOR=nvim
 export OPENER=xdg-open
-export ANDROID_HOME=/home/yigit/Android
 export DEFAULT_RECIPIENT="yigitcolakoglu@hotmail.com"
-
-# Setup PATH
-export PATH=$ANDROID_HOME/tools:$PATH
-export PATH=$ANDROID_HOME/platform-tools:$PATH
-export PATH=$FLUTTER_HOME/bin:$PATH
-export PATH="$PATH:$HOME/.local/bin:$HOME/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport"
-export CPATH=/usr/include/opencv4
 
 # Set XDG Directories
 export XDG_DATA_HOME="$HOME"/.local/share
@@ -29,17 +21,9 @@ export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 export XDG_CONFIG_DIRS="/etc/xdg"
 export XDG_RUNTIME_DIR="/run/user/1000"
 
-# LF Icons
-LF_ICONS=$(sed ~/.config/lf/diricons \
-            -e '/^[ \t]*#/d'       \
-            -e '/^[ \t]*$/d'       \
-            -e 's/[ \t]\+/=/g'     \
-            -e 's/$/ /')
-LF_ICONS=${LF_ICONS//$'\n'/:}
-
-export LF_ICONS
-
 # Cleanup Home Directory
+export TMUX_PLUGIN_MANAGER_PATH="$XDG_DATA_HOME"/tmux/plugins
+export BORG_KEYS_DIR="$XDG_DATA_HOME"/keys/borg
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export GOPATH="$XDG_DATA_HOME"/go
 export ANDROID_HOME="$XDG_DATA_HOME"/Sdk
@@ -72,20 +56,43 @@ export XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
 export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME"/pass
+export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 
+
+# Setup PATH
+export PATH=$ANDROID_HOME/tools:$PATH
+export PATH=$ANDROID_HOME/platform-tools:$PATH
+export PATH=$FLUTTER_HOME/bin:$PATH
+export PATH="$PATH:$HOME/.local/bin:$HOME/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport"
+export CPATH=/usr/include/opencv4
+
+# Setup LF Icons (Doing this everytime lf start might cause some overhead)
+LF_ICONS=$(sed ~/.config/lf/diricons \
+            -e '/^[ \t]*#/d'       \
+            -e '/^[ \t]*$/d'       \
+            -e 's/[ \t]\+/=/g'     \
+            -e 's/$/ /')
+LF_ICONS=${LF_ICONS//$'\n'/:}
+
+export LF_ICONS
+
+# Setup dbus
 case "$(readlink -f /sbin/init)" in
 	*systemd*) export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ;;
+  *) eval "$(dbus-launch --exit-with-session --sh-syntax)"
 esac
 
+# Setup SSH
 if [ ! "$SSH_AUTH_SOCK" ]; then
   eval "$(ssh-agent | head -n 2)"
   grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add > /dev/null 2> /dev/null &
 fi
 
+# Start xinit if logged in from tty1
 if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ]; then
   if [ "$DBUS_SESSION_BUS_ADDRESS" = "" ] && [ ! $(command -v dbus-launch)  = "" ]; then
     sleep 2
-    eval "$(dbus-launch --exit-with-session --sh-syntax)"
     exec xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit || exit
   else
     sleep 2

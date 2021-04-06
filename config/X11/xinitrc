@@ -50,7 +50,7 @@ curl 'http://yeetclock/setcolor?R=136&G=192&B=208' &
 
 dunst &
 
-xbanish -t 2000 -s &
+xbanish -s &
 
 pactl upload-sample /usr/share/sounds/freedesktop/stereo/bell.oga x11-bell
 pactl load-module module-x11-bell sample=x11-bell display=$DISPLAY
@@ -64,7 +64,7 @@ xset dpms 600 600 600
 
 
 $BROWSER &
-bitwarden-desktop &
+#bitwarden-desktop &
 
 touch ~/.cache/dwm-restart
 while [ -f /home/yigit/.cache/dwm-restart ];

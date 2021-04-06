@@ -24,7 +24,9 @@ nvim
 mpd
 mpc
 mpc-mpris
-xbanish-timeout
+libxfixes
+libxi
+libxt
 htop
 dunst
 mpv-mpris
@@ -37,5 +39,10 @@ clipmenu
 clipnotify
 polkit-dumb-agent
 feh
-sxiv
+imlib2
+desktop-file-utils
+xdg-utils
+hicolor-icon-theme
+libexif
+libxft
 udevil

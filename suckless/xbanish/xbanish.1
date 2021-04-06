@@ -1,0 +1,60 @@
+.Dd $Mdocdate: September 16 2019$
+.Dt XBANISH 1
+.Os
+.Sh NAME
+.Nm xbanish
+.Nd hide the X11 mouse cursor when a key is pressed
+.Sh SYNOPSIS
+.Nm
+.Op Fl a
+.Op Fl d
+.Op Fl i Ar modifier
+.Op Fl m Ar nw|ne|sw|se
+.Sh DESCRIPTION
+.Nm
+hides the X11 mouse cursor when a key is pressed.
+The cursor is shown again when it is moved or a mouse button is pressed.
+This is similar to the
+.Xr xterm 1
+setting
+.Ic pointerMode
+but the effect is global in the X11 session.
+.Sh OPTIONS
+.Bl -tag -width Ds
+.It Fl a
+Always keep mouse cursor hidden while
+.Nm
+is running.
+.It Fl d
+Print debugging messages to stdout.
+.It Fl i Ar modifier
+Ignore pressed key if
+.Ar modifier
+is used.
+Modifiers are:
+.Ic shift ,
+.Ic lock
+(CapsLock),
+.Ic control ,
+.Ic mod1
+(Alt or Meta),
+.Ic mod2
+(NumLock),
+.Ic mod3
+(Hyper),
+.Ic mod4
+(Super, Windows, or Command),
+.Ic mod5
+(ISO Level 3 Shift), and
+.Ic all
+(All of the above).
+.It Fl m Ar nw|ne|sw|se
+When hiding the mouse cursor, move it to this corner of the screen,
+then move it back when showing the cursor.
+.El
+.Sh SEE ALSO
+.Xr XFixes 3
+.Sh AUTHORS
+.Nm
+was written by
+.An joshua stein Aq Mt jcs@jcs.org .

@@ -140,7 +140,7 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
  */
 static SiteSpecific styles[] = {
 	/* regexp               file in $styledir */
-	{ ".*", "default.css" },
+	{ "/usr/share/doc/arch-wiki/html/en/.*", "wiki.css" },
 };
 
 /* certificates */
@@ -155,22 +155,15 @@ static SiteSpecific certs[] = {
 #define MODKEY GDK_CONTROL_MASK
 
 static char *linkselect_curwin [] = { "/bin/sh", "-c",
-		"surf_linkselect.sh $0 'Link' | xargs -r xprop -id $0 -f _SURF_GO 8s -set _SURF_GO",
+		"/home/yigit/.local/bin/surf_linkselect.sh $0 'Link' | xargs -r xprop -id $0 -f _SURF_GO 8s -set _SURF_GO",
 			winid, NULL
 };
-static char *linkselect_newwin [] = { "/bin/sh", "-c",
-		"surf_linkselect.sh $0 'Link (new window)' | xargs -r /home/yigit/.scripts/tabbed_surf",
+static char *linkyank [] = { "/bin/sh", "-c",
+		"/home/yigit/.local/bin/surf_linkselect.sh $0 'Link (y)' | xclip -selection clipboard",
 			winid, NULL
 };
+
 static char *editscreen[] = { "/bin/sh", "-c", "edit_screen.sh", NULL };
-
-#define WATCH {.v = (char *[]){ "/bin/sh", "-c", \
-		"/home/yigit/.scripts/watch_mpv.sh $(xprop -id $0 _SURF_URI | cut -d \\\" -f 2)", \
-		winid, NULL } }
-
-#define WALLABAG {.v = (char *[]){ "/bin/sh", "-c", \
-	"wallabag add $(xprop -id $0 _SURF_URI | cut -d '\"' -f 2) ; echo test > /tmp/aaa", \
-	winid, NULL }}
 
 /* hotkeys */
 /*
@@ -181,8 +174,9 @@ static Key keys[] = {
 	/* modifier              keyval          function    arg */
  	{ 0,                     GDK_KEY_i,      insert,     { .i = 1 } },
 	{ 0,                     GDK_KEY_Escape, insert,     { .i = 0 } },
-	{ 0,       			         GDK_KEY_o,      spawn,      SETPROP("_SURF_URI", "_SURF_GO", PROMPT_GO) },
+	{ MODKEY,       			         GDK_KEY_o,      spawn,      SETPROP("_SURF_URI", "_SURF_GO", PROMPT_GO) },
 	{ MODKEY,			           GDK_KEY_f,  spawn,      SETPROP("_SURF_FIND", "_SURF_FIND", PROMPT_FIND) },
+	{ 0,			           GDK_KEY_f,  spawn,      SETPROP("_SURF_FIND", "_SURF_FIND", PROMPT_FIND) },
 	{ MODKEY,                GDK_KEY_b,      spawn,      BM_ADD("_SURF_URI") },
 
 	{ 0,                     GDK_KEY_Escape, stop,       { 0 } },
@@ -228,11 +222,9 @@ static Key keys[] = {
 	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_b,      toggle,     { .i = ScrollBars } },
 	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_t,      toggle,     { .i = StrictTLS } },
 	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_m,      toggle,     { .i = Style } },
-	{ MODKEY,                GDK_KEY_d, externalpipe, { .v = linkselect_curwin } },
-	{ GDK_SHIFT_MASK|MODKEY, GDK_KEY_d, externalpipe, { .v = linkselect_newwin } },
-	{ MODKEY,                GDK_KEY_o, externalpipe, { .v = editscreen        } },
-	{ MODKEY|GDK_SHIFT_MASK,               GDK_KEY_w,      spawn,      WATCH },
-	{ MODKEY,	GDK_KEY_m,	spawn,	WALLABAG },
+	{ MODKEY,                GDK_KEY_u, externalpipe, { .v = linkselect_curwin } },
+	{ MODKEY, 							GDK_KEY_y, externalpipe, { .v = linkyank } },
+	{ MODKEY,                GDK_KEY_v, externalpipe, { .v = editscreen        } },
   { MODKEY               , GDK_KEY_Return, spawn,      SETURI("_SURF_GO") },
 };
 
