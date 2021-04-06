@@ -1,0 +1,11 @@
+account yigitcolakoglu@hotmail.com
+host smtp.office365.com
+port 587
+from yigitcolakoglu@hotmail.com
+user yigitcolakoglu@hotmail.com
+passwordeval "pass show AppPass/microsoft.com/yigitcolakoglu@hotmail.com"
+auth on
+tls on
+tls_trust_file	/etc/ssl/certs/ca-certificates.crt
+logfile /home/yigit/.config/msmtp/msmtp.log
+

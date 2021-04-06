@@ -20,7 +20,7 @@
 !gtk-4.0/**
 !htop
 !htop/**
-!isync
+!isync/**
 !lf
 !lf/**
 !mimeapps.list
@@ -31,6 +31,7 @@
 !nvim
 !nvim/**
 !msmtp
+!msmtp/**
 !mutt
 !mutt/**
 !ncmpcpp
@@ -51,6 +52,7 @@
 !readline
 !readline/**
 !spotifyd
+!spotifyd/**
 !surf
 !surf/**
 !tmate
@@ -58,6 +60,7 @@
 !tmux
 !tmux/**
 !vdirsyncer
+!vdirsyncer/**
 !vim
 !vim/**
 !wgetrc
