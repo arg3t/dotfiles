@@ -1,0 +1,20 @@
+#!/bin/bash
+
+export NEXTCLOUD_USERNAME=yigitcolakoglu
+export NEXTCLOUD_PASSWORD=$(pass show Server/drive.yigitcolakoglu.com/yigitcolakoglu)
+export NEXTCLOUD_URL=https://drive.yigitcolakoglu.com/remote.php/webdav
+
+declare -A mappings
+
+mappings=(
+  ["$NEXTCLOUD_URL/Documents"]="$HOME/Documents"
+  ["$NEXTCLOUD_URL/Photos"]="$HOME/Pictures"
+  ["$NEXTCLOUD_URL/Private"]="$HOME/Nextcloud/Private"
+  ["$NEXTCLOUD_URL/Books"]="$HOME/Nextcloud/Books"
+  ["$NEXTCLOUD_URL/InstantUpload"]="$HOME/Nextcloud/InstantUpload"
+  ["$NEXTCLOUD_URL/Past Papers"]="$HOME/Nextcloud/Past Papers"
+  ["$NEXTCLOUD_URL/InstantUpload"]="$HOME/Nextcloud/InstantUpload"
+  ["$NEXTCLOUD_URL/University Applications"]="$HOME/Nextcloud/University Applications"
+)
+
+
