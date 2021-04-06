@@ -1,0 +1,26 @@
+
+IMAPStore yigitcolakoglu@hotmail.com-remote
+Host outlook.office365.com
+Port 993
+User yigitcolakoglu@hotmail.com
+PassCmd "pass show AppPass/microsoft.com/yigitcolakoglu@hotmail.com"
+AuthMechs LOGIN
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore yigitcolakoglu@hotmail.com-local
+Subfolders Verbatim
+Path /home/yigit/.local/share/mail/yigitcolakoglu@hotmail.com/
+Inbox /home/yigit/.local/share/mail/yigitcolakoglu@hotmail.com/INBOX
+
+Channel yigitcolakoglu@hotmail.com
+Expunge Both
+Master :yigitcolakoglu@hotmail.com-remote:
+Slave :yigitcolakoglu@hotmail.com-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 0
+ExpireUnread no
+# End profile
+
