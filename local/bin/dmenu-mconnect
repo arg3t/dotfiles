@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # dmenu_kdeconnect.sh is a script based off of these scripts
-# [polybar-kdeconnect] https://github.com/HackeSta/polybar-kdeconnect 
+# [polybar-kdeconnect] https://github.com/HackeSta/polybar-kdeconnect
 # [polybar-kdeconnect-scripts] https://github.com/witty91/polybar-kdeconnect-scripts
 # Added features
 # - Removed polybar as a Dependencies (since I use dwm)
@@ -25,9 +25,9 @@
 # nnn
 # zenity
 # ranger
-Picker='ranger'
+Picker='lf'
 
-# Color Settings of dmenu 
+# Color Settings of dmenu
 COLOR_DISCONNECTED='#000'       # Device Disconnected
 COLOR_NEWDEVICE='#ff0'          # New Device
 COLOR_BATTERY_90='#fff'         # Battery >= 90
@@ -63,12 +63,12 @@ show_devices (){
 	    icon=$(get_icon $battery $devicetype)
 	    # colors="$(get_colors $battery)"
 	    # echo "$colors"
-	    show_menu "$devicename | $battery $icon" $deviceobj $battery 
+	    show_menu "$devicename | $battery $icon" $deviceobj $battery
 	    devices+="$devicename $battery $icon $SEPERATOR"
 	elif [ "$isreach" = "false" ] && [ "$istrust" = "true" ];then
 	    #nothing is found
 	    devices+="$(get_icon -1 $devicetype)$SEPERATOR"
-	else 
+	else
 	    #found but not yet paired
 	    icon=$(get_icon -2 $devicetype)
 	    show_pmenu $devicename $deviceobj
@@ -94,32 +94,30 @@ show_menu () {
     options=$(printf "Send SMS\\nSend File\\nSend Text\\nSend URL\\nDisconnect\\n")
     menu=$(echo $options | dmenu -i -p $1 -l $optionNum )
     case "$menu" in
-	*'Send File') 
-	    if [ $Picker == 'ranger' ]; then
-			mkdir -p $XDG_RUNTIME_DIR/ranger/
-			rm -rf $XDG_RUNTIME_DIR/ranger/sentfile
-			st -c ranger -e ranger --choosefile=$XDG_RUNTIME_DIR/ranger/sentfile
-			if [ -f $XDG_RUNTIME_DIR/ranger/sentfile ]; then
-					mconnectctl share-file "$2" "$(cat $XDG_RUNTIME_DIR/ranger/sentfile)" 
-			fi
+	*'Send File')
+			mkdir -p $XDG_RUNTIME_DIR/lf/
+			rm -rf $XDG_RUNTIME_DIR/lf/sentfile
+			st -c ranger -e lf -selection-path "$XDG_RUNTIME_DIR/lf/sentfile"
+			if [ -f $XDG_RUNTIME_DIR/lf/sentfile ]; then
+					mconnectctl share-file "$2" "$(cat $XDG_RUNTIME_DIR/lf/sentfile)"
 	    fi;;
-	*'Send SMS' ) 
+	*'Send SMS' )
 	    message=$(echo 'OTW' | dmenu -i -p "Msg to send")
 	    recipient=$(echo '14039199518' | dmenu -i -p "Recipient's phone #")
 	    mconnectctl send-sms "$2" "$message"  "$recipient" ;;
-	*'Send URL' ) 
+	*'Send URL' )
 	    message=$(echo 'Clipboard' | dmenu -i -p "Enter Url:")
 			if [ "$message" = "Clipboard" ]; then
 				message=$(sselp)
 			fi
 	    mconnectctl share-url "$2" "$message";;
-	*'Send Text' ) 
+	*'Send Text' )
 	    message=$(echo 'Clipboard' | dmenu -i -p "Enter Text:")
 			if [ "$message" = "Clipboard" ]; then
 				message=$(sselp)
 			fi
 	    mconnectctl share-text "$2" "$message";;
-	*'Disconnect' ) 
+	*'Disconnect' )
 	    mconnectctl disallow-device "$2"
 	esac
 }

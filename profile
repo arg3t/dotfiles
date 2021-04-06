@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Fixes for some bugs
+# Vars for some bugs and applications
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export AWT_TOOLKIT=MToolkit
@@ -22,6 +22,7 @@ export XDG_CONFIG_DIRS="/etc/xdg"
 export XDG_RUNTIME_DIR="/run/user/1000"
 
 # Cleanup Home Directory
+export HISTFILE="$XDG_DATA_HOME"/history
 export TMUX_PLUGIN_MANAGER_PATH="$XDG_DATA_HOME"/tmux/plugins
 export BORG_KEYS_DIR="$XDG_DATA_HOME"/keys/borg
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
@@ -92,10 +93,12 @@ fi
 # Start xinit if logged in from tty1
 if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ]; then
   if [ "$DBUS_SESSION_BUS_ADDRESS" = "" ] && [ ! $(command -v dbus-launch)  = "" ]; then
-    sleep 2
-    exec xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit || exit
+    sleep 1
+    exec xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
   else
-    sleep 2
-    exec xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit || exit
+    sleep 1
+    exec xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
   fi
+  exit
 fi
+

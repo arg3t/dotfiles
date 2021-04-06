@@ -74,3 +74,5 @@ do
     exec dwm > $XDG_RUNTIME_DIR/dwm.log 2> $XDG_RUNTIME_DIR/dwm.err
     sleep 0.2
 done
+
+firefox-sync

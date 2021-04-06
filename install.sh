@@ -82,9 +82,6 @@ chmod +x $HOME/.zshenv
 mvie ~/.profile ~/.dotfiles_backup/profile
 ln -sf ~/.dotfiles/profile ~/.profile
 
-mvie ~/.bash_logout ~/.dotfiles_backup/bash_logout
-ln -sf ~/.dotfiles/bash_logout ~/.bash_logout
-
 cp ~/.dotfiles/config.env.def ~/.config.env
 
 # Downloading assets
@@ -152,21 +149,24 @@ touch "$_Z_DATA"
 
 # Root Files and Directories
 sudo mkdir -p /usr/share/xsessions
+sudo mkdir -p /etc/security
 sudo cp ~/.dotfiles/root/dwm.desktop /usr/share/xsessions
+sudo cp ~/.dotfiles/root/pam_env.conf /etc/security/pam_env.conf
 sudo cp ~/.dotfiles/root/issue /etc/issue
 sudo cp ~/.dotfiles/root/motd /etc/motd
 sudo cp ~/.dotfiles/root/nancyj.flf /usr/share/figlet/fonts
 if [ "$(grep artix < $(uname -a))" = "" ]; then
   sudo cp ~/.dotfiles/root/quark /etc/init.d
+  sudo rc-update add quark
 else
   sudo cp ~/.dotfiles/root/quark.service /usr/lib/systemd/system
+  sudo systemctl enable quark
 fi
 sudo cp ~/.dotfiles/root/kdialog /usr/local/bin/kdialog
 sudo cp ~/.dotfiles/root/udevil.conf /etc/udevil/udevil.conf
 sudo chmod +x /usr/local/bin/kdialog
 sudo systemctl daemon-reload
 sudo groupadd nogroup
-sudo systemctl enable quark
 
 if [ "$username" = "yigit" ]; then
   ~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)
@@ -174,6 +174,17 @@ if [ "$username" = "yigit" ]; then
   git config --global user.email "yigitcolakoglu@hotmail.com"
   git config --global user.name "Yigit Colakoglu"
 fi
+
+# Setup for pam-gnupg
+sudo cat << EOF >> /etc/pam.d/system-local-login
+
+session  optional  pam_env.so user_readenv=1
+auth     optional  pam_gnupg.so store-only
+session  optional  pam_gnupg.so
+EOF
+
+echo "allow-preset-passphrase" >> $GNUPGHOME/gpg-agent.conf
+echo "max-cache-ttl 172800" >> $GNUPGHOME/gpg-agent.conf
 
 # Build and Install Everything
 ## Suckless utilities
@@ -192,7 +203,6 @@ sudo npm install -g parcel-bundler
 npm install > /dev/null 2> /dev/null
 npm run build > /dev/null 2> /dev/null
 cd $prev
-
 
 # Vim and tmux plugins
 mkdir -p ~/.tmux/plugins

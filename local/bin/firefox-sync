@@ -3,7 +3,6 @@
 source ~/.profile
 
 if [ ! "$BROWSER" = "firefox" ]; then
-	echo "Default browser is not firefox, exiting..."
 	exit 0
 fi
 

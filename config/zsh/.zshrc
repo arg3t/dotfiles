@@ -16,7 +16,6 @@ compinit
 compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
 
 [[ ! -d  "$XDG_DATA_HOME"/zsh/history ]] || source  "$XDG_DATA_HOME"/zsh/history
-HISTFILE="$XDG_DATA_HOME"/zsh/history
 HISTSIZE=100000
 SAVEHIST=100000
 setopt appendhistory

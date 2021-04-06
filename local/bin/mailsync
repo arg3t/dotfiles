@@ -47,7 +47,7 @@ case "$(uname)" in
 		displays="$(echo "$pgrepoutput" | grep -wo "[0-9]*:[0-9]\+" | sort -u)"
 		notify() { [ -n "$pgrepoutput" ] && for x in ${displays:-:0}; do
 				export DISPLAY=$x
-				notify-send --app-name="mutt-wizard" "mutt-wizard" "ﯬ $2 new mail(s) in \`$1\` account."
+				notify-send --app-name="mutt-wizard" "ﯬ $2 new mail(s) in \`$1\` account."
 			done ;}
 		messageinfo() { [ -n "$pgrepoutput" ] && for x in ${displays:-:0}; do
 				export DISPLAY=$x

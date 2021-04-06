@@ -17,6 +17,9 @@ notmuch
 msmtp
 isync
 pass
+pass-otp
+newsboat
+pam-gnupg
 libgee
 calcurse
 neomutt
