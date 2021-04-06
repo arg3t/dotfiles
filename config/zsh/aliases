@@ -8,14 +8,16 @@ alias open=xdg-open
 alias rm="rm -i"
 alias clip="xclip -selection clipboard"
 alias g="git "
-alias t="TERM=screen-256color-bce tmux"
-alias tn="TERM=screen-256color-bce tmux new -s "
-alias tat="TERM=screen-256color-bce tmux a  -t "
+alias tmux="TERM=screen-256color-bce tmux"
+alias t="tmux"
+alias tn="tmux new -s "
+alias tat="tmux a  -t "
 alias yain="yay -Syu "
 alias ls="ls --color"
 alias yay="yay --sudoloop"
 alias lf=lf-ueberzug
 alias vim=nvim
+alias weechat="tat weechat"
 
 # Suffix aliases
 alias -g G=" | rg"

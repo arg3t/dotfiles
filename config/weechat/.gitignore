@@ -1,3 +1,4 @@
 logs
 logs/**
 *.log
+weechat.log
