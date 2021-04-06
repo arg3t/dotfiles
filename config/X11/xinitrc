@@ -64,7 +64,7 @@ xset dpms 600 600 600
 
 
 $BROWSER &
-#bitwarden-desktop &
+pass 2> /dev/null > /dev/null && qtpass &
 
 touch ~/.cache/dwm-restart
 while [ -f /home/yigit/.cache/dwm-restart ];

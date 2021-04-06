@@ -11,6 +11,7 @@ static const Rule rules[] = {
 	RULE(.class = "firefox", .tags = 1 << 1)
 	RULE(.class = "tabbed-surf", .tags = 1 << 1)
 	RULE(.class = "bitwarden", .tags = 1 << 6)
+	RULE(.class = "QtPass", .tags = 1 << 6)
 	RULE(.class = "Bitwarden", .tags = 1 << 6)
 	RULE(.class = "Mailspring", .tags = 1 << 7)
 	RULE(.class = "Thunderbird", .tags = 1 << 7)
