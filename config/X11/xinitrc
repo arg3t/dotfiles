@@ -66,6 +66,9 @@ xset dpms 600 600 600
 $BROWSER &
 pass 2> /dev/null > /dev/null && qtpass &
 
+redshift -x 2> /dev/null > /dev/null
+redshift -r -l "$LATLONG" > /dev/null 2> /dev/null &
+
 touch ~/.cache/dwm-restart
 while [ -f /home/yigit/.cache/dwm-restart ];
 do

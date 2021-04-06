@@ -7,6 +7,7 @@ static Block blocks[] = {
 	{ "", PATH("dunst"),				  120,		18},
 	{ "", PATH("mail"),					  120,		23},
 	{ "", PATH("keyboard"),			  120,		24},
+	{ "", PATH("redshift"),			  120,		29},
 	{ "", PATH("mpc"),				  	240,		29},
 	{ "", PATH("bluetooth"),		  120,		26},
 	{ "", PATH("mconnect"),			  120,		20},
