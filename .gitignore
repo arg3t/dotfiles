@@ -1,8 +1,0 @@
-*.otf
-*.ttf
-
-*.otf*
-*.ttf*
-
-.ccls-cache
-.ccls-cache/**
