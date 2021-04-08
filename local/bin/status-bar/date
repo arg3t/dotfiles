@@ -30,7 +30,7 @@ if [ ! "$next" = "" ]; then
     if [ "$(grep "$name" "$XDG_CACHE_HOME/calcurse")" = "" ]; then
       time=$(calcurse -a | grep -E "\s*$name\$" -B 1 | head -n 1 | cut -c4-8)
       echo "$name" > "$XDG_CACHE_HOME/calcurse"
-      canberra-gtk-play -i message -V 20
+      canberra-gtk-play -i bell -V 20
       dunstify -a "  Event approaching" "[$time] $name"
     fi
   fi

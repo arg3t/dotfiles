@@ -50,3 +50,6 @@ libexif
 libxft
 udevil
 redshift
+python-notify2
+python-gobject
+gsound

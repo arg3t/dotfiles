@@ -64,9 +64,10 @@ SETTINGS = {
 # -----------------------------------------------------------------------------
 try:
     import re
-    import os
     import weechat
+    import gi
     import notify2
+    import subprocess
     IMPORT_OK = True
 except ImportError as error:
     IMPORT_OK = False
@@ -413,11 +414,14 @@ def a_notify(notification, title, description, priority=notify2.URGENCY_LOW):
     if weechat.config_get_plugin('sticky_away') == 'on' and is_away:
         time_out = 0
     try:
-        notify2.init("wee-notifier")
-        wn = notify2.Notification(title, description, icon)
-        wn.set_urgency(priority)
-        wn.set_timeout(time_out)
-        wn.show()
+        #  notify2.init("wee-notifier")
+        #  wn = notify2.Notification(title, description, icon)
+        #  wn.set_urgency(priority)
+        #  wn.set_timeout(time_out)
+        #  wn.show()
+        subprocess.run(["notify-send", "-a", "  WeeChat", title, description])
+        if title != "Server Connected" and title != "Server Disconnected":
+            subprocess.run(["canberra-gtk-play", "-i", "message-new-instant", "-V", "15"])
     except Exception as error:
         weechat.prnt('', 'anotify: {0}'.format(error))
 

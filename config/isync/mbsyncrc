@@ -15,8 +15,8 @@ Inbox /home/yigit/.local/share/mail/yigitcolakoglu@hotmail.com/INBOX
 
 Channel yigitcolakoglu@hotmail.com
 Expunge Both
-Master :yigitcolakoglu@hotmail.com-remote:
-Slave :yigitcolakoglu@hotmail.com-local:
+Far :yigitcolakoglu@hotmail.com-remote:
+Near :yigitcolakoglu@hotmail.com-local:
 Patterns * !"[Gmail]/All Mail"
 Create Both
 SyncState *

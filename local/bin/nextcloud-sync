@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $HOME/.config/nextcloud/nextcloud
+$HOME/.config/nextcloud/nextcloud
 
 rm -rf $XDG_RUNTIME_DIR/nextcloud.out
 rm -rf $XDG_RUNTIME_DIR/nextcloud.err
@@ -14,5 +14,3 @@ done
 
 echo $(date '+%R') > $HOME/.cache/nextcloud-track
 kill -59 $(pidof dwmblocks)
-
-

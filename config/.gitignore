@@ -43,6 +43,8 @@
 !newsboat/**
 !nextcloud
 !nextcloud/**
+!screen
+!screen/**
 !notmuch
 !notmuch/**
 !pulse

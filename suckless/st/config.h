@@ -124,6 +124,8 @@ static const char *colorname[] = {
   /* special colors */
   [256] = "#0f111a", /* background */
   [257] = "#d8dee9", /* foreground */
+
+  /* More special colors */
 };
 
 /*
@@ -225,6 +227,8 @@ static Shortcut shortcuts[] = {
 	{ MODKEY,               XK_d,           kscrolldown,    {.i = -1} },
 	{ MODKEY,               XK_k,           kscrollup,      {.i = 2} },
 	{ MODKEY,               XK_j,           kscrolldown,    {.i = 2} },
+	{ MODKEY,		XK_s,		changealpha,	{.f = -0.05} },
+	{ MODKEY,		XK_a,		changealpha,	{.f = +0.05} },
 };
 
 /*

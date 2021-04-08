@@ -1,24 +1,32 @@
 [submodule "misc/ranger/plugins/devicons2"]
 	path = misc/ranger/plugins/devicons2
 	url = https://github.com/cdump/ranger-devicons2.git
+	shallow = true
 [submodule "misc/ranger/plugins/devicons"]
 	path = misc/ranger/plugins/devicons
 	url = https://github.com/cdump/ranger-devicons2
+	shallow = true
 [submodule "gtk/Tela-icon-theme"]
 	path = theming/Tela-icon-theme
 	url = https://github.com/vinceliuice/Tela-icon-theme.git
+	shallow = true
 [submodule "gtk/themes/material-ocean"]
 	path = theming/themes/material-ocean
 	url = https://github.com/material-ocean/Gtk-Theme.git
+	shallow = true
 [submodule "local/share/icons/Tela-Icons"]
 	path = local/share/icons/Tela-Icons
 	url = https://github.com/vinceliuice/Tela-icon-theme.git
+	shallow = true
 [submodule "local/share/themes/Material-Ocean"]
 	path = local/share/themes/Material-Ocean
 	url = https://github.com/material-ocean/Gtk-Theme
+	shallow = true
 [submodule "local/share/themes/material-ocean"]
 	path = local/share/themes/material-ocean
 	url = https://github.com/material-ocean/Gtk-Theme
+	shallow = true
 [submodule "config/ranger/plugins/devicons"]
 	path = config/ranger/plugins/devicons
 	url = https://github.com/cdump/ranger-devicons2.git
+	shallow = true

@@ -30,7 +30,7 @@ textarea {
 
 :root {
   /* colors */
-  --main: hsl(220, 21%, 17%);
+  --main:	hsl(229, 27%, 8%);
   --main-light: hsl(30, 35%, 40%);
   --module-background: hsl(31, 77%, 60%);
   --search-background: hsl(4, 100%, 74%);

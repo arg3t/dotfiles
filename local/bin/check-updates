@@ -24,7 +24,7 @@ Check your internet connection, if pacman is already running, or run update manu
 if pacman -Qu | grep -v "\[ignored\]"
 then
 	checkupdates 2> /dev/null > ~/.cache/pacman_updates
-	notify " Repository Sync" "$(pacman -Qu | grep -v "\[ignored\]" | wc -l) Updates available. Click statusbar icon () for update."
+	notify " Repository Sync" "$(pacman -Qu | grep -v "\[ignored\]" | wc -l) Updates available. Click statusbar icon (  ) for update."
 else
 	notify " Repository Sync"  "Sync complete. No new packages for update."
 fi

@@ -59,7 +59,7 @@ export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
 export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME"/pass
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
-
+export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 
 # Setup PATH
 export PATH=$ANDROID_HOME/tools:$PATH
@@ -81,7 +81,6 @@ export LF_ICONS
 # Setup dbus
 case "$(readlink -f /sbin/init)" in
 	*systemd*) export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ;;
-  *) eval "$(dbus-launch --exit-with-session --sh-syntax)"
 esac
 
 # Setup SSH
@@ -93,10 +92,8 @@ fi
 # Start xinit if logged in from tty1
 if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ]; then
   if [ "$DBUS_SESSION_BUS_ADDRESS" = "" ] && [ ! $(command -v dbus-launch)  = "" ]; then
-    sleep 1
-    exec xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
+    exec dbus-launch --exit-with-session xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
   else
-    sleep 1
     exec xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
   fi
   exit

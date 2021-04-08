@@ -67,26 +67,19 @@
     frame_color = "#E5E9F0"
     timeout = 0
 
-[irc]
-        appname = weechat
-        timeout = 0
-        background = "#0033bb"
-        foreground = "#dddddd"
-#
-[weechat hl]
-     appname = weechat
-     category = weechat.HL
-     background = "#FF5C47"
-     foreground = "#FFFFFF"
-#
-[weechat pn]
-     appname = weechat
-     category = weechat.PM
-     background = "#D53B84"
-     foreground = "#FFFFFF"
-[Spotify]
-	appname = Spotify
-	frame_color = "#30AB70"
-	timeout = 5
+[volume]
+        appname = 蓼 Volume
+        history_ignore = yes
 
+[screensaver]
+        appname =   System
+        history_ignore = yes
+
+[notification]
+        appname =   Notifications
+        history_ignore = yes
+
+[keyboard]
+        appname =   Keyboard
+        history_ignore = yes
 # vim: ft=cfg

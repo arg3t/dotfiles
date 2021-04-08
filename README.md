@@ -22,7 +22,7 @@ Have fun! Another copy of all of this is [here](https://git.yigitcolakoglu.com/y
 Just run 
 
 ```sh
-git clone --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotfiles && ~/.dotfiles/install.sh
+git clone --depth 4 --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotfiles && ~/.dotfiles/install.sh
 ```
 
 This will download everything you need. After that, I have a list of all the packages I have installed on my machine in the directory arch-setup/.
