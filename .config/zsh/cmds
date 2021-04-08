@@ -1,0 +1,146 @@
+#!/usr/bin/zsh
+
+count() {
+        echo -n $1 | wc -c
+}
+
+dec() {
+	echo "obase=10; ibase=16; $(echo "$1" | tr a-z A-Z)" | bc
+}
+
+hex() {
+	echo "obase=16; ibase=10; $1" | bc
+}
+
+colors() {
+    color=1;
+    count=0;
+    space="   ";
+    while [ $color -lt 256 ]; do
+        if [[ $color == 10 ]]
+        then
+            space="  "
+        fi
+        if [[ $color == 100 ]]
+        then
+            space=" "
+        fi
+        echo -en "$color:$space\\033[38;5;${color}myeet\\033[48;5;${color}mworld\\033[0m"
+        echo -n "  "
+        if [[ $count == 7 ]]
+        then
+            echo -en "\n";
+            count=-1
+        fi
+        ((color++));
+        ((count++))
+    done
+    echo ""
+}
+
+
+# TMATE Functions
+
+TMATE_PAIR_NAME="$(whoami)-pair"
+TMATE_SOCKET_LOCATION="$XDG_RUNTIME_DIR/tmate-pair.sock"
+TMATE_TMUX_SESSION="$XDG_RUNTIME_DIR/tmate-tmux-session"
+
+# Get current tmate connection url
+tmate-url() {
+  url="$(tmate -S $TMATE_SOCKET_LOCATION display -p '#{tmate_ssh}')"
+  echo "$url" | tr -d '\n' | xclip -selection clipboard
+  echo "Copied tmate url for $TMATE_PAIR_NAME:"
+  echo "$url"
+}
+
+# Get current tmate connection url
+tmate-url-ro() {
+  url="$(tmate -S $TMATE_SOCKET_LOCATION display -p '#{tmate_ssh_ro}')"
+  echo "$url" | tr -d '\n' | xclip -selection clipboard
+  echo "Copied tmate url for $TMATE_PAIR_NAME:"
+  echo "$url"
+}
+
+
+# Start a new tmate pair session if one doesn't already exist
+# If creating a new session, the first argument can be an existing TMUX session to connect to automatically
+
+tmate-attach() {
+  if [ -n "$1" ]; then
+    tmux has-session -t $1 2>/dev/null
+
+    if [ $? != 0 ]; then
+      echo "Tmux session not found... Creating"
+      tmux new-session -d -s $1
+      sleep 1
+    fi
+
+    echo "Attaching tmate to tmux session $1";
+    echo $1 > $TMATE_TMUX_SESSION
+    tmate -S "$TMATE_SOCKET_LOCATION" send -t "$TMATE_PAIR_NAME" "TMUX='' tmux attach-session -t $1; tmate-unpair" ENTER
+  fi
+}
+
+
+tmate-pair() {
+  if [ -z "$(pass show "AppPass/tmate.com/api-key")" ]; then
+    echo "You need an api key."
+    return
+  fi
+
+  if [ ! -e "$TMATE_SOCKET_LOCATION" ]; then
+    tmate -k $(pass show "AppPass/tmate.com/api-key") -r "sharedProgramming" -S "$TMATE_SOCKET_LOCATION" -f "$HOME/.tmate.conf" new-session -d -s "$TMATE_PAIR_NAME"
+    tmate -S $TMATE_SOCKET_LOCATION display -p '#{tmate_ssh_ro}'
+
+    while [ -z "$url" ]; do
+      url="$(tmate -S $TMATE_SOCKET_LOCATION display -p '#{tmate_ssh_ro}')"
+    done
+    echo "$url" | tr -d '\n' | xclip -selection clipboard
+    echo "Copied tmate url for $TMATE_PAIR_NAME:"
+    echo "$url"
+    tmate -S "$TMATE_SOCKET_LOCATION" send -t "$TMATE_PAIR_NAME" "q" ENTER
+    sleep 1
+    tmate-attach $1
+    sleep 2
+  fi
+  tmate -S "$TMATE_SOCKET_LOCATION" attach-session -t "$TMATE_PAIR_NAME"
+}
+
+# Colored man
+man() {
+    LESS_TERMCAP_md=$'\e[01;31m' \
+    LESS_TERMCAP_me=$'\e[0m' \
+    LESS_TERMCAP_so=$'\e[01;44;33m' \
+    LESS_TERMCAP_se=$'\e[0m' \
+    LESS_TERMCAP_us=$'\e[01;32m' \
+    LESS_TERMCAP_ue=$'\e[0m' \
+    command man "$@"
+}
+
+
+genccls() {
+cat > .ccls << EOF
+-I
+../include
+-I
+../vendor/include
+-std=c++14
+-stdlib=libc++
+-fPIC
+EOF
+}
+
+# Close the pair because security
+tmate-unpair() {
+  if [ -e "$TMATE_SOCKET_LOCATION" ]; then
+    if [ -e "$TMATE_SOCKET_LOCATION" ]; then
+      tmux detach -s $(cat $TMATE_TMUX_SESSION)
+      rm -f $TMATE_TMUX_SESSION
+    fi
+
+    tmate -S "$TMATE_SOCKET_LOCATION" kill-session -t "$TMATE_PAIR_NAME"
+    echo "Killed session $TMATE_PAIR_NAME"
+  else
+    echo "Session already killed"
+  fi
+}

@@ -1,0 +1,48 @@
+#!/usr/bin/zsh
+
+alias feh="feh --scale-down --auto-zoom --no-fehbg"
+alias cclear="$(which clear)"
+alias clear="clear && paleofetch"
+alias neofetch="neofetch --ascii ~/.config/neofetch/ascii.txt"
+alias open=xdg-open
+alias rm="rm -i"
+alias clip="xclip -selection clipboard"
+alias g="git "
+alias tmux="TERM=screen-256color-bce tmux"
+alias t="tmux"
+alias tn="tmux new -s "
+alias tat="tmux a -t "
+alias yain="yay -Syu "
+alias ls="ls --color"
+alias yay="yay --sudoloop"
+alias lf=lf-ueberzug
+alias vim=nvim
+
+weechat(){
+   tmux has-session -t weechat 2> /dev/null
+   if [ $? != 0 ]; then
+    tmux new-session -s weechat weechat > /dev/null 2> /dev/null
+   else
+    tat weechat
+   fi
+}
+
+# Suffix aliases
+alias -g G=" | rg"
+alias gshh="gcloud cloud-shell ssh --authorize-session"
+
+# Git
+alias ga="git add"
+alias gcl="git clone --recursive --depth=16"
+alias gc="git commit"
+alias gcm="git commit -m"
+alias gp="git push"
+alias gpall="git remote | xargs -I R git push R"
+alias gpl="git pull"
+
+# Homedir Cleanup
+alias wget="wget --hsts-file=\"$XDG_CACHE_HOME/wget-hsts\""
+alias yarn="yarn --use-yarnrc $XDG_CONFIG_HOME/yarn/config"
+alias tmate="tmate -f $XDG_CONFIG_HOME/tmate/tmate.conf"
+alias mc="mc --config-dir=$XDG_CONFIG_HOME/mc"
+alias abook="abook --config \"$XDG_CONFIG_HOME\"/abook/abookrc --datafile \"$XDG_DATA_HOME\"/abook/addressbook"
