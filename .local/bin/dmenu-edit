@@ -3,13 +3,14 @@
 DMENU='dmenu  -z 1900 -x 10 -y 10 -i'
 blacklist="powerlevel10k|secret|gitignore|log|plugins|patches|config/surf|BetterDiscord"
 whitelist="config.h|keybind.h|colors.h|color.h|rules.h"
-declare -A mappings
 
-items=$(cd ~/.config; git ls-files | grep -Ev $blacklist | sed -n "s|^|config/|p")
-scripts=$(cd ~/.local/bin ; git ls-files | grep -Ev $blacklist | sed -n "s|^|scripts/|p")
-suckless=$(cd ~/.dotfiles/suckless ; git ls-files | grep -Ev $blacklist | grep -E $whitelist | sed -n "s|^|suckless/|p")
+files="$(git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME ls-files)"
 
-selection=$(echo -e "$items\n$scripts\n$suckless" | $DMENU)
+items=$(echo "$files" | grep -Ev $blacklist | sed -n "s|^|config/|p")
+scripts=$(echo "$files" | grep -Ev $blacklist | sed -n "s|^|scripts/|p")
+suckless=$(echo "$files" | grep -Ev $blacklist | grep -E $whitelist | sed -n "s|^|suckless/|p")
+
+selection=$(printf "$items\n$scripts\n$suckless" | $DMENU)
 
 if [ ! "$selection" = "" ]; then
   if [ $(echo $selection | cut -d"/" -f 1) = "scripts" ]; then

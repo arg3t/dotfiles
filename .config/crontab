@@ -1,0 +1,6 @@
+*/8 * * * * /home/yigit/.local/bin/mailsync
+*/15 * * * * /home/yigit/.local/bin/nextcloud-sync
+0 * * * * /home/yigit/.local/bin/check-updates
+*/30 * * * * /home/yigit/.local/bin/firefox-sync
+*/30 * * * * calcurse-caldav
+*/30 * * * * vdirsyncer sync

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+shopt -s nullglob globstar
+
+typeit=0
+if [[ $1 == "--type" ]]; then
+	typeit=1
+	shift
+fi
+
+prefix=${PASSWORD_STORE_DIR-~/.password-store}
+password_files=( "$prefix"/**/*.gpg )
+password_files=( "${password_files[@]#"$prefix"/}" )
+password_files=( "${password_files[@]%.gpg}" )
+
+folder=$(printf '%s\n' "${password_files[@]}" | cut -d"/" -f1 | sort | uniq | dmenu -l 10 -p "Folder" -i "$@")
+[[ -n $folder ]] || exit
+site=$(printf '%s\n' "${password_files[@]}" | cut -d"/" -f2 | sort | uniq | dmenu -l 10 -p "Site" -i "$@")
+[[ -n $site ]] || exit
+username=$(printf '%s\n' "${password_files[@]}" | cut -d"/" -f3 | sort | uniq | dmenu -l 10 -p "Username" -i "$@")
+[[ -n $username ]] || exit
+
+pass generate "$folder/$site/$username"
+
+notify-send -a " Password Manager" "Generate and saved new password";
+pass git add .
+pass git commit -m "Added $folder/$site/$username"
+pass git push
