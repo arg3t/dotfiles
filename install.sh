@@ -80,7 +80,7 @@ sudo bash -c 'echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nopwd'
 
 
 eval "$(grep -h -- \
-	"^\s*\(export \)\?\(CARGO_HOME\|GOPATH\|ANDROID_HOME\|FLUTTER_HOME\|LEIN_HOME\|NVM_DIR\|GNUPGHOME\|WEECHAT_HOME\|JUPYTER_CONFIG_DIR\|PYLINTHOME\|XDG_DATA_HOME\|XDG_CONFIG_HOME\|XDG_CACHE_HOME\|_Z_DATA)=" \
+	"^\s*\(export \)\?\(CARGO_HOME\|GOPATH\|ANDROID_HOME\|FLUTTER_HOME\|LEIN_HOME\|NVM_DIR\|GNUPGHOME\|WEECHAT_HOME\|JUPYTER_CONFIG_DIR\|PYLINTHOME\|XDG_DATA_HOME\|XDG_CONFIG_HOME\|XDG_CACHE_HOME\|_Z_DATA\)=" \
 	"$HOME/.profile"  2>/dev/null)"
 
 info "Creating relevant directories"
