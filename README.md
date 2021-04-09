@@ -19,16 +19,22 @@ Have fun! Another copy of all of this is [here](https://git.yigitcolakoglu.com/y
 
 ## Installation
 
-Just run 
+I use bare repositories to track my dotfiles, of course you don't have to do that and you can download and manually link everything you need. But if
+you want to use bare repositories as well. I sugggest you clone this repository first and run the following commands.
 
 ```sh
-git clone --depth 4 --recurse-submodules https://github.com/theFr1nge/dotfiles.git ~/.dotfiles && ~/.dotfiles/install.sh
+git clone --depth 4 --bare https://github.com/<your_username>/dotfiles.git  ~/.dotfiles.git
+cd ~
+alias dots="git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME"
+dots checkout
+~/install.sh
 ```
 
 This will download everything you need. After that, I have a list of all the packages I have installed on my machine in the directory arch-setup/.
 If you have any problems regarding the setup, you should first check whether you have missing packages. 
 After the clone process, it is pretty straightforward, you can run the `install.sh` script which creates necessary symlinks. 
 You might want to edit your crontab and the ~/.config/config.env.
+
 ## Some eye candy
 
 ![Workspace 1](https://minio.yigitcolakoglu.com/screenshots/rice/neofetch.png) 
