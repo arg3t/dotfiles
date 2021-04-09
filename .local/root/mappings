@@ -1,0 +1,9 @@
+dwm.desktop -> /usr/share/xsessions
+pam_env.conf -> /etc/security/pam_env.conf
+issue -> /etc/issue
+motd -> /etc/motd
+nancyj.flf -> /usr/share/figlet/fonts
+quark -> /etc/init.d
+quark.service -> /usr/lib/systemd/system
+kdialog -> /usr/local/bin/kdialog
+udevil.conf -> /etc/udevil/udevil.conf

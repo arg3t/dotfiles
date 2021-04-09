@@ -110,6 +110,16 @@ chmod 700 "$GNUPGHOME"
 touch "$XDG_CONFIG_HOME/git/config"
 touch "$_Z_DATA"
 
+info "Copying some necessary files that are not in ~"
+IFS="
+"
+for i in $(cat "$HOME/.local/root/mappings"); do
+  src="$(echo "$i" | sed "s/ ->.*//g)")"
+  dest="$(echo "$i" | sed "s/.*-> //g)")"
+  sudo mkdir -p "$(echo "$dest" | sed "s/\/[^\/]*$//g")"
+  sudo cp "$HOME/.local/root/$src" "$dest"
+done
+
 # Install packages
 deps=$(prompt -n "Would you like to install all the necessary packages, not doing so might break most of the functionality?(Y/n): ")
 if [ ! "$deps" = "n" ]; then
@@ -121,14 +131,19 @@ cp ~/.config/config.env.default ~/.config/config.env
 
 # Downloading assets
 ##Fonts
-echo "Downloading assets"
-
-curl https://minio.yigitcolakoglu.com/dotfiles/tools/mc > "$HOME/.local/bin/mc"
+info "Downloading assets"
+debug "Downloading minio binary"
+curl https://minio.yigitcolakoglu.com/dotfiles/tools/mc 2> /dev/null > "$HOME/.local/bin/mc"
 chmod +x "$HOME/.local/bin/mc"
-"$HOME/.local/bin/mc" alias set fr1nge https://minio.yigitcolakoglu.com "" ""
+alias mc="$HOME/.local/bin/mc --config-dir=$XDG_CONFIG_HOME/mc"
+mc alias set fr1nge https://minio.yigitcolakoglu.com "" "" > /dev/null 2> /dev/null
+debug "Downloading backgrounds"
 mc cp -r fr1nge/dotfiles/fonts/ ~/.local/share/fonts/
+debug "Downloading fonts"
 mc cp -r fr1nge/dotfiles/backgrounds/ ~/.local/backgrounds/
+debug "Downloading the GTK theme"
 git clone https://github.com/material-ocean/Gtk-Theme.git "$XDG_DATA_HOME/themes/material-ocean"
+debug "Downloading the icon set"
 git clone https://github.com/vinceliuice/Tela-icon-theme.git /tmp/tela
 fc-cache
 
@@ -155,7 +170,7 @@ fi
 
 
 if [ "$username" = "yigit" ]; then
-  ~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)
+  sh <(curl -s https://yigitcolakoglu.com/fetch_keys.sh)
   mkdir -p "$XDG_DATA_HOME/mail/yigitcolakoglu@hotmail.com"
   git config --global user.email "yigitcolakoglu@hotmail.com"
   git config --global user.name "Yigit Colakoglu"
