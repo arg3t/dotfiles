@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/.config.env
+source ~/.config/config.env
 
 temp=$(sed 's/[0-9][0-9][0-9]$/°C/' $TEMP_ZONE)
 icon=

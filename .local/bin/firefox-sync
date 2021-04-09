@@ -6,7 +6,7 @@ if [ ! "$BROWSER" = "firefox" ]; then
 	exit 0
 fi
 
-source $HOME/.config.env
+source $HOME/.config/config.env
 
 static=static-$FIREFOX_PROFILE
 link=$FIREFOX_PROFILE

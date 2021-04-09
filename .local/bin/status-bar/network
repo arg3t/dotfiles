@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/.config.env
+source ~/.config/config.env
 
 is_eth_used=$(cat /sys/class/net/$ETH_IT/carrier)
 is_wlan_used=$(cat /sys/class/net/$WLAN_IT/carrier)

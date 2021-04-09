@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $HOME/.config.env
+source $HOME/.config/config.env
 
 pid=$(pidof redshift)
 

@@ -28,7 +28,7 @@ git clone --depth 4 --recurse-submodules https://github.com/theFr1nge/dotfiles.g
 This will download everything you need. After that, I have a list of all the packages I have installed on my machine in the directory arch-setup/.
 If you have any problems regarding the setup, you should first check whether you have missing packages. 
 After the clone process, it is pretty straightforward, you can run the `install.sh` script which creates necessary symlinks. 
-You might want to edit your crontab and the ~/.config.env.
+You might want to edit your crontab and the ~/.config/config.env.
 ## Some eye candy
 
 ![Workspace 1](https://minio.yigitcolakoglu.com/screenshots/rice/neofetch.png) 

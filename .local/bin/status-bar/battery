@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/.config.env
+source ~/.config/config.env
 
 ramp10=
 ramp20=

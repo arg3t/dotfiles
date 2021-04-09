@@ -10,7 +10,7 @@ echo "$DBUS_SESSION_BUS_ADDRESS" > /tmp/bus-session
 
 rm -rf $XDG_RUNTIME_DIR/day_cache
 
-source ~/.config.env
+source ~/.config/config.env
 gpgconf --dry-run --create-socketdir
 
 #eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)

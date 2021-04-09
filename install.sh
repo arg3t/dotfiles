@@ -82,7 +82,7 @@ chmod +x $HOME/.zshenv
 mvie ~/.profile ~/.dotfiles_backup/profile
 ln -sf ~/.dotfiles/profile ~/.profile
 
-cp ~/.dotfiles/config.env.def ~/.config.env
+cp ~/.dotfiles/config.env.def ~/.config/config.env
 
 # Downloading assets
 ##Fonts
