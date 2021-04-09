@@ -1,9 +1,0 @@
-*
-!.gitignore
-!fonts
-!icons
-!themes
-!applications/**
-!vim
-!nerdfont_icons
-!vim/**
