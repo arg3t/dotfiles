@@ -6,18 +6,18 @@ whitelist="config.h|keybind.h|colors.h|color.h|rules.h"
 
 files="$(git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME ls-files)"
 
-items=$(echo "$files" | grep -Ev $blacklist | sed -n "s|^|config/|p")
-scripts=$(echo "$files" | grep -Ev $blacklist | sed -n "s|^|scripts/|p")
-suckless=$(echo "$files" | grep -Ev $blacklist | grep -E $whitelist | sed -n "s|^|suckless/|p")
+items=$(echo "$files" | grep -Ev $blacklist)
+scripts=$(echo "$files" | grep -Ev $blacklist)
+suckless=$(echo "$files" | grep -Ev $blacklist | grep -E $whitelist)
 
 selection=$(printf "$items\n$scripts\n$suckless" | $DMENU)
 
 if [ ! "$selection" = "" ]; then
   if [ $(echo $selection | cut -d"/" -f 1) = "scripts" ]; then
-    st -c vim -n vim -e $EDITOR "$(echo $selection | sed -n "s|scripts/|$HOME/.dotfiles/local/bin/|p")"
+    st -c vim -n vim -e $EDITOR "$HOME/$selection"
   elif [ $(echo $selection | cut -d"/" -f 1) = "suckless" ]; then
-    st -c vim -n vim -e $EDITOR "$(echo $selection | sed -n "s|suckless/|$HOME/.dotfiles/suckless/|p")"
+    st -c vim -n vim -e $EDITOR "$HOME/$selection"
   else
-    st -c vim -n vim -e $EDITOR "$(echo $selection | sed -n "s|config/|$HOME/.dotfiles/config/|p")"
+    st -c vim -n vim -e $EDITOR "$HOME/$selection"
   fi
 fi

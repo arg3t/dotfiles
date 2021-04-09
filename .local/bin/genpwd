@@ -17,10 +17,10 @@ folder=$(printf '%s\n' "${password_files[@]}" | cut -d"/" -f1 | sort | uniq | dm
 [[ -n $folder ]] || exit
 site=$(printf '%s\n' "${password_files[@]}" | cut -d"/" -f2 | sort | uniq | dmenu -l 10 -p "Site" -i "$@")
 [[ -n $site ]] || exit
-username=$(printf '%s\n' "${password_files[@]}" | cut -d"/" -f3 | sort | uniq | dmenu -l 10 -p "Username" -i "$@")
+username=$(printf '%s\n' "${password_files[@]}" | cut -d"/" -f3 | sort | uniq | dmenu -l 10 -p "Username" "$@")
 [[ -n $username ]] || exit
 
-pass generate "$folder/$site/$username"
+pass generate -c "$folder/$site/$username"
 
 notify-send -a " Password Manager" "Generate and saved new password";
 pass git add .

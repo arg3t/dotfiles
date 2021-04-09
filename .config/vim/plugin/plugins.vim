@@ -52,7 +52,6 @@ Plug 'christoomey/vim-tmux-navigator'
 
 " File system navigation
 Plug 'tpope/vim-eunuch'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 " Syntax highlighting
