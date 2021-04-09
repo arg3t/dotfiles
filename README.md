@@ -26,8 +26,7 @@ you want to use bare repositories as well. I sugggest you clone this repository 
 git clone --depth 4 --bare https://github.com/<your_username>/dotfiles.git  ~/.dotfiles.git
 cd ~
 alias dots="git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME"
-dots checkout
-~/install.sh
+dots show main:install.sh | sh
 ```
 
 This will download everything you need. After that, I have a list of all the packages I have installed on my machine in the directory arch-setup/.

@@ -1,8 +1,18 @@
 #!/bin/bash
 
-source ~/.dotfiles/profile
-
+alias dots="git --git-dir=\$HOME/.dotfiles.git/ --work-tree=\$HOME"
 username=$(whoami)
+prev=$(pwd)
+verbose=0
+
+while getopts "v" OPTION
+do
+  case $OPTION in
+    v) verbose=1
+       ;;
+    *) echo "Only available option is -v" ;;
+  esac
+done
 
 mvie(){
   if [ -e "$1" ];then
@@ -11,118 +21,69 @@ mvie(){
   fi
 }
 
-# Configuring for your username
-if [ ! "$username" = "yigit" ]; then
-  echo "Setting up the dotfiles according to your username"
-  find . -type f -exec sed -i "s/\/home\/yigit/\/home\/$username/g" "{}" +
-fi
+info(){
+  printf "[\e[32mINFO\e[0m]:%s\n" "$1"
+}
 
-# Don't prompt for a password for the rest of the script
-sudo bash -c 'echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nopwd'
+debug(){
+  if [ $verbose ]; then
+    printf "[\e[33mDEBUG\e[0m]:%s\n" "$1"
+  fi
+}
 
-# Install packages
-echo -n "Would you like to install all the necessary packages, not doing so might break most of the functionality?(Y/n): "
-read deps
-if [ ! "$deps" = "n" ]; then
-  echo "Running update"
-  yay -S --needed --noconfirm $(cat ~/.dotfiles/arch-setup/packages.rice) && exit 1
-fi
+error(){
+  printf "[\e[31mERROR\e[0m]:%s\n" "$1"
+}
 
-rm -rf ~/.dotfiles_backup
-mkdir -p ~/.dotfiles_backup
+prompt(){
+  printf "[\e[35mPROMPT\e[0m]: %s" "$1"
+  read -r ans
+  printf "%s" "$ans"
+}
 
-# Link XDG Directories
+echo "Running backup of old dotfiles"
+IFS="
+"
 
-# Config
-mvie ~/.config ~/.dotfiles_backup
-ln -s ~/.dotfiles/config ~/.config
-for d in ~/.dotfiles_backup/config/* ; do
-  mv $d ~/.config 2> /dev/null
+# Backup Previous Dots
+info "Backing up your old dotfiles"
+## Backup eveything in the git tree
+mkdir "$HOME/dots_backup"
+for i in $(dots ls-files); do
+  if [ -f "$i" ]; then
+    debug "$i"
+    mkdir -p "$HOME/dots_backup/$(echo "$i" | sed "s/\/[^\/]*$//g")"
+    mv "$i" "$HOME/dots_backup/$(echo "$i" | sed "s/\/[^\/]*$//g")"
+  fi
+  rm -rf "$i"
 done
-
-#Local
-mkdir -p ~/.dotfiles_backup/local
-mkdir -p ~/.local
-
-## Local/Share
-mvie ~/.local/share ~/.dotfiles_backup/local/share
-ln -s ~/.dotfiles/local/share ~/.local/share
-for d in ~/.dotfiles_backup/local/share/* ; do
-  mv $d ~/.local/share 2> /dev/null
-done
-
-## Local/Bin
-mvie ~/.local/bin ~/.dotfiles_backup/local/bin
-ln -s ~/.dotfiles/local/bin ~/.local/bin
-for d in ~/.dotfiles_backup/local/bin/* ; do
-  mv $d ~/.local/bin 2> /dev/null
-done
-
-## Local/Backgrounds
-mvie ~/.local/backgrounds ~/.dotfiles_backup/local/backgrounds
-ln -s ~/.dotfiles/local/backgrounds ~/.local/backgrounds
-for d in ~/.dotfiles_backup/local/backgrounds/* ; do
-  mv $d ~/.local/backgrounds 2> /dev/null
-done
-
-## Local/Src
-mvie ~/.local/src ~/.dotfiles_backup/local/src
-ln -s ~/.dotfiles/suckless ~/.local/src
-
 ## Theme and Icon Folders
 mvie ~/.themes ~/.dotfiles_backup/themes
 ln -s ~/.dotfiles/local/share/themes ~/.themes
 mvie ~/.icons ~/.dotfiles_backup/icons
 ln -s ~/.dotfiles/local/share/icons ~/.icons
 
-# Create individual files
-echo 'ZDOTDIR=$HOME/.config/zsh' > $HOME/.zshenv
-chmod +x $HOME/.zshenv
+info "Checking out dotfiles"
+dots checkout
 
-mvie ~/.profile ~/.dotfiles_backup/profile
-ln -sf ~/.dotfiles/profile ~/.profile
-
-cp ~/.dotfiles/config.env.def ~/.config/config.env
-
-# Downloading assets
-##Fonts
-echo "Downloading assets"
-prev=$(pwd)
-
-curl https://minio.yigitcolakoglu.com/dotfiles/tools/mc > "$HOME/.local/bin/mc"
-chmod +x "$HOME/.local/bin/mc"
-$HOME/.local/bin/mc alias set fr1nge-dots https://minio.yigitcolakoglu.com "" ""
-mc cp -r fr1nge-dots/dotfiles/fonts/ ~/.local/share/fonts/
-fc-cache
-
-## Backgrounds
-mc cp -r fr1nge-dots/dotfiles/backgrounds/ ~/.local/backgrounds/
-
-# Setup Crontab
-if [ ! -f "/var/spool/cron/$username" ]; then
-  sudo touch "/var/spool/cron/$username"
-  sudo chown $username:$username "/var/spool/cron/$username"
-  sudo chmod 0644 "/var/spool/cron/$username"
-  echo "*/8 * * * * /home/$username/.local/bin/mailsync" > /var/spool/cron/$username
-  echo "*/15 * * * * /home/$username/.local/bin/nextcloud-sync" >> /var/spool/cron/$username
-  echo "0 * * * * /home/$username/.local/bin/check-updates" >> /var/spool/cron/$username
-  echo "*/30 * * * * /home/$username/.local/bin/firefox-sync" >> /var/spool/cron/$username
-  echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/$username
-  echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/$username
-else
-  echo -n "An existing cron file is detected, would you like to overwrite it?(Y/n): "
-  read cron
-  if [ ! "$cron" = "n" ]; then
-    cp /var/spool/cron/$username ~/.dotfiles_backup/crontab
-    echo "*/8 * * * * /home/$username/.local/bin/mailsync" > /var/spool/cron/$username
-    echo "*/15 * * * * /home/$username/.local/bin/nextcloud-sync" >> /var/spool/cron/$username
-    echo "0 * * * * /home/$username/.local/bin/check-updates" >> /var/spool/cron/$username
-    echo "*/30 * * * * /home/$username/.local/bin/firefox-sync" >> /var/spool/cron/$username
-    echo "*/30 * * * * calcurse-caldav" >> /var/spool/cron/$username
-    echo "*/30 * * * * vdirsyncer sync" >> /var/spool/cron/$username
-  fi
+# Configuring for your username
+if [ ! "$username" = "yigit" ]; then
+  info "Replacing the occurences of /home/yigit with /home/$username"
+  echo "Setting up the dotfiles according to your username"
+  dots ls-files | xargs -L 1 sed -i "s/\/home\/yigit/\/home\/$username/g"
 fi
 
+info "Setting up sudo so that you won't be prompted for a password for the next of the script"
+
+# Don't prompt for a password for the rest of the script
+sudo bash -c 'echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nopwd'
+
+
+eval "$(grep -h -- \
+	"^\s*\(export \)\?\(CARGO_HOME\|GOPATH\|ANDROID_HOME\|FLUTTER_HOME\|LEIN_HOME\|NVM_DIR\|GNUPGHOME\|WEECHAT_HOME\|JUPYTER_CONFIG_DIR\|PYLINTHOME\|XDG_DATA_HOME\|XDG_CONFIG_HOME\|XDG_CACHE_HOME\|_Z_DATA)=" \
+	"$HOME/.profile"  2>/dev/null)"
+
+info "Creating relevant directories"
 # Create necessary folders
 mkdir -p "$HOME/.local/share/ncmpcpp/lyrics"
 mkdir -p "$HOME/.local/share/calcurse"
@@ -138,35 +99,60 @@ mkdir -p "$JUPYTER_CONFIG_DIR"
 mkdir -p "$PYLINTHOME"
 mkdir -p "$HOME/.local/share/zsh"
 mkdir -p "$XDG_DATA_HOME/mail"
+mkdir -p "$XDG_DATA_HOME/icons"
+mkdir -p "$XDG_DATA_HOME/themes"
+mkdir -p "$XDG_DATA_HOME/fonts"
+mkdir -p "$HOME/.local/backgrounds"
 mkdir -p "$XDG_CONFIG_HOME/git"
 mkdir -p "$XDG_CACHE_HOME/surf"
 mkdir -p "$HOME/.ssh"
-echo "AddKeysToAgent yes" > "$HOME/.ssh/config"
-
 chmod 700 "$GNUPGHOME"
 touch "$XDG_CONFIG_HOME/git/config"
 touch "$_Z_DATA"
 
+# Install packages
+deps=$(prompt -n "Would you like to install all the necessary packages, not doing so might break most of the functionality?(Y/n): ")
+if [ ! "$deps" = "n" ]; then
+  echo "Running update"
+  yay -S --needed --noconfirm "$(cat ~/pkg.list)" && exit 1
+fi
+
+cp ~/.config/config.env.default ~/.config/config.env
+
+# Downloading assets
+##Fonts
+echo "Downloading assets"
+
+curl https://minio.yigitcolakoglu.com/dotfiles/tools/mc > "$HOME/.local/bin/mc"
+chmod +x "$HOME/.local/bin/mc"
+"$HOME/.local/bin/mc" alias set fr1nge https://minio.yigitcolakoglu.com "" ""
+mc cp -r fr1nge/dotfiles/fonts/ ~/.local/share/fonts/
+mc cp -r fr1nge/dotfiles/backgrounds/ ~/.local/backgrounds/
+git clone https://github.com/material-ocean/Gtk-Theme.git "$XDG_DATA_HOME/themes/material-ocean"
+git clone https://github.com/vinceliuice/Tela-icon-theme.git /tmp/tela
+fc-cache
+
+# Setup Crontab
+if [ ! -f "/var/spool/cron/$username" ]; then
+  crontab "$HOME/.config/crontab"
+else
+  echo -n "An existing cron file is detected, would you like to overwrite it?(Y/n): "
+  read -r cron
+  if [ ! "$cron" = "n" ]; then
+    crontab -l >> "$HOME/.config/crontab"
+    crontab "$HOME/.config/crontab"
+  fi
+fi
+
+
 # Root Files and Directories
-sudo mkdir -p /usr/share/xsessions
-sudo mkdir -p /etc/security
-sudo cp ~/.dotfiles/root/dwm.desktop /usr/share/xsessions
-sudo cp ~/.dotfiles/root/pam_env.conf /etc/security/pam_env.conf
-sudo cp ~/.dotfiles/root/issue /etc/issue
-sudo cp ~/.dotfiles/root/motd /etc/motd
-sudo cp ~/.dotfiles/root/nancyj.flf /usr/share/figlet/fonts
-if [ "$(grep artix < $(uname -a))" = "" ]; then
-  sudo cp ~/.dotfiles/root/quark /etc/init.d
+if [ "$(grep artix < "$(uname -a)")" = "" ]; then
   sudo rc-update add quark
 else
-  sudo cp ~/.dotfiles/root/quark.service /usr/lib/systemd/system
   sudo systemctl enable quark
+  sudo systemctl daemon-reload
 fi
-sudo cp ~/.dotfiles/root/kdialog /usr/local/bin/kdialog
-sudo cp ~/.dotfiles/root/udevil.conf /etc/udevil/udevil.conf
-sudo chmod +x /usr/local/bin/kdialog
-sudo systemctl daemon-reload
-sudo groupadd nogroup
+
 
 if [ "$username" = "yigit" ]; then
   ~/.dotfiles/arch-setup/fetch_keys.sh # Fetch keys (For personal use, this is not for you)
@@ -176,29 +162,26 @@ if [ "$username" = "yigit" ]; then
 fi
 
 # Setup for pam-gnupg
-sudo cat << EOF >> /etc/pam.d/system-local-login
-
+cat << EOF | sudo tee -a /etc/pam.d/system-local-login
 session  optional  pam_env.so user_readenv=1
 auth     optional  pam_gnupg.so store-only
 session  optional  pam_gnupg.so
 EOF
 
-echo "allow-preset-passphrase" >> $GNUPGHOME/gpg-agent.conf
-echo "max-cache-ttl 172800" >> $GNUPGHOME/gpg-agent.conf
-
 # Build and Install Everything
 ## Suckless utilities
-echo "Installing suckless utilities"
-(cd ~/.dotfiles/suckless; ~/.dotfiles/suckless/build.sh > /dev/null 2> /dev/null)
+info "Installing suckless utilities"
+(cd ~/.local/src; ./build.sh > /dev/null 2> /dev/null)
+sudo groupadd nogroup
 
 ## Tela Icons
-echo "Installing Icons"
-~/.dotfiles/local/share/icons/Tela-Icons/install.sh > /dev/null 2> /dev/null
+info "Installing Icons"
+/tmp/tela/install.sh > /dev/null 2> /dev/null
 
 ## Start page
-echo "Setting up start page"
+info "Setting up start page"
 prev=$(pwd)
-cd ~/.dotfiles/browser/startpage
+cd ~/.local/share/startpage
 sudo npm install -g parcel-bundler
 npm install > /dev/null 2> /dev/null
 npm run build > /dev/null 2> /dev/null
@@ -212,7 +195,7 @@ yarn
 cd $prev
 
 # Install mconnect
-echo "Installing mconnect"
+info "Installing mconnect"
 git clone https://github.com/theFr1nge/mconnect.git /tmp/mconnect.git > /dev/null 2> /dev/null
 cd /tmp/mconnect.git
 mkdir -p build
@@ -223,16 +206,8 @@ sudo ninja install > /dev/null 2> /dev/null
 cd $prev
 mkdir -p ~/Downloads/mconnect
 
-## Bitwarden Dmenu
-echo "Installing bitwardedn-dmenu"
-sudo git clone https://github.com/theFr1nge/bitwarden-dmenu.git /usr/share/bwdmenu > /dev/null 2> /dev/null
-cd /usr/share/bwdmenu
-sudo npm install > /dev/null 2> /dev/null
-sudo npm i -g > /dev/null 2> /dev/null
-cd $prev
-
 ## Simcrop
-echo "Installing simcrop"
+info "Installing simcrop"
 git clone https://github.com/theFr1nge/simcrop.git /tmp/simcrop > /dev/null 2> /dev/null
 cd /tmp/simcrop
 sudo make install > /dev/null 2> /dev/null
@@ -243,7 +218,13 @@ rm -rf ~/.fzf*
 rm -rf ~/.bash_profile
 rm -rf ~/.dotfiles/yarn.lock
 rm -rf ~/.dotfiles/.git/hooks/*
+rm -rf ~/install.sh
+rm -rf ~/README.md
+rm -rf ~/pkg.list
+dots update-index --assume-unchanged {pkg.list,install.sh,README.md}
+dots config --local status.showUntrackedFiles no
 sudo rm -rf /etc/urlview/system.urlview
+echo "I am now restarting your system so that the configurations changes apply"
+sleep 5
+sudo bash -c "rm -rf /etc/sudoers.d/nopwd; reboot"
 
-
-sudo rm -rf /etc/sudoers.d/nopwd
