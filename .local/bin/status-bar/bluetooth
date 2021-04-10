@@ -5,7 +5,7 @@ power=$(timeout 1 bluetoothctl show | grep "Powered: yes" | wc -w)
 if [ "$power"  -eq 0 ]; then
   echo "^c#81a1c1^^d^" # Add color
 else
-  device="$(echo info | bluetoothctl | grep 'Name')"
+  device="$(echo info | timeout 1 bluetoothctl | grep 'Name')"
 
   if [ ! "$device" = "" ]; then
     echo "^c#81a1c1^^d^ $(echo "$device" | head -n 1 | xargs | cut -c 7-)"

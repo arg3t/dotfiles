@@ -7,10 +7,6 @@ killprogs() {
 	pkill -x redshift
 }
 
-logout() {
-    pkill dwm
-}
-
 DMENU='dmenu  -z 1900 -x 10 -y 10 -i'
 
 items="dwm
@@ -28,8 +24,7 @@ selection=$(printf '%s' "$items" | $DMENU)
 
 case $selection in
 	dwm)
-		touch /home/yigit/.cache/dwm-restart
-		logout
+		kill -9 $(pidof dwm)
 		;;
 	dwmblocks)
 		kill -9 $(pidof dwmblocks)

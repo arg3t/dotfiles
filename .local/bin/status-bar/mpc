@@ -1,10 +1,10 @@
 #!/bin/bash
 
-online=$(mpc 2> /dev/null)
-title=$(mpc -f "%title%" 2> /dev/null | head -n 1)
-artist=$(mpc -f "%artist%" 2> /dev/null | head -n 1)
+online=$(timeout 2 mpc 2> /dev/null)
 
 if [ ! "$online" = "" ]; then
+  title=$(mpc -f "%title%" 2> /dev/null | head -n 1)
+  artist=$(mpc -f "%artist%" 2> /dev/null | head -n 1)
   if [ "$(echo "$online" | wc -l)" -le 1 ]; then
     echo -n "^c#a48ead^ ^d^"
   else

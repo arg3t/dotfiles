@@ -19,7 +19,6 @@ export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_CACHE_HOME="$HOME"/.cache
 export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 export XDG_CONFIG_DIRS="/etc/xdg"
-export XDG_RUNTIME_DIR="/run/user/1000"
 
 # Cleanup Home Directory
 export HISTFILE="$XDG_DATA_HOME"/history
@@ -92,7 +91,7 @@ fi
 # Start xinit if logged in from tty1
 if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ]; then
   if [ "$DBUS_SESSION_BUS_ADDRESS" = "" ] && [ ! $(command -v dbus-launch)  = "" ]; then
-    exec dbus-launch --exit-with-session xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
+    exec dbus-run-session xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
   else
     exec xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
   fi

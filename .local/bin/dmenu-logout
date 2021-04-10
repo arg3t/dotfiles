@@ -35,7 +35,7 @@ selection=$(printf '%s' "$items" | $DMENU)
 
 case $selection in
 	logout)
-		logout
+		kill -9 "$XSESSION_PID"
 		;;
 	hibernate)
 		loginctl hibernate

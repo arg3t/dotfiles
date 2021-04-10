@@ -8,7 +8,7 @@ else
   events=""
 fi
 
-cmd=$(date +"%h%e")
+cmd=$(date +"%h %e")
 
 echo -n "^c#0f111a^^b#88c0d0^ $icon $events$cmd ^d^"
 
