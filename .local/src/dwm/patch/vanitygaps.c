@@ -1,4 +1,7 @@
 /* Settings */
+#if !PERTAG_PATCH
+static int enablegaps = 1;
+#endif // PERTAG_PATCH
 
 static void
 setgaps(int oh, int ov, int ih, int iv)
@@ -15,11 +18,68 @@ setgaps(int oh, int ov, int ih, int iv)
 	arrange(selmon);
 }
 
+#if IPC_PATCH || DWMC_PATCH
+/* External function that takes one integer and splits it
+ * into four gap values:
+ *    - outer horizontal (oh)
+ *    - outer vertical (ov)
+ *    - inner horizontal (ih)
+ *    - inner vertical (iv)
+ *
+ * Each value is represented as one byte with the uppermost
+ * bit of each byte indicating whether or not to keep the
+ * current value.
+ *
+ * Example:
+ *
+ *   10000000   10000000   00001111   00001111
+ *   |          |          |          |
+ *   + keep oh  + keep ov  + ih 15px  + iv 15px
+ *
+ * This gives an int of:
+ *   10000000100000000000111100001111 = 2155876111
+ *
+ * Thus this command should set inner gaps to 15:
+ *   xsetroot -name "fsignal:setgaps i 2155876111"
+ */
+static void
+setgapsex(const Arg *arg)
+{
+	int oh = selmon->gappoh;
+	int ov = selmon->gappov;
+	int ih = selmon->gappih;
+	int iv = selmon->gappiv;
+
+	if (!(arg->i & (1 << 31)))
+		oh = (arg->i & 0x7f000000) >> 24;
+	if (!(arg->i & (1 << 23)))
+		ov = (arg->i & 0x7f0000) >> 16;
+	if (!(arg->i & (1 << 15)))
+		ih = (arg->i & 0x7f00) >> 8;
+	if (!(arg->i & (1 << 7)))
+		iv = (arg->i & 0x7f);
+
+	/* Auto enable gaps if disabled */
+	#if PERTAG_PATCH
+	if (!selmon->pertag->enablegaps[selmon->pertag->curtag])
+		selmon->pertag->enablegaps[selmon->pertag->curtag] = 1;
+	#else
+	if (!enablegaps)
+		enablegaps = 1;
+	#endif // PERTAG_PATCH
+
+	setgaps(oh, ov, ih, iv);
+}
+#endif // IPC_PATCH | DWMC_PATCH
 
 static void
 togglegaps(const Arg *arg)
 {
+	#if PERTAG_PATCH
 	selmon->pertag->enablegaps[selmon->pertag->curtag] = !selmon->pertag->enablegaps[selmon->pertag->curtag];
+	#else
+	enablegaps = !enablegaps;
+	#endif // PERTAG_PATCH
 	arrange(NULL);
 }
 
@@ -106,11 +166,16 @@ incrivgaps(const Arg *arg)
 	);
 }
 
+#if DRAGMFACT_PATCH || CENTEREDMASTER_LAYOUT || CENTEREDFLOATINGMASTER_LAYOUT || COLUMNS_LAYOUT || DECK_LAYOUT || FIBONACCI_DWINDLE_LAYOUT || FIBONACCI_SPIRAL_LAYOUT || GAPPLESSGRID_LAYOUT || NROWGRID_LAYOUT || HORIZGRID_LAYOUT || BSTACK_LAYOUT || BSTACKHORIZ_LAYOUT || GRIDMODE_LAYOUT || FLEXTILE_DELUXE_LAYOUT || TILE_LAYOUT || (VANITYGAPS_MONOCLE_PATCH && MONOCLE_LAYOUT)
 static void
 getgaps(Monitor *m, int *oh, int *ov, int *ih, int *iv, unsigned int *nc)
 {
 	unsigned int n, oe, ie;
+	#if PERTAG_PATCH
 	oe = ie = selmon->pertag->enablegaps[selmon->pertag->curtag];
+	#else
+	oe = ie = enablegaps;
+	#endif // PERTAG_PATCH
 	Client *c;
 
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
@@ -124,3 +189,4 @@ getgaps(Monitor *m, int *oh, int *ov, int *ih, int *iv, unsigned int *nc)
 	*iv = m->gappiv*ie; // inner vertical gap
 	*nc = n;            // number of clients
 }
+#endif

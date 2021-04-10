@@ -33,13 +33,25 @@ draw_systray(Bar *bar, BarArg *a)
 		wa.event_mask = ButtonPressMask|ExposureMask;
 		wa.border_pixel = 0;
 		systray->h = MIN(a->h, drw->fonts->h);
+		#if BAR_ALPHA_PATCH
+		wa.background_pixel = 0;
+		wa.colormap = cmap;
+		systray->win = XCreateWindow(dpy, root, bar->bx + a->x + lrpad / 2, bar->by + a->y + (a->h - systray->h) / 2, MAX(a->w + 40, 1), systray->h, 0, depth,
+						InputOutput, visual,
+						CWOverrideRedirect|CWBorderPixel|CWBackPixel|CWColormap|CWEventMask, &wa); // CWBackPixmap
+		#else
 		wa.background_pixel = scheme[SchemeNorm][ColBg].pixel;
 		systray->win = XCreateSimpleWindow(dpy, root, bar->bx + a->x + lrpad / 2, bar->by + a->y + (a->h - systray->h) / 2, MIN(a->w, 1), systray->h, 0, 0, scheme[SchemeNorm][ColBg].pixel);
 		XChangeWindowAttributes(dpy, systray->win, CWOverrideRedirect|CWBackPixel|CWBorderPixel|CWEventMask, &wa);
+		#endif // BAR_ALPHA_PATCH
 
 		XSelectInput(dpy, systray->win, SubstructureNotifyMask);
 		XChangeProperty(dpy, systray->win, netatom[NetSystemTrayOrientation], XA_CARDINAL, 32,
 				PropModeReplace, (unsigned char *)&systrayorientation, 1);
+		#if BAR_ALPHA_PATCH
+		XChangeProperty(dpy, systray->win, netatom[NetSystemTrayVisual], XA_VISUALID, 32,
+				PropModeReplace, (unsigned char *)&visual->visualid, 1);
+		#endif // BAR_ALPHA_PATCH
 		XChangeProperty(dpy, systray->win, netatom[NetWMWindowType], XA_ATOM, 32,
 				PropModeReplace, (unsigned char *)&netatom[NetWMWindowTypeDock], 1);
 		XMapRaised(dpy, systray->win);
@@ -63,7 +75,11 @@ draw_systray(Bar *bar, BarArg *a)
 
 	drw_setscheme(drw, scheme[SchemeNorm]);
 	for (w = 0, i = systray->icons; i; i = i->next) {
+		#if BAR_ALPHA_PATCH
+		wa.background_pixel = 0;
+		#else
 		wa.background_pixel = scheme[SchemeNorm][ColBg].pixel;
+		#endif // BAR_ALPHA_PATCH
 		XChangeWindowAttributes(dpy, i->win, CWBackPixel, &wa);
 		XMapRaised(dpy, i->win);
 		i->x = w;

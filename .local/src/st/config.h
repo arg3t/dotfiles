@@ -26,7 +26,8 @@ char *utmp = NULL;
 /* scroll program: to enable use a string like "scroll" */
 char *scroll = "scroll";
 char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
-float alpha = 1;
+
+float alpha = 1, alphaUnfocused = 0.9;
 
 /* identification sequence returned in DA and DECID */
 char *vtiden = "\033[?6c";
@@ -134,6 +135,7 @@ static const char *colorname[] = {
  */
 unsigned int defaultfg = 257;
 unsigned int defaultbg = 256;
+unsigned int bg = 256, bgUnfocused = 256;
 static unsigned int defaultcs = 257;
 static unsigned int defaultrcs = 256;
 

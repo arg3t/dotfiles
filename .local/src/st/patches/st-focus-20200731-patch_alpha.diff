@@ -1,0 +1,167 @@
+From 3307b33b60adb4e1b5db4dd9849c78fce72b6ca4 Mon Sep 17 00:00:00 2001
+From: Julius Huelsmann <juliusHuelsmann@gmail.com>
+Date: Fri, 31 Jul 2020 10:13:30 +0200
+Subject: [PATCH] patch: focus
+
+---
+ config.def.h |  5 +++--
+ st.c         |  1 -
+ st.h         |  3 ++-
+ x.c          | 44 ++++++++++++++++++++++++++++++--------------
+ 4 files changed, 35 insertions(+), 18 deletions(-)
+
+diff --git a/config.def.h b/config.def.h
+index b94b23c..577d1f1 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -85,7 +85,7 @@ char *termname = "st-256color";
+ unsigned int tabspaces = 8;
+ 
+ /* bg opacity */
+-float alpha = 0.8;
++float alpha = 0.8, alphaUnfocused = 0.6;
+ 
+ /* Terminal colors (16 first used in escape sequence) */
+ static const char *colorname[] = {
+@@ -123,9 +123,10 @@ static const char *colorname[] = {
+  * foreground, background, cursor, reverse cursor
+  */
+ unsigned int defaultfg = 7;
+-unsigned int defaultbg = 258;
++unsigned int defaultbg = 0;
+ static unsigned int defaultcs = 256;
+ static unsigned int defaultrcs = 257;
++unsigned int bg = 17, bgUnfocused = 16;
+ 
+ /*
+  * Default shape of cursor
+diff --git a/st.c b/st.c
+index 0ce6ac2..c7f40c8 100644
+--- a/st.c
++++ b/st.c
+@@ -194,7 +194,6 @@ static void tsetscroll(int, int);
+ static void tswapscreen(void);
+ static void tsetmode(int, int, int *, int);
+ static int twrite(const char *, int, int);
+-static void tfulldirt(void);
+ static void tcontrolcode(uchar );
+ static void tdectest(char );
+ static void tdefutf8(char);
+diff --git a/st.h b/st.h
+index 2c656af..44cb3fd 100644
+--- a/st.h
++++ b/st.h
+@@ -79,6 +79,7 @@ typedef union {
+ 
+ void die(const char *, ...);
+ void redraw(void);
++void tfulldirt(void);
+ void draw(void);
+ 
+ void printscreen(const Arg *);
+@@ -122,4 +123,4 @@ extern char *termname;
+ extern unsigned int tabspaces;
+ extern unsigned int defaultfg;
+ extern unsigned int defaultbg;
+-extern float alpha;
++extern float alpha, alphaUnfocused;
+diff --git a/x.c b/x.c
+index 50da23c..a2e820f 100644
+--- a/x.c
++++ b/x.c
+@@ -254,6 +254,8 @@ static char *opt_line  = NULL;
+ static char *opt_name  = NULL;
+ static char *opt_title = NULL;
+ 
++static int focused = 0;
++
+ static int oldbutton = 3; /* button event on startup: 3 = release */
+ 
+ void
+@@ -774,35 +776,38 @@ xloadcolor(int i, const char *name, Color *ncolor)
+ 	return XftColorAllocName(xw.dpy, xw.vis, xw.cmap, name, ncolor);
+ }
+ 
++void
++xloadalpha(void)
++{
++	float const usedAlpha = focused ? alpha : alphaUnfocused;
++	if (opt_alpha) alpha = strtof(opt_alpha, NULL);
++	dc.col[defaultbg].color.alpha = (unsigned short)(0xffff * usedAlpha);
++	dc.col[defaultbg].pixel &= 0x00FFFFFF;
++	dc.col[defaultbg].pixel |= (unsigned char)(0xff * usedAlpha) << 24;
++}
++
+ void
+ xloadcols(void)
+ {
+-	int i;
+ 	static int loaded;
+ 	Color *cp;
+ 
+-	if (loaded) {
+-		for (cp = dc.col; cp < &dc.col[dc.collen]; ++cp)
+-			XftColorFree(xw.dpy, xw.vis, xw.cmap, cp);
+-	} else {
+-		dc.collen = MAX(LEN(colorname), 256);
+-		dc.col = xmalloc(dc.collen * sizeof(Color));
++	if (!loaded) {
++		dc.collen = 1 + (defaultbg = MAX(LEN(colorname), 256));
++		dc.col = xmalloc((dc.collen) * sizeof(Color));
+ 	}
+ 
+-	for (i = 0; i < dc.collen; i++)
++	for (int i = 0; i+1 < dc.collen; ++i)
+ 		if (!xloadcolor(i, NULL, &dc.col[i])) {
+ 			if (colorname[i])
+ 				die("could not allocate color '%s'\n", colorname[i]);
+ 			else
+ 				die("could not allocate color %d\n", i);
+ 		}
++	if (dc.collen) // cannot die, as the color is already loaded.
++		xloadcolor(focused ?bg :bgUnfocused, NULL, &dc.col[defaultbg]);
+ 
+-	/* set alpha value of bg color */
+-	if (opt_alpha)
+-		alpha = strtof(opt_alpha, NULL);
+-	dc.col[defaultbg].color.alpha = (unsigned short)(0xffff * alpha);
+-	dc.col[defaultbg].pixel &= 0x00FFFFFF;
+-	dc.col[defaultbg].pixel |= (unsigned char)(0xff * alpha) << 24;
++	xloadalpha();
+ 	loaded = 1;
+ }
+ 
+@@ -1747,12 +1752,22 @@ focus(XEvent *ev)
+ 		xseturgency(0);
+ 		if (IS_SET(MODE_FOCUS))
+ 			ttywrite("\033[I", 3, 0);
++		if (!focused) {
++			focused = 1;
++			xloadcols();
++			tfulldirt();
++		}
+ 	} else {
+ 		if (xw.ime.xic)
+ 			XUnsetICFocus(xw.ime.xic);
+ 		win.mode &= ~MODE_FOCUSED;
+ 		if (IS_SET(MODE_FOCUS))
+ 			ttywrite("\033[O", 3, 0);
++		if (focused) {
++			focused = 0;
++			xloadcols();
++			tfulldirt();
++		}
+ 	}
+ }
+ 
+@@ -2065,6 +2080,7 @@ run:
+ 	XSetLocaleModifiers("");
+ 	cols = MAX(cols, 1);
+ 	rows = MAX(rows, 1);
++	defaultbg = MAX(LEN(colorname), 256);
+ 	tnew(cols, rows);
+ 	xinit(cols, rows);
+ 	xsetenv();
+-- 
+2.28.0
+

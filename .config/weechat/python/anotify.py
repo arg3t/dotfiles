@@ -419,9 +419,9 @@ def a_notify(notification, title, description, priority=notify2.URGENCY_LOW):
         #  wn.set_urgency(priority)
         #  wn.set_timeout(time_out)
         #  wn.show()
-        subprocess.run(["notify-send", "-a", "  WeeChat", title, description])
+        subprocess.Popen(["notify-send", "-a", "  WeeChat", title, description])
         if title != "Server Connected" and title != "Server Disconnected":
-            subprocess.run(["canberra-gtk-play", "-i", "message-new-instant", "-V", "15"])
+            subprocess.Popen(["canberra-gtk-play", "-i", "message-new-instant", "-V", "15"])
     except Exception as error:
         weechat.prnt('', 'anotify: {0}'.format(error))
 

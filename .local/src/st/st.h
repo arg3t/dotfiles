@@ -79,6 +79,7 @@ typedef union {
 
 void die(const char *, ...);
 void redraw(void);
+void tfulldirt(void);
 void draw(void);
 
 void iso14755(const Arg *);
@@ -129,3 +130,4 @@ extern unsigned int defaultfg;
 extern unsigned int defaultbg;
 extern float alpha;
 extern char *iso14755_cmd;
+extern float alpha, alphaUnfocused;
