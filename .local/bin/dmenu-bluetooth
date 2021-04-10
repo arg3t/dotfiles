@@ -81,8 +81,8 @@ toggle_discoverable() {
 
 # Checks if a device is connected
 device_connected() {
-    device_info=$(bluetoothctl info ""$1"")
-    if echo ""$device"_info" | grep -q "Connected: yes"; then
+    device_info=$(bluetoothctl info "$1")
+    if echo "$device_info" | grep -q "Connected: yes"; then
         return 0
     else
         return 1

@@ -22,7 +22,8 @@ echo -n "^c#88c0d0^"
 if  [ "$is_eth_used" -eq 1 ]; then    # wired network is carrying
       icon="  ^d^ " #uF6FF
   elif  [ "$is_wlan_used" -eq 1 ]; then # wireless network is carrying
-      icon="直 ^d^  $(get_ssid)" #uF1EB
+    ssid=$(get_ssid)
+    icon="直 ^d^ ${ssid:0:10}" #uF1EB
     else
       icon="  ^d^" #uf128 # no network
 fi
@@ -30,5 +31,5 @@ fi
 echo -n $icon
 
 case $BLOCK_BUTTON in
-          1) ~/.local/bin/networkmanager_dmenu;;
+          1) ~/.local/bin/connman_dmenu;;
 esac

@@ -1,0 +1,64 @@
+# If you want to synchronize calcurse with a CalDAV server using
+# calcurse-caldav, create a new directory ~/.calcurse/caldav/, copy this file
+# to ~/.calcurse/caldav/config and adjust the configuration below.
+
+[General]
+# Path to the calcurse binary that is used for importing/exporting items.
+Binary = calcurse
+
+# Host name of the server that hosts CalDAV.
+Hostname = drive.yigitcolakoglu.com
+
+# Path to the CalDAV calendar on the host specified above.
+Path = remote.php/dav/calendars/yigitcolakoglu/pcalendar
+
+# Type of authentication to use. Must be "basic" or "oauth2"
+AuthMethod = basic
+
+# Enable this if you want to skip SSL certificate checks.
+InsecureSSL = No
+
+# Disable this if you want to use HTTP instead of HTTPS.
+# Using plain HTTP is highly discouraged.
+HTTPS = Yes
+
+# This option allows you to filter the types of tasks synced. To this end, the
+# value of this option should be a comma-separated list of item types, where
+# each item type is either "event", "apt", "recur-event", "recur-apt", "todo",
+# "recur" or "cal". Note that the comma-separated list must not contain any
+# spaces. Refer to the documentation of the --filter-type command line argument
+# of calcurse for more details. Set this option to "cal" if the configured
+# CalDAV server doesn't support tasks, such as is the case with Google
+# Calendar.
+SyncFilter = cal,todo,recur,recur-event,event
+
+# Disable this option to actually enable synchronization. If it is enabled,
+# nothing is actually written to the server or to the local data files. If you
+# combine DryRun = Yes with Verbose = Yes, you get a log of what would have
+# happened with this option disabled.
+DryRun = No
+
+# Enable this if you want detailed logs written to stdout.
+Verbose = Yes
+
+# Credentials for HTTP Basic Authentication. Leave this commented out if you do
+# not want to use authentication.
+[Auth]
+Username = yigitcolakoglu
+
+# Optionally specify additional HTTP headers here.
+#[CustomHeaders]
+#User-Agent = Mac_OS_X/10.9.2 (13C64) CalendarAgent/176
+
+# Use the following to synchronize with an OAuth2-based service
+# such as Google Calendar.
+#[OAuth2]
+#ClientID =
+#ClientSecret =
+
+# Scope of access for API calls. Synchronization requires read/write.
+#Scope = https://www.googleapis.com/auth/calendar
+
+# Change the redirect URI if you receive errors, but ensure that it is identical
+# to the redirect URI you specified in the API settings.
+#RedirectURI = http://127.0.0.1

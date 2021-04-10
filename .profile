@@ -84,8 +84,8 @@ esac
 
 # Setup SSH
 if [ ! "$SSH_AUTH_SOCK" ]; then
-  eval "$(ssh-agent | head -n 2)"
-  grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add > /dev/null 2> /dev/null &
+  echo UPDATESTARTUPTTY | gpg-connect-agent 2> /dev/null > /dev/null
+  export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 fi
 
 # Start xinit if logged in from tty1
