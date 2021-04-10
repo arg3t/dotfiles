@@ -1,23 +1,14 @@
 #!/bin/sh
 
 DMENU='dmenu  -z 1900 -x 10 -y 10 -i'
-blacklist="powerlevel10k|secret|gitignore|log|plugins|patches|config/surf|BetterDiscord"
-whitelist="config.h|keybind.h|colors.h|color.h|rules.h"
+blacklist="powerlevel10k|secret|gitignore|log|plugins|patches|config/surf|BetterDiscord|\.ccls-cache"
 
-files="$(git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME ls-files)"
+files="$(git --git-dir="$HOME/.dotfiles.git/" --work-tree="$HOME" ls-files)"
 
 items=$(echo "$files" | grep -Ev $blacklist)
-scripts=$(echo "$files" | grep -Ev $blacklist)
-suckless=$(echo "$files" | grep -Ev $blacklist | grep -E $whitelist)
 
-selection=$(printf "$items\n$scripts\n$suckless" | $DMENU)
+selection=$(printf "%s" "$items" | $DMENU)
 
 if [ ! "$selection" = "" ]; then
-  if [ $(echo $selection | cut -d"/" -f 1) = "scripts" ]; then
-    st -c vim -n vim -e $EDITOR "$HOME/$selection"
-  elif [ $(echo $selection | cut -d"/" -f 1) = "suckless" ]; then
-    st -c vim -n vim -e $EDITOR "$HOME/$selection"
-  else
-    st -c vim -n vim -e $EDITOR "$HOME/$selection"
-  fi
+    st -c vim -n vim -e "$EDITOR" "$HOME/$selection"
 fi

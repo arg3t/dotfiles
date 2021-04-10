@@ -871,6 +871,7 @@ applyrules(Client *c)
 			#endif // ONLY_ONE_RULE_MATCH_PATCH
 		}
 	}
+
 	if (ch.res_class)
 		XFree(ch.res_class);
 	if (ch.res_name)
@@ -1322,6 +1323,10 @@ configurerequest(XEvent *e)
 
 	if ((c = wintoclient(ev->window))) {
 		if (ev->value_mask & CWBorderWidth)
+
+		if(c->isfloating)
+			wc.border_width = floatingborderpx;
+		else
 			c->bw = ev->border_width;
 		else if (c->isfloating || !selmon->lt[selmon->sellt]->arrange) {
 			m = c->mon;
@@ -2192,7 +2197,10 @@ manage(Window w, XWindowAttributes *wa)
 		#if SETBORDERPX_PATCH
 		c->bw = c->mon->borderpx;
 		#else
-		c->bw = borderpx;
+		if(c->isfloating)
+			wc.border_width = floatingborderpx;
+		else
+			c->bw = borderpx;
 		#endif // SETBORDERPX_PATCH
 		#if CENTER_TRANSIENT_WINDOWS_BY_PARENT_PATCH
 		c->x = t->x + WIDTH(t) / 2 - WIDTH(c) / 2;
@@ -2215,7 +2223,10 @@ manage(Window w, XWindowAttributes *wa)
 		#if SETBORDERPX_PATCH
 		c->bw = c->mon->borderpx;
 		#else
-		c->bw = borderpx;
+		if(c->isfloating)
+			wc.border_width = floatingborderpx;
+		else
+			c->bw = borderpx;
 		#endif // SETBORDERPX_PATCH
 		applyrules(c);
 		#if SWALLOW_PATCH
@@ -2666,7 +2677,11 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	#if EXRESIZE_PATCH
 	c->expandmask = 0;
 	#endif // EXRESIZE_PATCH
-	wc.border_width = c->bw;
+
+	if(c->isfloating)
+		wc.border_width = floatingborderpx;
+	else
+		wc.border_width = c->bw;
 	#if NOBORDER_PATCH
 	if (((nexttiled(c->mon->clients) == c && !nexttiled(c->next))
 		#if MONOCLE_LAYOUT
@@ -2696,6 +2711,7 @@ resizeclient(Client *c, int x, int y, int w, int h)
 		wc.border_width = 0;
 	}
 	#endif // NOBORDER_PATCH
+
 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
 	configure(c);
 	#if FAKEFULLSCREEN_CLIENT_PATCH
@@ -3188,7 +3204,10 @@ setfullscreen(Client *c, int fullscreen)
 		resizeclient(c, c->mon->mx, c->mon->my, c->mon->mw, c->mon->mh);
 		XRaiseWindow(dpy, c->win);
 	} else if (restorestate && (c->oldstate & (1 << 1))) {
-		c->bw = c->oldbw;
+		if(c->isfloating)
+			wc.border_width = floatingborderpx;
+		else
+			c->bw = c->oldbw;
 		c->isfloating = c->oldstate = c->oldstate & 1;
 		c->x = c->oldx;
 		c->y = c->oldy;

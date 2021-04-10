@@ -170,6 +170,10 @@ let g:Tlist_WinWidth = 40
 " Syntastic max file size for python
 let g:syntastic_python_pylint_post_args="--max-line-length=120"
 
+" Make vim obey transparency
+hi! Normal ctermbg=NONE guibg=NONE
+hi! NonText ctermbg=NONE guibg=NONE
+
 "-------------------------------------------------------------------------------
 " Neovim-specific configurations
 "-------------------------------------------------------------------------------

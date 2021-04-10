@@ -39,6 +39,7 @@ static const Rule rules[] = {
 	RULE(.class = "stpulse", 0, .isfloating = 1, .floatpos="50% 50% 800W 560H")
 	RULE(.class = "mpv", 0, .isfloating = 1, .floatpos="100% 1% 600W 350H")
 	RULE(.instance = "sxiv", 0, .isfloating = 1, .floatpos="100% 1% 600W 350H")
+	RULE(.instance = "Kunst", 0, .isfloating = 1, .floatpos="100% 1% 150W 150H")
 	RULE(.class = "neomutt-send", 0, .isfloating = 1, .floatpos="50% 50% 1000W 700H")
 	//RULE(.class = "Zathura", 0, .isfloating = 1, .floatpos="100% 50% 700W 1000H")
 	//RULE(.class = "Surf", 0, .isfloating = 1, .floatpos="100% 100% 800W 1200H")

@@ -56,3 +56,5 @@ dwm-msg
 
 *.orig
 *.rej
+
+.ccls-cache

@@ -27,7 +27,7 @@ char *utmp = NULL;
 char *scroll = "scroll";
 char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 
-float alpha = 1, alphaUnfocused = 0.9;
+float alpha = 1, alphaUnfocused = 0.95;
 
 /* identification sequence returned in DA and DECID */
 char *vtiden = "\033[?6c";
