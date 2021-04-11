@@ -50,3 +50,5 @@ alias abook="abook --config \"$XDG_CONFIG_HOME\"/abook/abookrc --datafile \"$XDG
 alias dots="git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME"
 alias dpall="dots remote | xargs -I R git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME push R"
 alias dignore="dots update-index --assume-unchanged {pkg.list,install.sh,README.md}"
+alias da="dots add -u"
+alias dcm="dots commit"

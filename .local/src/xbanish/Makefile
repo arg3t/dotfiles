@@ -1,8 +1,9 @@
 # vim:ts=8
 
+VERS	:= 1.52
+
 CC	?= cc
-CFLAGS	?= -O2
-CFLAGS	+= -Wall -Wunused -Wmissing-prototypes -Wstrict-prototypes -Wunused
+CFLAGS	?= -O2 -Wall -Wunused -Wmissing-prototypes -Wstrict-prototypes -Wno-misleading-indentation
 
 PREFIX	?= /usr/local
 BINDIR	?= $(PREFIX)/bin
@@ -35,5 +36,12 @@ install: all
 
 clean:
 	rm -f $(PROG) $(OBJS)
+
+release: all
+	@mkdir $(PROG)-${VERS}
+	@cp Makefile *.c $(PROG)-$(VERS)/
+	@tar -czf ../$(PROG)-$(VERS).tar.gz $(PROG)-$(VERS)
+	@rm -rf $(PROG)-$(VERS)/
+	@echo "made release ${VERS}"
 
 .PHONY: all install clean

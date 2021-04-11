@@ -1,18 +1,29 @@
 /*
  * xbanish
- * Copyright (c) 2013-2021 joshua stein <jcs@jcs.org>
+ * Copyright (c) 2013-2015 joshua stein <jcs@jcs.org>
  *
- * Permission to use, copy, modify, and distribute this software for any
- * purpose with or without fee is hereby granted, provided that the above
- * copyright notice and this permission notice appear in all copies.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
- * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
- * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
- * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. The name of the author may not be used to endorse or promote products
+ *    derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <err.h>
@@ -20,6 +31,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <signal.h>
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
@@ -30,10 +42,9 @@
 
 void hide_cursor(void);
 void show_cursor(void);
-void snoop_root(void);
 int snoop_xinput(Window);
 void snoop_legacy(Window);
-void usage(char *);
+void usage(void);
 int swallow_error(Display *, XErrorEvent *);
 
 /* xinput event type ids to be filled in later */
@@ -42,28 +53,18 @@ static int button_release_type = -1;
 static int key_press_type = -1;
 static int key_release_type = -1;
 static int motion_type = -1;
-static int device_change_type = -1;
-static long last_device_change = -1;
+
+extern char *__progname;
 
 static Display *dpy;
-static int hiding = 0, legacy = 0, always_hide = 0;
+static int debug = 0, hiding = 0, legacy = 0, movebuf = 0;
 static unsigned char ignored;
-
-static int debug = 0;
-#define DPRINTF(x) { if (debug) { printf x; } };
-
-static int move = 0, move_x, move_y;
-enum move_types {
-	MOVE_NW = 1,
-	MOVE_NE,
-	MOVE_SW,
-	MOVE_SE,
-};
+unsigned timeout = 0;
 
 int
 main(int argc, char *argv[])
 {
-	int ch, i;
+	int ch, i, noscroll = 0;
 	XEvent e;
 	XGenericEventCookie *cookie;
 
@@ -74,41 +75,33 @@ main(int argc, char *argv[])
 		{"shift", ShiftMask}, {"lock", LockMask},
 		{"control", ControlMask}, {"mod1", Mod1Mask},
 		{"mod2", Mod2Mask}, {"mod3", Mod3Mask},
-		{"mod4", Mod4Mask}, {"mod5", Mod5Mask},
-		{"all", -1},
+		{"mod4", Mod4Mask}, {"mod5", Mod5Mask}
 	};
 
-	while ((ch = getopt(argc, argv, "adi:m:")) != -1)
+	while ((ch = getopt(argc, argv, "bdi:st:")) != -1)
 		switch (ch) {
-		case 'a':
-			always_hide = 1;
+		case 'b':
+			if (daemon(1, 1) < 0)
+				err(1, "daemon");
 			break;
 		case 'd':
 			debug = 1;
 			break;
 		case 'i':
 			for (i = 0;
-			    i < sizeof(mods) / sizeof(struct mod_lookup); i++)
+				i < sizeof(mods) / sizeof(struct mod_lookup); i++)
 				if (strcasecmp(optarg, mods[i].name) == 0)
 					ignored |= mods[i].mask;
 
 			break;
-		case 'm':
-			if (strcmp(optarg, "nw") == 0)
-				move = MOVE_NW;
-			else if (strcmp(optarg, "ne") == 0)
-				move = MOVE_NE;
-			else if (strcmp(optarg, "sw") == 0)
-				move = MOVE_SW;
-			else if (strcmp(optarg, "se") == 0)
-				move = MOVE_SE;
-			else {
-				warnx("invalid '-m' argument");
-				usage(argv[0]);
-			}
+		case 's':
+			noscroll = 1;
+			break;
+		case 't':
+			timeout = (unsigned) atoi(optarg);
 			break;
 		default:
-			usage(argv[0]);
+			usage();
 		}
 
 	argc -= optind;
@@ -124,10 +117,17 @@ main(int argc, char *argv[])
 
 	XSetErrorHandler(swallow_error);
 
-	snoop_root();
+	if (snoop_xinput(DefaultRootWindow(dpy)) == 0) {
+		if (debug)
+			warn("no XInput devices found, using legacy "
+				"snooping");
 
-	if (always_hide)
-		hide_cursor();
+		legacy = 1;
+		snoop_legacy(DefaultRootWindow(dpy));
+	}
+
+	/* signal handling */
+	signal(SIGALRM, (void *) hide_cursor);
 
 	for (;;) {
 		cookie = &e.xcookie;
@@ -137,20 +137,11 @@ main(int argc, char *argv[])
 		if (e.type == motion_type)
 			etype = MotionNotify;
 		else if (e.type == key_press_type ||
-		    e.type == key_release_type)
+			e.type == key_release_type)
 			etype = KeyRelease;
 		else if (e.type == button_press_type ||
-		    e.type == button_release_type)
+			e.type == button_release_type)
 			etype = ButtonRelease;
-		else if (e.type == device_change_type) {
-			XDevicePresenceNotifyEvent *xdpe =
-			    (XDevicePresenceNotifyEvent *)&e;
-			if (last_device_change == xdpe->serial)
-				continue;
-			snoop_root();
-			last_device_change = xdpe->serial;
-			continue;
-		}
 
 		switch (etype) {
 		case KeyRelease:
@@ -168,15 +159,17 @@ main(int argc, char *argv[])
 				if (e.type == key_release_type) {
 					/* xinput device event */
 					XDeviceKeyEvent *key =
-					    (XDeviceKeyEvent *) &e;
+						(XDeviceKeyEvent *) &e;
 					state = key->state;
 				} else if (e.type == KeyRelease) {
 					/* legacy event */
 					state = e.xkey.state;
 				}
-
 				if (state & ignored) {
-					DPRINTF(("ignoring key %d\n", state));
+					if (debug) {
+						printf("ignoring key %d\n",
+								state);
+					}
 					break;
 				}
 			}
@@ -186,13 +179,14 @@ main(int argc, char *argv[])
 
 		case ButtonRelease:
 		case MotionNotify:
-			if (!always_hide)
-				show_cursor();
+			show_cursor();
 			break;
 
 		case CreateNotify:
 			if (legacy) {
-				DPRINTF(("new window, snooping on it\n"));
+				if (debug)
+					printf("created new window, "
+						"snooping on it\n");
 
 				/* not sure why snooping directly on the window
 				 * doesn't work, so snoop on all windows from
@@ -207,25 +201,33 @@ main(int argc, char *argv[])
 			XIDeviceEvent *xie = (XIDeviceEvent *)cookie->data;
 
 			switch (xie->evtype) {
-			case XI_RawMotion:
 			case XI_RawButtonPress:
-				if (!always_hide)
-					show_cursor();
+				movebuf = 0;
+				if (noscroll && (xie->detail == 4 || xie->detail == 5))
+					break;
+				show_cursor();
 				break;
-
+			case XI_RawMotion:
+				if (++movebuf > 2) {
+					movebuf = 0;
+					show_cursor();
+				}
+				break;
 			case XI_RawButtonRelease:
 				break;
 
 			default:
-				DPRINTF(("unknown XI event type %d\n",
-				    xie->evtype));
+				if (debug)
+					printf("unknown XI event type %d\n",
+						xie->evtype);
 			}
 
 			XFreeEventData(dpy, cookie);
 			break;
 
 		default:
-			DPRINTF(("unknown event type %d\n", e.type));
+			if (debug)
+				printf("unknown event type %d\n", e.type);
 		}
 	}
 }
@@ -233,80 +235,34 @@ main(int argc, char *argv[])
 void
 hide_cursor(void)
 {
-	Window win;
-	int x, y, h, w, junk;
-	unsigned int ujunk;
+	if (debug)
+		printf("%shiding cursor\n",
+			(hiding ? "already " : ""));
 
-	DPRINTF(("keystroke, %shiding cursor\n", (hiding ? "already " : "")));
-
-	if (hiding)
-		return;
-
-	if (move) {
-		if (XQueryPointer(dpy, DefaultRootWindow(dpy),
-		    &win, &win, &x, &y, &junk, &junk, &ujunk)) {
-			move_x = x;
-			move_y = y;
-
-			h = XHeightOfScreen(DefaultScreenOfDisplay(dpy));
-			w = XWidthOfScreen(DefaultScreenOfDisplay(dpy));
-
-			switch (move) {
-			case MOVE_NW:
-				x = 0;
-				y = 0;
-				break;
-			case MOVE_NE:
-				x = w;
-				y = 0;
-				break;
-			case MOVE_SW:
-				x = 0;
-				y = h;
-				break;
-			case MOVE_SE:
-				x = w;
-				y = h;
-				break;
-			}
-
-			XWarpPointer(dpy, None, DefaultRootWindow(dpy),
-			    0, 0, 0, 0, x, y);
-		} else {
-			move_x = -1;
-			move_y = -1;
-			warn("failed finding cursor coordinates");
-		}
+	if (!hiding) {
+		XFixesHideCursor(dpy, DefaultRootWindow(dpy));
+		XFlush(dpy);
+		hiding = 1;
 	}
-
-	XFixesHideCursor(dpy, DefaultRootWindow(dpy));
-	hiding = 1;
+	movebuf = 0;
 }
 
 void
 show_cursor(void)
 {
-	DPRINTF(("mouse moved, %sunhiding cursor\n",
-	    (hiding ? "" : "already ")));
+	if (debug)
+		printf("mouse moved, %sunhiding cursor\n",
+			(hiding ? "" : "already "));
 
-	if (!hiding)
-		return;
+	if (hiding) {
+		/* reset timer */
+		if (timeout > 0 && timeout < 1000)
+			ualarm(timeout*1000, 0);
+		else if (timeout > 0)
+			alarm(timeout/1000);
 
-	if (move && move_x != -1 && move_y != -1)
-		XWarpPointer(dpy, None, DefaultRootWindow(dpy), 0, 0, 0, 0,
-		    move_x, move_y);
-
-	XFixesShowCursor(dpy, DefaultRootWindow(dpy));
-	hiding = 0;
-}
-
-void
-snoop_root(void)
-{
-	if (snoop_xinput(DefaultRootWindow(dpy)) == 0) {
-		DPRINTF(("no XInput devices found, using legacy snooping"));
-		legacy = 1;
-		snoop_legacy(DefaultRootWindow(dpy));
+		XFixesShowCursor(dpy, DefaultRootWindow(dpy));
+		hiding = 0;
 	}
 }
 
@@ -317,15 +273,16 @@ snoop_xinput(Window win)
 	int major, minor, rc, rawmotion = 0;
 	int ev = 0;
 	unsigned char mask[(XI_LASTEVENT + 7)/8];
-	XDeviceInfo *devinfo = NULL;
+	XDeviceInfo *devinfo;
 	XInputClassInfo *ici;
 	XDevice *device;
 	XIEventMask evmasks[1];
-	XEventClass class_presence;
 
 	if (!XQueryExtension(dpy, "XInputExtension", &opcode, &event, &error)) {
-		DPRINTF(("XInput extension not available"));
-		return 0;
+		if (debug)
+			warn("XInput extension not available");
+
+		return (0);
 	}
 
 	/*
@@ -351,14 +308,15 @@ snoop_xinput(Window win)
 
 		rawmotion = 1;
 
-		DPRINTF(("using xinput2 raw motion events\n"));
+		if (debug)
+			printf("using xinput2 raw motion events\n");
 	}
 
 	devinfo = XListInputDevices(dpy, &numdevs);
 	XEventClass event_list[numdevs * 2];
 	for (i = 0; i < numdevs; i++) {
 		if (devinfo[i].use != IsXExtensionKeyboard &&
-		    devinfo[i].use != IsXExtensionPointer)
+			devinfo[i].use != IsXExtensionPointer)
 			continue;
 
 		if (!(device = XOpenDevice(dpy, devinfo[i].id)))
@@ -368,65 +326,54 @@ snoop_xinput(Window win)
 		ici++, j++) {
 			switch (ici->input_class) {
 			case KeyClass:
-				DPRINTF(("attaching to keyboard device %s "
-				    "(use %d)\n", devinfo[i].name,
-				    devinfo[i].use));
+				if (debug)
+					printf("attaching to keyboard device "
+						"%s (use %d)\n", devinfo[i].name,
+						devinfo[i].use);
 
 				DeviceKeyPress(device, key_press_type,
-				    event_list[ev]); ev++;
+					event_list[ev]); ev++;
 				DeviceKeyRelease(device, key_release_type,
-				    event_list[ev]); ev++;
+					event_list[ev]); ev++;
 				break;
 
 			case ButtonClass:
 				if (rawmotion)
 					continue;
 
-				DPRINTF(("attaching to buttoned device %s "
-				    "(use %d)\n", devinfo[i].name,
-				    devinfo[i].use));
+				if (debug)
+					printf("attaching to buttoned device "
+						"%s (use %d)\n", devinfo[i].name,
+						devinfo[i].use);
 
 				DeviceButtonPress(device, button_press_type,
-				    event_list[ev]); ev++;
+					event_list[ev]); ev++;
 				DeviceButtonRelease(device,
-				    button_release_type, event_list[ev]); ev++;
+					button_release_type, event_list[ev]); ev++;
 				break;
 
 			case ValuatorClass:
 				if (rawmotion)
 					continue;
 
-				DPRINTF(("attaching to pointing device %s "
-				    "(use %d)\n", devinfo[i].name,
-				    devinfo[i].use));
+				if (debug)
+					printf("attaching to pointing device "
+						"%s (use %d)\n", devinfo[i].name,
+						devinfo[i].use);
 
 				DeviceMotionNotify(device, motion_type,
-				    event_list[ev]); ev++;
+					event_list[ev]); ev++;
 				break;
 			}
 		}
 
-		XCloseDevice(dpy, device);
-
 		if (XSelectExtensionEvent(dpy, win, event_list, ev)) {
 			warn("error selecting extension events");
-			ev = 0;
-			goto done;
+			return (0);
 		}
 	}
 
-	DevicePresence(dpy, device_change_type, class_presence);
-	if (XSelectExtensionEvent(dpy, win, &class_presence, 1)) {
-		warn("error selecting extension events");
-		ev = 0;
-		goto done;
-	}
-
-done:
-	if (devinfo != NULL)
-	   XFreeDeviceList(devinfo);
-
-	return ev;
+	return (ev);
 }
 
 void
@@ -466,10 +413,9 @@ done:
 }
 
 void
-usage(char *progname)
+usage(void)
 {
-	fprintf(stderr, "usage: %s [-a] [-d] [-i mod] [-m nw|ne|sw|se]\n",
-	    progname);
+	fprintf(stderr, "usage: %s [-b] [-d] [-i mod] [-s] [-t timeout(ms)]\n", __progname);
 	exit(1);
 }
 
