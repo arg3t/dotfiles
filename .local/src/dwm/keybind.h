@@ -47,6 +47,7 @@ static const char *bwmenu[] = {"/home/yigit/.local/bin/password_manager", NULL};
 static const char *wallabag[] = {"/home/yigit/.local/bin/dmenu-wallabag", "-s", NULL};
 static const char *wiki[] = {"/home/yigit/.local/bin/dmenu-arch", NULL};
 
+static const char *grabcolor[] = {"/home/yigit/.local/bin/grabcolor", NULL};
 static const char *network_manager[] = {"/home/yigit/.local/bin/connman_dmenu", NULL};
 static const char *killall[] = {"/home/yigit/.local/bin/dmenu-killall", NULL};
 static const char *mconnect[] = {"/home/yigit/.local/bin/dmenu-mconnect"};
@@ -73,8 +74,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY|ShiftMask,	            XK_i,      spawn,          {.v = screensaver} },
 	{ MODKEY|ShiftMask,             XK_n,      spawn,          {.v = notification } },
-	{ MODKEY,                       XK_Right,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Left,      setmfact,       {.f = -0.05} },
+	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_Down,      setcfact,       {.f = -0.25} },
 	{ MODKEY,                       XK_Up,      setcfact,       {.f = +0.25} },
 	{ MODKEY|ShiftMask,             XK_z, zoom,           {0} },
@@ -143,6 +144,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,							XK_d, spawn, {.v = udevil} },
 	{ MODKEY|ShiftMask,							XK_u, spawn, {.v = udevil_umount} },
 	{ MODKEY,                       XK_y, spawn, {.v = youtube} },
+	{ MODKEY|ShiftMask,             XK_g, spawn, {.v = grabcolor} },
 	{ MODKEY,                       XK_s,      togglescratch,          {.ui = 0 } },
 	{ MODKEY|ShiftMask,             XK_s,      togglescratch,					 {.ui = 1 } },
 	{ MODKEY,                       XK_m,      togglescratch,          {.ui = 2 } },

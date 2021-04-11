@@ -9,8 +9,8 @@
     { "OS: ",         get_os,                  true  }, \
     { "Kernel: ",     get_kernel,              true  }, \
     { "Uptime: ",     get_uptime,              false }, \
-    { "Shell: ",      get_shell,             false }, \
-    { "Terminal: ",   get_terminal,          false }, \
+    { "Shell: ",      get_shell,             true }, \
+    { "Terminal: ",   get_terminal,          true }, \
     { "CPU: ",        get_cpu,                 true  }, \
     { "Memory: ",     get_memory,              false }, \
     SPACER \

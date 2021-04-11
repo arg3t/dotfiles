@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# This script uses grabc (https://github.com/muquit/grabc) to grab
+# a pixel from your screen and copy its value to clipboard
+
+color=$(grabc)
+
+printf "%s" "$color" | xclip -selection clipboard
+
+notify-send -h "string:fgcolor:$color" -a " Color Grabbed" "$color"

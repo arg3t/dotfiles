@@ -82,4 +82,8 @@
 [keyboard]
         appname =   Keyboard
         history_ignore = yes
+
+[color]
+        appname =  Color Grabbed
+        history_ignore = yes
 # vim: ft=cfg

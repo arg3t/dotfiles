@@ -24,7 +24,7 @@ Plug 'farmergreg/vim-lastplace'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'rhysd/vim-grammarous'
-
+Plug 'chrisbra/NrrwRgn'
 "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'sheerun/vim-polyglot'
 Plug 'M4R7iNP/vim-inky'
