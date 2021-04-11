@@ -23,7 +23,3 @@ x-scheme-handler/tg=userapp-Telegram Desktop-RUP9V0.desktop
 x-scheme-handler/mailto=neomutt.desktop
 message/rfc822=userapp-neomutt.desktop
 application/x-directory=lf.desktop
-
-[Added Associations]
-application/javascript=gvim.desktop;vim.desktop;
-application/pdf=org.pwmt.zathura-pdf-mupdf.desktop;

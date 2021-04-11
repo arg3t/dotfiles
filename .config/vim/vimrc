@@ -206,3 +206,5 @@ if has("autocmd")
 
     autocmd BufWinLeave *.tex !texclear %:p
 endif
+
+let g:vimtex_view_general_viewer = 'zathura'
