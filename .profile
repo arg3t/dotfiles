@@ -64,7 +64,7 @@ export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 export PATH=$ANDROID_HOME/tools:$PATH
 export PATH=$ANDROID_HOME/platform-tools:$PATH
 export PATH=$FLUTTER_HOME/bin:$PATH
-export PATH="$PATH:$HOME/.local/bin:$HOME/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport"
+export PATH="$PATH:/usr/lib/w3m:$HOME/.local/bin:$HOME/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport"
 export CPATH=/usr/include/opencv4
 
 # Setup LF Icons (Doing this everytime lf start might cause some overhead)

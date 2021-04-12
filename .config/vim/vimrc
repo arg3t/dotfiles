@@ -205,6 +205,7 @@ if has("autocmd")
     augroup END
 
     autocmd BufWinLeave *.tex !texclear %:p
+    autocmd BufRead calcurse-note.* :set filetype=markdown
 endif
 
 let g:vimtex_view_general_viewer = 'zathura'

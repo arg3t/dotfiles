@@ -8,4 +8,4 @@ IFS="|"
 read -ra url <<< "$selection"
 url=$(echo ${url[1]} | xargs)
 
-zoom "${url[1]}"
+xdg-open "${url[1]}"

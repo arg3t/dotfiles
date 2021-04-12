@@ -23,7 +23,7 @@ if  [ "$is_eth_used" -eq 1 ]; then    # wired network is carrying
       icon="  ^d^ " #uF6FF
   elif  [ "$is_wlan_used" -eq 1 ]; then # wireless network is carrying
     ssid=$(get_ssid)
-    icon="直 ^d^ ${ssid:0:10}" #uF1EB
+    icon="直 ^d^" #uF1EB
     else
       icon="  ^d^" #uf128 # no network
 fi

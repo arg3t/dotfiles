@@ -47,10 +47,11 @@ visualizer_type = "spectrum"
 visualizer_in_stereo = "yes"
 visualizer_look = "◆▋"
 
-startup_screen = visualizer
-startup_slave_screen = playlist
-startup_slave_screen_focus = yes
-locked_screen_width_part = 30
+startup_screen = playlist
+#startup_screen = visualizer
+#startup_slave_screen = playlist
+#startup_slave_screen_focus = yes
+#locked_screen_width_part = 30
 
 ## Navigation ##
 cyclic_scrolling = "yes"

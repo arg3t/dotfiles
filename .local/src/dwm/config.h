@@ -7,6 +7,7 @@ typedef struct {
 
 #define STATUSBAR "dwmblocks"
 static const char *layoutmenu_cmd = "layoutmenu.sh";
+static const int swallowfloating =  0;
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };

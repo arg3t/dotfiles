@@ -66,6 +66,7 @@ xset dpms 600 600 600
 
 $BROWSER &
 #pass 2> /dev/null > /dev/null && qtpass &
+aria2c 2> /dev/null > /dev/null
 
 redshift -x 2> /dev/null > /dev/null
 redshift -r -l "$LATLONG" > /dev/null 2> /dev/null &

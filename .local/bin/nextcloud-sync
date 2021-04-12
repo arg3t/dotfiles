@@ -1,6 +1,6 @@
 #!/bin/bash
 
-$HOME/.config/nextcloud/nextcloud
+source $HOME/.config/nextcloud/nextcloud
 
 rm -rf $XDG_RUNTIME_DIR/nextcloud.out
 rm -rf $XDG_RUNTIME_DIR/nextcloud.err

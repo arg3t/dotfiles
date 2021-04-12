@@ -141,6 +141,7 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
 static SiteSpecific styles[] = {
 	/* regexp               file in $styledir */
 	{ "/usr/share/doc/arch-wiki/html/en/.*", "wiki.css" },
+	{ ".*", "defdark.css" },
 };
 
 /* certificates */

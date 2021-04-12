@@ -2,7 +2,7 @@ let g:languagetool_cmd='/usr/bin/languagetool'
 let g:grammarous#default_comments_only_filetypes = {
             \ '*' : 1, 'help' : 0, 'markdown' : 0, 'tex': 0,
             \ }
-
+let g:grammarous#default_lang='en-GB'
 let g:grammarous#enabled_categories = {'*' : ['PUNCTUATION',
       \'COLLOQUIALISMS', 'COMPOUNDING', 'CONFUSED_WORDS', 'FALSE_FRIENDS',
       \ 'GENDER_NEUTRALITY', 'GRAMMAR', 'MISC', 'PLAIN_ENGLISH',

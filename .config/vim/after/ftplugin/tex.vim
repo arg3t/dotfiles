@@ -1,3 +1,4 @@
 setlocal wrap linebreak nolist
 
-autocmd BufWritePost *.tex :GrammarousCheck --lang=en-GB
+" Only run LanguageTool between % GRAMMAROUS % tags
+map <leader>G magg:/% GRAMMAROUS %<CR>jVnk:GrammarousCheck<CR>:noh<CR>`a
