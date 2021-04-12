@@ -1,0 +1,44 @@
+From dfd158c8dea87a0a4dbc5b2eda7c096069d1484a Mon Sep 17 00:00:00 2001
+From: tdu <tdukv@protonmail.com>
+Date: Wed, 26 Aug 2020 18:50:09 +0300
+Subject: [PATCH] Add the following tags for the status2d patch: 	^w^ -
+ Swaps bg/fg color. 	^v^ - Saves the current fg/bg color. 	^t^ - Restores
+ the previously saved bg/fg color.
+
+---
+ dwm.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/dwm.c b/dwm.c
+index 931044f..de07b66 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -699,6 +699,7 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
+ 	short isCode = 0;
+ 	char *text;
+ 	char *p;
++	Clr oldbg, oldfg;
+ 
+ 	len = strlen(stext) + 1 ;
+ 	if (!(text = (char*) malloc(sizeof(char)*len)))
+@@ -769,6 +770,17 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
+ 				} else if (text[i] == 'd') {
+ 					drw->scheme[ColFg] = scheme[SchemeNorm][ColFg];
+ 					drw->scheme[ColBg] = scheme[SchemeNorm][ColBg];
++				} else if (text[i] == 'w') {
++					Clr swp;
++					swp = drw->scheme[ColFg];
++					drw->scheme[ColFg] = drw->scheme[ColBg];
++					drw->scheme[ColBg] = swp;
++				} else if (text[i] == 'v') {
++					oldfg = drw->scheme[ColFg];
++					oldbg = drw->scheme[ColBg];
++				} else if (text[i] == 't') {
++					drw->scheme[ColFg] = oldfg;
++					drw->scheme[ColBg] = oldbg;
+ 				} else if (text[i] == 'r') {
+ 					int rx = atoi(text + ++i);
+ 					while (text[++i] != ',');
+-- 
+2.28.0
+
