@@ -733,6 +733,7 @@ sigchld(int a)
 		if (p == 0 && waitpid(-1 ,&stat, WNOHANG) < 0)
 			/* Changed from wait(&stat) to waitpid(-1, &stat, WNOHANG) */
 			/* Otherwise the terminal would hang after calling iso4755 */
+			/* the issue is caused by a conflict between the patches iso4755 and externalpipe */
 			die("wait: %s\n", strerror(errno));
 
 		signal(SIGCHLD, sigchld);
