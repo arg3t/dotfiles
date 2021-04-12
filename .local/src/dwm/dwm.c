@@ -337,12 +337,14 @@ applyrules(Client *c)
 	const char *class, *instance;
 	unsigned int i;
 	const Rule *r;
+	unsigned int re; /* Flag for rule exists */
 	Monitor *m;
 	XClassHint ch = { NULL, NULL };
 
 	/* rule matching */
 	c->isfloating = 0;
 	c->tags = 0;
+	re = 0;
 	XGetClassHint(dpy, c->win, &ch);
 	class    = ch.res_class ? ch.res_class : broken;
 	instance = ch.res_name  ? ch.res_name  : broken;
@@ -353,6 +355,7 @@ applyrules(Client *c)
 		&& (!r->class || strstr(class, r->class))
 		&& (!r->instance || strstr(instance, r->instance)))
 		{
+			re = 1;
 			c->isterminal = r->isterminal;
 			c->noswallow  = r->noswallow;
 			c->isfloating = r->isfloating;
@@ -371,11 +374,13 @@ applyrules(Client *c)
 				c->x = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;
 				c->y = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
 			}
-		}else{
-			c->x = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;
-			c->y = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
 		}
 	}
+	if (!re) {
+			c->x = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;
+			c->y = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
+	}
+
 	if (ch.res_class)
 		XFree(ch.res_class);
 	if (ch.res_name)
@@ -1648,21 +1653,6 @@ maprequest(XEvent *e)
 }
 
 void
-monocle(Monitor *m)
-{
-	unsigned int n = 0;
-	Client *c;
-
-	for (c = m->clients; c; c = c->next)
-		if (ISVISIBLE(c))
-			n++;
-	if (n > 0) /* override layout symbol */
-		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
-	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
-		resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
-}
-
-void
 motionnotify(XEvent *e)
 {
 	static Monitor *mon = NULL;
@@ -2017,6 +2007,9 @@ setfloatpos(Client *c, const char *floatpos)
 	char xCh, yCh, wCh, hCh;
 	int x, y, w, h, wx, ww, wy, wh;
 
+	int oh, ov, ih, iv;
+	unsigned int n;
+
 	if (!c || !floatpos)
 		return;
 	if (selmon->lt[selmon->sellt]->arrange && !c->isfloating)
@@ -2044,11 +2037,12 @@ setfloatpos(Client *c, const char *floatpos)
 			return;
 	}
 
-	wx = c->mon->wx;
-	wy = c->mon->wy;
-	ww = c->mon->ww;
-	wh = c->mon->wh;
-	c->ignoresizehints = 1;
+
+	getgaps(c->mon, &oh, &ov, &ih, &iv, &n);
+	wx = c->mon->wx + ov;
+	wy = c->mon->wy + oh;
+	ww = c->mon->ww - 2*ov;
+	wh = c->mon->wh - 2*oh;
 
 	getfloatpos(x, xCh, w, wCh, wx, ww, c->x, c->w, c->bw, floatposgrid_x, &c->x, &c->w);
 	getfloatpos(y, yCh, h, hCh, wy, wh, c->y, c->h, c->bw, floatposgrid_y, &c->y, &c->h);
