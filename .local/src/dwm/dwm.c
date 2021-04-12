@@ -367,6 +367,13 @@ applyrules(Client *c)
 				c->mon = m;
 			if (c->isfloating && r->floatpos)
 				setfloatpos(c, r->floatpos);
+			else{
+				c->x = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;
+				c->y = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
+			}
+		}else{
+			c->x = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;
+			c->y = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
 		}
 	}
 	if (ch.res_class)

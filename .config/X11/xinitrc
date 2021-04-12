@@ -64,7 +64,7 @@ xset dpms 600 600 600
     --no-unmount --no-gui &
 
 
-$BROWSER &
+#$BROWSER &
 #pass 2> /dev/null > /dev/null && qtpass &
 
 redshift -x 2> /dev/null > /dev/null
@@ -81,7 +81,7 @@ do
     fi
 
     dwmblocks > $XDG_RUNTIME_DIR/dwmblocks.out 2> $XDG_RUNTIME_DIR/dwmblocks.err &
-    exec dwm > $XDG_RUNTIME_DIR/dwm.log 2> $XDG_RUNTIME_DIR/dwm.err
+    dwm > $XDG_RUNTIME_DIR/dwm.log 2> $XDG_RUNTIME_DIR/dwm.err
     sleep 0.5
 done
 

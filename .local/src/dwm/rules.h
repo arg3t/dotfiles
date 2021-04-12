@@ -43,9 +43,10 @@ static const Rule rules[] = {
 { NULL               , "spfile"   , NULL       , SPTAG(3)  , 1     ,         NULL          , 0  , 0  , -1  },
 { NULL               , "spmusic"  , NULL       , SPTAG(4)  , 1     ,         NULL          , 0  , 0  , -1  },
 { NULL               , "spcal"    , NULL       , SPTAG(5)  , 1     ,         NULL          , 0  , 0  , -1  },
-{ NULL               , "sxiv"     , NULL       , 0         , 1     , "100% 1% 600W 350H"   , 0  , 0  , -1  },
+{ NULL               , "sxiv"     , NULL       , 0         , 1     , "100% 1% 600W 350H"   , 1  , 0  , -1  },
 { NULL               , "Kunst"    , NULL       , 0         , 1     , "100% 1% 150W 150H"   , 0  , 0  , -1  },
 { NULL               , NULL       , "SimCrop"  , 0         , 1     , "50% 50% 800W 500H"   , 0   ,0  , -1  },
+//{ NULL               , NULL       , NULL       , 0         , 1     ,         NULL          , 0   ,0  , -1  },
 };
 
 #endif /* rules_h */
