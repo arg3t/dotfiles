@@ -7,10 +7,13 @@ typedef struct {
 
 #define STATUSBAR "dwmblocks"
 static const char *layoutmenu_cmd = "layoutmenu.sh";
-static const int swallowfloating =  0;
+unsigned const int swallowfloating = 0;
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[][9] = {
+	[VacantTags] = {"", "", "", "", "", "", "", "", ""},
+ 	[BusyTags]   = {"", "", "", "", "", "", "", "", ""}
+};
 
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
