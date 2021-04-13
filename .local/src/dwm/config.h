@@ -10,10 +10,8 @@ static const char *layoutmenu_cmd = "layoutmenu.sh";
 unsigned const int swallowfloating = 0;
 
 /* tagging */
-static const char *tags[][9] = {
-	[VacantTags] = {"", "", "", "", "", "", "", "", ""},
- 	[BusyTags]   = {"", "", "", "", "", "", "", "", ""}
-};
+static const char *tags[9] = {"", "", "", "", "", "", "", "", ""};
+static const char *busytags[9] = {"", "", "", "", "", "", "", "", ""};
 
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */

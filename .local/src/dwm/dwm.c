@@ -61,10 +61,10 @@
 #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
 #define WIDTH(X)                ((X)->w + 2 * (X)->bw)
 #define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
-#define NUMTAGS					(LENGTH(tags[VacantTags]) + LENGTH(scratchpads))
+#define NUMTAGS					(LENGTH(tags) + LENGTH(scratchpads))
 #define TAGMASK     			((1 << NUMTAGS) - 1)
-#define SPTAG(i) 				((1 << LENGTH(tags[VacantTags])) << (i))
-#define SPTAGMASK   			(((1 << LENGTH(scratchpads))-1) << LENGTH(tags[VacantTags]))
+#define SPTAG(i) 				((1 << LENGTH(tags)) << (i))
+#define SPTAGMASK   			(((1 << LENGTH(scratchpads))-1) << LENGTH(tags))
 #define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
 
 /* enums */
@@ -76,7 +76,6 @@ enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
 enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkClientWin,
 			 ClkRootWin, ClkLast }; /* clicks */
-enum { VacantTags, BusyTags }; /* Tag Types */
 typedef union {
 	int i;
 	unsigned int ui;
@@ -328,7 +327,7 @@ static xcb_connection_t *xcon;
 #include "rules.h"
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
-struct NumTags { char limitexceeded[LENGTH(tags[VacantTags]) > 31 ? -1 : 1]; };
+struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
 
 /* function implementations */
 void
@@ -572,13 +571,12 @@ buttonpress(XEvent *e)
 		for (c = m->clients; c; c = c->next)
 			occ |= c->tags == 255 ? 0 : c->tags;
 		do {
-			/* do not reserve space for vacant tags */
 			if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
-				x += TEXTW(tags[VacantTags][i]);
+				x += TEXTW(tags[i]);
 			else
-				x += TEXTW(tags[BusyTags][i]);
-		} while (ev->x >= x && ++i < LENGTH(tags[VacantTags]));
-		if (i < LENGTH(tags[VacantTags])) {
+				x += TEXTW(busytags[i]);
+		} while (ev->x >= x && ++i < LENGTH(tags));
+		if (i < LENGTH(tags)) {
 			click = ClkTagBar;
 			arg.ui = 1 << i;
 		} else if (ev->x < x + blw)
@@ -603,9 +601,9 @@ buttonpress(XEvent *e)
 					i = -1;
 					if (xc >= ev->x && dwmblockssig != -1) break;
 					dwmblockssig = ch;
-				} 
+				}
 			}
-		} 
+		}
 	} else if ((c = wintoclient(ev->window))) {
 		focus(c);
 		restack(selmon);
@@ -1113,14 +1111,14 @@ drawbar(Monitor *m)
 			urg |= c->tags;
 	}
 	x = 0;
-	for (i = 0; i < LENGTH(tags[VacantTags]); i++) {
+	for (i = 0; i < LENGTH(tags); i++) {
 		/* do not draw vacant tags */
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeTagsSel : SchemeTagsNorm]);
 		w = bh;
-		if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
-			drw_text(drw, x, 0, w, bh, lrpad / 2, tags[VacantTags][i], urg & 1 << i);
+		if (!(occ & 1 << i))
+			drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
 		else
-			drw_text(drw, x, 0, w, bh, lrpad / 2, tags[BusyTags][i], urg & 1 << i);
+			drw_text(drw, x, 0, w, bh, lrpad / 2, busytags[i], urg & 1 << i);
 
 		/** if (occ & 1 << i) */
 		/**   drw_rect(drw, x + boxw, 0, w - ( 2 * boxw + 1), boxw, */

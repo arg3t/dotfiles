@@ -7,6 +7,7 @@ static const char *fonts[] = {
 	"CaskaydiaCove Nerd Font Mono:size=10",
   "Symbola:pixelsize=16:antialias=true:autohint=true",
 };
+
 static const char *prompt      = NULL;      /* -p  option; prompt to the left of input field */
 static const unsigned int min_lineheight = 27;
 static unsigned int lineheight = 27;

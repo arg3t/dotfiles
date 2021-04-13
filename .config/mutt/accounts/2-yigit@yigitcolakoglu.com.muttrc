@@ -8,6 +8,7 @@ set folder = "/home/yigit/.local/share/mail/yigit@yigitcolakoglu.com"
 set header_cache = /home/yigit/.cache/mutt-wizard/yigit@yigitcolakoglu.com/headers
 set message_cachedir = /home/yigit/.cache/mutt-wizard/yigit@yigitcolakoglu.com/bodies
 set mbox_type = Maildir
+set signature = "/home/yigit/.config/mutt/accounts/2-yigit@yigitcolakoglu.com.sig"
 
 
 bind index,pager gg noop
@@ -35,7 +36,7 @@ macro index,pager Cs ";<copy-message>=Sent<enter>" "copy mail to sent"
 macro index,pager gt "<change-folder>=Trash/Mailspring/Snoozed<enter>" "go to trash"
 macro index,pager Mt ";<save-message>=Trash/Mailspring/Snoozed<enter>" "move mail to trash"
 macro index,pager Ct ";<copy-message>=Trash/Mailspring/Snoozed<enter>" "copy mail to trash"
-set trash = "+Trash/Mailspring/Snoozed"
+set trash = "+Trash"
 set postponed = "+Drafts"
 macro index,pager gd "<change-folder>=Drafts<enter>" "go to drafts"
 macro index,pager Md ";<save-message>=Drafts<enter>" "move mail to drafts"

@@ -9,3 +9,26 @@ tls on
 tls_trust_file	/etc/ssl/certs/ca-certificates.crt
 logfile /home/yigit/.config/msmtp/msmtp.log
 
+account yigit@yigitcolakoglu.com
+host mail.privateemail.com
+port 587
+from yigit@yigitcolakoglu.com
+user yigit@yigitcolakoglu.com
+passwordeval "pass Email/privateemail.com/yigit@yigitcolakoglu.com"
+auth on
+tls on
+tls_trust_file	/etc/ssl/certs/ca-certificates.crt
+logfile /home/yigit/.config/msmtp/msmtp.log
+
+# default for git email-send
+account default
+host mail.privateemail.com
+port 587
+from yigit@yigitcolakoglu.com
+user yigit@yigitcolakoglu.com
+passwordeval "pass Email/privateemail.com/yigit@yigitcolakoglu.com"
+auth on
+tls on
+tls_trust_file	/etc/ssl/certs/ca-certificates.crt
+logfile /home/yigit/.config/msmtp/msmtp.log
+
