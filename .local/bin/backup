@@ -9,12 +9,13 @@ readonly SSH_HOST=192.168.1.8
 readonly SSH_USER=yigit
 readonly SSH_KEY="/home/yigit/.ssh/id_skeleton"
 readonly RSYNC_PROFILE="$SSH_USER@$SSH_HOST:~/snapshots"
+
+alias ssh_cmd="ssh -i \"$SSH_KEY\" $SSH_USER@$SSH_HOST"
+
 DEVICE=tatooine
 OPT="-aPh"
-LINK="--link-dest=$RSYNC_PROFILE/$DEVICE/last/"
 SNAP="$RSYNC_PROFILE/$DEVICE/"
-LAST="$RSYNC_PROFILE/$DEVICE/last"
-date=$(date "+%Y-%b-%d:_%T")
+date=$(date "+%I:%M-%d.%m.%Y")
 # You should enter absolute paths
 DIRS="/home/yigit
 /etc
@@ -27,15 +28,15 @@ timeout 3 ssh -i "$SSH_KEY" $SSH_USER@$SSH_HOST id < /dev/null > /dev/null 2> /d
 # Run rsync to create snapshot
 while IFS= read -r DIR
 do
-  DEST=$(echo "$DIR" | sed "s/\/[^\/]*$//g")
-  ssh -i "$SSH_KEY" $SSH_USER@$SSH_HOST mkdir -p "~/snapshots/$DEVICE/$date$DEST" < /dev/null
-  rsync "$@" -e "ssh -i $SSH_KEY" $OPT "$LINK" "$DIR" "${SNAP}$date$DEST"
+  LINK="--link-dest=/home/$SSH_USER/snapshots/tatooine/last$DIR/"
+  ssh -i "$SSH_KEY" $SSH_USER@$SSH_HOST mkdir -p "~/snapshots/$DEVICE/$date$DIR" < /dev/null
+  rsync --exclude '.cache' "$@" -e "ssh -i $SSH_KEY" $OPT "$LINK" "$DIR/" "${SNAP}$date$DIR/"
 done << EOF
 $DIRS
 EOF
 
 # Remove symlink to previous snapshot
-rm -f "$LAST"
+ssh_cmd rm -f "~/snapshots/$DEVICE/last" < /dev/null
 
 # Create new symlink to latest snapshot for the next backup to hardlink
-ln -s "${SNAP}$date" "$LAST"
+ssh -i "$SSH_KEY" $SSH_USER@$SSH_HOST ln -s "~/snapshots/$DEVICE/$date" "~/snapshots/$DEVICE/last" < /dev/null

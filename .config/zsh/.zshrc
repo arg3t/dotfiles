@@ -1,3 +1,4 @@
+#zmodload zsh/zprof
 eval "$(direnv hook zsh)" >> $XDG_RUNTIME_DIR/direnv
 paleofetch
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -11,9 +12,12 @@ source <(antibody init)
 
 #Autocompletion
 autoload -Uz compinit
-compinit
+if [[ -n $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION ]]; then
+  compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
+else
+  compinit -C -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
+fi;
 
-compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
 
 [[ ! -d  "$XDG_DATA_HOME"/zsh/history ]] || source  "$XDG_DATA_HOME"/zsh/history
 HISTSIZE=100000
@@ -134,3 +138,4 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 	add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
 	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
+#zprof
