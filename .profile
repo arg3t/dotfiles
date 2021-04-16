@@ -90,7 +90,7 @@ fi
 
 # Start xinit if logged in from tty1
 if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ]; then
-  if [ "$DBUS_SESSION_BUS_ADDRESS" = "" ] && [ ! $(command -v dbus-launch)  = "" ]; then
+  if [ "$DBUS_SESSION_BUS_ADDRESS" = "" ] && [ ! $(command -v dbus-run-session)  = "" ]; then
     exec dbus-run-session xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
   else
     exec xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
