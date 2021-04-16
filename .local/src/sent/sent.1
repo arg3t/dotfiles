@@ -5,7 +5,11 @@
 .Nd simple plaintext presentation tool
 .Sh SYNOPSIS
 .Nm
+.Op Fl f Ar font
+.Op Fl c Ar fgcolor
+.Op Fl b Ar bgcolor
 .Op Fl v
+.Op Fl i
 .Op Ar file
 .Sh DESCRIPTION
 .Nm
@@ -21,6 +25,17 @@ few minutes.
 .Bl -tag -width Ds
 .It Fl v
 Print version information to stdout and exit.
+.It Fl i
+Use the colors from the inverted color array.
+.It Fl f Ar font
+Defines the
+.Ar font
+when sent is run.
+.It Fl c Ar fgcolor
+Defines the foreground color when sent is run.
+.It Fl b Ar bgcolor
+Defines the background color when sent is run.
+>>>>>>>
 .El
 .Sh USAGE
 .Bl -tag -width Ds
@@ -41,6 +56,8 @@ Reload the slides. Only works on file input.
 Go to next slide, if existent.
 .It Sy Left | Backspace | h | k | Up | Prior | p
 Go to previous slide, if existent.
+.It Sy i
+Toggle colorschemes.
 .El
 .El
 .Sh FORMAT

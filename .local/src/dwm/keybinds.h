@@ -37,8 +37,8 @@ static const char *outmenu[] = {"/home/yigit/.local/bin/dmenu-logout", NULL};
 static const char *refresh[] = {"/home/yigit/.local/bin/dmenu-refresh", NULL};
 static const char *keyboard[] = {"/home/yigit/.local/bin/kbmap_toggle", NULL};
 
-static const char *screenshot[] = { "scrot", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send \"SNAP\" \"$f\"", NULL };
-static const char *windowshot[] = { "scrot", "-u", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send \"SNAP\" \"$f\"", NULL };
+static const char *screenshot[] = { "scrot", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send -a \"SNAP\" \"$f\"", NULL };
+static const char *windowshot[] = { "scrot", "-u", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send -a \"SNAP\" \"$f\"", NULL };
 static const char *simcrop[] = {"simcrop","-fc","-sc", "-g", "900x500",NULL};
 
 static const char *notification[] = {"/home/yigit/.local/bin/dunst_toggle.sh", "-t",NULL};
