@@ -1,6 +1,6 @@
 #zmodload zsh/zprof
 eval "$(direnv hook zsh)" >> $XDG_RUNTIME_DIR/direnv
-paleofetch
+#paleofetch
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi

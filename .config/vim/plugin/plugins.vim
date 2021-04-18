@@ -25,12 +25,10 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'rhysd/vim-grammarous'
 Plug 'chrisbra/NrrwRgn'
-Plug 'robertbasic/vim-hugo-helper'
-"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'sheerun/vim-polyglot'
 Plug 'M4R7iNP/vim-inky'
-" Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'junegunn/goyo.vim'
 
 Plug 'vim-scripts/indentpython.vim'
 Plug 'frazrepo/vim-rainbow'
@@ -41,8 +39,6 @@ Plug 'puremourning/vimspector'
 Plug 'lervag/vimtex'
 " Plug 'wakatime/vim-wakatime'
 Plug 'gu-fan/riv.vim'
-Plug 'gu-fan/InstantRst'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'isene/hyperlist.vim'
 Plug 'neomutt/neomutt.vim'
 Plug 'VebbNix/lf-vim'
@@ -57,8 +53,6 @@ Plug 'junegunn/fzf.vim'
 
 " Syntax highlighting
 " Plug 'vim-ruby/vim-ruby'
-Plug 'noscript/cSyntaxAfter'
-Plug 'uiiaoo/java-syntax.vim'
 Plug 'elzr/vim-json'
 Plug 'tpope/vim-markdown'
 Plug 'vim-scripts/cool.vim'
@@ -69,17 +63,7 @@ Plug 'leafgarland/typescript-vim'
 Plug 'arrufat/vala.vim'
 
 " Syntax errors
-" Plug 'vim-syntastic/syntastic'
 Plug 'dense-analysis/ale'
 Plug 'ntpeters/vim-better-whitespace'
-
-" Git support
-Plug 'tpope/vim-fugitive'
-
-" Testing
-Plug 'janko-m/vim-test'
-
-" Gist
-Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim'
 
 call plug#end()

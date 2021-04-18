@@ -90,4 +90,4 @@ empty_tag_marker = ""
 
 mpd_crossfade_time=3
 
-execute_on_song_change="kill -63 $(pidof dwmblocks); mpd-notif"
+execute_on_song_change="mpd-notif"

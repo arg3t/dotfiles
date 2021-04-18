@@ -15,8 +15,8 @@ Inbox /home/yigit/.local/share/mail/yigitcolakoglu@hotmail.com/INBOX
 
 Channel yigitcolakoglu@hotmail.com
 Expunge Both
-Far :yigitcolakoglu@hotmail.com-remote:
-Near :yigitcolakoglu@hotmail.com-local:
+Master :yigitcolakoglu@hotmail.com-remote:
+Slave :yigitcolakoglu@hotmail.com-local:
 Patterns * !"[Gmail]/All Mail"
 Create Both
 SyncState *
@@ -41,8 +41,8 @@ Inbox /home/yigit/.local/share/mail/yigit@yigitcolakoglu.com/INBOX
 
 Channel yigit@yigitcolakoglu.com
 Expunge Both
-Far :yigit@yigitcolakoglu.com-remote:
-Near :yigit@yigitcolakoglu.com-local:
+Master :yigit@yigitcolakoglu.com-remote:
+Slave :yigit@yigitcolakoglu.com-local:
 Patterns * !"[Gmail]/All Mail"
 Create Both
 SyncState *

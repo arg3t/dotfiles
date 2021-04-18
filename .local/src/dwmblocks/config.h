@@ -16,7 +16,7 @@ static Block blocks[] = {
 	{ "", PATH("cpu-temp"),				30,			17},
 	{ "", PATH("memory"),		  		120,		21},
 	{ "", PATH("weather"),				60,			16},
-	{ "", PATH("arch"),						120,		15},
+//	{ "", PATH("arch"),						120,		15},
 	{ "", PATH("volume"),					5,		  14},
 	{ "", PATH("network"),				120,		13},
 	{ "", PATH("battery"),				60,			12},

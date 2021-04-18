@@ -1,9 +1,6 @@
 #!/usr/bin/zsh
 
 alias feh="feh --scale-down --auto-zoom --no-fehbg"
-alias cclear="$(which clear)"
-alias clear="clear && paleofetch"
-alias neofetch="neofetch --ascii ~/.config/neofetch/ascii.txt"
 alias open=xdg-open
 alias rm="rm -i"
 alias clip="xclip -selection clipboard"
@@ -28,7 +25,7 @@ weechat(){
 }
 
 # Suffix aliases
-alias -g G=" | rg"
+alias -g G=" | rg -i "
 alias gshh="gcloud cloud-shell ssh --authorize-session"
 
 # Git
@@ -52,3 +49,5 @@ alias dpall="dots remote | xargs -I R git --git-dir=$HOME/.dotfiles.git/ --work-
 alias dignore="dots update-index --assume-unchanged {pkg.list,install.sh,README.md}"
 alias da="dots add -u"
 alias dcm="dots commit"
+
+alias bon="sudo bash -c 'rc-service bluetooth start && rfkill unblock bluetooth'"

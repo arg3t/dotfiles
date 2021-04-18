@@ -14,5 +14,5 @@ else
 fi
 
 case $BLOCK_BUTTON in
-          1) setsid -f st -c stpulse -n stpulse -e ncpamixer ;;
+          1) setsid -f st -c stpulse -n stpulse -e pamix ;;
 esac

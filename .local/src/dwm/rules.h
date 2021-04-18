@@ -20,7 +20,7 @@ static const Rule rules[] = {
 	/* class          instance       title       tags mask     isfloating   floatpos   isterminal noswallow monitor */
 { "discord"          , NULL       , NULL       , 1 << 8    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "Brave-browser"    , NULL       , NULL       , 1 << 1    , NULL  ,         NULL          , 0  , 0  , -1  },
-{ "firefox"          , NULL       , NULL       , 1 << 1    , NULL  ,         NULL          , 0  , 0  , -1  },
+{ "Firefox"          , NULL       , NULL       , 1 << 1    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "tabbed-surf"      , NULL       , NULL       , 1 << 1    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "bitwarden"        , NULL       , NULL       , 1 << 6    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "QtPass"           , NULL       , NULL       , 1 << 6    , NULL  ,         NULL          , 0  , 0  , -1  },

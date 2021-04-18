@@ -20,7 +20,8 @@ date=$(date "+%I:%M-%d.%m.%Y")
 DIRS="/home/yigit
 /etc
 /var/lib
-/var/spool"
+/var/spool
+/usr/src/linux"
 
 # Check whether backup server is available on network
 timeout 3 ssh -i "$SSH_KEY" $SSH_USER@$SSH_HOST id < /dev/null > /dev/null 2> /dev/null || echo "SSH Failed." || exit
