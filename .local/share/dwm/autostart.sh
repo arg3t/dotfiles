@@ -45,9 +45,9 @@ xbanish -s &
 tmux new-session -s weechat -d weechat > /dev/null 2> /dev/null
 
 
-~/.local/bin/devmon --exec-on-drive "/sbin/notify-send '禍  drive mounted' '%l (%f) at %d '" \
-    --exec-on-remove "/sbin/notify-send '禍  drive removed' '%l (%f) from %d '" \
-    --exec-on-unmount  "/sbin/notify-send '禍  drive unmounted' '%l (%f) from %d '" \
+~/.local/bin/devmon --exec-on-drive "notify-send -a '禍  drive mounted' '%l (%f) at %d '" \
+    --exec-on-remove "notify-send -a '禍  drive removed' '%l (%f) from %d '" \
+    --exec-on-unmount  "notify-send -a '禍  drive unmounted' '%l (%f) from %d '" \
     --no-unmount --no-gui &
 
 clipmenud > $XDG_RUNTIME_DIR/clipmenud.out 2> $XDG_RUNTIME_DIR/clipmenud.err &

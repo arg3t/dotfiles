@@ -74,7 +74,7 @@ set timeoutlen=1000 ttimeoutlen=0     " Remove timeout when hitting escape
 set showcmd                           " Show size of visual selection
 set cmdheight=2
 set t_Co=256
-set clipboard=unnamedplus
+" set clipboard=unnamedplus
 set shortmess+=c
 set updatetime=300
 if has("patch-8.1.1564")
