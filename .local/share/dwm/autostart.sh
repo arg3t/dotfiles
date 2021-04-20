@@ -2,6 +2,10 @@
 
 
 ~/.local/bin/daily-update
+
+redshift -x 2> /dev/null > /dev/null
+redshift -r -l "$LATLONG" > /dev/null 2> /dev/null &
+
 dwmblocks > $XDG_RUNTIME_DIR/dwmblocks.out 2> $XDG_RUNTIME_DIR/dwmblocks.err &
 
 ~/.local/bin/keyboard > $XDG_RUNTIME_DIR/keyboard.out 2> $XDG_RUNTIME_DIR/keyboard.err
@@ -36,9 +40,6 @@ curl 'http://yeetclock/setcolor?R=136&G=192&B=208' &
 dunst &
 
 xbanish -s &
-
-redshift -x 2> /dev/null > /dev/null
-redshift -r -l "$LATLONG" > /dev/null 2> /dev/null &
 
 
 tmux new-session -s weechat -d weechat > /dev/null 2> /dev/null

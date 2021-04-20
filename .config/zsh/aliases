@@ -51,3 +51,7 @@ alias da="dots add -u"
 alias dcm="dots commit"
 
 alias bon="sudo bash -c 'rc-service bluetooth start && rfkill unblock bluetooth'"
+
+# Override CoreUtils, probably a ba idea but way more convenient
+alias cp='rsync -a --progress'
+alias wget='aria2c'
