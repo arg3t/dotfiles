@@ -43,6 +43,7 @@ alias yarn="yarn --use-yarnrc $XDG_CONFIG_HOME/yarn/config"
 alias tmate="tmate -f $XDG_CONFIG_HOME/tmate/tmate.conf"
 alias mc="mc --config-dir=$XDG_CONFIG_HOME/mc"
 alias abook="abook --config \"$XDG_CONFIG_HOME\"/abook/abookrc --datafile \"$XDG_DATA_HOME\"/abook/addressbook"
+alias imapfilter="imapfilter -c \"$IMAPFILTER_CONFIG\""
 
 alias dots="git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME"
 alias dpall="dots remote | xargs -I R git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME push R"

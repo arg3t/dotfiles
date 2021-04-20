@@ -33,6 +33,7 @@ export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 export NVM_DIR="$XDG_DATA_HOME"/nvm
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 export MBSYNCRC="$XDG_CONFIG_HOME"/isync/mbsyncrc
+export IMAPFILTER_CONFIG="$XDG_CONFIG_HOME/imapfilter/config.lua"
 export VIMINIT="set nocp | source ${XDG_CONFIG_HOME:-$HOME/.config}/vim/vimrc"
 export MYSQL_HISTFILE="$XDG_DATA_HOME"/mysql_history
 export TASKDATA="$XDG_DATA_HOME"/task

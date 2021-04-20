@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 ~/.local/bin/daily-update
 
 redshift -x 2> /dev/null > /dev/null
@@ -53,3 +52,4 @@ tmux new-session -s weechat -d weechat > /dev/null 2> /dev/null
 clipmenud > $XDG_RUNTIME_DIR/clipmenud.out 2> $XDG_RUNTIME_DIR/clipmenud.err &
 rm -f ~/.surf/tabbed-surf.xid
 /bin/polkit-dumb-agent &
+darkhttpd $HOME/.local/share/startpage/dist --port 9999 --daemon --addr 127.0.0.1
