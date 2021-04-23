@@ -66,3 +66,12 @@ bind index,pager \Co sidebar-open
 bind index,pager \Cp sidebar-prev-new
 bind index,pager \Cn sidebar-next-new
 bind index,pager B sidebar-toggle-visible
+
+# File attach
+macro compose A \
+"<shell-escape> lf-ueberzug -selection-path=/tmp/muttattach<enter>\
+<enter-command>push W<enter>"
+
+macro compose W \
+"<attach-file>`cat /tmp/muttattach`<enter>"\
+

@@ -129,6 +129,12 @@ key[Shift-Tab]="${terminfo[kcbt]}"
 [[ -n "${key[PageDown]}"  ]] && bindkey -- "${key[PageDown]}"   end-of-buffer-or-history
 [[ -n "${key[Shift-Tab]}" ]] && bindkey -- "${key[Shift-Tab]}"  reverse-menu-complete
 
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -1 --color $realpath'
+zstyle ':fzf-tab:*' switch-group ',' '.'
+
 # Finally, make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
 if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then

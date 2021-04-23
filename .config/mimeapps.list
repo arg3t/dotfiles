@@ -17,9 +17,14 @@ application/x-shellscript=vim.desktop
 inode/directory=lf.desktop
 application/x-gnome-saved-search=lf.desktop
 application/pdf=zathura.desktop
+application/epub=zathura.desktop
 video/webm=mpv.desktop
 application/zip=engrampa.desktop
 x-scheme-handler/tg=userapp-Telegram Desktop-RUP9V0.desktop
 x-scheme-handler/mailto=neomutt.desktop
 message/rfc822=userapp-neomutt.desktop
 application/x-directory=lf.desktop
+x-scheme-handler/discord-474605546457137157=discord-474605546457137157.desktop
+
+[Added Associations]
+application/rtf=nvim.desktop;

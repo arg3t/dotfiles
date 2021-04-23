@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# This is a small script to open a book from your calibre library
+# Using dmenu.
+
+LIBRARY="$HOME/Library"
+
+if [ "$(date -r "$XDG_CACHE_HOME/calibrelib" "+%d-%m-%Y")" = "$(date '+%d-%m-%Y')" ]; then
+  books_raw=$(cat "$XDG_CACHE_HOME/calibrelib")
+else
+  books_raw=$(calibredb --with-library "$LIBRARY" list --for-machine --fields="title,authors,formats")
+fi
+
+id="$(echo "$books_raw" |\
+  jq -r '.[]|(.id | tostring) + " | " + .title + " | " + .authors' |\
+  dmenu -i -l 12 -p "Search Book: " |\
+  cut -d "|" -f 1)"
+
+entry="$(echo "$books_raw" | jq -a ".[]|select(.id | contains($id))")"
+
+formats="$(echo "$entry" | \
+  jq -r ".formats|.[]" |\
+  sed -r "s/.*\.([^\.]*)$/\1/g")"
+
+if [ "$(echo "$formats" | wc -l)" -lt 2 ]; then
+  xdg-open "$(echo "$entry" | \
+    jq -r ".formats|.[0]")"
+  exit
+fi
+
+index=$(( $(echo "$formats" | grep -n -F $(echo "$formats" | \
+  dmenu -p "Select format:" ) | cut -d ":" -f 1) - 1))
+
+xdg-open "$(echo "$entry" | \
+  jq -r ".formats|.[$line]")"
+

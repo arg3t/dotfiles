@@ -106,16 +106,13 @@ show_menu () {
 	    recipient=$(echo '14039199518' | dmenu -i -p "Recipient's phone #")
 	    mconnectctl send-sms "$2" "$message"  "$recipient" ;;
 	*'Send URL' )
-	    message=$(echo 'Clipboard' | dmenu -i -p "Enter Url:")
+	    message=$(dmenu -i -p "Enter Url:" < /dev/null)
 			if [ "$message" = "Clipboard" ]; then
 				message=$(sselp)
 			fi
 	    mconnectctl share-url "$2" "$message";;
 	*'Send Text' )
-	    message=$(echo 'Clipboard' | dmenu -i -p "Enter Text:")
-			if [ "$message" = "Clipboard" ]; then
-				message=$(sselp)
-			fi
+	    message=$(dmenu -i -p "Enter Text:" < /dev/null)
 	    mconnectctl share-text "$2" "$message";;
 	*'Disconnect' )
 	    mconnectctl disallow-device "$2"

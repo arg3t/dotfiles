@@ -27,7 +27,7 @@ if [ "$ACTIVITYWATCHER" = true ] ; then
     aw-watcher-afk &
 fi
 mpd
-mpd-mpris &
+mpDris2 &
 touch ~/.cache/nextcloud-track
 xss-lock -- slock &
 picom --no-fading-openclose &
