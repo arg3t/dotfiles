@@ -89,7 +89,6 @@ case "$MIMETYPE" in
 		text/* | */xml)
 				# Syntax highlight
 				if [ "$( stat --printf='%s' -- "$file" )" -gt "$HIGHLIGHT_SIZE_MAX" ]; then
-						notify-send 123 123123
 						exit 2
 				fi
 				if [ "$( tput colors )" -ge 256 ]; then

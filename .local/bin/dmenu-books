@@ -9,6 +9,7 @@ if [ "$(date -r "$XDG_CACHE_HOME/calibrelib" "+%d-%m-%Y")" = "$(date '+%d-%m-%Y'
   books_raw=$(cat "$XDG_CACHE_HOME/calibrelib")
 else
   books_raw=$(calibredb --with-library "$LIBRARY" list --for-machine --fields="title,authors,formats")
+  echo "$books_raw" > "$XDG_CACHE_HOME/calibrelib"
 fi
 
 id="$(echo "$books_raw" |\

@@ -1,0 +1,26 @@
+diff --git a/config.def.h b/config.def.h
+index 6d3135e..75dc6a6 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -153,6 +153,8 @@ static Key keys[] = {
+ 	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_m,      toggle,     { .i = Style } },
+ };
+ 
++static char *searchengine = "https://duckduckgo.com/?q=";
++
+ /* button definitions */
+ /* target can be OnDoc, OnLink, OnImg, OnMedia, OnEdit, OnBar, OnSel, OnAny */
+ static Button buttons[] = {
+diff --git a/surf.c b/surf.c
+index 93a1629..c20537e 100644
+--- a/surf.c
++++ b/surf.c
+@@ -476,6 +476,8 @@ loaduri(Client *c, const Arg *a)
+ 	} else if (!stat(uri, &st) && (path = realpath(uri, NULL))) {
+ 		url = g_strdup_printf("file://%s", path);
+ 		free(path);
++	} else if (*uri == ' ') {
++		url = g_strdup_printf("%s%s", searchengine, uri + 1);
+ 	} else {
+ 		url = g_strdup_printf("http://%s", uri);
+ 	}

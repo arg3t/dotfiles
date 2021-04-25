@@ -19,8 +19,8 @@ set guioptions ""
 # zathurarc-dark
 
 set font "inconsolata 15"
-set default-bg "#000000" #00
-set default-fg "#F7F7F6" #01
+set default-bg "#0f111a" #00
+set default-fg "#8d91a0" #01
 
 set statusbar-fg "#B0B0B0" #04
 set statusbar-bg "#202020" #01
@@ -47,11 +47,12 @@ set notification-bg "#90A959" #0B
 set notification-fg "#151515" #00
 
 set recolor "true"
-set recolor-lightcolor "#000000" #00
-set recolor-darkcolor "#E0E0E0" #06
+set recolor-lightcolor "#0F111A" #00
+set recolor-darkcolor "#E5E9F0" #06
 set recolor-reverse-video "true"
-set recolor-keephue "true"
+#set recolor-keephue "true"
 map <C-i> recolor
+map <C-o> feedkeys ":exec zanotes $FILE<Return>"
 
 
 

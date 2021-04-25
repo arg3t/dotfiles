@@ -5,7 +5,6 @@ Plug 'kaicataldo/material.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'lambdalisue/nerdfont.vim'
-Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 " Addons
 Plug 'scrooloose/nerdtree'

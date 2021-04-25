@@ -98,4 +98,13 @@ if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ]; then
   fi
   exit
 fi
+# Start sway if logged in from tty2
+if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty2 ]; then
+  if [ "$DBUS_SESSION_BUS_ADDRESS" = "" ] && [ ! $(command -v dbus-run-session)  = "" ]; then
+    exec dbus-run-session sway 2> $XDG_RUNTIME_DIR/sway.err > $XDG_RUNTIME_DIR/sway
+  else
+    exec sway 2> $XDG_RUNTIME_DIR/sway.err > $XDG_RUNTIME_DIR/sway
+  fi
+  exit
+fi
 

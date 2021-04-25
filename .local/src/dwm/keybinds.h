@@ -66,7 +66,7 @@ static const char *url[] = {"/home/yigit/.local/bin/dmenu_surf", NULL};
 static const char *readbook[] = {"/home/yigit/.local/bin/dmenu-books", NULL};
 static const char *edit[] = {"/home/yigit/.local/bin/dmenu-edit", NULL};
 static const char *surf[] = {"/home/yigit/.local/bin/tabbed_surf", NULL};
-static const char *google[] = {"/home/yigit/.local/bin/menu-surfraw", "google", NULL};
+static const char *searx[] = {"/home/yigit/.local/bin/dmenu-searx", NULL};
 static const char *youtube[] = {"/home/yigit/.local/bin/ytfzf_dmenu", NULL};
 
 /* commands */
@@ -92,7 +92,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
 	{ MODKEY|Mod1Mask,              XK_t,      setlayout,      {.v = &layouts[0]} }, /*tiled*/
 	{ MODKEY|Mod1Mask,              XK_f,      setlayout,      {.v = &layouts[1]} }, /*Spiral*/
-	{ MODKEY|Mod1Mask,              XK_g,      setlayout,      {.v = &layouts[2]} }, /*Grid*/
 	{ MODKEY|Mod1Mask,              XK_c,      setlayout,      {.v = &layouts[3]} }, /*center*/
 	{ MODKEY|Mod1Mask,              XK_space,  setlayout,      {.v = &layouts[4]} }, /*Center floating*/
 	{ MODKEY|Mod1Mask,              XK_m,      setlayout,      {.v = &layouts[5]} }, /*monocle*/
@@ -105,6 +104,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_a,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
+	{ MODKEY|Mod1Mask,              XK_g,      togglegaps,      {0} },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
@@ -144,7 +144,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_r, spawn, {.v = readbook} },
 	{ MODKEY|ShiftMask,             XK_w, spawn, {.v = wallabag} },
 	{ MODKEY,            					  XK_w, spawn, {.v = wiki} },
-	{ MODKEY,                       XK_g, spawn, {.v = google} },
+	{ MODKEY,                       XK_g, spawn, {.v = searx} },
 	{ MODKEY,        	 							XK_t, spawn, {.v = online_class} },
 	{ MODKEY|ShiftMask,							XK_m, spawn, {.v = mconnect} },
 	{ MODKEY|ShiftMask,							XK_d, spawn, {.v = udevil} },
