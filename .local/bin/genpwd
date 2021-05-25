@@ -15,7 +15,8 @@ password_files=( "${password_files[@]%.gpg}" )
 
 folder=$(printf '%s\n' "${password_files[@]}" | cut -d"/" -f1 | sort | uniq | dmenu -l 10 -p "Folder" -i "$@")
 [[ -n $folder ]] || exit
-site=$(printf '%s\n' "${password_files[@]}" | cut -d"/" -f2 | sort | uniq | dmenu -l 10 -p "Site" -i "$@")
+open_urls="$($HOME/.local/bin/exfirefoxtabs.py | awk -F/ '{print $3}' | sort | uniq )"
+site=$(printf '%s\n%s\n' "$open_urls" "$("${password_files[@]}" | cut -d"/" -f2 )" | dmenu -l 10 -p "Site" -i "$@")
 [[ -n $site ]] || exit
 username=$(printf '%s\n' "${password_files[@]}" | cut -d"/" -f3 | sort | uniq | dmenu -l 10 -p "Username" "$@")
 [[ -n $username ]] || exit

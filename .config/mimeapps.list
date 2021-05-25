@@ -20,11 +20,16 @@ application/pdf=zathura.desktop
 application/epub=zathura.desktop
 video/webm=mpv.desktop
 application/zip=engrampa.desktop
-x-scheme-handler/tg=userapp-Telegram Desktop-RUP9V0.desktop
+x-scheme-handler/tg=userapp-Telegram Desktop-APVS20.desktop
 x-scheme-handler/mailto=neomutt.desktop
 message/rfc822=userapp-neomutt.desktop
 application/x-directory=lf.desktop
 x-scheme-handler/discord-474605546457137157=discord-474605546457137157.desktop
 
 [Added Associations]
-application/rtf=nvim.desktop;
+application/rtf=libreoffice-writer.desktop;nvim.desktop;
+text/x-java-source=vim.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-APVS20.desktop;
+application/x-rdp=vim.desktop;
+text/markdown=nvim.desktop;
+application/pdf=zaread.desktop;

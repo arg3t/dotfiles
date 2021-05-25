@@ -1,5 +1,12 @@
 #!/bin/sh
 
+function restart_if_fails(){
+    until bash -c "$1"; do
+        echo "$1 exited with code $?. Restarting in 1 second..."
+        sleep 1
+    done &
+}
+
 ~/.local/bin/daily-update
 
 redshift -x 2> /dev/null > /dev/null
@@ -12,36 +19,38 @@ dwmblocks > $XDG_RUNTIME_DIR/dwmblocks.out 2> $XDG_RUNTIME_DIR/dwmblocks.err &
     --exec-on-unmount  "notify-send -a '禍  drive unmounted' '%l (%f) from %d '" \
     --no-unmount --no-gui &
 
-clipmenud > $XDG_RUNTIME_DIR/clipmenud.out 2> $XDG_RUNTIME_DIR/clipmenud.err &
-rm -f ~/.surf/tabbed-surf.xid
-/bin/polkit-dumb-agent &
+restart_if_fails "clipmenud > $XDG_RUNTIME_DIR/clipmenud.out 2> $XDG_RUNTIME_DIR/clipmenud.err"
+
 darkhttpd $HOME/.local/share/startpage/dist --port 9999 --daemon --addr 127.0.0.1
 
-~/.local/bin/keyboard > $XDG_RUNTIME_DIR/keyboard.out 2> $XDG_RUNTIME_DIR/keyboard.err
+~/.local/bin/keyboard > $XDG_RUNTIME_DIR/keyboard.out 2> $XDG_RUNTIME_DIR/keyboard.err &
 
-dunst &
-
+restart_if_fails dunst
 
 touch ~/.cache/nextcloud-track
-xss-lock -- slock &
-picom --no-fading-openclose &
+restart_if_fails "xss-lock -- slock"
+restart_if_fails "picom --no-fading-openclose"
 
-xbanish -s &
+restart_if_fails "xbanish -s"
 
-#tmux new-session -s weechat -d weechat > /dev/null 2> /dev/null
-
-~/.local/bin/firefox-sync
-
+~/.local/bin/firefox-sync &
 ~/.local/bin/mailsync &
+
+for i in $XDG_CONFIG_HOME/goimapnotify/*; do
+    m="$(echo "$i" | sed "s/.*\///g")"
+    restart_if_fails "goimapnotify -conf $i > $XDG_RUNTIME_DIR/$m.watch.out 2> $XDG_RUNTIME_DIR/$m.watch.err"
+done
 
 if [ "$NEXTCLOUD" = true ] ; then
   nextcloud --background &
 fi
+
 mkdir -p ~/Downloads/neomutt
 if [ "$MCONNECT" = true ] ; then
     mkdir -p ~/Downloads/mconnect
-    (cd ~/Downloads/mconnect; mconnect -d > $XDG_RUNTIME_DIR/mconnect 2> $XDG_RUNTIME_DIR/mconnect.err &)
+    (cd ~/Downloads/mconnect; restart_if_fails "mconnect -d > $XDG_RUNTIME_DIR/mconnect 2> $XDG_RUNTIME_DIR/mconnect.err")
 fi
+
 if [ "$ACTIVITYWATCHER" = true ] ; then
     pkill -f aw-watcher-window
     pkill -f aw-watcher-afk
@@ -50,12 +59,10 @@ if [ "$ACTIVITYWATCHER" = true ] ; then
     aw-watcher-window &
     aw-watcher-afk &
 fi
+
 mpd
-mpDris2 &
+restart_if_fails mpDris2
 
 
 curl 'http://yeetclock/setcolor?R=136&G=192&B=208' &
-
-
-
 

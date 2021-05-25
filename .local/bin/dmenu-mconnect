@@ -97,7 +97,7 @@ show_menu () {
 	*'Send File')
 			mkdir -p $XDG_RUNTIME_DIR/lf/
 			rm -rf $XDG_RUNTIME_DIR/lf/sentfile
-			st -c ranger -e lf -selection-path "$XDG_RUNTIME_DIR/lf/sentfile"
+			st -c ranger -e lf-ueberzug -selection-path "$XDG_RUNTIME_DIR/lf/sentfile"
 			if [ -f $XDG_RUNTIME_DIR/lf/sentfile ]; then
 					mconnectctl share-file "$2" "$(cat $XDG_RUNTIME_DIR/lf/sentfile)"
 	    fi;;

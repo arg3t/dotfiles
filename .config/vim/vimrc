@@ -18,39 +18,43 @@ let s:MRU_File = $XDG_CACHE_HOME."/vim/mru"
 
 if !has('nvim') | set viminfofile=$XDG_CACHE_HOME/vim/viminfo | endif
 
+if has('nvim')
+  source ~/.config/nvim/plugin/plugins.vim
+endif
 
-source ~/.config/vim/plugin/plugins.vim
+map <leader>c :w! \| !compiler "<c-r>%"<CR>
 
 " Set leader
 let mapleader = ","
-noh
 
 " Leader Mappings
 map <Leader>w :update<CR>
 map <Leader>q :qall<CR>
 map <Leader>gs :Gstatus<CR>
 
+" map Q to gq for line formatting cuz Q is useless
+nnoremap Q gq
+
 " Recently edited files
 map <Leader>h :History<CR>
-
-" map gj and gk to j and k for seamless movement in tex
-map j gj
-map k gk
 
 " CtrlP use FZF (faster!)
 nnoremap <C-p> :Files<CR>
 nnoremap <leader>b :Buffers<CR>
 noremap <leader>u :w<Home>silent <End> !urlview<CR>
 
+" System clipboard copy
+nnoremap <Leader>y "+y
+nnoremap <Leader>p "+p
+vnoremap <Leader>y "+y
+vnoremap <Leader>p "+p
+nnoremap <Leader>Y "+Y
+nnoremap <Leader>P "+P
+vnoremap <Leader>d "+d
+nnoremap <Leader>D "+D
+
 syntax on
 filetype plugin on
-autocmd Filetype scss if getfsize(@%) > 300 | setlocal syntax=OFF | endif
-
-augroup twig_ft
-  au!
-  autocmd BufNewFile,BufRead *.html.inky   set syntax=eruby
-augroup END
-
 
 set autoread                          " Auto reload changed files
 set wildmenu                          " Tab autocomplete in command mode
@@ -74,6 +78,8 @@ set timeoutlen=1000 ttimeoutlen=0     " Remove timeout when hitting escape
 set showcmd                           " Show size of visual selection
 set cmdheight=2
 set t_Co=256
+noh
+
 " set clipboard=unnamedplus
 set shortmess+=c
 set updatetime=300
@@ -97,6 +103,22 @@ set wildignore+=*.zip
 set wildignore+=*/vendor/bundle/*
 set wildignore+=*/node_modules/
 
+" Enable autocompletion:
+set wildmode=longest,list,full
+
+" Disables automatic commenting on newline:
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+vnoremap . :normal .<CR>
+
+map <leader>f :Goyo \| set linebreak<CR>
+map <leader>o :setlocal spell! spelllang=en_us<CR>
+set splitbelow splitright
+
+map <leader>s :!clear && shellcheck -x %<CR>
+
+cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+
 "-------------------------------------------------------------------------------
 " Interface
 "-------------------------------------------------------------------------------
@@ -117,8 +139,6 @@ endif
 
 
 let g:material_theme_style='ocean-community'
-let g:material_style='ocean'
-
 
 set background=dark
 try
@@ -134,41 +154,20 @@ highlight Comment cterm=italic gui=italic
 nnoremap <C-Left> :tabprevious<CR>
 nnoremap <C-Right> :tabnext<CR>
 
-" Golang specific settings
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_types = 1
-let g:go_auto_type_info = 1
-
-let g:go_fmt_command = "goimports"
-
 " Find/replace
 vnoremap <C-r> "hy:%s/<C-r>h//g<left><left><left>
 
-" Disable highlight
-nnoremap <leader>e :noh<CR>
-
-" let g:auto_save = 1  " enable AutoSave on Vim startup
-" let g:auto_save_in_insert_mode = 0 " do not save in insert mode
-
-" Get off my lawn - helpful when learning Vim :)
+" DON'T USE ARROWS NORMIE
 nnoremap <C-c> :echoe "Use Esc"<CR>
 nnoremap <Left> :echoe "Use h"<CR>
 nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
 
+" Split resize
 nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
-let g:Tlist_WinWidth = 40
 
-" Syntastic max file size for python
-let g:syntastic_python_pylint_post_args="--max-line-length=120"
 
 " Make vim obey transparency
 hi! Normal ctermbg=NONE guibg=NONE
@@ -176,18 +175,25 @@ hi! NonText ctermbg=NONE guibg=NONE
 
 "-------------------------------------------------------------------------------
 " Neovim-specific configurations
-"-------------------------------------------------------------------------------
 
 if has('nvim')
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   set termguicolors
-
 
   " Fix vim-tmux-navigator <C-h> https://git.io/viGRU
   nmap <BS> <C-W>h
 
   " Fix vim-tmux-navigator <C-h> https://git.io/vS5QH
   nmap <BS> :<C-u>TmuxNavigateLeft<CR>
+
+  " The following require plugins to be loaded so they should only be set in neovim
+  let g:vimtex_view_general_viewer = 'zathura'
+  " Syntastic max file size for python
+  let g:syntastic_python_pylint_post_args="--max-line-length=120"
+
+  " Widths fot several plugins
+  let g:goyo_width = 120 " Goyo
+  let g:Tlist_WinWidth = 40 " Tlist
 endif
 
 
@@ -197,15 +203,21 @@ autocmd VimLeave * call system("xsel -ib", getreg('+'))
 " Useful for GDB debugging
 packadd termdebug
 
-" Use skeleton files
+" File Specific Settings
 if has("autocmd")
-    augroup templates
-        autocmd BufNewFile *.* silent! execute '0r ~/.local/share/vim/templates/skeleton.'.expand("<afile>:e")
-        autocmd BufNewFile * %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
-    augroup END
+  " Use skeleton files
+  augroup templates
+      autocmd BufNewFile *.* silent! execute '0r ~/.local/share/vim/templates/skeleton.'.expand("<afile>:e")
+      autocmd BufNewFile * %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
+  augroup END
 
-    autocmd BufWinLeave *.tex !texclear %:p
-    autocmd BufRead calcurse-note.* :set filetype=markdown
+  autocmd BufWinLeave *.tex !texclear %:p " Run texclear on exit
+  autocmd BufRead calcurse-note.* :set filetype=markdown " Use markdown for calcurse notes
+
+  " Enable Goyo by default for mutt writing
+  autocmd BufRead,BufNewFile /tmp/neomutt* let g:goyo_width=80
+  autocmd BufRead,BufNewFile /tmp/neomutt* :Goyo | set bg=light
+  autocmd BufRead,BufNewFile /tmp/neomutt* map ZZ :Goyo\|x!<CR>
+  autocmd BufRead,BufNewFile /tmp/neomutt* map ZQ :Goyo\|q!<CR>
 endif
 
-let g:vimtex_view_general_viewer = 'zathura'

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# This is a thin wrapper around "doom" so that it can easily be run from dmenu
+
+dunstify -r 57 -a "ξ Doom Emacs" "Running \"doom $@\""
+$XDG_CONFIG_HOME/emacs/bin/doom $@
+dunstify -r 57 -a "ξ Doom Emacs" "Finished \"doom $@\""

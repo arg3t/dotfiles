@@ -1,0 +1,14 @@
+{
+  "host": "mail.fr1nge.xyz",
+  "port": 993,
+  "tls": true,
+  "tlsOptions": {
+    "rejectUnauthorized": true
+  },
+  "username": "yigit@fr1nge.xyz",
+  "passwordCmd": "pass show Email/fr1nge.xyz/yigit@fr1nge.xyz",
+  "onNewMail": "mailsync yigit@fr1nge.xyz",
+  "boxes": [
+    "INBOX"
+  ]
+}

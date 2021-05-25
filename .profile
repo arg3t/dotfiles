@@ -58,6 +58,7 @@ export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
 export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME"/pass
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 
@@ -92,19 +93,10 @@ fi
 # Start xinit if logged in from tty1
 if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ]; then
   if [ "$DBUS_SESSION_BUS_ADDRESS" = "" ] && [ ! $(command -v dbus-run-session)  = "" ]; then
-    exec dbus-run-session xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
+    # exec dbus-run-session xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
+    exec xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
   else
     exec xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
   fi
   exit
 fi
-# Start sway if logged in from tty2
-if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty2 ]; then
-  if [ "$DBUS_SESSION_BUS_ADDRESS" = "" ] && [ ! $(command -v dbus-run-session)  = "" ]; then
-    exec dbus-run-session sway 2> $XDG_RUNTIME_DIR/sway.err > $XDG_RUNTIME_DIR/sway
-  else
-    exec sway 2> $XDG_RUNTIME_DIR/sway.err > $XDG_RUNTIME_DIR/sway
-  fi
-  exit
-fi
-

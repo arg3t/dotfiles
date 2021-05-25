@@ -75,8 +75,8 @@ enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
-enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkClientWin,
-			 ClkRootWin, ClkLast }; /* clicks */
+enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
+			 ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
 typedef union {
 	int i;
 	unsigned int ui;
@@ -567,7 +567,7 @@ buttonpress(XEvent *e)
 {
 	unsigned int i, x, click, occ = 0;
 	unsigned int xc;
-	int padding = - sp * 3; /* I don't know why 3 works better than two, but it does */
+	int padding = - sp * 3; /* I don't know why 4 works better than two, but it does */
 	Arg arg = {0};
 	Client *c, *sel;
 	Monitor *m;
@@ -596,9 +596,7 @@ buttonpress(XEvent *e)
 			arg.ui = 1 << i;
 		} else if (ev->x < x + blw)
 			click = ClkLtSymbol;
-		else{
-	//		x = selmon->ww - statusw;
-	//
+		else if(ev->x > selmon->ww - selmon->tw){
 			click = ClkStatusText;
 			xc = selmon->ww - selmon->tw + padding;
 			xc += lrpad / 2;
@@ -618,7 +616,8 @@ buttonpress(XEvent *e)
 					dwmblockssig = ch;
 				}
 			}
-		}
+		}else
+			click = ClkWinTitle;
 	} else if ((c = wintoclient(ev->window))) {
 		focus(c);
 		restack(selmon);
@@ -970,11 +969,7 @@ drawstatusbar(Monitor *m, int bh, char* stext, int stw, int stp, int align)
 	if (!(text = (char*) malloc(sizeof(char)*len)))
 		die("malloc");
 	p = text;
-	#if STATUSCMD_PATCH
 	copyvalidchars(text, stext);
-	#else
-	memcpy(text, stext, len);
-	#endif // STATUSCMD_PATCH
 
 	/* compute width of the status text */
 	w = stp * 2;
@@ -984,11 +979,7 @@ drawstatusbar(Monitor *m, int bh, char* stext, int stw, int stp, int align)
 			if (!isCode) {
 				isCode = 1;
 				text[i] = '\0';
-				#if PANGO_PATCH
-				w += TEXTWM(text) - lrpad;
-				#else
 				w += TEXTW(text) - lrpad;
-				#endif // PANGO_PATCH
 				text[i] = '^';
 				if (text[++i] == 'f')
 					w += atoi(text + ++i);
@@ -1000,15 +991,11 @@ drawstatusbar(Monitor *m, int bh, char* stext, int stw, int stp, int align)
 		}
 	}
 	if (!isCode)
-		#if PANGO_PATCH
-		w += TEXTWM(text) - lrpad;
-		#else
 		w += TEXTW(text) - lrpad;
-		#endif // PANGO_PATCH
 	else
 		isCode = 0;
 	text = p;
-	w += 2; /* 1px padding on both sides */
+	w += 0; /* 1px padding on both sides */
 	if (align == 0)
 		x = 0 + stp; // left
 	else if (align == 1)
@@ -1030,13 +1017,8 @@ drawstatusbar(Monitor *m, int bh, char* stext, int stw, int stp, int align)
 			isCode = 1;
 
 			text[i] = '\0';
-			#if PANGO_PATCH
-			w = TEXTWM(text) - lrpad;
-			drw_text(drw, x, 0, w, bh, 0, text, 0, True);
-			#else
 			w = TEXTW(text) - lrpad;
 			drw_text(drw, x, 0, w, bh, 0, text, 0);
-			#endif // PANGO_PATCH
 
 			x += w;
 
@@ -1050,13 +1032,7 @@ drawstatusbar(Monitor *m, int bh, char* stext, int stw, int stp, int align)
 					}
 					memcpy(buf, (char*)text+i+1, 7);
 					buf[7] = '\0';
-					#if ALPHA_PATCH && STATUS2D_NO_ALPHA_PATCH
-					drw_clr_create(drw, &drw->scheme[ColFg], buf, 0xff);
-					#elif ALPHA_PATCH
-					drw_clr_create(drw, &drw->scheme[ColFg], buf, alphas[SchemeNorm][ColFg]);
-					#else
 					drw_clr_create(drw, &drw->scheme[ColFg], buf);
-					#endif // ALPHA_PATCH
 					i += 7;
 				} else if (text[i] == 'b') {
 					char buf[8];
@@ -1066,13 +1042,7 @@ drawstatusbar(Monitor *m, int bh, char* stext, int stw, int stp, int align)
 					}
 					memcpy(buf, (char*)text+i+1, 7);
 					buf[7] = '\0';
-					#if ALPHA_PATCH && STATUS2D_NO_ALPHA_PATCH
-					drw_clr_create(drw, &drw->scheme[ColBg], buf, 0xff);
-					#elif ALPHA_PATCH
-					drw_clr_create(drw, &drw->scheme[ColBg], buf, alphas[SchemeNorm][ColBg]);
-					#else
 					drw_clr_create(drw, &drw->scheme[ColBg], buf);
-					#endif // ALPHA_PATCH
 					i += 7;
 				} else if (text[i] == 'd') {
 					drw->scheme[ColFg] = scheme[SchemeNorm][ColFg];
@@ -1104,13 +1074,8 @@ drawstatusbar(Monitor *m, int bh, char* stext, int stw, int stp, int align)
 	}
 
 	if (!isCode) {
-		#if PANGO_PATCH
-		w = TEXTWM(text) - lrpad;
-		drw_text(drw, x, 0, w, bh, 0, text, 0, True);
-		#else
 		w = TEXTW(text) - lrpad;
 		drw_text(drw, x, 0, w, bh, 0, text, 0);
-		#endif // PANGO_PATCH
 	}
 
 	drw_setscheme(drw, scheme[SchemeNorm]);
@@ -1151,10 +1116,6 @@ drawbar(Monitor *m)
 		else
 			drw_text(drw, x, 0, w, bh, lrpad / 2, busytags[i], urg & 1 << i);
 
-		/** if (occ & 1 << i) */
-		/**   drw_rect(drw, x + boxw, 0, w - ( 2 * boxw + 1), boxw, */
-		/**     m == selmon && selmon->sel && selmon->sel->tags & 1 << i, */
-		/**     urg & 1 << i); */
 		x += w;
 	}
 	w = blw = TEXTW(m->ltsymbol);
@@ -1162,8 +1123,8 @@ drawbar(Monitor *m)
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
 
 	if ((w = m->ww - m->tw - x) > bh) {
-			drw_setscheme(drw, scheme[SchemeInfoNorm]);
-			drw_rect(drw, x, 0, w - 2 * sp, bh, 1, 1);
+		drw_setscheme(drw, scheme[SchemeInfoNorm]);
+		drw_rect(drw, x, 0, w - 2 * sp, bh, 1, 1);
 	}
 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
 }
@@ -1872,8 +1833,11 @@ propertynotify(XEvent *e)
 			drawbars();
 			break;
 		}
-		if (ev->atom == XA_WM_NAME || ev->atom == netatom[NetWMName])
+		if (ev->atom == XA_WM_NAME || ev->atom == netatom[NetWMName]){
 			updatetitle(c);
+			if (c == c->mon->sel)
+				drawbar(c->mon);
+			}
 		if (ev->atom == netatom[NetWMWindowType])
 			updatewindowtype(c);
 	}

@@ -10,7 +10,6 @@ set message_cachedir = /home/yigit/.cache/mutt-wizard/yigit@yigitcolakoglu.com/b
 set mbox_type = Maildir
 set signature = "/home/yigit/.config/mutt/accounts/2-yigit@yigitcolakoglu.com.sig"
 
-
 bind index,pager gg noop
 bind index,pager g noop
 bind index,pager M noop

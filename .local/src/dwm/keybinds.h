@@ -38,6 +38,7 @@ static const char *refresh[] = {"/home/yigit/.local/bin/dmenu-refresh", NULL};
 static const char *keyboard[] = {"/home/yigit/.local/bin/kbmap_toggle", NULL};
 
 static const char *screenshot[] = { "scrot", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send -a \"SNAP\" \"$f\"", NULL };
+static const char *selectshot[] = { "scrot", "-s","/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send -a \"SNAP\" \"$f\"", NULL };
 static const char *windowshot[] = { "scrot", "-u", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send -a \"SNAP\" \"$f\"", NULL };
 static const char *simcrop[] = {"simcrop","-fc","-sc", "-g", "900x500",NULL};
 
@@ -64,6 +65,7 @@ static const char *trackpad[] = {"/home/yigit/.local/bin/toggle_touchpad.sh"};
 static const char *bluetooth[] = {"/home/yigit/.local/bin/dmenu-bluetooth", NULL};
 static const char *url[] = {"/home/yigit/.local/bin/dmenu_surf", NULL};
 static const char *readbook[] = {"/home/yigit/.local/bin/dmenu-books", NULL};
+static const char *record[] = {"/home/yigit/.local/bin/dmenu-record", NULL};
 static const char *edit[] = {"/home/yigit/.local/bin/dmenu-edit", NULL};
 static const char *surf[] = {"/home/yigit/.local/bin/tabbed_surf", NULL};
 static const char *searx[] = {"/home/yigit/.local/bin/dmenu-searx", NULL};
@@ -138,10 +140,12 @@ static Key keys[] = {
 	{ 0,                            XF86XK_AudioNext, spawn, {.v = next  } },
 	{ 0,                            XK_Print, spawn, {.v = screenshot  } },
 	{ MODKEY,                       XK_Print, spawn, {.v = windowshot  } },
+	{ MODKEY|Mod1Mask,              XK_Print, spawn, {.v = selectshot  } },
 	{ MODKEY|ShiftMask, 						XK_e, spawn, {.v = simcrop } },
 	{ MODKEY,                       XK_e, spawn, {.v = edit} },
 	{ MODKEY,                       XK_u, spawn, {.v = url} },
 	{ MODKEY,                       XK_r, spawn, {.v = readbook} },
+	{ MODKEY|Mod1Mask,              XK_r, spawn, {.v = record } },
 	{ MODKEY|ShiftMask,             XK_w, spawn, {.v = wallabag} },
 	{ MODKEY,            					  XK_w, spawn, {.v = wiki} },
 	{ MODKEY,                       XK_g, spawn, {.v = searx} },
@@ -157,6 +161,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_f, 		 togglescratch,          {.ui = 3} },
 	{ MODKEY,   					          XK_n, 		 togglescratch,          {.ui = 4} },
 	{ MODKEY|ShiftMask,             XK_c, 		 togglescratch,          {.ui = 5} },
+	{ MODKEY,             					XK_o, 		 togglescratch,          {.ui = 6} },
 	/* FloatPos Patch Keybinds */
 	{ Mod3Mask,                     XK_u,            floatpos,               {.v = "-26x -26y" } }, // ↖
 	{ Mod3Mask,                     XK_i,            floatpos,               {.v = "  0x -26y" } }, // ↑

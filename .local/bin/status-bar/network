@@ -20,12 +20,12 @@ is_wlan_used=$(cat /sys/class/net/$WLAN_IT/carrier)
 echo -n "^c#88c0d0^"
 
 if  [ "$is_eth_used" -eq 1 ]; then    # wired network is carrying
-      icon="  ^d^ " #uF6FF
+      icon=" ^d^ " #uF6FF
   elif  [ "$is_wlan_used" -eq 1 ]; then # wireless network is carrying
     ssid=$(get_ssid)
-    icon="直 ^d^" #uF1EB
+    icon=" ^d^" #uF1EB
     else
-      icon="  ^d^" #uf128 # no network
+      icon=" ^d^" #uf128 # no network
 fi
 
 echo -n $icon

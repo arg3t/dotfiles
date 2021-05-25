@@ -13,6 +13,7 @@ alias yain="yay -Syu "
 alias ls="ls --color"
 alias yay="yay --sudoloop"
 alias lf=lf-ueberzug
+alias vimorig=$(which vim)
 alias vim=nvim
 
 weechat(){
@@ -53,6 +54,6 @@ alias dcm="dots commit"
 
 alias bon="sudo bash -c 'rc-service bluetooth start && rfkill unblock bluetooth'"
 
-# Override CoreUtils, probably a ba idea but way more convenient
-alias cp='rsync -a --progress'
-alias wget='aria2c'
+alias cx="chmod +x"
+
+alias lights_on="curl 'http://yeetclock/setcolor?R=136&G=192&B=208'"

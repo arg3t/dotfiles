@@ -1,0 +1,46 @@
+# vim: filetype=neomuttrc
+# muttrc file for account yigit@fr1nge.xyz
+set realname = "Yigit Colakoglu"
+set from = "yigit@fr1nge.xyz"
+set sendmail = "msmtp -a yigit@fr1nge.xyz"
+alias me yigit <yigit@fr1nge.xyz>
+set folder = "/home/yigit/.local/share/mail/yigit@fr1nge.xyz"
+set header_cache = /home/yigit/.cache/mutt-wizard/yigit@fr1nge.xyz/headers
+set message_cachedir = /home/yigit/.cache/mutt-wizard/yigit@fr1nge.xyz/bodies
+set mbox_type = Maildir
+set signature = "/home/yigit/.config/mutt/accounts/3-yigit@fr1nge.xyz.sig"
+
+bind index,pager gg noop
+bind index,pager g noop
+bind index,pager M noop
+bind index,pager C noop
+bind index gg first-entry
+unmailboxes *
+unalternates *
+unset signature
+unmacro index o
+macro index o "<shell-escape>mw -y yigit@fr1nge.xyz<enter>" "run mbsync to sync yigit@fr1nge.xyz"
+
+mailboxes "=Drafts" "=INBOX" "=Junk" "=Sent" "=Archive" "=Deleted Items"
+macro index,pager ga "<change-folder>=Archive<enter>" "go to archive"
+macro index,pager Ma ";<save-message>=Archive<enter>" "move mail to archive"
+macro index,pager Ca ";<copy-message>=Archive<enter>" "copy mail to archive"
+macro index,pager gj "<change-folder>=Junk<enter>" "go to spam"
+macro index,pager Mj ";<save-message>=Junk<enter>" "move mail to spam"
+macro index,pager Cj ";<copy-message>=Junk<enter>" "copy mail to spam"
+set record = "+Sent"
+macro index,pager gs "<change-folder>=Sent<enter>" "go to sent"
+macro index,pager Ms ";<save-message>=Sent<enter>" "move mail to sent"
+macro index,pager Cs ";<copy-message>=Sent<enter>" "copy mail to sent"
+macro index,pager gt "<change-folder>=Deleted Items<enter>" "go to trash"
+macro index,pager Mt ";<save-message>=Deleted Items<enter>" "move mail to trash"
+macro index,pager Ct ";<copy-message>=Deleted Items<enter>" "copy mail to trash"
+set trash = "+Trash"
+set postponed = "+Drafts"
+macro index,pager gd "<change-folder>=Drafts<enter>" "go to drafts"
+macro index,pager Md ";<save-message>=Drafts<enter>" "move mail to drafts"
+macro index,pager Cd ";<copy-message>=Drafts<enter>" "copy mail to drafts"
+macro index,pager gi "<change-folder>=INBOX<enter>" "go to inbox"
+macro index,pager Mi ";<save-message>=INBOX<enter>" "move mail to inbox"
+macro index,pager Ci ";<copy-message>=INBOX<enter>" "copy mail to inbox"
+set spoolfile = "+INBOX"

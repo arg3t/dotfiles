@@ -19,8 +19,19 @@ EOF
 }
 
 function add_annotation() {
-    xclip -out -selection clipboard >> "$1"
-    echo -e "\n> <!!>\n" >> $1
+    selection=$(xclip -out -selection clipboard | sed ':a;N;$!ba;s/\n/ /g')
+    text=""
+    ccount=0
+    for word in $selection; do
+      ccount=$(( $ccount + $(echo $word | wc -c)))
+      if [ $ccount -gt 75 ]; then
+        ccount=0
+        echo "$(echo $text | xargs)" >> $1
+        text=""
+      fi
+      text="$text$word "
+    done
+    echo -e "> <!!>\n" >> $1
 }
 
 

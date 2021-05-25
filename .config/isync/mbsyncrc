@@ -50,3 +50,27 @@ MaxMessages 0
 ExpireUnread no
 # End profile
 
+IMAPStore yigit@fr1nge.xyz-remote
+Host mail.fr1nge.xyz
+Port 993
+User yigit
+PassCmd "pass Email/fr1nge.xyz/yigit@fr1nge.xyz"
+AuthMechs LOGIN
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore yigit@fr1nge.xyz-local
+Subfolders Verbatim
+Path /home/yigit/.local/share/mail/yigit@fr1nge.xyz/
+Inbox /home/yigit/.local/share/mail/yigit@fr1nge.xyz/INBOX
+
+Channel yigit@fr1nge.xyz
+Expunge Both
+Master :yigit@fr1nge.xyz-remote:
+Slave :yigit@fr1nge.xyz-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 0
+ExpireUnread no
+# End profile

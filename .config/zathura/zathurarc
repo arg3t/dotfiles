@@ -58,7 +58,6 @@ map <C-o> feedkeys ":exec zanotes $FILE<Return>"
 
 set render-loading "false"
 set scroll-step 50
-unmap f
-map f toggle_fullscreen
-map [fullscreen] f toggle_fullscreen
+map F toggle_fullscreen
+map [fullscreen] F toggle_fullscreen
 set selection-clipboard clipboard

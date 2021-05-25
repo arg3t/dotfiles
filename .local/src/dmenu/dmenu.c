@@ -40,8 +40,8 @@ struct item {
 };
 
 
+static char **hpitems = NULL;
 static int hplength = 0;
-static char **hpitems;
 static char text[BUFSIZ] = "";
 static char *embed;
 static int bh, mw, mh;
@@ -123,8 +123,9 @@ xinitvisual()
 	}
 }
 
+ 
 static char**
-tokenize(char *source, char *delim, int *llen) {
+tokenize(char *source, const char *delim, int *llen) {
 	int listlength = 0;
 	char **list = malloc(1 * sizeof(char*));
 	char *token = strtok(source, delim);
@@ -1030,9 +1031,8 @@ main(int argc, char *argv[])
 			colors[SchemeSelHighlight][ColBg] = argv[++i];
 		else if (!strcmp(argv[i], "-shf")) /* selected hi foreground color */
 			colors[SchemeSelHighlight][ColFg] = argv[++i];
-		else if (!strcmp(argv[i], "-hp")){
+		else if (!strcmp(argv[i], "-hp"))
 			hpitems = tokenize(argv[++i], ",", &hplength);
-		}
 		else if (!strcmp(argv[i], "-it")) {   /* embedding window id */
 			const char * text = argv[++i];
 			insert(text, strlen(text));

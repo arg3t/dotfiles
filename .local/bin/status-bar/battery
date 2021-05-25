@@ -20,27 +20,44 @@ else
     export bat=$(cat /sys/class/power_supply/BAT0/capacity)
     export status=$(cat /sys/class/power_supply/BAT0/status)
     export plugged=$(cat /sys/class/power_supply/AC/online)
+    tleft=$(acpi -b | sed -r 's/.* ([0-9]{2}:[0-9]{2}).*/\1/g')
+    if [ -f "$XDG_CACHE_HOME/battery_tleft" ] && [ ! $(echo "$tleft" | grep "Full")]; then
+        stats="$tleft"
+    else
+        stats="$bat%"
+    fi
     if [[ $plugged == "1" ]]; then
-        echo "^c#ebcb8b^$ac_bat^d^ $bat%"
+        echo "^c#ebcb8b^$ac_bat^d^ $stats"
     elif [[ $bat -lt 10 ]]; then
-        echo "^c#ebcb8b^$ramp10^d^ $bat%"
+        echo "^c#ebcb8b^$ramp10^d^ $stats"
     elif [[ $bat -lt 20 ]]; then
-        echo "^c#ebcb8b^$ramp20^d^ $bat%"
+        echo "^c#ebcb8b^$ramp20^d^ $stats"
     elif [[ $bat -lt "30" ]]; then
-        echo "^c#ebcb8b^$ramp30^d^ $bat%"
+        echo "^c#ebcb8b^$ramp30^d^ $stats"
     elif [[ $bat -lt "40" ]]; then
-        echo "^c#ebcb8b^$ramp40^d^ $bat%"
+        echo "^c#ebcb8b^$ramp40^d^ $stats"
     elif [[ $bat -lt "50" ]]; then
-        echo "^c#ebcb8b^$ramp50^d^ $bat%"
+        echo "^c#ebcb8b^$ramp50^d^ $stats"
     elif [[ $bat -lt "60" ]]; then
-        echo "^c#ebcb8b^$ramp60^d^ $bat%"
+        echo "^c#ebcb8b^$ramp60^d^ $stats"
     elif [[ $bat -lt "70" ]]; then
-        echo "^c#ebcb8b^$ramp70^d^ $bat%"
+        echo "^c#ebcb8b^$ramp70^d^ $stats"
     elif [[ $bat -lt "80" ]]; then
-        echo "^c#ebcb8b^$ramp80^d^ $bat%"
+        echo "^c#ebcb8b^$ramp80^d^ $stats"
     elif [[ $bat -lt "90" ]]; then
-        echo "^c#ebcb8b^$ramp90^d^ $bat%"
+        echo "^c#ebcb8b^$ramp90^d^ $stats"
     elif [[ $bat -le "100" ]]; then
-        echo "^c#ebcb8b^$ramp100^d^ $bat%"
+        echo "^c#ebcb8b^$ramp100^d^ $stats"
     fi
 fi
+
+case $BLOCK_BUTTON in
+	1)
+    if [ -f "$XDG_CACHE_HOME/battery_tleft" ]; then
+        rm "$XDG_CACHE_HOME/battery_tleft"
+    else
+        touch "$XDG_CACHE_HOME/battery_tleft"
+    fi
+      ;;
+esac
+
