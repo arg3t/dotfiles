@@ -1,19 +1,23 @@
 #!/bin/sh
 
-case "$(readlink -f /sbin/init)" in
-	*systemd*) export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ;;
-esac
+[ -f "$XDG_CACHE_HOME/dbus_settings" ] && "$XDG_CACHE_HOME/dbus_settings" # Load the dbus settings for current session
 
 ping -q -c 1 example.org > /dev/null || exit
 
 
-pgrepoutput="$(pgrep -a X\(org\|wayland\))"
-displays="$(echo "$pgrepoutput" | grep -wo "[0-9]*:[0-9]\+" | sort -u)"
+displays="$(ps -u $(id -u) -o pid= \
+| xargs -I PID -r cat /proc/PID/environ 2> /dev/null \
+| tr '\0' '\n' \
+| grep ^DISPLAY=: \
+| sort -u \
+| xargs \
+| cut -d ":" -f2)"
 notify() {
-	[ -n "$pgrepoutput" ] && for x in ${displays:-:0}; do
-		export DISPLAY=$x
-		notify-send --app-name="auto-update" "$1" "$2"
-	done ;
+        IFS="\n"
+        for x in $displays; do
+                export DISPLAY=$x
+                notify-send --app-name="$1" "$2"
+        done ;
 }
 
 notify " Repository Sync" "Checking for package updates..."

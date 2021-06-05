@@ -5,7 +5,6 @@ Plug 'kaicataldo/material.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'lambdalisue/nerdfont.vim'
-Plug 'vimwiki/vimwiki'
 
 " Addons
 Plug 'scrooloose/nerdtree'
@@ -45,8 +44,4 @@ Plug 'leafgarland/typescript-vim'
 Plug 'vim-scripts/cool.vim'
 Plug 'justinmk/vim-syntax-extra'
 Plug 'arrufat/vala.vim'
-
-" Syntax errors
-Plug 'ntpeters/vim-better-whitespace'
-
 call plug#end()

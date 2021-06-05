@@ -1,28 +1,23 @@
-/* See LICENSE file for copyright and license details. */
-
 /*
- * appearance
- *
- * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
- */
+ __   _______ _____ _____
+ \ \ / / ____| ____|_   _|
+  \ V /|  _| |  _|   | |
+   | | | |___| |___  | |
+   |_| |_____|_____| |_|
+    Yeet's st config
+*/
+
 static char *font = "CaskaydiaCove Nerd Font Mono:pixelsize=16:antialias=true:autohint=true";
 static char *font2[] = {
-    "Symbola:pixelsize=16:antialias=true:autohint=true",
+    "Joypixels:pixelsize=16:antialias=true:autohint=true",
 };
-char *iso14755_cmd = "cat /home/yigit/.local/share/nerdfont_icons | dmenu -w \"$WINDOWID\" -p \"Select icon\" -l 10 | cut -d\"(\" -f2 | cut -c 1-4";
+char *iso14755_cmd = "dmenu -w \"$WINDOWID\" -p \"Enter unicode\"";
 
 static int borderpx = 2;
 
-/*
- * What program is execed by st depends of these precedence rules:
- * 1: program passed with -e
- * 2: scroll and/or utmp
- * 3: SHELL environment variable
- * 4: value of shell in /etc/passwd
- * 5: value of shell in config.h
- */
 static char *shell = "/bin/zsh";
 char *utmp = NULL;
+
 /* scroll program: to enable use a string like "scroll" */
 char *scroll = "scroll";
 char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
@@ -36,11 +31,6 @@ char *vtiden = "\033[?6c";
 static float cwscale = 1.0;
 static float chscale = 1.0;
 
-/*
- * word delimiter string
- *
- * More advanced example: L" `'\"()[]{}"
- */
 wchar_t *worddelimiters = L" ";
 
 /* selection timeouts (in milliseconds) */
@@ -54,50 +44,15 @@ int allowaltscreen = 1;
    setting the clipboard text */
 int allowwindowops = 0;
 
-/*
- * draw latency range in ms - from new content/keypress/etc until drawing.
- * within this range, st draws when content stops arriving (idle). mostly it's
- * near minlatency, but it waits longer for slow updates to avoid partial draw.
- * low minlatency will tear/flicker more, as it can "detect" idle too early.
- */
 static double minlatency = 8;
 static double maxlatency = 33;
 
-/*
- * blinking timeout (set to 0 to disable blinking) for the terminal blinking
- * attribute.
- */
 static unsigned int blinktimeout = 800;
-
-/*
- * thickness of underline and bar cursors
- */
 static unsigned int cursorthickness = 2;
 
-/*
- * bell volume. It must be a value between -100 and 100. Use 0 for disabling
- * it
- */
 static int bellvolume = 0;
-
-/* default TERM value */
 char *termname = "st-256color";
 
-/*
- * spaces per tab
- *
- * When you are changing this value, don't forget to adapt the »it« value in
- * the st.info and appropriately install the st.info in the environment where
- * you use this st version.
- *
- *	it#$tabspaces,
- *
- * Secondly make sure your kernel is not expanding tabs. When running `stty
- * -a` »tab0« should appear. You can tell the terminal to not expand tabs by
- *  running following command:
- *
- *	stty tabs
- */
 unsigned int tabspaces = 8;
 
 static const char *colorname[] = {
@@ -129,10 +84,6 @@ static const char *colorname[] = {
   /* More special colors */
 };
 
-/*
- * Default colors (colorname index)
- * foreground, background, cursor, reverse cursor
- */
 unsigned int defaultfg = 257;
 unsigned int defaultbg = 256;
 unsigned int bg = 256, bgUnfocused = 256;
@@ -142,46 +93,19 @@ static unsigned int defaultrcs = 256;
 static unsigned int defaultitalic = 7;
 static unsigned int defaultunderline = 7;
 
-/*
- * Default shape of cursor
- * 2: Block ("█")
- * 4: Underline ("_")
- * 6: Bar ("|")
- * 7: Snowman ("☃")
- */
 static unsigned int cursorshape = 0;
-
-/*
- * Default columns and rows numbers
- */
 
 static unsigned int cols = 80;
 static unsigned int rows = 24;
 
-/*
- * Default colour and shape of the mouse cursor
- */
 static unsigned int mouseshape = XC_xterm;
 static unsigned int mousefg = 7;
 static unsigned int mousebg = 0;
 
-/*
- * Color used to display font attributes when fontconfig selected a font which
- * doesn't match the ones requested.
- */
 static unsigned int defaultattr = 11;
 
-/*
- * Force mouse select/shortcuts while mask is active (when MODE_MOUSE is set).
- * Note that if you want to use ShiftMask with selmasks, set this to an other
- * modifier, set to 0 to not use it.
- */
 static uint forcemousemod = ShiftMask;
 
-/*
- * Internal mouse shortcuts.
- * Beware that overloading Button1 will disable the selection.
- */
 static MouseShortcut mshortcuts[] = {
 	/* mask                 button   function        argument       release */
 	{ XK_ANY_MOD,           Button2, selpaste,       {.i = 0},      1 },
@@ -233,43 +157,9 @@ static Shortcut shortcuts[] = {
 	{ MODKEY,		XK_a,		changealpha,	{.f = +0.05} },
 };
 
-/*
- * Special keys (change & recompile st.info accordingly)
- *
- * Mask value:
- * * Use XK_ANY_MOD to match the key no matter modifiers state
- * * Use XK_NO_MOD to match the key alone (no modifiers)
- * appkey value:
- * * 0: no value
- * * > 0: keypad application mode enabled
- * *   = 2: term.numlock = 1
- * * < 0: keypad application mode disabled
- * appcursor value:
- * * 0: no value
- * * > 0: cursor application mode enabled
- * * < 0: cursor application mode disabled
- *
- * Be careful with the order of the definitions because st searches in
- * this table sequentially, so any XK_ANY_MOD must be in the last
- * position for a key.
- */
-
-/*
- * If you want keys other than the X11 function keys (0xFD00 - 0xFFFF)
- * to be mapped below, add them to this array.
- */
 static KeySym mappedkeys[] = { -1 };
 
-/*
- * State bits to ignore when matching key or button events.  By default,
- * numlock (Mod2Mask) and keyboard layout (XK_SWITCH_MOD) are ignored.
- */
 static uint ignoremod = Mod2Mask|XK_SWITCH_MOD;
-
-/*
- * This is the huge key array which defines all compatibility to the Linux
- * world. Please decide about changes wisely.
- */
 
 static Key key[] = {
 	/* keysym           mask            string      appkey appcursor */
@@ -329,8 +219,7 @@ static Key key[] = {
 	{ XK_KP_8,          XK_ANY_MOD,     "\033Ox",       +2,    0},
 	{ XK_KP_9,          XK_ANY_MOD,     "\033Oy",       +2,    0},
 	{ XK_Up,            ShiftMask,      "\033[1;2A",     0,    0},
-	{ XK_Up,            Mod1Mask,       "\033[1;3A",     0,    0},
-	{ XK_Up,         ShiftMask|Mod1Mask,"\033[1;4A",     0,    0},
+	{ XK_Up,            Mod1Mask,       "\033[1;3A",     0,    0}, { XK_Up,         ShiftMask|Mod1Mask,"\033[1;4A",     0,    0},
 	{ XK_Up,            ControlMask,    "\033[1;5A",     0,    0},
 	{ XK_Up,      ShiftMask|ControlMask,"\033[1;6A",     0,    0},
 	{ XK_Up,       ControlMask|Mod1Mask,"\033[1;7A",     0,    0},
@@ -484,21 +373,10 @@ static Key key[] = {
 	{ XK_F35,           XK_NO_MOD,      "\033[23;5~",    0,    0},
 };
 
-/*
- * Selection types' masks.
- * Use the same masks as usual.
- * Button1Mask is always unset, to make masks match between ButtonPress.
- * ButtonRelease and MotionNotify.
- * If no match is found, regular selection is used.
- */
 static uint selmasks[] = {
 	[SEL_RECTANGULAR] = Mod1Mask,
 };
 
-/*
- * Printable characters in ASCII, used to estimate the advance width
- * of single wide characters.
- */
 static char ascii_printable[] =
 	" !\"#$%&'()*+,-./0123456789:;<=>?"
 	"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"

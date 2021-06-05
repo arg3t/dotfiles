@@ -16,8 +16,9 @@ dunst
 clipmenud
 quark
 devmon
+emacs
 mpd
-mpd-mpris"
+mpDris2"
 
 # Open menu
 selection=$(printf '%s' "$items" | $DMENU)
@@ -43,13 +44,17 @@ case $selection in
 		mpd &
 		mpd-mpris &
 		;;
-	mpd-mpris)
-		kill -9 $(pidof mpd-mpris)
-		mpd-mpris &
+	mpDris2)
+		kill -9 $(pidof mpDris2)
+		mpDris2 &
 		;;
 	dunst)
 		kill -9 $(pidof dunst)
 		dunst &
+		;;
+	emacs)
+		emacsclient -e '(kill-emacs)'
+		emacs --daemon && emacsclient -c --eval "(delete-frame)"
 		;;
 	devmon)
 		pkill -f devmon

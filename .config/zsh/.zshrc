@@ -1,3 +1,11 @@
+## __   _______ _____ _____
+## \ \ / / ____| ____|_   _|
+##  \ V /|  _| |  _|   | |
+##   | | | |___| |___  | |
+##   |_| |_____|_____| |_|
+## Yeet's zsh configuration
+
+
 #zmodload zsh/zprof
 eval "$(direnv hook zsh)" >> $XDG_RUNTIME_DIR/direnv
 #welcome.sh

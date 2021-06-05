@@ -2,6 +2,7 @@
 source /home/yigit/.config/mutt/accounts/1-yigitcolakoglu@hotmail.com.muttrc
 source /home/yigit/.config/mutt/colors.muttrc
 source /home/yigit/.config/mutt/keys.muttrc
+set editor="/usr/bin/nvim"
 set mailcap_path = /home/yigit/.config/mutt/mailcap:$mailcap_path
 set mime_type_query_command = "file --mime-type -b %s"
 set date_format="%y/%m/%d %I:%M%p"

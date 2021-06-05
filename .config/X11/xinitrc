@@ -6,12 +6,19 @@ pkill -f "bash /sbin/clipmenud"
 pkill -f "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
 pkill -f devmon
 
-echo "$DBUS_SESSION_BUS_ADDRESS" > /tmp/bus-session
+cat << EOF > "$XDG_CACHE_HOME/dbus_settings"
+export DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS
+export DBUS_SESSION_BUS_PID=$DBUS_SESSION_BUS_PID
+export DBUS_SESSION_BUS_WINDOWID=$DBUS_SESSION_BUS_WINDOWID
+EOF
+
+chmod +x "$XDG_CACHE_HOME/dbus_settings" 
 
 rm -rf $XDG_RUNTIME_DIR/day_cache
 export XSESSION_PID="$$"
 
 source ~/.config/config.env
+
 
 
 pactl upload-sample /usr/share/sounds/freedesktop/stereo/bell.oga x11-bell

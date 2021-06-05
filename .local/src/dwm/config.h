@@ -1,4 +1,11 @@
-/* See LICENSE file for copyright and license details. */
+/*
+ __   _______ _____ _____
+ \ \ / / ____| ____|_   _|
+  \ V /|  _| |  _|   | |
+   | | | |___| |___  | |
+   |_| |_____|_____| |_|
+  Yeet's DWM configuration
+*/
 
 typedef struct {
 	const char *name;
@@ -61,10 +68,13 @@ static Sp scratchpads[] = {
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
+
+static const char *mouse_dmenu[] = {"/home/yigit/.local/bin/mousemenu", NULL};
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
+	{ ClkRootWin,           0,              Button3,        spawn,          {.v = mouse_dmenu} },
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        layoutmenu,     {0} },
 	{ ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },

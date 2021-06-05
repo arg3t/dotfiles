@@ -1,10 +1,11 @@
-//
-//  rules.h
-//  dwm
-//
-//  Created by Yigit Colakoglu on 04/12/21.
-//  Copyright 2021. Yigit Colakoglu. All rights reserved.
-//
+/*
+ __   _______ _____ _____
+ \ \ / / ____| ____|_   _|
+  \ V /|  _| |  _|   | |
+   | | | |___| |___  | |
+   |_| |_____|_____| |_|
+  Yeet's DWM rules
+*/
 
 #ifndef rules_h
 #define rules_h

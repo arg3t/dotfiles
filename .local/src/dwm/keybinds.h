@@ -1,11 +1,11 @@
-//
-//  keybinds.h
-//  dwm
-//
-//  Created by Yigit Colakoglu on 04/12/21.
-//  Copyright 2021. Yigit Colakoglu. All rights reserved.
-//
-//
+/*
+ __   _______ _____ _____
+ \ \ / / ____| ____|_   _|
+  \ V /|  _| |  _|   | |
+   | | | |___| |___  | |
+   |_| |_____|_____| |_|
+  Yeet's DWM keybinds
+*/
 
 #include <X11/XF86keysym.h>
 #include "movestack.c"
@@ -63,12 +63,13 @@ static const char *udevil_umount[] = {"/home/yigit/.local/bin/dmenu-udevil", "-u
 static const char *genpwd[] = {"/home/yigit/.local/bin/genpwd", NULL};
 static const char *trackpad[] = {"/home/yigit/.local/bin/toggle_touchpad.sh"};
 static const char *bluetooth[] = {"/home/yigit/.local/bin/dmenu-bluetooth", NULL};
-static const char *url[] = {"/home/yigit/.local/bin/dmenu_surf", NULL};
+static const char *web[] = {"/home/yigit/.local/bin/dmenu-web", NULL};
 static const char *readbook[] = {"/home/yigit/.local/bin/dmenu-books", NULL};
+static const char *emoji[] = {"/home/yigit/.local/bin/dmenu-emoji", NULL};
+static const char *xrandr[] = {"/home/yigit/.local/bin/dmenu-xrandr", NULL};
 static const char *record[] = {"/home/yigit/.local/bin/dmenu-record", NULL};
 static const char *edit[] = {"/home/yigit/.local/bin/dmenu-edit", NULL};
 static const char *surf[] = {"/home/yigit/.local/bin/tabbed_surf", NULL};
-static const char *searx[] = {"/home/yigit/.local/bin/dmenu-searx", NULL};
 static const char *youtube[] = {"/home/yigit/.local/bin/ytfzf_dmenu", NULL};
 
 /* commands */
@@ -139,16 +140,17 @@ static Key keys[] = {
 	{ 0,                            XF86XK_AudioPlay, spawn, {.v = play  } },
 	{ 0,                            XF86XK_AudioNext, spawn, {.v = next  } },
 	{ 0,                            XK_Print, spawn, {.v = screenshot  } },
+	{ MODKEY|ShiftMask|Mod1Mask,              XK_s, togglesticky, { 0 } },
 	{ MODKEY,                       XK_Print, spawn, {.v = windowshot  } },
 	{ MODKEY|Mod1Mask,              XK_Print, spawn, {.v = selectshot  } },
-	{ MODKEY|ShiftMask, 						XK_e, spawn, {.v = simcrop } },
+	{ MODKEY|ShiftMask, 						XK_e, spawn, {.v = emoji } },
+	{ MODKEY|ShiftMask, 						XK_s, spawn, {.v = xrandr } },
 	{ MODKEY,                       XK_e, spawn, {.v = edit} },
-	{ MODKEY,                       XK_u, spawn, {.v = url} },
+	{ MODKEY,                       XK_u, spawn, {.v = web} },
 	{ MODKEY,                       XK_r, spawn, {.v = readbook} },
 	{ MODKEY|Mod1Mask,              XK_r, spawn, {.v = record } },
 	{ MODKEY|ShiftMask,             XK_w, spawn, {.v = wallabag} },
 	{ MODKEY,            					  XK_w, spawn, {.v = wiki} },
-	{ MODKEY,                       XK_g, spawn, {.v = searx} },
 	{ MODKEY,        	 							XK_t, spawn, {.v = online_class} },
 	{ MODKEY|ShiftMask,							XK_m, spawn, {.v = mconnect} },
 	{ MODKEY|ShiftMask,							XK_d, spawn, {.v = udevil} },
@@ -156,7 +158,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_y, spawn, {.v = youtube} },
 	{ MODKEY|ShiftMask,             XK_g, spawn, {.v = grabcolor} },
 	{ MODKEY,                       XK_s,      togglescratch,          {.ui = 0 } },
-	{ MODKEY|ShiftMask,             XK_s,      togglescratch,					 {.ui = 1 } },
+//	{ MODKEY|ShiftMask,             XK_s,      togglescratch,					 {.ui = 1 } },
 	{ MODKEY,                       XK_m,      togglescratch,          {.ui = 2 } },
 	{ MODKEY|ShiftMask,             XK_f, 		 togglescratch,          {.ui = 3} },
 	{ MODKEY,   					          XK_n, 		 togglescratch,          {.ui = 4} },

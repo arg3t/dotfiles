@@ -14,6 +14,7 @@ alias ls="ls --color"
 alias yay="yay --sudoloop"
 alias lf=lf-ueberzug
 alias vimorig=$(which vim)
+
 alias vim=nvim
 
 weechat(){
@@ -57,3 +58,10 @@ alias bon="sudo bash -c 'rc-service bluetooth start && rfkill unblock bluetooth'
 alias cx="chmod +x"
 
 alias lights_on="curl 'http://yeetclock/setcolor?R=136&G=192&B=208'"
+
+
+alias v="nvim"
+alias m='e --eval "(progn (magit-status) (delete-other-windows))"'
+alias mt="m -t"
+alias et="e -t"
+

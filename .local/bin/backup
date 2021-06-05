@@ -11,6 +11,24 @@ readonly SSH_KEY="/home/yigit/.ssh/id_skeleton"
 readonly RSYNC_PROFILE="$SSH_USER@$SSH_HOST:~/snapshots"
 
 alias ssh_cmd="ssh -i \"$SSH_KEY\" $SSH_USER@$SSH_HOST"
+[ -f "$XDG_CACHE_HOME/dbus_settings" ] && "$XDG_CACHE_HOME/dbus_settings" # Load the dbus settings for current session
+
+displays="$(ps -u $(id -u) -o pid= \
+| xargs -I PID -r cat /proc/PID/environ 2> /dev/null \
+| tr '\0' '\n' \
+| grep ^DISPLAY=: \
+| sort -u \
+| xargs \
+| cut -d ":" -f2)"
+notify() {
+        IFS="\n"
+        for x in $displays; do
+                export DISPLAY=$x
+                notify-send --app-name="$1" "$2"
+        done ;
+}
+
+notify " Periodic backup" "Backup is starting"
 
 DEVICE=tatooine
 OPT="-aPh"
@@ -41,3 +59,7 @@ ssh_cmd rm -f "~/snapshots/$DEVICE/last" < /dev/null
 
 # Create new symlink to latest snapshot for the next backup to hardlink
 ssh -i "$SSH_KEY" $SSH_USER@$SSH_HOST ln -s "~/snapshots/$DEVICE/$date" "~/snapshots/$DEVICE/last" < /dev/null
+
+pidof slock > /dev/null && {
+  shutdown -h now
+}

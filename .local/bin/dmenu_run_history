@@ -1,5 +1,6 @@
 #!/bin/sh
 
+termcmd="st -c \"dmenu-st\" -e"
 cachedir=${XDG_CACHE_HOME:-"$HOME/.cache"}
 if [ -d "$cachedir" ]; then
 	cache=$cachedir/dmenu_run
@@ -15,7 +16,7 @@ if stest -dqr -n "$cache" $PATH; then
 fi
 unset IFS
 
-awk -v histfile=$historyfile '
+cmd=$(awk -v histfile=$historyfile '
 	BEGIN {
 		while( (getline < histfile) > 0 ) {
 			sub("^[0-9]+\t","")
@@ -23,8 +24,12 @@ awk -v histfile=$historyfile '
 			x[$0]=1
 		}
 	} !x[$0]++ ' "$cache" \
-	| dmenu "$@" \
-	| awk -v histfile=$historyfile '
+		| dmenu "$@")
+
+
+case $cmd in
+    *\! ) ${termcmd} "$(printf "%s" "${cmd}" | cut -d'!' -f1)";;
+    * ) echo "$cmd" | awk -v histfile=$historyfile '
 		BEGIN {
 			FS=OFS="\t"
 			while ( (getline < histfile) > 0 ) {
@@ -47,4 +52,5 @@ awk -v histfile=$historyfile '
 				print history[f],f | "sort -t '\t' -k1rn >" histfile
 		}
 	' \
-	| while read cmd; do ${SHELL:-"/bin/sh"} -c "$cmd" & done
+	| while read cmd; do ${SHELL:-"/bin/sh"} -c "$cmd" & done ;;
+esac

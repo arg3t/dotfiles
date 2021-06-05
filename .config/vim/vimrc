@@ -1,3 +1,10 @@
+""  __   _______ _____ _____
+""  \ \ / / ____| ____|_   _|
+""   \ V /|  _| |  _|   | |
+""    | | | |___| |___  | |
+""    |_| |_____|_____| |_|
+""  Yeet's vim configuration
+
 " XDG Base Directory Specification
 set runtimepath^=$XDG_CONFIG_HOME/vim
 set runtimepath+=$XDG_DATA_HOME/vim
@@ -207,17 +214,11 @@ packadd termdebug
 if has("autocmd")
   " Use skeleton files
   augroup templates
-      autocmd BufNewFile *.* silent! execute '0r ~/.local/share/vim/templates/skeleton.'.expand("<afile>:e")
+      autocmd BufNewFile *.* silent! execute '0r ~/.config/vim/templates/skeleton.'.expand("<afile>:e")
       autocmd BufNewFile * %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
   augroup END
 
   autocmd BufWinLeave *.tex !texclear %:p " Run texclear on exit
   autocmd BufRead calcurse-note.* :set filetype=markdown " Use markdown for calcurse notes
-
-  " Enable Goyo by default for mutt writing
-  autocmd BufRead,BufNewFile /tmp/neomutt* let g:goyo_width=80
-  autocmd BufRead,BufNewFile /tmp/neomutt* :Goyo | set bg=light
-  autocmd BufRead,BufNewFile /tmp/neomutt* map ZZ :Goyo\|x!<CR>
-  autocmd BufRead,BufNewFile /tmp/neomutt* map ZQ :Goyo\|q!<CR>
 endif
 
