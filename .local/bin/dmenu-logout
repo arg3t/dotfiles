@@ -43,13 +43,13 @@ case $selection in
 		loginctl hibernate
 		;;
 	suspend)
-		sudo /sbin/sleep
+		sudo sleep
 		;;
 	reboot)
-		sudo /sbin/reboot
+		sudo reboot
 		;;
 	halt|poweroff|shutdown)
-		sudo /sbin/shutdown
+		sudo shutdown -h now
 		;;
 esac
 

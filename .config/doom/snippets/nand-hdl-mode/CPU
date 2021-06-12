@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: CPU(inM= ,instruction= ,reset= ,outM= ,writeM= ,addressM= ,pc= );
+# key: CPU
+# --
+CPU(inM=$1,instruction=$2,reset=$3,outM=$4,writeM=$5,addressM=$6,pc=$7);$0

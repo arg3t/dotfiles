@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: ROM32K(address= ,out= );
+# key: ROM32K
+# --
+ROM32K(address=$1,out=$2);$0

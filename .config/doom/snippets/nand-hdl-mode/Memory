@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Memory(in= ,load= ,address= ,out= );
+# key: Memory
+# --
+Memory(in=$1,load=$2,address=$3,out=$4);$0

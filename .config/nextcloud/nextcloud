@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source ~/.profile
 
 eval "$(grep -h -- \
 	"^\s*\(export \)\?\(MBSYNCRC\|PASSWORD_STORE_DIR\|NOTMUCH_CONFIG\|GNUPGHOME\|XDG_DATA_HOME\|XDG_CONFIG_HOME\|XDG_RUNTIME_DIR\)=" \

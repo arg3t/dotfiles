@@ -34,6 +34,7 @@ export BORG_KEYS_DIR="$XDG_DATA_HOME"/keys/borg
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export DOOMDIR="$XDG_CONFIG_HOME"/doom
 export GOPATH="$XDG_DATA_HOME"/go
+export GDBHISTFILE="$XDG_DATA_HOME"/gdb/history,  
 export ANDROID_HOME="$XDG_DATA_HOME"/Sdk
 export FLUTTER_HOME="$XDG_DATA_HOME"/flutter
 export LEIN_HOME="$XDG_DATA_HOME"/lein

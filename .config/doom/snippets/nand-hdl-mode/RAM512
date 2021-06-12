@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: RAM512(in= ,load= ,address= ,out= );
+# key: RAM512
+# --
+RAM512(in=$1,load=$2,address=$3,out=$4);$0

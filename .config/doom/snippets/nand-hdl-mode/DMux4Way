@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: DMux4Way(in= ,sel= ,a= ,b= ,c= ,d= );
+# key: DMux4Way
+# --
+DMux4Way(in=$1,sel=$2,a=$3,b=$4,c=$5,d=$6);$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Or16(a= ,b= ,out= );
+# key: Or16
+# --
+Or16(a=$1,b=$2,out=$3);$0

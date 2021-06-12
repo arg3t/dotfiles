@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Mux16(a= ,b= ,sel= ,out= );
+# key: Mux16
+# --
+Mux16(a=$1,b=$2,sel=$3,out=$4);$0

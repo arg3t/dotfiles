@@ -52,6 +52,7 @@ alias dpall="dots remote | xargs -I R git --git-dir=$HOME/.dotfiles.git/ --work-
 alias dignore="dots update-index --assume-unchanged {pkg.list,install.sh,README.md}"
 alias da="dots add -u"
 alias dcm="dots commit"
+alias pwndbg="gdb -nh -x \"$XDG_CONFIG_HOME\"/gdb/init"
 
 alias bon="sudo bash -c 'rc-service bluetooth start && rfkill unblock bluetooth'"
 

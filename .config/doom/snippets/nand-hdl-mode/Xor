@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Xor(a= ,b= ,out= );
+# key: Xor
+# --
+Xor(a=$1,b=$2,out=$3);$0

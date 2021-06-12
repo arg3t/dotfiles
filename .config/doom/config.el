@@ -119,6 +119,19 @@ user-mail-address "yigit@yigitcolakoglu.com")
 (use-package! calfw-org
   :after calfw)
 
+(use-package! org-download
+  :defer
+  :init
+  ;; Org download
+  (setq-default org-download-image-dir "~/Pictures/org/")
+  (setq-default org-download-method 'directory)
+  (setq-default org-download-screenshot-method "scrot")
+  :config
+  (org-download-enable)
+  )
+
+(add-hook! 'dired-mode-hook 'org-download-enable)
+
 (use-package! org-agenda
   :defer
   :init
@@ -285,12 +298,22 @@ user-mail-address "yigit@yigitcolakoglu.com")
         nand-hdl-directory "~/Projects/nand2tetris"
         css-indent-offset 2)
 
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((dot . t))) ;
 
 (setq auth-sources
     '((:source "~/.config/emacs/.authinfo.gpg")))
 
 (defun insert-current-date () (interactive)
         (insert (shell-command-to-string "echo -n $(date +%Y-%m-%d)")))
+
+(defun org-insert-clipboard-image () (interactive)
+  (setq name (read-from-minibuffer "Enter image description: "))
+  (setq file (concat "./static/" (subst-char-in-string ? ?_ (nth 0 (org-get-outline-path t))) "/" (format-time-string "%Y-%m-%dT%T") "_" (subst-char-in-string ? ?_ name) ".png"))
+  (setq return (shell-command-to-string (concat "saveclipimg  " file)))
+  (insert (concat "[[file:" return"][" name "]]"))
+  (org-display-inline-images))
 
 ;; We expect the encoding to be LF UTF-8, so only show the modeline when this is not the case
 (defun doom-modeline-conditional-buffer-encoding ()

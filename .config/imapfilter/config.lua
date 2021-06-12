@@ -57,5 +57,19 @@ function blockUni(blacklist)
   end
 end
 
+-- Block e-mails that I'm too lazy to opt out of or can't figure out how 
+function blockSubject(blacklist)
+  mailboxes, folders = domain:list_all("/")
+  for _, v in pairs(mailboxes) do
+    for _, u in pairs(blacklist) do
+      m1 = domain[v]:contain_from(u)
+      m2 = hotmail[v]:contain_from(u)
+      m1:delete_messages()
+      m2:delete_messages()
+    end
+  end
+end
+
 fuckAleksandr {}
 blockUni {"Hult", "hult"}
+blockSubject {"Coralogix", "Whereby", "Manuel Tarin", "Starbucks", "TIDAL", "Fahim from Educative", "Lancaster University Leipzig", "New York Institute of Technology"}

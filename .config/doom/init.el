@@ -9,7 +9,6 @@
         +childframe)     ; a nicer company UI. Emacs +26 only!
        (ivy
         +icons
-        +childframe
         +prescient
         +fuzzy)          ; a search engine for love and life
 
@@ -78,7 +77,7 @@
 
        :lang
         assembly          ; assembly for fun or debugging
-        cc                ; C/C++/Obj-C madness
+        (cc +lsp)                ; C/C++/Obj-C madness
        ;; crystal           ; ruby at the speed of c
        ;; clojure           ; java with a lisp
        ;; csharp            ; unity, .NET, and mono shenanigans
@@ -117,7 +116,7 @@
         +capture         ; org-capture in and outside of Emacs
         +export          ; Exporting org to whatever you want
         +present)         ; Emacs for presentations
-        ;; +publish        ; Emacs+Org as a static site generator
+        +publish        ; Emacs+Org as a static site generator
 
        ;; perl              ; write code no one else can comprehend
        php               ; perl's insecure younger brother
@@ -128,7 +127,7 @@
        ;; ruby              ; 1.step do {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
        ;; rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;; scala             ; java, but good
-       sh                ; she sells (ba|z)sh shells on the C xor
+       (sh +lsp)                ; she sells (ba|z)sh shells on the C xor
        ;; swift             ; who asked for emoji variables?
        web               ; the tubes
 

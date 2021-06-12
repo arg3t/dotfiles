@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Or8Way(in= ,out= );
+# key: Or8Way
+# --
+Or8Way(in=$1,out=$2);$0

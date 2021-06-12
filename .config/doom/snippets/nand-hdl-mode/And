@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: And(a= ,b= ,out= );
+# key: And
+# --
+And(a=$1,b=$2,out=$3);$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Bit(in= ,load= ,out= );
+# key: Bit
+# --
+Bit(in=$1,load=$2,out=$3);$0

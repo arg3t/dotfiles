@@ -31,7 +31,7 @@ touch ~/.cache/nextcloud-track
 restart_if_fails "xss-lock -- slock"
 restart_if_fails "picom --no-fading-openclose"
 
-restart_if_fails "xbanish -s"
+restart_if_fails "xbanish"
 
 # Start emacs
 restart_if_fails "emacs --daemon && emacsclient -c --eval \"(delete-frame)\""

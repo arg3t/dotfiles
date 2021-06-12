@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: PC(in= ,load= ,inc= ,reset= ,out= );
+# key: PC
+# --
+PC(in=$1,load=$2,inc=$3,reset=$4,out=$5);$0

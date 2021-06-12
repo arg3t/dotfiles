@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Not16(in= ,out= );
+# key: Not16
+# --
+Not16(in=$1,out=$2);$0

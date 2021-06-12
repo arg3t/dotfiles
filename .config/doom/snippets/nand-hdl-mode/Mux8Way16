@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Mux8Way16(a= ,b= ,c= ,d= ,e= ,f= ,g= ,h= ,sel= ,out= );
+# key: Mux8Way16
+# --
+Mux8Way16(a=$1,b=$2,c=$3,d=$4,e=$5,f=$6,g=$7,h=$8,sel=$9,out=$10);$0

@@ -41,9 +41,13 @@
 (package! nand-hdl-mode
   :recipe (:host github :repo "nverno/nand-hdl-mode"))
 
+(package! org-download)
 (package! browse-kill-ring)
 (package! olivetti)
 (package! ox-hugo)
 (package! polymode)
 (package! counsel-org-clock)
 (package! mathpix.el :recipe (:host github :repo "jethrokuan/mathpix.el"))
+(package! python-django)
+(package! org-super-links)
+(package! xclip)
