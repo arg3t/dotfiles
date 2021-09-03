@@ -32,4 +32,5 @@ set crypt_use_gpgme
 set pgp_default_key = "yigitcolakoglu@hotmail.com"
 macro index,pager i1 '<sync-mailbox><enter-command>source /home/yigit/.config/mutt/accounts/1-yigitcolakoglu@hotmail.com.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to yigitcolakoglu@hotmail.com"
 macro index,pager i2 '<sync-mailbox><enter-command>source /home/yigit/.config/mutt/accounts/2-yigit@yigitcolakoglu.com.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to yigit@yigitcolakoglu.com"
-macro index,pager i3 '<sync-mailbox><enter-command>source /home/yigit/.config/mutt/accounts/3-yigit@fr1nge.xyz.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to yigit@fr1nge.xyz"
+macro index,pager i3 '<sync-mailbox><enter-command>source /home/yigit/.config/mutt/accounts/3-Y.Colakoglu@student.tudelft.nl.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to Y.Colakoglu@student.tudelft.nl"
+macro index,pager i4 '<sync-mailbox><enter-command>source /home/yigit/.config/mutt/accounts/3-yigit@fr1nge.xyz.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to yigit@fr1nge.xyz"

@@ -90,7 +90,44 @@ function main() {
 
   # set primary output
   prompt='Select primary output:'
-  output="$(menu_select "${prompt}" ${(k)=OUTPUT_CONFIGURED})" || bail $?
+  output="$(menu_select "${prompt}" ${(k)=OUTPUT_CONFIGURED})"
+
+  if [ "$(pidof x11vnc)" ]; then
+    killvnc="$(printf "no\nyes" | dmenu -p "Would you like to kill existing vnc display?")"
+    if [ "$killvnc" = "yes" ]; then
+      xrandr --output HDMI2 --off
+      killall -9 x11vnc
+      vnc="$(printf "no\nyes" | dmenu -p "Would you like to connect a remote display?")"
+    fi
+  else 
+      vnc="$(printf "no\nyes" | dmenu -p "Would you like to connect a remote display?")"
+  fi
+  if [ "$vnc" = "yes" ]; then
+    echo "1920x1080" | dmenu -p "Please enter resolution:"  | read resolution
+    [ "$resolution" ] || exit 1
+    printf "normal\nleft" | dmenu -p "Please enter rotation:" | read rotation 
+    [ "$rotation" ] || exit 1
+    xrandr --output HDMI2 --off
+    h=$(echo "$resolution" | cut -d'x' -f1)
+    w=$(echo "$resolution" | cut -d'x' -f2)
+    modeline="$(gtf $h $w 60 | tail -n 2 | xargs | sed 's/Modeline [^ ]*//g'| xargs)"
+    name="${h}x${w}_$$.00"
+    wlan="$(ip -o -4 addr list wlan0 | awk '{print $4}' | cut -d/ -f1)"
+    eth="$(ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)"
+    bash -c "xrandr --newmode \"$name\" $modeline"
+    if [ "$rotation" = "normal" ]; then
+      clip="${h}x${w}+0+0"
+    else
+      clip="${w}x${h}+0+0"
+    fi
+    xrandr --addmode HDMI2 "$name"
+    xrandr --output HDMI2 --rotation $rotation --mode $name --left-of $output && { x11vnc \
+      -repeat -clip $clip & } || notify-send -a "Display Manager" "An issue occured"
+    pidof x11vnc && notify-send -t 60000 -a " Network info" "$(echo -e "wlan0: $wlan\neth0: $eth\nRunning on port 5900")"
+    daily-update -f
+  fi
+
+  [ "$output" = "eDP1" ] && bail 1
 
   position='--primary'
   mode="$(select_mode ${output})" || bail $?
@@ -210,17 +247,6 @@ function select_mode() {
   fi
 }
 
-################################################################################
-# Uses dmenu to select the rotation of a given output. Prints the selection in
-# xrandr option format (eg '--rotate inverted') to stdout
-# Global variables:
-#  OPT_ROTATION
-#  ERR_BAD_ARGS
-# Arguments:
-#  $1 - name of which output we are working with
-# Returns:
-#  ERR_BAD_ARGS
-################################################################################
 function select_rotation() {
   [[ -z $1 ]] && return "${ERR_BAD_ARGS}"
 
@@ -239,20 +265,6 @@ function select_rotation() {
   fi
 }
 
-################################################################################
-# Uses dmenu to select an option. Undisplayed 'exit' option or pressing 'ESC'
-# will return code ${EXIT_CLEAN} to trigger an abort to the script. Validates to
-# make sure the selection is an option. If there is only 1 option, it will
-# automatically choose it. Prints selection to stdout
-# Global variables:
-#  none
-# Arguments:
-#  $1=prompt
-#  $2+=menu items
-# Returns:
-#  ERR_BAD_ARGS=bad arguments
-#  EXIT_CLEAN=user requested exit
-################################################################################
 function menu_select() {
   [[ -z "$2" ]] && return ${ERR_BAD_ARGS}
 
@@ -312,7 +324,4 @@ function bail() {
 
 main
 
-################################################################################
-# vim filetype=zsh autoindent expandtab shiftwidth=2 tabstop=2
-# End
-#
+

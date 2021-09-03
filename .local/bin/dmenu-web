@@ -9,7 +9,7 @@
 # A  browser-independent address  bar  with bookmark  support. When  the
 # cursor is on a web browser it acts as the address bar of that browser.
 
-engine='https://anon.sx/search?q=%s'
+engine='https://searx.fmac.xyz/search?q=%s'
 bookmarks="$HOME/.local/share/bookmarks"
 
 gotourl() {

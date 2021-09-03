@@ -25,6 +25,7 @@ x-scheme-handler/mailto=neomutt.desktop
 message/rfc822=userapp-neomutt.desktop
 application/x-directory=lf.desktop
 x-scheme-handler/discord-474605546457137157=discord-474605546457137157.desktop
+x-scheme-handler/msteams=teams.desktop
 
 [Added Associations]
 application/rtf=libreoffice-writer.desktop;nvim.desktop;
@@ -33,3 +34,4 @@ x-scheme-handler/tg=userapp-Telegram Desktop-APVS20.desktop;
 application/x-rdp=vim.desktop;
 text/markdown=nvim.desktop;
 application/pdf=zaread.desktop;
+text/plain=nvim.desktop;

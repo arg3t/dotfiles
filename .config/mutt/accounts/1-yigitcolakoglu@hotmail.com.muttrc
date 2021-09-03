@@ -8,7 +8,7 @@ set folder = "/home/yigit/.local/share/mail/yigitcolakoglu@hotmail.com"
 set header_cache = /home/yigit/.cache/mutt-wizard/yigitcolakoglu@hotmail.com/headers
 set message_cachedir = /home/yigit/.cache/mutt-wizard/yigitcolakoglu@hotmail.com/bodies
 set mbox_type = Maildir
-set signature = "/home/yigit/.config/mutt/accounts/1-yigitcolakoglu@hotmail.com.sig"
+set signature = "/home/yigit/.config/mutt/accounts/formal.sig"
 
 
 bind index,pager gg noop

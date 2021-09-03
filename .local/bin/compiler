@@ -48,6 +48,7 @@ case "$ext" in
 	org) emacs "$file" --batch -u "$USER" -f org-latex-export-to-pdf ;;
 	py) python "$file" ;;
 	[rR]md) Rscript -e "rmarkdown::render('$file', quiet=TRUE)" ;;
+	s) gcc -no-pie -g -o "$base" "$file" && $base ;;
 	rs) cargo build ;;
 	sass) sassc -a "$file" "$base.css" ;;
 	scad) openscad -o "$base".stl "$file" ;;

@@ -20,7 +20,7 @@ static const Rule rules[] = {
 
 	/* class          instance       title       tags mask     isfloating   floatpos   isterminal noswallow monitor */
 { "discord"          , NULL       , NULL       , 1 << 8    , NULL  ,         NULL          , 0  , 0  , -1  },
-{ "Signal"          , NULL       , NULL       , 1 << 8    , NULL  ,         NULL          , 0  , 0  , -1  },
+{ "Signal"          , NULL       , NULL        , 1 << 8    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "Brave-browser"    , NULL       , NULL       , 1 << 1    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "Firefox"          , NULL       , NULL       , 1 << 1    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "firefox"          , NULL       , NULL       , 1 << 1    , NULL  ,         NULL          , 0  , 0  , -1  },
@@ -30,6 +30,8 @@ static const Rule rules[] = {
 { "st-256color"      , NULL       , NULL       , 1 << 0    , NULL  ,         NULL          , 1  , 0  , -1  },
 { "Tor Browser"      , NULL       , NULL       , 1 << 1    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "TelegramDesktop"  , NULL       , NULL       , 1 << 8    , NULL  ,         NULL          , 0  , 0  , -1  },
+{ "zoom"             , NULL       , NULL       , 1 << 5    , NULL  ,         NULL          , 0  , 0  , -1  },
+{ "Microsoft Teams - Preview" , NULL       , NULL       , 1 << 5    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "Nemo"             , NULL       , NULL       , 0         , 1     , "50% 50% 1200W 800H"  , 0  , 0  , -1  },
 { "ranger"           , NULL       , NULL       , 0         , 1     , "50% 50% 800W 560H"   , 0  , 0  , -1  },
 { "lf"               , NULL       , NULL       , 0         , 1     , "50% 50% 800W 560H"   , 0  , 0  , -1  },

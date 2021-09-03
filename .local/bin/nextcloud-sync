@@ -2,6 +2,7 @@
 
 source $HOME/.config/nextcloud/nextcloud
 
+export XDG_RUNTIME_DIR=/tmp
 rm -rf $XDG_RUNTIME_DIR/nextcloud.out
 rm -rf $XDG_RUNTIME_DIR/nextcloud.err
 

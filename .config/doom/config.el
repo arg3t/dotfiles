@@ -16,6 +16,8 @@ user-mail-address "yigit@yigitcolakoglu.com")
 (setq org-journal-dir "~/Documents/org/journal/")
 (setq display-line-numbers-type 'relative)
 (setq twittering-allow-insecure-server-cert t)
+(setq org-hugo-base-dir "~/Projects/fr1nge.xyz")
+(setq org-hugo-default-section-directory "~/Projects/fr1nge.xyz")
 
 (setq +ivy-buffer-preview t)
 (global-auto-revert-mode t)
@@ -64,10 +66,7 @@ user-mail-address "yigit@yigitcolakoglu.com")
   )
 
 (use-package! deft
-  :hook deft-mode-hook
-  :init
-  (setq deft-directory org-directory)
-  (setq deft-recursive t)
+  :hook deft-mode-hook :init (setq deft-directory org-directory) (setq deft-recursive t)
   )
 
 (use-package! hl-todo
@@ -475,3 +474,5 @@ t)))
 
 (setq +doom-dashboard-banner-file (expand-file-name "logo.png" doom-private-dir))
 
+;; Use xclip globally
+(xclip-mode)

@@ -29,6 +29,9 @@ Plug 'isene/hyperlist.vim'
 Plug 'neomutt/neomutt.vim'
 Plug 'VebbNix/lf-vim'
 
+" Browser editor support
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+
 " Tmux integration
 Plug 'benmills/vimux'
 Plug 'christoomey/vim-tmux-navigator'
@@ -37,6 +40,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'junegunn/fzf.vim'
 
 " Syntax highlighting
+Plug 'rhysd/vim-wasm'
 Plug 'elzr/vim-json'
 Plug 'tpope/vim-markdown'
 Plug 'pangloss/vim-javascript'
@@ -44,4 +48,5 @@ Plug 'leafgarland/typescript-vim'
 Plug 'vim-scripts/cool.vim'
 Plug 'justinmk/vim-syntax-extra'
 Plug 'arrufat/vala.vim'
+Plug 'Shirk/vim-gas'
 call plug#end()

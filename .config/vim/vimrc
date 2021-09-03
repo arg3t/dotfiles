@@ -25,16 +25,12 @@ let s:MRU_File = $XDG_CACHE_HOME."/vim/mru"
 
 if !has('nvim') | set viminfofile=$XDG_CACHE_HOME/vim/viminfo | endif
 
-if has('nvim')
-  source ~/.config/nvim/plugin/plugins.vim
-endif
-
-map <leader>c :w! \| !compiler "<c-r>%"<CR>
 
 " Set leader
 let mapleader = ","
 
 " Leader Mappings
+nnoremap <Leader>c :w! \| !compiler "<c-r>%"<CR>
 map <Leader>w :update<CR>
 map <Leader>q :qall<CR>
 map <Leader>gs :Gstatus<CR>
@@ -47,8 +43,8 @@ map <Leader>h :History<CR>
 
 " CtrlP use FZF (faster!)
 nnoremap <C-p> :Files<CR>
-nnoremap <leader>b :Buffers<CR>
-noremap <leader>u :w<Home>silent <End> !urlview<CR>
+nnoremap <Leader>b :Buffers<CR>
+noremap <Leader>u :w<Home>silent <End> !urlview<CR>
 
 " System clipboard copy
 nnoremap <Leader>y "+y
@@ -59,6 +55,12 @@ nnoremap <Leader>Y "+Y
 nnoremap <Leader>P "+P
 vnoremap <Leader>d "+d
 nnoremap <Leader>D "+D
+
+
+if has('nvim')
+  source ~/.config/nvim/plugin/plugins.vim
+endif
+
 
 syntax on
 filetype plugin on

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pidof emacs && emacsclient -e '(org-caldav-sync)' # Sync emacs-caldav as well
+#pidof emacs && emacsclient -e '(org-caldav-sync)' # Sync emacs-caldav as well
 eval "$(grep -h -- \
 	"^\s*\(export \)\?\(MBSYNCRC\|PASSWORD_STORE_DIR\|NOTMUCH_CONFIG\|GNUPGHOME\|XDG_DATA_HOME\|XDG_CONFIG_HOME\)=" \
 	"$HOME/.profile" "$HOME/.bash_profile" "$HOME/.zprofile"  "$HOME/.config/zsh/.zprofile" "$HOME/.zshenv" \

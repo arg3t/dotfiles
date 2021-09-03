@@ -36,8 +36,6 @@
 (setq org-log-done 'time)
 (setq org-tags-column -80)
 (setq org-refile-targets (quote ((nil :maxlevel . 1))))
-(setq org-hugo-base-dir "~/Projects/fr1nge.xyz")
-(setq org-hugo-default-section-directory "~/Projects/fr1nge.xyz")
 
 (setq org-todo-keywords '((sequence
                            "TODO"
@@ -217,28 +215,6 @@
                (split-window-horizontally (- (/ (window-width) 2))))))
       (switch-to-buffer "*Calculator*")
       (select-window main-window))))
-
-(require 'ox-publish)
-(setq org-publish-project-alist
-      '(
-        ("roam-notes"
-         :base-directory "~/Documents/org/roam"
-         :base-extension "org"
-         :publishing-directory "~/Projects/wiki"
-         :recursive t
-         :publishing-function org-html-publish-to-html
-         :headline-levels 4             ; Just the default for this project.
-         :auto-preamble t
-         )
-        ("roam-static"
-         :base-directory "~/Documents/org/roam/static"
-         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-         :publishing-directory "~/Projects/wiki/static"
-         :recursive t
-         :publishing-function org-publish-attachment
-         )
-        ("roam" :components ("roam-notes" "roam-static"))
-        ))
 
 ;;; ol-man.el - Support for links to man pages in Org mode
 ;;; https://www.gnu.org/software/emacs/manual/html_node/org/Adding-Hyperlink-Types.html
