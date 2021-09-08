@@ -39,7 +39,11 @@ Plug 'christoomey/vim-tmux-navigator'
 " File system navigation
 Plug 'junegunn/fzf.vim'
 
+" OCS Yank PLugin for use with Blink Shell
+Plug 'ojroques/vim-oscyank'
+
 " Syntax highlighting
+Plug 'joelbeedle/pseudo-syntax'
 Plug 'rhysd/vim-wasm'
 Plug 'elzr/vim-json'
 Plug 'tpope/vim-markdown'

@@ -5,7 +5,6 @@
 ##   |_| |_____|_____| |_|
 ## Yeet's zsh configuration
 
-
 #zmodload zsh/zprof
 eval "$(direnv hook zsh)" >> $XDG_RUNTIME_DIR/direnv
 #welcome.sh
@@ -17,7 +16,6 @@ fi
 source ~/.profile
 # Created by kuro for 5.8
 source <(antibody init)
-
 
 #Autocompletion
 autoload -Uz compinit
@@ -104,8 +102,10 @@ local paste_widgets=(
 )
 
 # Use X11 Clipboard
-x11-clip-wrap-widgets copy $copy_widgets
-x11-clip-wrap-widgets paste  $paste_widgets
+if command -v xclip; then
+  x11-clip-wrap-widgets copy $copy_widgets
+  x11-clip-wrap-widgets paste  $paste_widgets
+fi
 
 # create a zkbd compatible hash;
 # to add other keys to this hash, see: man 5 terminfo

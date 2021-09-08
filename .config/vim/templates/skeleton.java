@@ -1,10 +1,10 @@
-home/home/
-home/home/  [:VIM_EVAL:]expand('%:t')[:END_EVAL:]
-home/home/  [:VIM_EVAL:]expand('%:p:h:t')[:END_EVAL:]
-home/home/
-home/home/  Created by Yigit Colakoglu on [:VIM_EVAL:]strftime('%mhome/%dhome/%y')[:END_EVAL:].
-home/home/  Copyright [:VIM_EVAL:]strftime('%Y')[:END_EVAL:]. Yigit Colakoglu. All rights reserved.
-home/home/
+//
+//  [:VIM_EVAL:]expand('%:t')[:END_EVAL:]
+//  [:VIM_EVAL:]expand('%:p:h:t')[:END_EVAL:]
+//
+//  Created by Yigit Colakoglu on [:VIM_EVAL:]strftime('%m/%d/%y')[:END_EVAL:].
+//  Copyright [:VIM_EVAL:]strftime('%Y')[:END_EVAL:]. Yigit Colakoglu. All rights reserved.
+//
 
 class Untitled {
 	public static void main(String[] args) {
