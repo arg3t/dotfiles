@@ -5,13 +5,17 @@
 # crontab for regular backups
 
 # Config
-readonly SSH_HOST=192.168.1.8
-readonly SSH_USER=yigit
+readonly SSH_HOST=192.168.1.34
+readonly SSH_USER=pi
 readonly SSH_KEY="/home/yigit/.ssh/id_skeleton"
-readonly RSYNC_PROFILE="$SSH_USER@$SSH_HOST:~/snapshots"
+readonly BACKUP_DESTINATION="~/snapshots/backups"
+readonly RSYNC_PROFILE="$SSH_USER@$SSH_HOST:$BACKUP_DESTINATION"
+
+[ $(id -u) != "0" ] && printf "This program must be run as root!\n" && exit
 
 alias ssh_cmd="ssh -i \"$SSH_KEY\" $SSH_USER@$SSH_HOST"
 [ -f "$XDG_CACHE_HOME/dbus_settings" ] && "$XDG_CACHE_HOME/dbus_settings" # Load the dbus settings for current session
+
 
 displays="$(ps -u $(id -u) -o pid= \
 | xargs -I PID -r cat /proc/PID/environ 2> /dev/null \
@@ -48,18 +52,18 @@ timeout 3 ssh -i "$SSH_KEY" $SSH_USER@$SSH_HOST id < /dev/null > /dev/null 2> /d
 while IFS= read -r DIR
 do
   LINK="--link-dest=/home/$SSH_USER/snapshots/tatooine/last$DIR/"
-  ssh -i "$SSH_KEY" $SSH_USER@$SSH_HOST mkdir -p "~/snapshots/$DEVICE/$date$DIR" < /dev/null
+  ssh -i "$SSH_KEY" $SSH_USER@$SSH_HOST mkdir -p "$BACKUP_DESTINATION/$DEVICE/$date$DIR" < /dev/null
   rsync --exclude '.cache' "$@" -e "ssh -i $SSH_KEY" $OPT "$LINK" "$DIR/" "${SNAP}$date$DIR/"
 done << EOF
 $DIRS
 EOF
 
 # Remove symlink to previous snapshot
-ssh_cmd rm -f "~/snapshots/$DEVICE/last" < /dev/null
+ssh_cmd rm -f "$BACKUP_DESTINATION/$DEVICE/last" < /dev/null
 
 # Create new symlink to latest snapshot for the next backup to hardlink
-ssh -i "$SSH_KEY" $SSH_USER@$SSH_HOST ln -s "~/snapshots/$DEVICE/$date" "~/snapshots/$DEVICE/last" < /dev/null
+ssh -i "$SSH_KEY" $SSH_USER@$SSH_HOST ln -s "$BACKUP_DESTINATION/$DEVICE/$date" "$BACKUP_DESTINATION/$DEVICE/last" < /dev/null
 
-pidof slock > /dev/null && {
-  shutdown -h now
-}
+# pidof slock > /dev/null && { # Shutdown if screen inhibition is enabled
+#   shutdown -h now
+# }

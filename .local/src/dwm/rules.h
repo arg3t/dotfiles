@@ -44,6 +44,7 @@ static const Rule rules[] = {
 { "htop"             , NULL       , NULL       , 0         , 1     , "50% 50% 1200W 600H"  , 0  , 0  , -1  },
 { "Pavucontrol"      , NULL       , NULL       , 0         , 1     , "50% 50% 1200W 600H"  , 0  , 0  , -1  },
 { "Zathura"          , NULL       , NULL       , 0         , 0     ,         NULL          , 0  , 1  , -1  },
+{ "Qemu-system-x86_64", NULL      , NULL       , 0         , 1     ,         NULL          , 0  , 1  , -1  },
 { "spfeh"            , NULL       , NULL       , SPTAG(1)  , 1     ,         NULL          , 0  , 0  , -1  },
 { NULL               , "spterm"   , NULL       , SPTAG(0)  , 1     ,         NULL          , 0  , 0  , -1  },
 { NULL               , "spmutt"   , NULL       , SPTAG(2)  , 1     ,         NULL          , 0  , 0  , -1  },

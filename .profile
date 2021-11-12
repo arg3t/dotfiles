@@ -94,13 +94,9 @@ case "$(readlink -f /sbin/init)" in
 esac
 
 # Setup SSH
-if [ ! "$SSH_AUTH_SOCK" ] && [ $(hostnamectl hostname) != "workstation" ]; then
+if [ ! "$SSH_AUTH_SOCK" ]; then
   eval "$(ssh-agent | head -n 2)"
   grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add > /dev/null 2> /dev/null
-fi
-
-if [ $(hostnamectl hostname) = "workstation" ]; then # Server specific setup
-  ssh-add ~/.ssh/id_skeleton > /dev/null 2> /dev/null
 fi
 
 # Start xinit if logged in from tty1

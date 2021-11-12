@@ -46,10 +46,9 @@ static const char *notification[] = {"/home/yigit/.local/bin/dunst_toggle.sh", "
 
 static const char *screensaver[] = {"/home/yigit/.local/bin/screensaver_toggle", "-t",NULL};
 
-static const char *online_class[] = {"/home/yigit/.local/bin/tedportal",NULL};
+static const char *toolbelt[] = {"/home/yigit/.local/bin/toolbelt", NULL};
 
 static const char *bwmenu[] = {"/home/yigit/.local/bin/password_manager", NULL};
-
 
 static const char *wallabag[] = {"/home/yigit/.local/bin/dmenu-wallabag", "-s", NULL};
 static const char *wiki[] = {"/home/yigit/.local/bin/dmenu-arch", NULL};
@@ -152,7 +151,7 @@ static Key keys[] = {
 	{ MODKEY|Mod1Mask,              XK_r, spawn, {.v = record } },
 	{ MODKEY|ShiftMask,             XK_w, spawn, {.v = wallabag} },
 	{ MODKEY,            					  XK_w, spawn, {.v = wiki} },
-	{ MODKEY,        	 							XK_t, spawn, {.v = online_class} },
+	{ MODKEY,        	 							XK_t, spawn, {.v = toolbelt } },
 	{ MODKEY|ShiftMask,							XK_m, spawn, {.v = mconnect} },
 	{ MODKEY|ShiftMask,							XK_l, spawn, {.v = wc } },
 	{ MODKEY|ShiftMask,							XK_d, spawn, {.v = udevil} },

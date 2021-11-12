@@ -14,7 +14,7 @@ dwmblocks
 mconnect
 dunst
 clipmenud
-quark
+darkhttpd
 devmon
 emacs
 mpd
@@ -63,8 +63,9 @@ case $selection in
 				--exec-on-unmount  "/sbin/notify-send '禍  drive unmounted' '%l (%f) from %d '" \
 				--no-unmount --no-gui &
 		;;
-	quark)
-		sudo systemctl restart quark
+	darkhttpd)
+		killall -9 darkhttpd
+		darkhttpd $HOME/.local/share/startpage/dist --port 9999 --daemon --addr 127.0.0.1
 		;;
 esac
 

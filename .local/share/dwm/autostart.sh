@@ -34,7 +34,7 @@ restart_if_fails "picom --no-fading-openclose"
 restart_if_fails "xbanish"
 
 # Start emacs
-restart_if_fails "emacs --daemon && emacsclient -c --eval \"(delete-frame)\""
+# restart_if_fails "emacs --daemon && emacsclient -c --eval \"(delete-frame)\""
 
 ~/.local/bin/firefox-sync &
 ~/.local/bin/mailsync &

@@ -205,12 +205,6 @@ if has('nvim')
   let g:Tlist_WinWidth = 40 " Tlist
 endif
 
-let hostname = substitute(system('hostname'), '\n', '', '')
-
-if hostname == "workstation" " Check for remote machine
-  autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | OSCYankReg " | endif"
-  set clipboard& clipboard^=unnamed,unnamedplus
-endif
 
 " Don't clear clipboard on exit
 autocmd VimLeave * call system("xsel -ib", getreg('+'))

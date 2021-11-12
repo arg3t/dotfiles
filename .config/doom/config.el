@@ -38,6 +38,9 @@ user-mail-address "yigit@yigitcolakoglu.com")
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
 
+(require 'gas-mode)
+(add-to-list 'auto-mode-alist '("\\.S\\'" . gas-mode))
+
 (require 'bison-mode)
 (after! bison-mode-hook
   (setq imenu-create-index-function

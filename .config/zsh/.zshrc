@@ -101,11 +101,8 @@ local paste_widgets=(
     vi-put-{before,after}
 )
 
-# Use X11 Clipboard
-if command -v xclip; then
-  x11-clip-wrap-widgets copy $copy_widgets
-  x11-clip-wrap-widgets paste  $paste_widgets
-fi
+x11-clip-wrap-widgets copy $copy_widgets
+x11-clip-wrap-widgets paste  $paste_widgets
 
 # create a zkbd compatible hash;
 # to add other keys to this hash, see: man 5 terminfo
