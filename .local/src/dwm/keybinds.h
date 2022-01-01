@@ -89,7 +89,14 @@ static Key keys[] = {
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY|ShiftMask,             XK_z, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
+
+#if VPS == 1
+	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
+#else
 	{ MODKEY,                       XK_q,      killclient,     {0} },
+	{ MODKEY|ShiftMask,             XK_q, 			spawn, {.v = outmenu} },
+#endif
+
 	{ MODKEY|Mod1Mask,              XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY|Mod1Mask,              XK_s,      incnmaster,     {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
@@ -120,7 +127,6 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q, 			spawn, {.v = outmenu} },
 	{ MODKEY|ShiftMask,             XK_t, 			spawn, {.v = trackpad} },
 	{ MODKEY,                       XK_x, 			spawn, {.v = lock } },
 	{ MODKEY|ShiftMask,             XK_x, 			spawn, {.v = killall } },
@@ -140,7 +146,7 @@ static Key keys[] = {
 	{ 0,                            XF86XK_AudioPlay, spawn, {.v = play  } },
 	{ 0,                            XF86XK_AudioNext, spawn, {.v = next  } },
 	{ 0,                            XK_Print, spawn, {.v = screenshot  } },
-	{ MODKEY|ShiftMask|Mod1Mask,              XK_s, togglesticky, { 0 } },
+	{ MODKEY|ShiftMask|Mod1Mask,    XK_s, togglesticky, { 0 } },
 	{ MODKEY,                       XK_Print, spawn, {.v = windowshot  } },
 	{ MODKEY|Mod1Mask,              XK_Print, spawn, {.v = selectshot  } },
 	{ MODKEY|ShiftMask, 						XK_e, spawn, {.v = emoji } },

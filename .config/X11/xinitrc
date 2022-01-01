@@ -40,8 +40,8 @@ while true;
 do
     if [ $restarted = 0 ]; then
         restarted=1
-        echo "Restarting DWM"
     else
+        echo "Restarting DWM"
         notify-send -a " Desktop Manager" "Dwm Restarted"
     fi
 
