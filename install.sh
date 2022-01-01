@@ -187,6 +187,12 @@ EOF
 
 # Build and Install Everything
 ## Suckless utilities
+if [ "$(hostnamectl hostname)" = "workstation" ]; then
+  export VPS=1
+else
+  export VPS=0
+fi
+
 info "Installing suckless utilities"
 (cd ~/.local/src; ./build.sh > /dev/null 2> /dev/null)
 sudo groupadd nogroup
