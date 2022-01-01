@@ -63,6 +63,10 @@ if [ "$ACTIVITYWATCHER" = true ] ; then
     aw-watcher-afk &
 fi
 
+if [ "$SPOTIFYD" = true ] ; then
+    spotifyd
+fi
+
 mpd
 restart_if_fails mpDris2
 

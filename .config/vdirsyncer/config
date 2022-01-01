@@ -24,7 +24,7 @@ collections = null
 
 [storage tudelft_local]
 type = "filesystem"
-path = "~/.local/share/calendars/tudelft/"
+path = "~/.local/share/calendars/tudelft"
 fileext = ".ics"
 
 [storage tudelft_remote]
@@ -42,5 +42,5 @@ url = "https://www.mozilla.org/media/caldata/TurkeyHolidays.ics"
 
 [storage holidays_local]
 type = "filesystem"
-path = "~/.local/share/calendars/holidays/"
+path = "~/.local/share/calendars/holidays"
 fileext = ".ics"

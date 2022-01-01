@@ -21,7 +21,7 @@ Plug 'vim-scripts/indentpython.vim'
 Plug 'preservim/nerdcommenter'
 Plug 'mileszs/ack.vim'
 Plug 'yegappan/taglist'
-Plug 'puremourning/vimspector'
+"Plug 'puremourning/vimspector'
 Plug 'lervag/vimtex'
 
 Plug 'gu-fan/riv.vim'
@@ -29,15 +29,18 @@ Plug 'isene/hyperlist.vim'
 Plug 'neomutt/neomutt.vim'
 Plug 'VebbNix/lf-vim'
 
-" Browser editor support
-Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
-
 " Tmux integration
 Plug 'benmills/vimux'
 Plug 'christoomey/vim-tmux-navigator'
 
+" Neuron
+Plug 'oberblastmeister/neuron.nvim', { 'branch' : 'unstable' }
+Plug 'nvim-lua/popup.nvim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
 " File system navigation
-Plug 'junegunn/fzf.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 " OCS Yank PLugin for use with Blink Shell
 Plug 'ojroques/vim-oscyank'

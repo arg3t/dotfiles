@@ -42,8 +42,12 @@ nnoremap Q gq
 map <Leader>h :History<CR>
 
 " CtrlP use FZF (faster!)
-nnoremap <C-p> :Files<CR>
+nnoremap <C-p> :Telescope find_files<cr>
+
+" ,b Buffers
 nnoremap <Leader>b :Buffers<CR>
+
+" ,u urlview
 noremap <Leader>u :w<Home>silent <End> !urlview<CR>
 
 " System clipboard copy
@@ -203,6 +207,16 @@ if has('nvim')
   " Widths fot several plugins
   let g:goyo_width = 120 " Goyo
   let g:Tlist_WinWidth = 40 " Tlist
+lua <<EOF
+require'neuron'.setup {
+    virtual_titles = true,
+    mappings = true,
+    run = nil, -- function to run when in neuron dir
+    neuron_dir = "~/Projects/Neocortex", -- the directory of all of your notes, expanded by default (currently supports only one directory for notes, find a way to detect neuron.dhall to use any directory)
+    leader = "gz", -- the leader key to for all mappings, remember with 'go zettel'
+}
+
+EOF
 endif
 
 
