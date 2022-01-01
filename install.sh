@@ -1,9 +1,11 @@
 #!/bin/bash
 
-alias dots="git --git-dir=\$HOME/.dotfiles.git/ --work-tree=\$HOME"
+dots="git --git-dir=\$HOME/.dotfiles.git/ --work-tree=\$HOME"
 username=$(whoami)
 prev=$(pwd)
 verbose=0
+
+rm -rf "~/dots_backup"
 
 while getopts "v" OPTION
 do
@@ -49,7 +51,7 @@ IFS="
 info "Backing up your old dotfiles"
 ## Backup eveything in the git tree
 mkdir "$HOME/dots_backup"
-for i in $(dots ls-files); do
+for i in $(bash -c "$dots ls-files"); do
   if [ -f "$i" ]; then
     debug "$i"
     mkdir -p "$HOME/dots_backup/$(echo "$i" | sed "s/\/[^\/]*$//g")"
@@ -64,13 +66,13 @@ mvie ~/.icons ~/.dotfiles_backup/icons
 ln -s ~/.dotfiles/local/share/icons ~/.icons
 
 info "Checking out dotfiles"
-dots checkout
+bash -c "$dots checkout"
 
 # Configuring for your username
 if [ ! "$username" = "yigit" ]; then
   info "Replacing the occurences of /home/yigit with /home/$username"
   echo "Setting up the dotfiles according to your username"
-  dots ls-files | xargs -L 1 sed -i "s/\/home\/yigit/\/home\/$username/g"
+  bash -c "$dots ls-files | xargs -L 1 sed -i \"s/\/home\/yigit/\/home\/$username/g\""
 fi
 
 info "Setting up sudo so that you won't be prompted for a password for the next of the script"
@@ -114,8 +116,8 @@ info "Copying some necessary files that are not in ~"
 IFS="
 "
 for i in $(cat "$HOME/.local/root/mappings"); do
-  src="$(echo "$i" | sed "s/ ->.*//g)")"
-  dest="$(echo "$i" | sed "s/.*-> //g)")"
+  src="$(echo "$i" | sed "s/ ->.*//g")"
+  dest="$(echo "$i" | sed "s/.*-> //g")"
   sudo mkdir -p "$(echo "$dest" | sed "s/\/[^\/]*$//g")"
   sudo cp "$HOME/.local/root/$src" "$dest"
 done
@@ -133,7 +135,7 @@ cp ~/.config/config.env.default ~/.config/config.env
 ##Fonts
 info "Downloading assets"
 debug "Downloading minio binary"
-curl https://minio.yigitcolakoglu.com/dotfiles/tools/mc 2> /dev/null > "$HOME/.local/bin/mc"
+wget https://minio.yigitcolakoglu.com/dotfiles/tools/mc > "$HOME/.local/bin/mc"
 chmod +x "$HOME/.local/bin/mc"
 alias mc="$HOME/.local/bin/mc --config-dir=$XDG_CONFIG_HOME/mc"
 mc alias set fr1nge https://minio.yigitcolakoglu.com "" "" > /dev/null 2> /dev/null
@@ -141,11 +143,11 @@ debug "Downloading backgrounds"
 mc cp -r fr1nge/dotfiles/fonts/ ~/.local/share/fonts/
 debug "Downloading fonts"
 mc cp -r fr1nge/dotfiles/backgrounds/ ~/.local/backgrounds/
+fc-cache
 debug "Downloading the GTK theme"
 git clone https://github.com/material-ocean/Gtk-Theme.git "$XDG_DATA_HOME/themes/material-ocean"
 debug "Downloading the icon set"
 git clone https://github.com/vinceliuice/Tela-icon-theme.git /tmp/tela
-fc-cache
 
 # Setup Crontab
 if [ ! -f "/var/spool/cron/$username" ]; then
@@ -206,7 +208,7 @@ cd $prev
 mkdir -p ~/.tmux/plugins
 vim +PlugInstall +qall
 cd ~/.config/coc/extensions
-yarn
+yarn install
 cd $prev
 
 # Install mconnect
@@ -236,8 +238,8 @@ rm -rf ~/.dotfiles/.git/hooks/*
 rm -rf ~/install.sh
 rm -rf ~/README.md
 rm -rf ~/pkg.list
-dots update-index --assume-unchanged {pkg.list,install.sh,README.md}
-dots config --local status.showUntrackedFiles no
+bash -c "$dots update-index --assume-unchanged {pkg.list,install.sh,README.md}"
+bash -c "$dots config --local status.showUntrackedFiles no"
 sudo rm -rf /etc/urlview/system.urlview
 echo "I am now restarting your system so that the configurations changes apply"
 sleep 5
