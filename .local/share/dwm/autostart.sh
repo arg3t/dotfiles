@@ -35,6 +35,9 @@ if ! xpdyinfo | grep -q VNC ; then
   redshift -x 2> /dev/null > /dev/null
   redshift -r -l "$LATLONG" > /dev/null 2> /dev/null &
 
+  if [ "$SPOTIFYD" = true ] ; then
+      spotifyd
+  fi
 
   ~/.local/bin/devmon --exec-on-drive "notify-send -a '禍  drive mounted' '%l (%f) at %d '" \
       --exec-on-remove "notify-send -a '禍  drive removed' '%l (%f) from %d '" \

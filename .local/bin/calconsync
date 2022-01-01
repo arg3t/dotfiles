@@ -7,7 +7,9 @@ eval "$(grep -h -- \
 	"$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.config/zsh/.zshrc" "$HOME/.pam_environment" 2>/dev/null)"
 
 export CALCURSE_CALDAV_PASSWORD=$(pass show Server/drive.yigitcolakoglu.com/yigitcolakoglu)
-calcurse-caldav --lockfile $(mktemp) # Prevent lock file conflicts
+lock=$(mktemp)
+rm -f $lock
+calcurse-caldav --lockfile $lock # Prevent lock file conflicts
 
 
 tmpfile=$(mktemp)
@@ -23,6 +25,8 @@ abook --convert \
     --infile $tmpfile \
     --outformat abook \
     --outfile $destfile
+
+vdirsyncer sync
 
 rm $tmpfile
 chmod 600 $destfile

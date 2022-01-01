@@ -17,8 +17,7 @@ clipmenud
 darkhttpd
 devmon
 emacs
-mpd
-mpDris2"
+spotifyd"
 
 # Open menu
 selection=$(printf '%s' "$items" | $DMENU)
@@ -39,14 +38,9 @@ case $selection in
 		pkill -f clipmenud
 		clipmenud > $XDG_RUNTIME_DIR/clipmenud.out 2> $XDG_RUNTIME_DIR/clipmenud.err &
 		;;
-	mpd)
-		kill -9 $(pidof mpd)
-		mpd &
-		mpd-mpris &
-		;;
-	mpDris2)
-		kill -9 $(pidof mpDris2)
-		mpDris2 &
+	spotifyd)
+		kill -9 $(pidof spotifyd)
+		spotifyd
 		;;
 	dunst)
 		kill -9 $(pidof dunst)

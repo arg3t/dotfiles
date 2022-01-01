@@ -38,6 +38,7 @@ DEVICE=tatooine
 OPT="-aPh"
 SNAP="$RSYNC_PROFILE/$DEVICE/"
 date=$(date "+%d.%m.%Y_%I:%M")
+older=$(date --date="4 days ago" "+%d.%m.%Y_%I:%M")
 # You should enter absolute paths
 DIRS="/home/yigit
 /etc
@@ -47,6 +48,7 @@ DIRS="/home/yigit
 
 # Check whether backup server is available on network
 timeout 3 ssh -i "$SSH_KEY" $SSH_USER@$SSH_HOST id < /dev/null > /dev/null 2> /dev/null || echo "SSH Failed." || exit
+ssh -i "$SSH_KEY" $SSH_USER@$SSH_HOST rm -rf "$BACKUP_DESTINATION/$DEVICE/$older" > /dev/null 2> /dev/null
 
 # Run rsync to create snapshot
 while IFS= read -r DIR
