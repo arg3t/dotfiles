@@ -1,10 +1,12 @@
 #!/bin/sh
 
-layout=$(xkb-switch -p | cut -d "(" -f1)
+if ! xdpyinfo | grep -q VNC ; then
+  layout=$(xkb-switch -p | cut -d "(" -f1)
 
-echo -n "^c#a3be8c^ ^d^$layout"
+  echo -n "^c#a3be8c^ ^d^$layout"
 
 
-case $BLOCK_BUTTON in
-          1) ~/.local/bin/kbmap_toggle;;
-esac
+  case $BLOCK_BUTTON in
+            1) ~/.local/bin/kbmap_toggle;;
+  esac
+fi

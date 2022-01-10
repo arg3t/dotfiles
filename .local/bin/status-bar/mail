@@ -1,14 +1,16 @@
 #!/bin/sh
 
-[ -f "$HOME/.cache/mcount" ] && mcount=$(cat ~/.cache/mcount)
-[ -f "$HOME/.cache/msync" ] && msync=$(cat ~/.cache/msync)
+if ! xdpyinfo | grep -q VNC ; then
+  [ -f "$HOME/.cache/mcount" ] && mcount=$(cat ~/.cache/mcount)
+  [ -f "$HOME/.cache/msync" ] && msync=$(cat ~/.cache/msync)
 
-#echo -n "^c#a3be8c^ ^d^ $msync ^c#81a1c1^ ^d^ $mcount" (Takes more space)
-if [ ! "$mcount" = "0" ]; then
-  echo -n "^c#81a1c1^ ^d^ $mcount"
+  #echo -n "^c#a3be8c^ ^d^ $msync ^c#81a1c1^ ^d^ $mcount" (Takes more space)
+  if [ ! "$mcount" = "0" ]; then
+    echo -n "^c#81a1c1^ ^d^ $mcount"
+  fi
+
+  case $BLOCK_BUTTON in
+            1) setsid -f st -c center -n center -e neomutt;;
+            3) ~/.local/bin/mailsync;;
+  esac
 fi
-
-case $BLOCK_BUTTON in
-          1) setsid -f st -c center -n center -e neomutt;;
-          3) ~/.local/bin/mailsync;;
-esac

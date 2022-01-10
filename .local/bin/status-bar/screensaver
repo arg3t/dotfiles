@@ -1,14 +1,16 @@
 #!/bin/sh
 
-stats=$(xset q | grep "DPMS is" | cut -c11-)
+if ! xdpyinfo | grep -q VNC ; then
+  stats=$(xset q | grep "DPMS is" | cut -c11-)
 
-if [ "$stats" = "Disabled" ]; then
-  echo "^c#a48ead^零 ^d^"
-else
-  echo "^c#a48ead^鈴 ^d^"
+  if [ "$stats" = "Disabled" ]; then
+    echo "^c#a48ead^零 ^d^"
+  else
+    echo "^c#a48ead^鈴 ^d^"
+  fi
+
+
+  case $BLOCK_BUTTON in
+            1) ~/.local/bin/screensaver_toggle -t;;
+  esac
 fi
-
-
-case $BLOCK_BUTTON in
-          1) ~/.local/bin/screensaver_toggle -t;;
-esac

@@ -19,10 +19,20 @@ export XSESSION_PID="$$"
 
 source ~/.config/config.env
 
-pactl upload-sample /usr/share/sounds/freedesktop/stereo/bell.oga x11-bell
-pactl load-module module-x11-bell sample=x11-bell display=$DISPLAY
+if ! xdpyinfo | grep -q VNC ; then
+    pactl upload-sample /usr/share/sounds/freedesktop/stereo/bell.oga x11-bell
+    pactl load-module module-x11-bell sample=x11-bell display=$DISPLAY
+fi
+
 xset b 100
-xset dpms 600 600 600
+
+if ! xdpyinfo | grep -q VNC ; then
+    xset s 600 600
+else
+    echo "Running in VNC, disable screensaver"
+    xset s off
+fi
+
 xrdb  ~/.config/X11/Xresources &
 
 restarted=0
@@ -31,6 +41,7 @@ do
     if [ $restarted = 0 ]; then
         restarted=1
     else
+        echo "Restarting DWM"
         notify-send -a " Desktop Manager" "Dwm Restarted"
     fi
 

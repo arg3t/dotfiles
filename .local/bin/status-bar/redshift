@@ -1,24 +1,26 @@
 #!/bin/bash
 
-source $HOME/.config/config.env
+if ! xdpyinfo | grep -q VNC ; then
+  source $HOME/.config/config.env
 
-pid=$(pidof redshift)
+  pid=$(pidof redshift)
 
-case $BLOCK_BUTTON in
-  1)
-    redshift -x
-    if [ ! "$pid" = "" ]; then
-      kill -9 $pid
+  case $BLOCK_BUTTON in
+    1)
       redshift -x
-      pid=""
-    else
-      redshift -r -l "$LATLONG" > /dev/null 2> /dev/null &
-      pid="1"
-    fi;;
-esac
+      if [ ! "$pid" = "" ]; then
+        kill -9 $pid
+        redshift -x
+        pid=""
+      else
+        redshift -r -l "$LATLONG" > /dev/null 2> /dev/null &
+        pid="1"
+      fi;;
+  esac
 
-if [ "$pid" = "" ]; then
-  echo "^c#ebcb8b^^d^"
-else
-  echo "^c#ebcb8b^^d^"
+  if [ "$pid" = "" ]; then
+    echo "^c#ebcb8b^^d^"
+  else
+    echo "^c#ebcb8b^^d^"
+  fi
 fi
