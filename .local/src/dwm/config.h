@@ -48,7 +48,6 @@ const char *spcmd3[] = {"st", "-c", "scratchpad", "-n", "spmutt", "-g", "180x51"
 static const char *spcmd4[]  = { "/usr/local/bin/st", "-g", "150x35", "-c", "spfile", "-n", "spfile", "-e", "/home/yigit/.local/bin/lf-ueberzug", NULL };
 static const char *spcmd5[]  = { "/usr/local/bin/st", "-g", "150x35", "-c", "spmusic", "-n", "spmusic", "-e", "ncmpcpp", NULL };
 static const char *spcmd6[]  = { "/usr/local/bin/st", "-g", "150x35", "-c", "spcal", "-n", "spcal", "-e", "calcurse", NULL };
-static const char *spcmd7[]  = { "obsidian" };
 
 static Sp scratchpads[] = {
    {"spterm",      spcmd1},
@@ -57,7 +56,6 @@ static Sp scratchpads[] = {
    {"spfile",      spcmd4},
    {"spmusic",      spcmd5},
    {"spcal",      spcmd6},
-   {"obsidian",      spcmd7},
 };
 
 /* key definitions */

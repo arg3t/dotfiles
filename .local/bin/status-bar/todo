@@ -2,5 +2,7 @@
 
 todos=$(calcurse -t | tail -n +2 | wc -l)
 
-echo -n "^c#81a1c1^ ^d^ $todos"
+if [ ! "$todos" = "0" ]; do
+  echo -n "^c#81a1c1^ ^d^ $todos"
+done
 

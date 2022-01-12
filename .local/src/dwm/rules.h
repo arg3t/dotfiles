@@ -46,6 +46,8 @@ static const Rule rules[] = {
 { "Zathura"          , NULL       , NULL       , 0         , 0     ,         NULL          , 0  , 1  , -1  },
 { "Qemu-system-x86_64", NULL      , NULL       , 0         , 1     ,         NULL          , 0  , 1  , -1  },
 { "spfeh"            , NULL       , NULL       , SPTAG(1)  , 1     ,         NULL          , 0  , 0  , -1  },
+{ "obsidian"         , NULL       , NULL       , 1 << 4    , 0     ,         NULL          , 0  , 1  , -1  },
+{ "spfeh"            , NULL       , NULL       , SPTAG(1)  , 1     ,         NULL          , 0  , 0  , -1  },
 { NULL               , "spterm"   , NULL       , SPTAG(0)  , 1     ,         NULL          , 0  , 0  , -1  },
 { NULL               , "spmutt"   , NULL       , SPTAG(2)  , 1     ,         NULL          , 0  , 0  , -1  },
 { NULL               , "spfile"   , NULL       , SPTAG(3)  , 1     ,         NULL          , 0  , 0  , -1  },

@@ -44,35 +44,32 @@ SEPERATOR='|'
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+source ~/.config/config.env
+
 show_devices (){
-    IFS=$','
-    devices=""
-    # for all the devices avalable
-    for device in $(dbus-send --print-reply --session --dest=org.mconnect /org/mconnect/manager org.mconnect.DeviceManager.ListDevices | cut -f1 -d"[" | cut -f1 -d "]" | tail -2); do
-	#get the device info
-	deviceobj=$(echo "$device" | cut -f2 -d"\"" | tr -d '\n' | xargs)
-	devicename=$(dbus-send --print-reply --session --dest=org.mconnect "$deviceobj" org.freedesktop.DBus.Properties.Get string:org.mconnect.Device string:Name | grep -E string | cut -f2 -d"\"")
-	isreach="$(dbus-send --print-reply --session --dest=org.mconnect "$deviceobj" org.freedesktop.DBus.Properties.Get string:org.mconnect.Device string:IsConnected | grep -E boolean | cut -b 26-)"
-	devicetype=$(dbus-send --print-reply --session --dest=org.mconnect "$deviceobj" org.freedesktop.DBus.Properties.Get string:org.mconnect.Device string:DeviceType | grep -E string | cut -f2 -d"\"")
-	istrust="$(dbus-send --print-reply --session --dest=org.mconnect "$deviceobj" org.freedesktop.DBus.Properties.Get string:org.mconnect.Device string:Allowed | grep -E boolean | cut -b 26-)"
-	if [ "$isreach" = "true" ] && [ "$istrust" = "true" ];then
-	    #is connected
-	    battery="$(dbus-send --print-reply --session --dest=org.mconnect $deviceobj org.freedesktop.DBus.Properties.Get string:org.mconnect.Device.Battery string:Level | grep -e uint32 | cut -b 25-)%"
-	    icon=$(get_icon $battery $devicetype)
-	    # colors="$(get_colors $battery)"
-	    # echo "$colors"
-	    show_menu "$devicename | $battery $icon" $deviceobj $battery
-	    devices+="$devicename $battery $icon $SEPERATOR"
-	elif [ "$isreach" = "false" ] && [ "$istrust" = "true" ];then
-	    #nothing is found
-	    devices+="$(get_icon -1 $devicetype)$SEPERATOR"
-	else
-	    #found but not yet paired
-	    icon=$(get_icon -2 $devicetype)
-	    show_pmenu $devicename $deviceobj
-	    devices+="$devicename $icon $SEPERATOR"
-	fi
-    done
+		device=$(mconnectctl | grep $MCONNECT_DEVICE | sed 's/\s\{2,\}/\n/g; s/ - /\n/g;s/^\n//g' | head -n 1)
+		deviceobj=$(echo "$device" | cut -f2 -d"\"" | tr -d '\n' | xargs)
+		devicename=$(dbus-send --print-reply --session --dest=org.mconnect "$deviceobj" org.freedesktop.DBus.Properties.Get string:org.mconnect.Device string:Name | grep -E string | cut -f2 -d"\"")
+		isreach="$(dbus-send --print-reply --session --dest=org.mconnect "$deviceobj" org.freedesktop.DBus.Properties.Get string:org.mconnect.Device string:IsConnected | grep -E boolean | cut -b 26-)"
+		devicetype=$(dbus-send --print-reply --session --dest=org.mconnect "$deviceobj" org.freedesktop.DBus.Properties.Get string:org.mconnect.Device string:DeviceType | grep -E string | cut -f2 -d"\"")
+		istrust="$(dbus-send --print-reply --session --dest=org.mconnect "$deviceobj" org.freedesktop.DBus.Properties.Get string:org.mconnect.Device string:Allowed | grep -E boolean | cut -b 26-)"
+		if [ "$isreach" = "true" ] && [ "$istrust" = "true" ];then
+				#is connected
+				battery="$(dbus-send --print-reply --session --dest=org.mconnect $deviceobj org.freedesktop.DBus.Properties.Get string:org.mconnect.Device.Battery string:Level | grep -e uint32 | cut -b 25-)%"
+				icon=$(get_icon $battery $devicetype)
+				# colors="$(get_colors $battery)"
+				# echo "$colors"
+				show_menu "$devicename | $battery $icon" $deviceobj $battery
+				devices+="$devicename $battery $icon $SEPERATOR"
+		elif [ "$isreach" = "false" ] && [ "$istrust" = "true" ];then
+				#nothing is found
+				devices+="$(get_icon -1 $devicetype)$SEPERATOR"
+		else
+				#found but not yet paired
+				icon=$(get_icon -2 $devicetype)
+				show_pmenu $devicename $deviceobj
+				devices+="$devicename $icon $SEPERATOR"
+		fi
 }
 
 SendKeys(){
@@ -89,8 +86,8 @@ SendKeys(){
 #displays a menu for the connected device
 show_menu () {
     optionNum=5
-    options=$(printf "Send SMS\\nSend File\\nSend Text\\nSend URL\\nDisconnect\\n")
-    menu=$(echo $options | dmenu -i -p $1 -l $optionNum )
+    options="Send SMS\nSend File\nSend Text\nSend URL\nDisconnect\n"
+    menu=$(printf "$options" | dmenu -i -p "$1" -l $optionNum )
     case "$menu" in
 	*'Send File')
 			mkdir -p $XDG_RUNTIME_DIR/lf/

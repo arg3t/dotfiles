@@ -1,3 +1,5 @@
+VPS ?= 0
+
 # dwm version
 VERSION = 6.2
 

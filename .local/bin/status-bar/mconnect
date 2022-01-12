@@ -4,11 +4,11 @@ if ! xdpyinfo | grep -q VNC ; then
   source ~/.config/config.env
 
   if [ ! "$MCONNECT" = true ] ; then
-    echo "^c#EBCB8B^ ^d^"
     exit 0
   fi
 
-  device_status=$(mconnectctl show-device $MCONNECT_DEVICE)
+  device=$(mconnectctl | grep $MCONNECT_DEVICE | sed 's/\s\{2,\}/\n/g; s/ - /\n/g;s/^\n//g' | head -n 1)
+  device_status=$(mconnectctl show-device $device)
 
   IFS=$'\n'
 
@@ -18,11 +18,10 @@ if ! xdpyinfo | grep -q VNC ; then
   connected=${connected[1]}
 
   if [ ! "$connected" = true ] ; then
-    echo "^c#EBCB8B^ ^d^"
     exit 0
   fi
 
-  battery_status=$(mconnectctl show-battery $MCONNECT_DEVICE)
+  battery_status=$(mconnectctl show-battery $device)
 
   IFS=$'\n'
 

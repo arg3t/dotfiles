@@ -171,7 +171,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_f, 		 togglescratch,          {.ui = 3} },
 	{ MODKEY,   					          XK_n, 		 togglescratch,          {.ui = 4} },
 	{ MODKEY|ShiftMask,             XK_c, 		 togglescratch,          {.ui = 5} },
-	{ MODKEY,             					XK_o, 		 togglescratch,          {.ui = 6} },
 	/* FloatPos Patch Keybinds */
 	{ Mod3Mask,                     XK_u,            floatpos,               {.v = "-26x -26y" } }, // ↖
 	{ Mod3Mask,                     XK_i,            floatpos,               {.v = "  0x -26y" } }, // ↑

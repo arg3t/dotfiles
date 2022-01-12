@@ -3,35 +3,37 @@
 # This is a small script to open a book from your calibre library
 # Using dmenu.
 
-LIBRARY="$HOME/Library"
+USERNAME="yigitcolakoglu"
+PASSWORD="$(pass show Server/calibre.yigitcolakoglu.com/yigitcolakoglu)"
+HOST="https://calibre.fr1nge.xyz"
 
-if [ "$(date -r "$XDG_CACHE_HOME/calibrelib" "+%d-%m-%Y")" = "$(date '+%d-%m-%Y')" ]; then
-  books_raw=$(cat "$XDG_CACHE_HOME/calibrelib")
-else
-  books_raw=$(calibredb --with-library "$LIBRARY" list --for-machine --fields="title,authors,formats")
-  echo "$books_raw" > "$XDG_CACHE_HOME/calibrelib"
-fi
+function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
 
-id="$(echo "$books_raw" |\
-  jq -r '.[]|(.id | tostring) + " | " + .title + " | " + .authors' |\
-  dmenu -i -l 12 -p "Search Book: " |\
-  cut -d "|" -f 1)"
+query=$(printf "" | dmenu -p "Please enter the book's name")
+[ -z $query ] && exit
 
-entry="$(echo "$books_raw" | jq -a ".[]|select(.id | contains($id))")"
+XML=$(curl -s -u "$USERNAME:$PASSWORD" "$HOST/opds/search?query=$query")
 
-formats="$(echo "$entry" | \
-  jq -r ".formats|.[]" |\
-  sed -r "s/.*\.([^\.]*)$/\1/g")"
+menu=$(echo $XML | xpath -q -e '//entry/title | //entry/author/name | //entry/link[@type="application/pdf"]/@href')
 
-if [ "$(echo "$formats" | wc -l)" -lt 2 ]; then
-  xdg-open "$(echo "$entry" | \
-    jq -r ".formats|.[0]")"
-  exit
-fi
+book=$(echo "$menu" | \
+sed 's/<title>\(.*\)<\/title>/\1|/;N;s/<name>\(.*\)<\/name>/\1|/;N;s/href="\(.*\)"/\1/;s/\n/ /g' | \
+column -s '|' -t | dmenu -p "Please select the book" -l 5)
 
-index=$(( $(echo "$formats" | grep -n -F $(echo "$formats" | \
-  dmenu -p "Select format:" ) | cut -d ":" -f 1) - 1))
+[ -z "$book" ] && exit
 
-xdg-open "$(echo "$entry" | \
-  jq -r ".formats|.[$line]")"
+name=$(echo "$book" | sed 's/\s\{2,\}/\n/g' | head -n 1)
+author=$(echo "$book" | sed 's/\s\{2,\}/\n/g' | head -n 2 | tail -n 1)
+path=$(echo "$book" | sed 's/\s\{2,\}/\n/g' | tail -n 1)
 
+mkdir -p "$XDG_RUNTIME_DIR/books"
+notify-send -a " Downloading" "$(printf "%s\n%s" "$name" "$author")"
+
+wget -nc -P "$XDG_RUNTIME_DIR/books" -q --content-disposition \
+  --user "$USERNAME" --password "$PASSWORD" "$HOST$path" 
+
+filename=$(curl -s  --head -u "$USERNAME:$PASSWORD" "$HOST$path" | \
+  grep "Content-Disposition" |\
+  sed -E 's/Content-Disposition:.*filename=([^;]*);.*/\1/g')
+
+xdg-open "$XDG_RUNTIME_DIR/books/$(urldecode $filename)"
