@@ -1,5 +1,6 @@
 text/plain; $EDITOR %s ;
 text/html; openfile %s ; nametemplate=%s.html
+#text/html; html2text --ignore-images --unicode-snob --reference-links --pad-tables %s; nametemplate=%s.html; copiousoutput;
 text/html; lynx -assume_charset=%{charset} -display_charset=utf-8 -dump %s; nametemplate=%s.html; copiousoutput;
 #text/html; firefox-developer-edition %s;
 image/*; openfile %s ;

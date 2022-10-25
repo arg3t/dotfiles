@@ -20,7 +20,7 @@ restart_if_fails "xbanish"
 # Start emacs
 # restart_if_fails "emacs --daemon && emacsclient -c --eval \"(delete-frame)\""
 
-~/.local/bin/firefox-sync &
+# ~/.local/bin/firefox-sync &
 if [ "$ACTIVITYWATCHER" = true ] ; then
     pkill -f aw-watcher-window
     pkill -f aw-watcher-afk
@@ -28,6 +28,10 @@ if [ "$ACTIVITYWATCHER" = true ] ; then
     aw-server &
     aw-watcher-window &
     aw-watcher-afk &
+fi
+
+if [ "$ARIA2C_SECRET" = true ] ; then
+  restart_if_fails "aria2c --enable-rpc --rpc-secret '$ARIA2C_SECRET'"
 fi
 
 # Only run these if we are not in a VNC session
@@ -68,9 +72,6 @@ if ! xpdyinfo | grep -q VNC ; then
   fi
 
   restart_if_fails "picom --no-fading-openclose"
-
-  mpd
-  restart_if_fails mpDris2
 
   curl 'http://yeetclock/setcolor?R=136&G=192&B=208' &
 fi

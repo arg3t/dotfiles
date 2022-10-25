@@ -39,43 +39,7 @@ searchweb() {
 	gotourl
 }
 
-xprop -root | grep '^_NET_ACTIVE_WINDOW' && {
-	winid=$(xprop -root _NET_ACTIVE_WINDOW | sed 's/.*[[:space:]]//')
-	class=$(xprop -id "$winid" WM_CLASS | awk -F'\"' '{ print $(NF - 1) }')
-	case "$class" in
-		Firefox) nbrowser='firefox' ;;
-		#Firefox) shortcut='ctrl+l' ;; # alternative method, uses xdotool
-		IceCat) nbrowser='icecat' ;;
-		Chromium) nbrowser='chromium' ;;
-		Chrome) nbrowser='chrome' ;;
-		Opera) nbrowser='opera' ;;
-		Vivaldi) nbrowser='vivaldi' ;; # not tested
-		Brave) nbrowser='brave' ;; # not tested
-		Conkeror) nbrowser='conkeror' ;; # not tested
-		Palemoon) nbrowser='palemoon' ;; # not tested
-		Iceweasel) nbrowser='iceweasel' ;; # not tested
-		qutebrowser) nbrowser='qutebrowser' ;;
-		Midori) nbrowser='midori' ;; # not that good
-		Luakit) nbrowser='luakit' ;; # uses the last window instance
-		Uzbl|Vimb) shortcut='o' ;;
-		Links) shortcut='g' ;;
-		Netsurf*|Epiphany|Dillo|Konqueror|Arora) shortcut='ctrl+l' ;;
-		Surf) nbrowser='surf' ; uricur=$(xprop -id "$winid" _SURF_URI |\
-				awk -F'\"' '{ print $( NF - 1 ) }') ;;
-		*) pid=$(xprop -id "$winid" _NET_WM_PID | awk '{ print $3 }')
-			while pgrep -oP "$pid" >/dev/null
-			do
-				pid=$(pgrep -oP "$pid")
-			done
-			pname=$(awk '/^Name\:/{ print $NF }' /proc/"$pid"/status) ||
-				winid="" ;;
-	esac
-	[ -n "$pname" ] && case "$pname" in
-		w3m) shortcut="U" ;;
-		lynx|elinks|links) shortcut="g" ;;
-		*) winid="" ;;
-	esac
-}
+nbrowser=$BROWSER
 
 tmpfile=$(mktemp /tmp/dmenu_websearch.XXXXXX)
 trap 'rm "$tmpfile"' 0 1 15

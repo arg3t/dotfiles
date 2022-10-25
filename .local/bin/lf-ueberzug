@@ -13,8 +13,15 @@ mkfifo "$LF_UEBERZUG_FIFO"
 tail -f "$LF_UEBERZUG_FIFO" | ueberzug layer --silent &
 ueberzugpid=$!
 
-last_dir="$([ ! -f $XDG_RUNTIME_DIR/lf-last-dir ] || cat $XDG_RUNTIME_DIR/lf-last-dir)"
+if [ $# -ge 2 ]; then
+	if [[ "${@: -1}" == "." ]]; then
+		pwd > $XDG_RUNTIME_DIR/lf-last-dir
+	else
+		echo "${@: -1}" > $XDG_RUNTIME_DIR/lf-last-dir
+	fi
+fi
 
+last_dir="$([ ! -f $XDG_RUNTIME_DIR/lf-last-dir ] || cat $XDG_RUNTIME_DIR/lf-last-dir)"
 
 fid="$(mktemp)"
 

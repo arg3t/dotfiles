@@ -1,8 +1,8 @@
 [Default Applications]
 x-scheme-handler/jetbrains=jetbrains-toolbox.desktop
 x-scheme-handler/mailspring=mailspring.desktop
-x-scheme-handler/http=firefox.desktop
-x-scheme-handler/https=firefox.desktop
+x-scheme-handler/http=chromium.desktop
+x-scheme-handler/https=chromium.desktop
 image/png=sxiv.desktop
 image/jpeg=sxiv.desktop
 text/plain=vim.desktop
@@ -11,7 +11,7 @@ x-scheme-handler/gitkraken=GitKraken.desktop
 x-scheme-handler/ssh=ktelnetservice5.desktop
 video/mp4=mpv.desktop
 video/x-matroska=mpv.desktop
-text/html=firefox.desktop
+text/html=chromium.desktop
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop
 application/x-shellscript=vim.desktop
 inode/directory=lf.desktop
@@ -26,6 +26,8 @@ message/rfc822=userapp-neomutt.desktop
 application/x-directory=lf.desktop
 x-scheme-handler/discord-474605546457137157=discord-474605546457137157.desktop
 x-scheme-handler/msteams=teams.desktop
+x-scheme-handler/discord-402572971681644545=discord-402572971681644545.desktop
+x-scheme-handler/discord-378347429537251328=discord-378347429537251328.desktop
 
 [Added Associations]
 application/rtf=libreoffice-writer.desktop;nvim.desktop;

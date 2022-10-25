@@ -18,7 +18,9 @@
     word_wrap = yes
 
     ignore_newline = no
-    geometry = "500x8-8+50"
+    width=(0,350)
+    height=100
+    notification_limit=8
 
     indicate_hidden = yes
     shrink = yes
@@ -34,8 +36,8 @@
     padding = 8
     horizontal_padding = 10
     separator_color = auto
-    startup_notification = false
-    dmenu = /usr/local/bin/dmenu -p dmenu:
+    startup_notification = true
+    dmenu = /usr/local/bin/dmenu -p context:
     browser = /bin/firefox
     icon_position = left
     #icon_path = /home/yigit/.icons/Tela-dark/16/actions:/home/yigit/.icons/Tela-dark/16/apps:/home/yigit/.icons/Tela-dark/16/devices:/home/yigit/.icons/Tela-dark/16/mimetypes:/home/yigit/.icons/Tela-dark/16/panel:/home/yigit/.icons/Tela-dark/16/places:/home/yigit/.icons/Tela-dark/16/status

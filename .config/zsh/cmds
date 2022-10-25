@@ -145,6 +145,10 @@ tmate-unpair() {
   fi
 }
 
+transfer() {
+  curl --upload-file "$1" "https://transfer.sh/$1"
+}
+
 
 rawurlencode() {
   local string="${1}:$(cat -)"
@@ -169,3 +173,4 @@ rawurldecode() {
 
   echo "${REPLY}"  #+or echo the result (EASIER)... or both... :p
 }
+

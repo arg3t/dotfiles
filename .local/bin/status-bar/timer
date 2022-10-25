@@ -1,0 +1,30 @@
+#!/bin/sh
+
+icon=
+
+now=$(date '+%s')
+
+if [ ! -f "$XDG_RUNTIME_DIR/timer" ]; then
+	end=0
+else
+	content=$(cat "$XDG_RUNTIME_DIR/timer")
+	if [ -z "$content" ]; then 
+		end=0
+	else
+		end="$content"
+	fi
+fi
+
+if [ $end != 0 ]; then
+	if [ $now -ge $end ]; then
+		canberra-gtk-play -i alarm-clock-elapsed -V 10
+		echo "" > "$XDG_RUNTIME_DIR/timer"
+	else
+		diff=$(expr $end - $now)
+		str=$(date -ud @$diff '+%H:%M:%S' | sed 's/^00://g')
+		echo "^c#a48ead^$icon ^d^ $str"
+	fi
+else
+		echo "^c#a48ead^$icon ^d^ NONE"
+fi
+

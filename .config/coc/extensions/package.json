@@ -1,15 +1,15 @@
 {
   "dependencies": {
-    "coc-css": ">=1.2.6",
-    "coc-html": ">=1.4.1",
-    "coc-java": ">=1.5.3",
-    "coc-jedi": ">=0.25.2",
-    "coc-json": ">=1.3.4",
-    "coc-markdownlint": ">=1.11.1",
-    "coc-prettier": ">=1.1.23",
+    "coc-css": ">=1.3.0",
+    "coc-html": ">=1.6.1",
+    "coc-java": ">=1.5.5",
+    "coc-java-lombok": ">=1.0.0",
+    "coc-jedi": ">=0.30.1",
+    "coc-json": ">=1.4.1",
+    "coc-markdownlint": ">=1.12.4",
+    "coc-prettier": ">=9.2.2",
     "coc-tailwindcss": ">=0.7.0",
-    "coc-tsserver": ">=1.6.8",
-    "coc-vetur": ">=1.2.4",
-    "coc-vimtex": ">=1.0.4"
+    "coc-tsserver": ">=1.9.13",
+    "coc-vimtex": ">=1.1.1"
   }
 }

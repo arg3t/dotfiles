@@ -53,6 +53,7 @@ alias dignore="dots update-index --assume-unchanged {pkg.list,install.sh,README.
 alias da="dots add -u"
 alias dcm="dots commit"
 alias pwndbg="gdb -nh -x \"$XDG_CONFIG_HOME\"/gdb/pwninit"
+alias gef="gdb -nh -x \"$XDG_CONFIG_HOME\"/gdb/gefinit"
 
 alias bon="sudo bash -c 'rc-service bluetooth start && rfkill unblock bluetooth'"
 
@@ -66,3 +67,8 @@ alias m='e --eval "(progn (magit-status) (delete-other-windows))"'
 alias mt="m -t"
 alias et="e -t"
 
+alias eduvpn="sudo openvpn ~/Documents/eduVPN.ovpn"
+
+alias sshlogin="ssh -o IdentitiesOnly=yes"
+alias scplogin="scp -o IdentitiesOnly=yes"
+alias pastebin="curl -F 'sprunge=<-' http://sprunge.us"

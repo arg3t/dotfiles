@@ -9,31 +9,62 @@ HOST="https://calibre.fr1nge.xyz"
 
 function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
 
-query=$(printf "" | dmenu -p "Please enter the book's name")
-[ -z $query ] && exit
+rawurlencode() {
+  local string="${1}"
+  local strlen=${#string}
+  local encoded=""
+  local pos c o
 
-XML=$(curl -s -u "$USERNAME:$PASSWORD" "$HOST/opds/search?query=$query")
+  for (( pos=0 ; pos<strlen ; pos++ )); do
+     c=${string:$pos:1}
+     case "$c" in
+        [-_.~a-zA-Z0-9] ) o="${c}" ;;
+        * )               printf -v o '%%%02x' "'$c"
+     esac
+     encoded+="${o}"
+  done
+  echo "${encoded}"    # You can either set a return variable (FASTER) 
+  REPLY="${encoded}"   #+or echo the result (EASIER)... or both... :p
+}
 
-menu=$(echo $XML | xpath -q -e '//entry/title | //entry/author/name | //entry/link[@type="application/pdf"]/@href')
 
-book=$(echo "$menu" | \
-sed 's/<title>\(.*\)<\/title>/\1|/;N;s/<name>\(.*\)<\/name>/\1|/;N;s/href="\(.*\)"/\1/;s/\n/ /g' | \
-column -s '|' -t | dmenu -p "Please select the book" -l 5)
+if [ -d "$XDG_RUNTIME_DIR/books" ]; then
+  selection="$(find "$XDG_RUNTIME_DIR/books" -type f | dmenu -l 5 -p "Please enter the book's name")"
+else
+  selection="$(printf "" | dmenu -p "Please enter the book's name")"
+fi
 
-[ -z "$book" ] && exit
+if [ -f "$selection" ]; then
+  filename="$selection"
+else
+  bookname="$selection"
+  query=$(rawurlencode "$bookname")
+  [ -z "$query" ] && exit
 
-name=$(echo "$book" | sed 's/\s\{2,\}/\n/g' | head -n 1)
-author=$(echo "$book" | sed 's/\s\{2,\}/\n/g' | head -n 2 | tail -n 1)
-path=$(echo "$book" | sed 's/\s\{2,\}/\n/g' | tail -n 1)
+  XML=$(curl -s -u "$USERNAME:$PASSWORD" "$HOST/opds/search?query=$query")
 
-mkdir -p "$XDG_RUNTIME_DIR/books"
-notify-send -a " Downloading" "$(printf "%s\n%s" "$name" "$author")"
+  menu=$(echo $XML | xpath -q -e '//entry/title | //entry/author/name | //entry/link[@rel="http://opds-spec.org/acquisition"][position()<=1]/@href')
 
-wget -nc -P "$XDG_RUNTIME_DIR/books" -q --content-disposition \
-  --user "$USERNAME" --password "$PASSWORD" "$HOST$path" 
+  book=$(echo "$menu" | \
+  sed 's/<title>\(.*\)<\/title>/\1|/;N;s/<name>\(.*\)<\/name>/\1|/;N;s/href="\(.*\)"/\1/;s/\n/ /g' | \
+  column -s '|' -t -T 1 -c 200| dmenu -i -p "Please select the book" -l 5)
 
-filename=$(curl -s  --head -u "$USERNAME:$PASSWORD" "$HOST$path" | \
-  grep "Content-Disposition" |\
-  sed -E 's/Content-Disposition:.*filename=([^;]*);.*/\1/g')
+  [ -z "$book" ] && exit
 
-xdg-open "$XDG_RUNTIME_DIR/books/$(urldecode $filename)"
+  name=$(echo "$book" | sed 's/\s\{2,\}/\n/g' | head -n 1)
+  author=$(echo "$book" | sed 's/\s\{2,\}/\n/g' | head -n 2 | tail -n 1)
+  path=$(echo "$book" | sed 's/\s\{2,\}/\n/g' | tail -n 1)
+
+  mkdir -p "$XDG_RUNTIME_DIR/books"
+  notify-send -a " Downloading" "$(printf "%s\n%s" "$name" "$author")"
+
+  wget -nc -P "$XDG_RUNTIME_DIR/books" -q --content-disposition \
+    --user "$USERNAME" --password "$PASSWORD" "$HOST$path" 
+
+  out=$(curl -s  --head -u "$USERNAME:$PASSWORD" "$HOST$path" | \
+    grep "Content-Disposition" |\
+    sed -E 's/Content-Disposition:.*filename=([^;]*);.*/\1/g')
+  filename="$XDG_RUNTIME_DIR/books/$(urldecode $out)"
+fi
+
+xdg-open "$filename"

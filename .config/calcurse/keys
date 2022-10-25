@@ -16,6 +16,7 @@ generic-reload  R
 generic-copy  c 
 generic-paste  p ^V 
 generic-change-view  TAB 
+generic-prev-view  KEY_BTAB 
 generic-import  i I 
 generic-export  x X 
 generic-goto  g G 

@@ -22,8 +22,8 @@ function send_notification {
             fi
         fi
     fi
-    bar=$(seq -s "─" $(($1/5)) | sed 's/[0-9]//g')
-    empty=$(seq -s " ⁠" $((20 - $1/5)) | sed 's/[0-9]//g')
+    bar=$(seq -s "▮" $(($1/4)) | sed 's/[0-9]//g')
+    empty=$(seq -s "▯⁠" $((26 - $1/4)) | sed 's/[0-9]//g')
     dunstify -t 1000 -r 53 -a "蓼 Volume" "$icon $bar$empty"
 }
 
@@ -31,7 +31,7 @@ usage() {
     echo "Usage: pacontrol.sh [up|down|toggle-mute]"
 }
 
-vol_interval=5
+vol_interval=3
 sinks=$(pactl list short sinks | cut -c 1)
 latest_sink=${sinks[*]: -1}
 

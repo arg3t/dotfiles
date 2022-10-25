@@ -46,9 +46,11 @@ static const char *notification[] = {"/home/yigit/.local/bin/dunst_toggle.sh", "
 
 static const char *screensaver[] = {"/home/yigit/.local/bin/screensaver_toggle", "-t",NULL};
 
-static const char *toolbelt[] = {"/home/yigit/.local/bin/toolbelt", NULL};
+static const char *toolkit[] = {"/home/yigit/.local/bin/dmenu-toolkit", NULL};
 
 static const char *bwmenu[] = {"/home/yigit/.local/bin/password_manager", NULL};
+
+static const char *sessionload[] = {"/home/yigit/.local/bin/dmenu-sessions", NULL};
 
 static const char *wallabag[] = {"/home/yigit/.local/bin/dmenu-wallabag", "-s", NULL};
 static const char *wiki[] = {"/home/yigit/.local/bin/dmenu-arch", NULL};
@@ -56,22 +58,11 @@ static const char *wiki[] = {"/home/yigit/.local/bin/dmenu-arch", NULL};
 static const char *grabcolor[] = {"/home/yigit/.local/bin/grabcolor", NULL};
 static const char *wc[] = {"/home/yigit/.local/bin/dmenu-wc", NULL};
 static const char *network_manager[] = {"/home/yigit/.local/bin/connman_dmenu", NULL};
-static const char *ambient_sound[] = {"/home/yigit/.local/bin/dmenu-ambient", NULL};
-static const char *killall[] = {"/home/yigit/.local/bin/dmenu-killall", NULL};
-static const char *mconnect[] = {"/home/yigit/.local/bin/dmenu-mconnect"};
-static const char *udevil[] = {"/home/yigit/.local/bin/dmenu-udevil"};
-static const char *udevil_umount[] = {"/home/yigit/.local/bin/dmenu-udevil", "-u"};
 static const char *genpwd[] = {"/home/yigit/.local/bin/genpwd", NULL};
-static const char *trackpad[] = {"/home/yigit/.local/bin/toggle_touchpad.sh"};
-static const char *bluetooth[] = {"/home/yigit/.local/bin/dmenu-bluetooth", NULL};
 static const char *web[] = {"/home/yigit/.local/bin/dmenu-web", NULL};
-static const char *readbook[] = {"/home/yigit/.local/bin/dmenu-books", NULL};
-static const char *emoji[] = {"/home/yigit/.local/bin/dmenu-emoji", NULL};
 static const char *xrandr[] = {"/home/yigit/.local/bin/dmenu-xrandr", NULL};
-static const char *record[] = {"/home/yigit/.local/bin/dmenu-record", NULL};
-static const char *edit[] = {"/home/yigit/.local/bin/dmenu-edit", NULL};
 static const char *surf[] = {"/home/yigit/.local/bin/tabbed_surf", NULL};
-static const char *youtube[] = {"/home/yigit/.local/bin/ytfzf_dmenu", NULL};
+static const char *hamster[] = {"/home/yigit/.local/bin/dmenu-hamster", NULL};
 
 /* commands */
 static Key keys[] = {
@@ -128,14 +119,9 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_t, 			spawn, {.v = trackpad} },
 	{ MODKEY,                       XK_x, 			spawn, {.v = lock } },
-	{ MODKEY|ShiftMask,             XK_x, 			spawn, {.v = killall } },
 	{ MODKEY,                       XK_c, 			spawn, {.v = clipmenu } },
 	{ MODKEY|ShiftMask,             XK_p,			  spawn, {.v = genpwd} },
-	{ MODKEY|ShiftMask,             XK_b,			  spawn, {.v = bluetooth } },
-	{ MODKEY|Mod1Mask,              XK_n, 			spawn, {.v = network_manager} }, /*Spiral*/
-	{ MODKEY|ShiftMask,             XK_a,       spawn, {.v = ambient_sound } },
 	{ MODKEY|Mod1Mask,              XK_k,       spawn,      {.v = keyboard} }, /*tiled*/
 	{ MODKEY|ShiftMask,              XK_r,       spawn,      {.v = refresh} }, /*tiled*/
 	{ 0,                            XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
@@ -150,21 +136,11 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask|Mod1Mask,    XK_s, togglesticky, { 0 } },
 	{ MODKEY,                       XK_Print, spawn, {.v = windowshot  } },
 	{ MODKEY|Mod1Mask,              XK_Print, spawn, {.v = selectshot  } },
-	{ MODKEY|ShiftMask, 						XK_e, spawn, {.v = emoji } },
 	{ MODKEY|ShiftMask, 						XK_s, spawn, {.v = xrandr } },
-	{ MODKEY,                       XK_e, spawn, {.v = edit} },
+	{ MODKEY|ShiftMask, 						XK_l, spawn, {.v = sessionload } },
 	{ MODKEY,                       XK_u, spawn, {.v = web} },
-	{ MODKEY,                       XK_r, spawn, {.v = readbook} },
-	{ MODKEY|Mod1Mask,              XK_r, spawn, {.v = record } },
-	{ MODKEY|ShiftMask,             XK_w, spawn, {.v = wallabag} },
-	{ MODKEY,            					  XK_w, spawn, {.v = wiki} },
-	{ MODKEY,        	 							XK_t, spawn, {.v = toolbelt } },
-	{ MODKEY|ShiftMask,							XK_m, spawn, {.v = mconnect} },
-	{ MODKEY|ShiftMask,							XK_l, spawn, {.v = wc } },
-	{ MODKEY|ShiftMask,							XK_d, spawn, {.v = udevil} },
-	{ MODKEY|ShiftMask,							XK_u, spawn, {.v = udevil_umount} },
-	{ MODKEY,                       XK_y, spawn, {.v = youtube} },
-	{ MODKEY|ShiftMask,             XK_g, spawn, {.v = grabcolor} },
+	{ MODKEY|ShiftMask,        	 							XK_h, spawn, {.v = hamster } },
+	{ MODKEY,        	 							XK_t, spawn, {.v = toolkit } },
 	{ MODKEY,                       XK_s,      togglescratch,          {.ui = 0 } },
 //	{ MODKEY|ShiftMask,             XK_s,      togglescratch,					 {.ui = 1 } },
 	{ MODKEY,                       XK_m,      togglescratch,          {.ui = 2 } },

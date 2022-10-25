@@ -515,12 +515,6 @@ if g:material_theme_style !~ '-community$'
   call s:SetHighlight('VimwikiWebLink1', s:green, '', 'underline')
 endif
 
-" vim-gitgutter
-call s:SetHighlight('GitGutterAdd', s:green, '', '')
-call s:SetHighlight('GitGutterChange', s:yellow, '', '')
-call s:SetHighlight('GitGutterChangeDelete', s:orange, '', '')
-call s:SetHighlight('GitGutterDelete', s:red, '', '')
-
 " vim-signify
 hi link SignifySignAdd GitGutterAdd
 hi link SignifySignChange GitGutterChange

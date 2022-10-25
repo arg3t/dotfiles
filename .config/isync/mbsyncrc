@@ -79,7 +79,7 @@ IMAPStore Y.Colakoglu@student.tudelft.nl-remote
 Host imap.tudelft.nl
 Port 993
 User ycolakoglu@tudelft.net
-PassCmd "pass University/password.tudelft.nl/ycolakoglu"
+PassCmd "pass University/login.tudelft.nl/ycolakoglu"
 AuthMechs LOGIN
 SSLType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt

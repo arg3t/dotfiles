@@ -7,6 +7,7 @@ let g:lightline#bufferline#unnamed      = '[No Name]'
 let g:lightline#bufferline#enable_nerdfont = 1
 let g:lightline#bufferline#modified = ' *'
 let g:lightline#bufferline#read_only = ' '
+let g:lightline#bufferline#enable_devicons = 1
 
 " Movement bindings
 nmap <Leader>1 <Plug>lightline#bufferline#go(1)
@@ -31,3 +32,5 @@ nmap <Leader>c7 <Plug>lightline#bufferline#delete(7)
 nmap <Leader>c8 <Plug>lightline#bufferline#delete(8)
 nmap <Leader>c9 <Plug>lightline#bufferline#delete(9)
 nmap <Leader>c0 <Plug>lightline#bufferline#delete(10)
+
+

@@ -15,7 +15,7 @@ export AWT_TOOLKIT=MToolkit
 # Environment variables
 export SHELL=/bin/zsh
 export TERMINAL=/usr/local/bin/st
-export BROWSER=firefox
+export BROWSER=chromium
 export EDITOR=nvim
 export OPENER=xdg-open
 export DEFAULT_RECIPIENT="yigitcolakoglu@hotmail.com"
@@ -43,7 +43,7 @@ export NVM_DIR="$XDG_DATA_HOME"/nvm
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 export MBSYNCRC="$XDG_CONFIG_HOME"/isync/mbsyncrc
 export IMAPFILTER_CONFIG="$XDG_CONFIG_HOME/imapfilter/config.lua"
-export VIMINIT="set nocp | source ${XDG_CONFIG_HOME:-$HOME/.config}/vim/vimrc"
+# export VIMINIT="set nocp | source ${XDG_CONFIG_HOME:-$HOME/.config}/vim/vimrc"
 export MYSQL_HISTFILE="$XDG_DATA_HOME"/mysql_history
 export TASKDATA="$XDG_DATA_HOME"/task
 export TASKRC="$XDG_CONFIG_HOME"/task/taskrc
@@ -75,8 +75,13 @@ export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 export PATH=$ANDROID_HOME/tools:$PATH
 export PATH=$ANDROID_HOME/platform-tools:$PATH
 export PATH=$FLUTTER_HOME/bin:$PATH
-export PATH="$PATH:/usr/lib/w3m:$HOME/.local/bin:$HOME/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:$XDG_DATA_HOME/cargo/bin/"
+export PATH="$PATH:/usr/lib/w3m:$HOME/.local/bin:$HOME/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:$XDG_DATA_HOME/cargo/bin/:$XDG_DATA_HOME/questasim/questasim/linux_x86_64"
 export CPATH=/usr/include/opencv4
+
+export LM_LICENSE_FILE=27017@flexserv1.tudelft.nl
+
+# Set zettelkasten directory
+export ZK_NOTEBOOK_DIR=~/Projects/Neocortex/content
 
 # Setup LF Icons (Doing this everytime lf start might cause some overhead)
 LF_ICONS=$(sed ~/.config/lf/diricons \
@@ -108,3 +113,4 @@ if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ]; then
   fi
   exit
 fi
+

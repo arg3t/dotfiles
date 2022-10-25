@@ -1,0 +1,22 @@
+#!/bin/sh
+
+if [ ! -d "$XDG_CONFIG_HOME/sessions" ]; then
+  mkdir -p "$XDG_CONFIG_HOME/sessions"
+fi
+
+list=""
+for i in $(ls -1 "$XDG_CONFIG_HOME/sessions/"); do
+  list="${list}${i} : $(head -n 1 "$XDG_CONFIG_HOME/sessions/$i" | sed 's/# //g')\n"
+done
+
+selection=$(printf "$list" | dmenu -l 4 | sed 's/ :.*//g')
+
+echo "$selection"
+
+if [ ! -f "$XDG_CONFIG_HOME/sessions/$selection" ]; then
+  touch "$XDG_CONFIG_HOME/sessions/$selection"
+  st -c vim -n vim -e "$EDITOR" "$XDG_CONFIG_HOME/sessions/$selection"
+else
+  bash "$XDG_CONFIG_HOME/sessions/$selection"
+fi
+

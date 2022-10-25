@@ -16,7 +16,7 @@ dunst
 clipmenud
 darkhttpd
 devmon
-emacs
+activitywatcher
 spotifyd"
 
 # Open menu
@@ -46,9 +46,13 @@ case $selection in
 		kill -9 $(pidof dunst)
 		dunst &
 		;;
-	emacs)
-		emacsclient -e '(kill-emacs)'
-		emacs --daemon && emacsclient -c --eval "(delete-frame)"
+	activitywatcher)
+    pkill -f aw-watcher-window
+    pkill -f aw-watcher-afk
+    pkill -f aw-server
+    aw-server &
+    aw-watcher-window &
+    aw-watcher-afk &
 		;;
 	devmon)
 		pkill -f devmon

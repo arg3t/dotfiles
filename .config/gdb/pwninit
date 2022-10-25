@@ -1,3 +1,4 @@
+set disassembly-flavor intel
 source /usr/share/pwndbg/gdbinit.py
 source /home/yigit/.local/share/splitmind/gdbinit.py
 python

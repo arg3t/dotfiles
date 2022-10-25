@@ -1,0 +1,39 @@
+#!/bin/sh
+
+read -r -d '' MENU << EOM
+Arch Wiki | Open an entry from the Arch Wiki (offline) | dmenu-ambient
+Bluetooth | Manage bluetooth and bluetooth devices | dmenu-bluetooth
+Read Books | Connect to calibre-web and read a book | dmenu-books
+Edit Config | Select and edit configuration files in your dotfiles | dmenu-edit
+Kill Process | Kill a process that is bothering you | dmenu-killall
+Mobile Device | Manage your mobile device through mconnect | dmenu-mconnect
+Record Screen | Record your screen, voice or anything | dmenu-record
+Mount Storage Devices | Manage connected detachable storage devices | dmenu-udevil
+Unmount Storage Devices | Manage connected detachable storage devices | dmenu-udevil -u
+Word Count | Count the words, letters and lines in any string | dmenu-wc
+Grab Color | Grab any color on your screen | grabcolor
+Sync Mail | Synchronize your mail | mailsync
+Toggle Trackpad | Enable/Disable your trackpad | toggle_trackpad.sh
+Sync Nextcloud | Synchronize with your nextcloud instance | nextcloud-sync
+Network Settings | Manage network settings using connman | connman_dmenu
+Backup | Backup your system | backup
+Ambient Sounds | Play ambient sounds | dmenu-ambient
+Insert Emoji | Insert an emoji or glyph | dmenu-emoji
+Create Timer | Create or manage a timer | dmenu-timer
+Watch Youtube | Search and watch a youtube video | ytfzf_dmenu
+EOM
+
+selection=$(printf "$MENU" | column -s '|' -t | dmenu -p "Select a tool" -l 7)
+[ -z "$selection" ] && exit
+
+cmd=$(echo "$selection" | sed 's/\s\{2,\}/\n/g' | tail -n 1)
+
+bash -c "$cmd"
+
+
+
+
+
+
+
+

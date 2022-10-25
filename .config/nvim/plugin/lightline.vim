@@ -1,15 +1,13 @@
 let g:lightline = {
 \   'colorscheme': 'material_vim',
 \   'active': {
-\       'right': [ [ 'lineinfo' ], [ 'percent', 'wordcount' ], [ 'fileformat', 'fileencoding', 'filetype' ] ],
-\       'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ],
+\       'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'fileencoding', 'filetype' ] ],
+\       'left': [ [ 'mode', 'paste' ], [ 'lsp_status' ], [ 'readonly', 'filename' ], [  'lsp_info', 'lsp_hints', 'lsp_errors', 'lsp_warnings', 'lsp_ok' ] ],
 \   },
-\   'component_function': {
-\       'wordcount': 'WordCount',
-\   },
+\   'component_function': { },
 \   'tabline': {
 \     'left': [ ['buffers'] ],
-\     'right': [ ['close'] ],
+\     'right': [ ],
 \   },
 \   'component_expand': {
 \     'buffers': 'lightline#bufferline#buffers',
@@ -51,3 +49,5 @@ function! WordCount()
 endfunction
 
 let g:lightline#trailing_whitespace#indicator = ''
+
+call lightline#lsp#register()

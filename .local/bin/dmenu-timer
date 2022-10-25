@@ -1,0 +1,23 @@
+#!/bin/sh
+
+if [ ! -f $XDG_RUNTIME_DIR/timer ] || [ -z $(cat $XDG_RUNTIME_DIR/timer) ]; then
+  duration="$(printf "" | dmenu -p "Please enter duration:")"
+
+  [ -z "$duration" ] && exit 1
+
+  timestamp="$(date -d "$duration" '+%s')"
+
+  [ -z "$timestamp" ] && notify-send -a "Timer utility" "Time format not recognized" && exit 1
+
+  printf "$timestamp" > $XDG_RUNTIME_DIR/timer
+
+else
+  operation=$(printf "Cancel" | dmenu -p "Please select action:")
+  case $operation in
+    Cancel)
+      echo "" > $XDG_RUNTIME_DIR/timer
+      ;;
+    esac
+fi
+
+kill -64 $(pidof dwmblocks)
