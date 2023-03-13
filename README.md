@@ -37,7 +37,7 @@ You might want to edit your crontab and the ~/.config/config.env.
 
 ## Some eye candy
 
-![Reddit Post SS](https://i.redd.it/0yypvtsinyo61.png) 
+Screenshots can be found on my [reddit post](https://www.reddit.com/r/unixporn/comments/mc3a77/dwm_material_ocean_on_dwm/) 
 
 ## TODOS
 
