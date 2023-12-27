@@ -37,10 +37,7 @@ You might want to edit your crontab and the ~/.config/config.env.
 
 ## Some eye candy
 
-![Workspace 1](https://minio.yigitcolakoglu.com/screenshots/rice/neofetch.png) 
-![Workspace 2](https://minio.yigitcolakoglu.com/screenshots/rice/brave.png) 
-![Workspace 4](https://minio.yigitcolakoglu.com/screenshots/rice/ranger.png) 
-![neomutt](https://minio.yigitcolakoglu.com/screenshots/rice/mail.png) 
+Screenshots can be found on my [reddit post](https://www.reddit.com/r/unixporn/comments/mc3a77/dwm_material_ocean_on_dwm/) 
 
 ## TODOS
 
