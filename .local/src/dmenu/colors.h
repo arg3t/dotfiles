@@ -3,11 +3,11 @@
 static const unsigned int border_width = 0; /* Fix border transparency */
 static const char *colors[SchemeLast][2] = {
 	/*     fg         bg       */
-	[SchemeNorm] = { "#e5e9f0", "#0f111a", "#bf616a" },
-	[SchemeSel] = { "#0f111a", "#bf616a", "#bf616a" },
-	[SchemeOut] = { "#000000", "#00ffff", "#bf616a" },
-	[SchemeNormHighlight] = { "#81a1c1", "#0f111a", "#bf616a" },
-	[SchemeSelHighlight] = { "#88c0d0", "#bf616a", "#bf616a" },
+	[SchemeNorm] = { "#cdd6f4", "#1e1e2e" },
+	[SchemeSel] = { "#1e1e2e", "#89dceb" },
+	[SchemeOut] = { "#000000", "#89dceb" },
+	[SchemeNormHighlight] = { "#cdd6f4", "#1e1e2e", "#1e1e2e" },
+	[SchemeSelHighlight] = { "#1e1e2e", "#89dceb", "#a6e3a1" },
 };
 
 

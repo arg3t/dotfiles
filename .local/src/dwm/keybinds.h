@@ -38,8 +38,7 @@ static const char *refresh[] = {"/home/yigit/.local/bin/dmenu-refresh", NULL};
 static const char *keyboard[] = {"/home/yigit/.local/bin/kbmap_toggle", NULL};
 
 static const char *screenshot[] = { "scrot", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send -a \"SNAP\" \"$f\"", NULL };
-static const char *selectshot[] = { "scrot", "-s","/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send -a \"SNAP\" \"$f\"", NULL };
-static const char *windowshot[] = { "scrot", "-u", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send -a \"SNAP\" \"$f\"", NULL };
+static const char *windowshot[] = { "flameshot", "gui", NULL };
 static const char *simcrop[] = {"simcrop","-fc","-sc", "-g", "900x500",NULL};
 
 static const char *notification[] = {"/home/yigit/.local/bin/dunst_toggle.sh", "-t",NULL};
@@ -135,7 +134,6 @@ static Key keys[] = {
 	{ 0,                            XK_Print, spawn, {.v = screenshot  } },
 	{ MODKEY|ShiftMask|Mod1Mask,    XK_s, togglesticky, { 0 } },
 	{ MODKEY,                       XK_Print, spawn, {.v = windowshot  } },
-	{ MODKEY|Mod1Mask,              XK_Print, spawn, {.v = selectshot  } },
 	{ MODKEY|ShiftMask, 						XK_s, spawn, {.v = xrandr } },
 	{ MODKEY|ShiftMask, 						XK_l, spawn, {.v = sessionload } },
 	{ MODKEY,                       XK_u, spawn, {.v = web} },

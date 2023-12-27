@@ -27,8 +27,8 @@ static int floatposgrid_x           = 5;        /* float grid columns */
 static int floatposgrid_y           = 5;        /* float grid rows */
 static const char *fonts[]          = { "CaskaydiaCove Nerd Font:size=10" };
 
-static const char fore[]   = "#e5e9f0";
-static const char back[]   = "#0f111a";
+static const char fore[]   = "#cdd6f4";
+static const char back[]   = "#1e1e2e";
 static const char border[] = "#3a575c";
 static const char col0[]   = "#3b4252";
 static const char col1[]   = "#bf616a"; /* red */

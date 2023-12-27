@@ -20,6 +20,7 @@ static const Rule rules[] = {
 
 	/* class          instance       title       tags mask     isfloating   floatpos   isterminal noswallow monitor */
 { "discord"          , NULL       , NULL       , 1 << 8    , NULL  ,         NULL          , 0  , 0  , -1  },
+{ "spot"             , NULL       , NULL       , 1 << 8    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "Signal"          , NULL       , NULL        , 1 << 8    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "Brave-browser"    , NULL       , NULL       , 1 << 1    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "Firefox"          , NULL       , NULL       , 1 << 1    , NULL  ,         NULL          , 0  , 0  , -1  },
@@ -29,7 +30,8 @@ static const Rule rules[] = {
 { "tabbed-surf"      , NULL       , NULL       , 1 << 1    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "bitwarden"        , NULL       , NULL       , 1 << 6    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "QtPass"           , NULL       , NULL       , 1 << 6    , NULL  ,         NULL          , 0  , 0  , -1  },
-{ "st-256color"      , NULL       , NULL       , 1 << 0    , NULL  ,         NULL          , 1  , 0  , -1  },
+{ "st-256color"      , NULL       , NULL       , 1 << 0    , NULL  ,         NULL          , 1  , 1  , -1  },
+{ "gef_helper"       , NULL       , NULL       , 0         , NULL  ,         NULL          , 1  , 1  , -1  },
 { "Tor Browser"      , NULL       , NULL       , 1 << 1    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "TelegramDesktop"  , NULL       , NULL       , 1 << 8    , NULL  ,         NULL          , 0  , 0  , -1  },
 { "thunderbird"      , NULL       , NULL       , 1 << 7    , NULL  ,         NULL          , 0  , 0  , -1  },
@@ -50,6 +52,7 @@ static const Rule rules[] = {
 { "htop"             , NULL       , NULL       , 0         , 1     , "50% 50% 1200W 600H"  , 0  , 0  , -1  },
 { "Pavucontrol"      , NULL       , NULL       , 0         , 1     , "50% 50% 1200W 600H"  , 0  , 0  , -1  },
 { "Zathura"          , NULL       , NULL       , 0         , 0     ,         NULL          , 0  , 1  , -1  },
+{ "DEA"              , NULL       , NULL       , 0         , 1     ,         NULL          , 0  , 1  , -1  },
 { "Qemu-system-x86_64", NULL      , NULL       , 0         , 1     ,         NULL          , 0  , 1  , -1  },
 { "spfeh"            , NULL       , NULL       , SPTAG(1)  , 1     ,         NULL          , 0  , 0  , -1  },
 { "obsidian"         , NULL       , NULL       , 1 << 4    , 0     ,         NULL          , 0  , 1  , -1  },
