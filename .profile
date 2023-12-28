@@ -11,11 +11,12 @@
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export AWT_TOOLKIT=MToolkit
+export QT_STYLE_OVERRIDE=kvantum
 
 # Environment variables
 export SHELL=/bin/zsh
 export TERMINAL=/usr/local/bin/st
-export BROWSER=chromium
+export BROWSER=firefox
 export EDITOR=nvim
 export OPENER=xdg-open
 export DEFAULT_RECIPIENT="yigitcolakoglu@hotmail.com"
@@ -75,7 +76,7 @@ export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 export PATH=$ANDROID_HOME/tools:$PATH
 export PATH=$ANDROID_HOME/platform-tools:$PATH
 export PATH=$FLUTTER_HOME/bin:$PATH
-export PATH="$PATH:/usr/lib/w3m:$HOME/.local/bin:$HOME/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:$XDG_DATA_HOME/cargo/bin/:$XDG_DATA_HOME/questasim/questasim/linux_x86_64"
+export PATH="$XDG_DATA_HOME/nvim/mason/bin:$PATH:/usr/lib/w3m:$HOME/.local/bin:$HOME/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:$XDG_DATA_HOME/cargo/bin/:$XDG_DATA_HOME/questasim/questasim/linux_x86_64"
 export CPATH=/usr/include/opencv4
 
 export LM_LICENSE_FILE=27017@flexserv1.tudelft.nl

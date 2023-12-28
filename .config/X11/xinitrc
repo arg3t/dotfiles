@@ -14,6 +14,8 @@ EOF
 
 chmod +x "$XDG_CACHE_HOME/dbus_settings" 
 
+dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY
+
 rm -rf $XDG_RUNTIME_DIR/day_cache
 export XSESSION_PID="$$"
 

@@ -33,6 +33,10 @@ alias gshh="gcloud cloud-shell ssh --authorize-session"
 # Git
 alias ga="git add"
 alias gcl="git clone --recursive --depth=16"
+alias gck="git checkout"
+alias gmg="git merge"
+alias gss="git stash"
+alias gsp="git stash pop"
 alias gc="git commit"
 alias gcm="git commit -m"
 alias gp="git push"
@@ -63,9 +67,6 @@ alias lights_on="curl 'http://yeetclock/setcolor?R=136&G=192&B=208'"
 
 
 alias v="nvim"
-alias m='e --eval "(progn (magit-status) (delete-other-windows))"'
-alias mt="m -t"
-alias et="e -t"
 
 alias eduvpn="sudo openvpn ~/Documents/eduVPN.ovpn"
 

@@ -116,22 +116,6 @@ function main() {
     xrandr_cmd+=" --output ${output} ${position} ${rotation} ${mode}"
   done
 
-  if [ "$(pidof x11vnc)" ]; then
-    killvnc="$(printf "no\nyes" | dmenu -p "Would you like to kill existing vnc display?")"
-    if [ "$killvnc" = "yes" ]; then
-      xrandr --output HDMI2 --off
-      killall -9 x11vnc
-      vnc="$(printf "no\nyes" | dmenu -p "Would you like to connect to your ipad?")"
-    fi
-  else 
-      vnc="$(printf "no\nyes" | dmenu -p "Would you like to connect to your ipad?")"
-  fi
-
-  if [ "$vnc" = "yes" ]; then
-    $HOME/.local/bin/ipad_xrandr.sh
-    pidof x11vnc && notify-send -t 60000 -a " Network info" "$(echo -e "wlan0: $wlan\neth0: $eth\nRunning on port 5900")"
-  fi
-
   # forcibly '--off' disconnected outputs
   for output in ${DISCONNECTED_OUTPUTS}; do
     xrandr_cmd+=" --output ${output} --off"
@@ -142,6 +126,7 @@ function main() {
     echo "Failed to execute xrandr command:\n${xrandr_cmd}"
     bail 255
   fi
+  daily-update -f
 }
 
 ################################################################################

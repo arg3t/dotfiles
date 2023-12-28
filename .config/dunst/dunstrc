@@ -1,6 +1,7 @@
 [global]
     frame_width = 0
     font = CaskaydiaCove Nerd Font 10
+
     follow = none
 
     markup = yes
@@ -18,7 +19,7 @@
     word_wrap = yes
 
     ignore_newline = no
-    width=(0,350)
+    width=(0,500)
     height=100
     notification_limit=8
 
@@ -45,6 +46,8 @@
     mouse_left_click = close_current
     mouse_middle_click = do_action, close_current
     mouse_right_click = close_all
+    frame_color = "#89B4FA"
+    separator_color= frame
 
 [shortcuts]
     close_all = ctrl+mod1+space
@@ -52,21 +55,19 @@
     context = ctrl+shift+period
 
 [urgency_low]
-    background	= "#0F111A"
-    foreground = "#E5E9F0"
-    frame_color = "#BF616A"
+    background = "#1E1E2E"
+    foreground = "#CDD6F4"
     timeout = 5
 
 [urgency_normal]
-    background	= "#0F111A"
-    foreground = "#E5E9F0"
-    frame_color = "#BF616A"
+    background = "#1E1E2E"
+    foreground = "#CDD6F4"
     timeout = 5
 
 [urgency_critical]
-    background = "#BF616A"
-    foreground = "#00010A"
-    frame_color = "#E5E9F0"
+    background = "#1E1E2E"
+    foreground = "#CDD6F4"
+    frame_color = "#FAB387"
     timeout = 0
 
 [volume]

@@ -5,7 +5,8 @@
 
 USERNAME="yigitcolakoglu"
 PASSWORD="$(pass show Server/calibre.yigitcolakoglu.com/yigitcolakoglu)"
-HOST="https://calibre.fr1nge.xyz"
+HOST="https://calibre.yigit.run"
+BOOKS_DIR="$HOME/Documents/books/"
 
 function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
 
@@ -28,9 +29,10 @@ rawurlencode() {
 }
 
 
-if [ -d "$XDG_RUNTIME_DIR/books" ]; then
-  selection="$(find "$XDG_RUNTIME_DIR/books" -type f | dmenu -l 5 -p "Please enter the book's name")"
+if [ -d "$BOOKS_DIR" ]; then
+  selection="$(find "$BOOKS_DIR" -type f | dmenu -l 5 -p "Please enter the book's name")"
 else
+  mkdir -p "$BOOKS_DIR"
   selection="$(printf "" | dmenu -p "Please enter the book's name")"
 fi
 
@@ -41,7 +43,7 @@ else
   query=$(rawurlencode "$bookname")
   [ -z "$query" ] && exit
 
-  XML=$(curl -s -u "$USERNAME:$PASSWORD" "$HOST/opds/search?query=$query")
+  XML=$(curl --insecure -s -u "$USERNAME:$PASSWORD" "$HOST/opds/search?query=$query")
 
   menu=$(echo $XML | xpath -q -e '//entry/title | //entry/author/name | //entry/link[@rel="http://opds-spec.org/acquisition"][position()<=1]/@href')
 
@@ -55,16 +57,17 @@ else
   author=$(echo "$book" | sed 's/\s\{2,\}/\n/g' | head -n 2 | tail -n 1)
   path=$(echo "$book" | sed 's/\s\{2,\}/\n/g' | tail -n 1)
 
-  mkdir -p "$XDG_RUNTIME_DIR/books"
+  mkdir -p "$BOOKS_DIR"
   notify-send -a " Downloading" "$(printf "%s\n%s" "$name" "$author")"
 
-  wget -nc -P "$XDG_RUNTIME_DIR/books" -q --content-disposition \
+  wget --no-check-certificate -nc -P "$BOOKS_DIR" -q --content-disposition \
     --user "$USERNAME" --password "$PASSWORD" "$HOST$path" 
 
-  out=$(curl -s  --head -u "$USERNAME:$PASSWORD" "$HOST$path" | \
+  header="$(curl -s --insecure --head -u "$USERNAME:$PASSWORD" "$HOST$path")"
+  out=$( printf "%s" "$header" | \
     grep "Content-Disposition" |\
     sed -E 's/Content-Disposition:.*filename=([^;]*);.*/\1/g')
-  filename="$XDG_RUNTIME_DIR/books/$(urldecode $out)"
+  filename="$BOOKS_DIR/$(urldecode "$out")"
 fi
 
 xdg-open "$filename"

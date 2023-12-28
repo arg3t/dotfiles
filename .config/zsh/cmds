@@ -174,3 +174,6 @@ rawurldecode() {
   echo "${REPLY}"  #+or echo the result (EASIER)... or both... :p
 }
 
+pdfcomp(){
+  gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${2}" "${1}"
+}

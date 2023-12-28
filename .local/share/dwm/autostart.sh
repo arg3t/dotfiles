@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 function restart_if_fails(){
     until bash -c "$1"; do
@@ -30,8 +30,8 @@ if [ "$ACTIVITYWATCHER" = true ] ; then
     aw-watcher-afk &
 fi
 
-if [ "$ARIA2C_SECRET" = true ] ; then
-  restart_if_fails "aria2c --enable-rpc --rpc-secret '$ARIA2C_SECRET'"
+if [ "$ARIA2C" = true ] ; then
+  restart_if_fails "aria2c --async-dns=false --enable-rpc --rpc-secret '$ARIA2C_SECRET'"
 fi
 
 # Only run these if we are not in a VNC session
@@ -72,6 +72,8 @@ if ! xpdyinfo | grep -q VNC ; then
   fi
 
   restart_if_fails "picom --no-fading-openclose"
+
+  restart_if_fails "xfce4-power-manager"
 
   curl 'http://yeetclock/setcolor?R=136&G=192&B=208' &
 fi
