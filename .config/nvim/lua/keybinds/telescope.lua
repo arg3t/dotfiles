@@ -36,7 +36,7 @@ map('n', '<Leader>lt', "<Cmd>lua require('telescope.builtin').treesitter()<CR>",
   desc = "List symbols in workspace with treesitter"
 })
 
-map('n', '<Leader>lw', "<Cmd>lua require('telescope.builtin').diagnostic()<CR>", {
+map('n', '<Leader>lw', "<Cmd>lua require('telescope.builtin').diagnostics()<CR>", {
   noremap = true,
   desc = "List diagnostic items"
 })
