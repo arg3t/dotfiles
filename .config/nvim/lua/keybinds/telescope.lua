@@ -41,6 +41,11 @@ map('n', '<Leader>lw', "<Cmd>lua require('telescope.builtin').diagnostics()<CR>"
   desc = "List diagnostic items"
 })
 
+map('n', '<Leader>lm', "<Cmd>lua require('telescope.builtin').man_pages()<CR>", {
+  noremap = true,
+  desc = "List view manpage"
+})
+
 map('n', '<Leader><Space>', "<Cmd>lua vim.lsp.buf.code_action()<CR>", {
   noremap = true,
   desc = "Pick code action"

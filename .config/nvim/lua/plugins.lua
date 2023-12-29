@@ -275,5 +275,14 @@ return {
       "mfussenegger/nvim-dap",
     },
     opts = {}
+  },
+  {
+    "luckasRanarison/nvim-devdocs",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = require("config.plugin.nvim-devdocs")
   }
 }

@@ -57,5 +57,11 @@ map('n', '<Leader>G', "<Cmd> Neogit<CR>", {
   desc = "Open Neogit"
 })
 
+map('n', '<Leader>lz', "<Cmd>DevdocsOpenFloat<CR>", {
+  noremap = true,
+  desc = "Open devdocs viewer"
+})
+
+
 vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end,
     { desc = "Open harpoon window" })
