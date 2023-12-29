@@ -31,12 +31,13 @@ return function()
         end, {"i","s","c",}),
     }),
     sources = cmp.config.sources({
+      { name = "copilot" },
       { name = 'nvim_lsp' },
       { name = 'snippy' },
-      { name = 'vimtex', }
+      { name = 'vimtex', },
+      { name = 'path' },
     }, {
       { name = 'buffer' },
-      { name = 'path' },
     }),
     formatting = {
       format = lspkind.cmp_format({
@@ -46,7 +47,8 @@ return function()
         ellipsis_char = '...',
         before = function (entry, vim_item)
           return vim_item
-        end
+        end,
+        symbol_map = { Copilot = "" },
       })
     }
   })

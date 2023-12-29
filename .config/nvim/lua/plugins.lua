@@ -34,6 +34,9 @@ return {
 			"catppuccin/nvim",
 			"nvim-tree/nvim-web-devicons",
       'rmagatti/auto-session',
+      'AndreM222/copilot-lualine',
+      "zbirenbaum/copilot.lua",
+
 		},
 		config = require("config.plugin.lualine"),
 	},
@@ -219,7 +222,7 @@ return {
 		"zbirenbaum/copilot.lua",
 		cmd = "Copilot",
 		event = "InsertEnter",
-		opts = {},
+    config = require("config.plugin.copilot")
 	},
 	{
 		"zbirenbaum/copilot-cmp",

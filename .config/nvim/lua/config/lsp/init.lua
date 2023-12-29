@@ -99,7 +99,6 @@ local lspconfigs = {
 }
 
 local mason_extras = {
-  "bash-debug-adapter"
 }
 
 return {
