@@ -52,5 +52,10 @@ map('n', '<Leader>Z', "<Cmd> lua require('zen-mode').toggle({})<CR>", {
   desc = "Toggle zen mode"
 })
 
+map('n', '<Leader>G', "<Cmd> Neogit<CR>", {
+  noremap = true,
+  desc = "Open Neogit"
+})
+
 vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end,
     { desc = "Open harpoon window" })
