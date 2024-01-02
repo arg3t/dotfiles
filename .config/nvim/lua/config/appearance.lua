@@ -21,3 +21,5 @@ vim.cmd.colorscheme "catppuccin"
 vim.wo.relativenumber = true
 vim.wo.number = true
 
+vim.o.guifont = "CaskaydiaCove Nerd Font Mono:h8:#h-slight"
+vim.g.neovide_cursor_vfx_mode = "railgun"

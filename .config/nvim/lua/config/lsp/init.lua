@@ -1,18 +1,3 @@
-local function getTableKeys(tbl)
-    local keys = {}
-    for key in pairs(tbl) do
-        table.insert(keys, key)
-    end
-    return keys
-end
-
-local function mergeTables(t1, t2)
-    for k, v in pairs(t2) do
-        t1[k] = v
-    end
-    return t1
-end
-
 local function is_null_ls_formatting_enabled(bufnr)
     local file_type = vim.api.nvim_buf_get_option(bufnr, "filetype")
     local generators = require("null-ls.generators").get_available(
@@ -85,6 +70,8 @@ local custom_attach = function(client, bufnr)
   end
 end
 
+local utils = require("utils")
+
 local lspconfigs = {
   clangd = {},
   pyright = {},
@@ -102,7 +89,7 @@ local mason_extras = {
 }
 
 return {
-  mason_servers = mergeTables(getTableKeys(lspconfigs), mason_extras),
+  mason_servers = utils.mergeTables(utils.getTableKeys(lspconfigs), mason_extras),
   lspconfigs = lspconfigs,
   lsp_onattach = custom_attach
 }

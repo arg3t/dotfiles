@@ -1,5 +1,5 @@
 return {
-  ensure_installed = { "html", "json", "c", "c++", "css", "bash", "lua", "java", "python", "javascript", "latex", "markdown" },
+  ensure_installed = { "html", "json", "c", "cpp", "css", "bash", "lua", "java", "python", "javascript", "latex", "markdown" },
   sync_install = false,
   auto_install = true,
 

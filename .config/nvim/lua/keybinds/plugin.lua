@@ -62,6 +62,17 @@ map('n', '<Leader>lz', "<Cmd>DevdocsOpenFloat<CR>", {
   desc = "Open devdocs viewer"
 })
 
-
 vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end,
     { desc = "Open harpoon window" })
+
+
+map('n', '<Leader>C', "<Cmd>NoiceDismiss<CR>", {
+  noremap = true,
+  desc = "Dismiss noice notifications"
+})
+
+
+map('n', '<Leader>\'', "<Cmd>Telescope fd cwd=~/.config/nvim<CR>", {
+  noremap = true,
+  desc = "Edit config file"
+})

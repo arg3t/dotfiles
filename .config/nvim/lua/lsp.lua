@@ -1,10 +1,3 @@
-local function mergeTables(t1, t2)
-    for k, v in pairs(t2) do
-        t1[k] = v
-    end
-    return t1
-end
-
 -- === Initialize LSP Servers ===
 -- For a list of LSP Servers and documentation:
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
@@ -12,6 +5,7 @@ local lspconfig = require'lspconfig'
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local configs = require("config.lsp").lspconfigs
 local on_attach = require("config.lsp").lsp_onattach
+local utils = require("utils")
 
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
@@ -50,8 +44,10 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 
 for k, v in pairs(configs) do
   lspconfig[k].setup(
-    mergeTables(v, {
+    utils.mergeTables(v, {
       on_attach = on_attach,
       capabilities = capabilities
     }))
 end
+
+vim.api.nvim_exec_autocmds("FileType", {})

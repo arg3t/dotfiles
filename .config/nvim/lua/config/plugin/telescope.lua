@@ -11,8 +11,6 @@ local options = {
     },
   },
   pickers = {
-    find_files = {
-    },
     man_pages = {
       sections = { "2", "3" }
     }
@@ -23,7 +21,7 @@ local options = {
       }
     },
   },
-  extensions_list = { "ui-select", "persisted" },
+  extensions_list = { "ui-select", "session-lens" },
 }
 
 return options

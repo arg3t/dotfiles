@@ -11,10 +11,9 @@ return {
     dependencies = {
       "nvim-tree/nvim-web-devicons",
       "nvim-telescope/telescope.nvim",
-      "persisted"
     },
     event = "VimEnter",
-		config = require("config.plugin.nvim-alpha"),
+		config = require("config.plugin.alpha"),
 	},
 	{
 		"romgrk/barbar.nvim",
@@ -33,7 +32,6 @@ return {
 		dependencies = {
 			"catppuccin/nvim",
 			"nvim-tree/nvim-web-devicons",
-      'rmagatti/auto-session',
       'AndreM222/copilot-lualine',
       "zbirenbaum/copilot.lua",
 
@@ -147,6 +145,10 @@ return {
   },
 	{
 		"nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      "neovim/nvim-lspconfig",
+    },
+    event = { "BufRead", "BufWinEnter", "BufNewFile" },
 		opts = require("config.plugin.treesitter"),
 	},
 	{
@@ -164,6 +166,7 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
+      "rmagatti/session-lens",
 		},
 		config = function()
 	local telescope = require("telescope")
@@ -250,20 +253,13 @@ return {
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
-		opts = {},
+		opts = require("config.plugin.ibl"),
 	},
 	{
 		"akinsho/toggleterm.nvim",
 		version = "*",
 		config = true,
 	},
-  {
-    "olimorris/persisted.nvim",
-    config = require("config.plugin.persisted"),
-    dependencies = {
-      "romgrk/barbar.nvim"
-    }
-  },
   {
     "folke/neodev.nvim",
     opts = require("config.plugin.neodev")
@@ -284,5 +280,32 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     config = require("config.plugin.nvim-devdocs")
+  },
+  {
+  'rmagatti/auto-session',
+  config = require("config.plugin.auto-session")
+  },
+  {
+    'rmagatti/session-lens',
+    dependencies = {
+      'rmagatti/auto-session',
+      'nvim-telescope/telescope.nvim'
+    },
+    opts = {}
+  },
+  {
+    "RRethy/vim-illuminate",
+  },
+  {
+    "petertriho/nvim-scrollbar",
+    opts = {}
+  },
+  {
+    "kevinhwang91/nvim-hlslens",
+    config = function()
+      require("scrollbar.handlers.search").setup({
+        override_lens = function() end,
+      })
+    end,
   }
 }

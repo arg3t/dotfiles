@@ -29,3 +29,9 @@ map('', '<Leader>qb', ':q<CR>', opts)
 
 -- Quit all without saving
 map('', '<Leader>qq', ':qa!<CR>', opts)
+
+-- Quit with escape from man pages
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "man",
+    command = "nnoremap <buffer> <Esc> :AerialClose<CR>:bd<CR>"
+})

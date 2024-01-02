@@ -1,0 +1,7 @@
+return {
+  exclude = {
+    filetypes = {
+      "dashboard"
+    }
+  }
+}
