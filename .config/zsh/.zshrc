@@ -81,6 +81,14 @@ function x11-clip-wrap-widgets() {
     done
 }
 
+# Disable vim mode
+bindkey -e
+
+# Ctrl-E sends to vim to edit command Line
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^E" edit-command-line
+
 # Del, End & Home keys
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word

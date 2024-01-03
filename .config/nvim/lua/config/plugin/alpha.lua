@@ -2,10 +2,11 @@ return function()
 	local theme = require("alpha.themes.theta")
   local art = require("art")
   local quotes = require("quotes")
+  local utils = require("utils")
 
 	-- Header
 	local function apply_gradient_hl(text)
-		local gradient = require("utils").create_gradient("#CBA6F7", "#94E2D5", #text)
+		local gradient = utils.create_gradient("#CBA6F7", "#94E2D5", #text)
 
 		local lines = {}
 		for i, line in ipairs(text) do
@@ -96,16 +97,16 @@ return function()
 	end
 
 	theme.config.layout = {
-		{ type = "padding", val = 4 },
-		apply_gradient_hl(art.skull_bent),
+		{ type = "padding", val = 1 },
+		apply_gradient_hl(utils.random_from_list(art.all_art)),
 		{ type = "padding", val = 1 },
 		get_info(),
-		{ type = "padding", val = 1 },
-		links,
 		{ type = "padding", val = 2 },
+		links,
+		{ type = "padding", val = 1 },
 		get_mru(5),
-		{ type = "padding", val = 3 },
-		footer_align(quotes.simple_einstein, 50),
+		{ type = "padding", val = 2 },
+		footer_align(utils.random_from_list(quotes.all_quotes), 50),
 	}
 
 	require("alpha").setup(theme.config)

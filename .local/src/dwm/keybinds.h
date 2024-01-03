@@ -20,7 +20,7 @@
 static char dmenumon[2] = "0";
 static const char *dmenucmd[] = { "/home/yigit/.local/bin/dmenu_run_history", "-m", dmenumon, "-z", "1900", "-x", "10", "-y", "10"};
 static const char *termcmd[]  = { "/usr/local/bin/st", NULL };
-static const char *tmuxcmd[]  = { "/usr/local/bin/st","-e", "/home/yigit/.local/bin/st_tmux", NULL };
+static const char *termcmd_alt[]  = { "/usr/bin/alacritty", NULL };
 static const char *upvol[]   = { "/home/yigit/.local/bin/pacontrol.sh", "up",     NULL };
 static const char *downvol[]   = { "/home/yigit/.local/bin/pacontrol.sh", "down",     NULL };
 static const char *mutevol[]   = { "/home/yigit/.local/bin/pacontrol.sh", "toggle-mute",     NULL };
@@ -69,7 +69,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = bwmenu } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = tmuxcmd } },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd_alt } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -140,11 +140,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,        	 							XK_h, spawn, {.v = hamster } },
 	{ MODKEY,        	 							XK_t, spawn, {.v = toolkit } },
 	{ MODKEY,                       XK_s,      togglescratch,          {.ui = 0 } },
-//	{ MODKEY|ShiftMask,             XK_s,      togglescratch,					 {.ui = 1 } },
-	{ MODKEY,                       XK_m,      togglescratch,          {.ui = 2 } },
-	{ MODKEY|ShiftMask,             XK_f, 		 togglescratch,          {.ui = 3} },
-	{ MODKEY,   					          XK_n, 		 togglescratch,          {.ui = 4} },
-	{ MODKEY|ShiftMask,             XK_c, 		 togglescratch,          {.ui = 5} },
+	{ MODKEY,                       XK_m,      togglescratch,          {.ui = 1 } },
+	{ MODKEY|ShiftMask,             XK_f, 		 togglescratch,          {.ui = 2} },
+	{ MODKEY|ShiftMask,             XK_c, 		 togglescratch,          {.ui = 3} },
+	{ MODKEY,                       XK_n, 		 togglescratch,          {.ui = 4} },
 	/* FloatPos Patch Keybinds */
 	{ Mod3Mask,                     XK_u,            floatpos,               {.v = "-26x -26y" } }, // ↖
 	{ Mod3Mask,                     XK_i,            floatpos,               {.v = "  0x -26y" } }, // ↑

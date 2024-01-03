@@ -59,4 +59,10 @@ M.pad_string = function(str, len, align)
 	end
 end
 
+M.random_from_list = function (list)
+  math.randomseed(os.time())
+  local random_index = math.random(#list)
+  return list[random_index]
+end
+
 return M

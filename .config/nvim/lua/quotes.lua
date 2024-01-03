@@ -106,4 +106,24 @@ M.perl = {
   [[                -- Larry Wall in <199704251604.JAA27300@wall.org> ]],
 }
 
+M.all_quotes = {
+  M.simple_einstein,
+  M.honesty,
+  M.autonomy,
+  M.evil,
+  M.violence,
+  M.fortune_cookie,
+  M.god,
+  M.maintenance,
+  M.coordinates,
+  M.byte,
+  M.fanatic,
+  M.lovelace,
+  M.dopeler,
+  M.change,
+  M.doubt,
+  M.guest,
+  M.perl,
+}
+
 return M
