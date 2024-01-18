@@ -148,8 +148,8 @@ return {
     dependencies = {
       "neovim/nvim-lspconfig",
     },
-    event = { "BufRead", "BufWinEnter", "BufNewFile" },
-		opts = require("config.plugin.treesitter"),
+    build = ":TSUpdate",
+		config = require("config.plugin.treesitter"),
 	},
 	{
 		"NeogitOrg/neogit",
@@ -307,5 +307,10 @@ return {
         override_lens = function() end,
       })
     end,
+  },
+  {
+    'kkoomen/vim-doge',
+    build = ':call doge#install()',
+    config = require('config.plugin.doge')
   }
 }

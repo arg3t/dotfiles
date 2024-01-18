@@ -5,3 +5,5 @@ require('keybinds.plugin') -- Keybinds for use nvim tree
 require('keybinds.barbar')
 require('keybinds.terminal')
 require('keybinds.dap')
+
+require('keybinds.doge')

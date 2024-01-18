@@ -31,6 +31,11 @@ map('n', '<Leader>lr', "<Cmd> lua require('telescope.builtin').lsp_references()<
   desc = "List to references to word under cursor"
 })
 
+map('n', '<Leader>lR', "<Cmd> lua vim.lsp.buf.rename()<CR>", {
+  noremap = true,
+  desc = "Rename the word under the cursor"
+})
+
 map('n', '<Leader>lt', "<Cmd>lua require('telescope.builtin').treesitter()<CR>", {
   noremap = true,
   desc = "List symbols in workspace with treesitter"
