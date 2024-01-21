@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: RAM8(in= ,load= ,address= ,out= );
-# key: RAM8
-# --
-RAM8(in=$1,load=$2,address=$3,out=$4);$0

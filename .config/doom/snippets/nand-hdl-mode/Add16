@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: Add16(a= ,b= ,out= );
-# key: Add16
-# --
-Add16(a=$1,b=$2,out=$3);$0

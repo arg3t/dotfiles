@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: Or(a= ,b= ,out= );
-# key: Or
-# --
-Or(a=$1,b=$2,out=$3);$0

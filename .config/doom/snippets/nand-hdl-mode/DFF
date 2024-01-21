@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: DFF(in= ,out= );
-# key: DFF
-# --
-DFF(in=$1,out=$2);$0

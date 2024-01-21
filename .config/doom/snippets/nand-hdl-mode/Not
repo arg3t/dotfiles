@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: Not(in= ,out= );
-# key: Not
-# --
-Not(in=$1,out=$2);$0

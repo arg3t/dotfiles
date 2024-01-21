@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: DMux8Way(in= ,sel= ,a= ,b= ,c= ,d= ,e= ,f= ,g= ,h= );
-# key: DMux8Way
-# --
-DMux8Way(in=$1,sel=$2,a=$3,b=$4,c=$5,d=$6,e=$7,f=$8,g=$9,h=$10);$0

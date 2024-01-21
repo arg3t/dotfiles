@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: Register(in= ,load= ,out= );
-# key: Register
-# --
-Register(in=$1,load=$2,out=$3);$0

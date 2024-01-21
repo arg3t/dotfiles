@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: DMux(in= ,sel= ,a= ,b= );
-# key: DMux
-# --
-DMux(in=$1,sel=$2,a=$3,b=$4);$0

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: Mux(a= ,b= ,sel= ,out= );
-# key: Mux
-# --
-Mux(a=$1,b=$2,sel=$3,out=$4);$0

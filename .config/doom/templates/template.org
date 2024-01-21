@@ -1,5 +1,0 @@
-#+LANGUAGE:  en
-#+TITLE:     ${1:`(file-name-nondirectory (buffer-file-name))`}
-#+AUTHOR:    `user-full-name`
-#+EMAIL:     `user-mail-address`
-#+DATE:     `(format-time-string "%Y-%m-%d %a" )`

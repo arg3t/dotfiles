@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: ALU(x= ,y= ,zx= ,nx= ,zy= ,ny= ,f= ,no= ,out= ,zr= ,ng= );
-# key: ALU
-# --
-ALU(x=$1,y=$2,zx=$3,nx=$4,zy=$5,ny=$6,f=$7,no=$8,out=$9,zr=$10,ng=$11);$0

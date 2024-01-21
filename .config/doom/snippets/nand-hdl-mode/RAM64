@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: RAM64(in= ,load= ,address= ,out= );
-# key: RAM64
-# --
-RAM64(in=$1,load=$2,address=$3,out=$4);$0

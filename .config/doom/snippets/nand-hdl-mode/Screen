@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: Screen(in= ,load= ,address= ,out= );
-# key: Screen
-# --
-Screen(in=$1,load=$2,address=$3,out=$4);$0

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: FullAdder(a= ,b= ,c= ,sum= ,carry= );
-# key: FullAdder
-# --
-FullAdder(a=$1,b=$2,c=$3,sum=$4,carry=$5);$0

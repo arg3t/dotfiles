@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: HalfAdder(a= ,b= ,sum= , carry= );
-# key: HalfAdder
-# --
-HalfAdder(a=$1,b=$2,sum=$3,$4carry=$5);$0

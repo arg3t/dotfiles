@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: Keyboard(out= );
-# key: Keyboard
-# --
-Keyboard(out=$1);$0

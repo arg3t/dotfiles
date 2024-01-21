@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: Inc16(in= ,out= );
-# key: Inc16
-# --
-Inc16(in=$1,out=$2);$0
