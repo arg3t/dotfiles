@@ -159,9 +159,6 @@ info "Installing suckless utilities"
 (cd ~/.local/src; ./build.sh > /dev/null 2> /dev/null)
 sudo groupadd nogroup
 
-# Setup sudo
-sudo bash -c 'printf "Defaults env_reset,pwfeedback\n%wheel ALL=(ALL:ALL) ALL\nyigit tarnag =NOPASSWD: /sbin/shutdown ,/sbin/halt,/sbin/reboot,/sbin/hibernate, /bin/pacman -Syyuw --noconfirm\n" > /etc/sudoers.d/wheel'
-
 # Do a cleanup and delete some problematic files
 rm -rf ~/.fzf*
 rm -rf ~/.bash_profile
