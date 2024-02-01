@@ -47,15 +47,6 @@ echo "Running backup of old dotfiles"
 IFS="
 "
 
-# Backup Previous Dots
-info "Backing up your old dotfiles"
-
-## Theme and Icon Folders
-mvie ~/.themes ~/.dotfiles_backup/themes
-ln -s ~/.dotfiles/local/share/themes ~/.themes
-mvie ~/.icons ~/.dotfiles_backup/icons
-ln -s ~/.dotfiles/local/share/icons ~/.icons
-
 info "Checking out dotfiles"
 bash -c "$dots checkout"
 
@@ -117,7 +108,7 @@ yay -S --needed --noconfirm "$(cat ~/pkg.list)"
 
 # Install fonts and icons
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/CascadiaCode.zip
-unzip CascadiaCode.zip
+unzip -d CascadiaCode CascadiaCode.zip
 
 if [ ! -d $XDG_DATA_HOME/fonts ]; then
   mkdir -p $XDG_DATA_HOME/fonts
