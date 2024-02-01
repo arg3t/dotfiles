@@ -47,24 +47,6 @@ echo "Running backup of old dotfiles"
 IFS="
 "
 
-# Backup Previous Dots
-info "Backing up your old dotfiles"
-## Backup eveything in the git tree
-mkdir "$HOME/dots_backup"
-for i in $(bash -c "$dots ls-files"); do
-  if [ -f "$i" ]; then
-    debug "$i"
-    mkdir -p "$HOME/dots_backup/$(echo "$i" | sed "s/\/[^\/]*$//g")"
-    mv "$i" "$HOME/dots_backup/$(echo "$i" | sed "s/\/[^\/]*$//g")"
-  fi
-  rm -rf "$i"
-done
-## Theme and Icon Folders
-mvie ~/.themes ~/.dotfiles_backup/themes
-ln -s ~/.dotfiles/local/share/themes ~/.themes
-mvie ~/.icons ~/.dotfiles_backup/icons
-ln -s ~/.dotfiles/local/share/icons ~/.icons
-
 info "Checking out dotfiles"
 bash -c "$dots checkout"
 
@@ -122,32 +104,29 @@ for i in $(cat "$HOME/.local/root/mappings"); do
   sudo cp "$HOME/.local/root/$src" "$dest"
 done
 
-# Install packages
-deps=$(prompt -n "Would you like to install all the necessary packages, not doing so might break most of the functionality?(Y/n): ")
-if [ ! "$deps" = "n" ]; then
-  echo "Running update"
-  yay -S --needed --noconfirm "$(cat ~/pkg.list)" && exit 1
+yay -S --needed --noconfirm "$(bash -c "$dots show main:pkg.list" | cut -d ' ' -f1)"
+
+# Install fonts and icons
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/CascadiaCode.zip
+unzip -d CascadiaCode CascadiaCode.zip
+
+if [ ! -d $XDG_DATA_HOME/fonts ]; then
+  mkdir -p $XDG_DATA_HOME/fonts
 fi
 
-cp ~/.config/config.env.default ~/.config/config.env
-
-# Downloading assets
-##Fonts
-info "Downloading assets"
-debug "Downloading minio binary"
-wget https://minio.yigitcolakoglu.com/dotfiles/tools/mc > "$HOME/.local/bin/mc"
-chmod +x "$HOME/.local/bin/mc"
-alias mc="$HOME/.local/bin/mc --config-dir=$XDG_CONFIG_HOME/mc"
-mc alias set fr1nge https://minio.yigitcolakoglu.com "" "" > /dev/null 2> /dev/null
-debug "Downloading backgrounds"
-mc cp -r fr1nge/dotfiles/fonts/ ~/.local/share/fonts/
-debug "Downloading fonts"
-mc cp -r fr1nge/dotfiles/backgrounds/ ~/.local/backgrounds/
+mv CascadiaCode/* $XDG_DATA_HOME/fonts
 fc-cache
-debug "Downloading the GTK theme"
-git clone https://github.com/material-ocean/Gtk-Theme.git "$XDG_DATA_HOME/themes/material-ocean"
-debug "Downloading the icon set"
+
+rm -rf CascadiaCode CascadiaCode.zip
+
 git clone https://github.com/vinceliuice/Tela-icon-theme.git /tmp/tela
+p=$(pwd)
+cd /tmp/tela
+./install.sh
+cd $p
+rm -rf /tmp/tela
+
+cp ~/.config/config.env.default ~/.config/config.env
 
 # Setup Crontab
 if [ ! -f "/var/spool/cron/$username" ]; then
@@ -162,17 +141,10 @@ else
 fi
 
 
-# Root Files and Directories
-if [ "$(grep artix < "$(uname -a)")" = "" ]; then
-  sudo rc-update add quark
-else
-  sudo systemctl enable quark
-  sudo systemctl daemon-reload
-fi
-
+sudo systemctl enable chronyd
+sudo systemctl enable cronie
 
 if [ "$username" = "yigit" ]; then
-  sh <(curl -s https://yigitcolakoglu.com/fetch_keys.sh)
   mkdir -p "$XDG_DATA_HOME/mail/yigitcolakoglu@hotmail.com"
   git config --global user.email "yigitcolakoglu@hotmail.com"
   git config --global user.name "Yigit Colakoglu"
@@ -196,45 +168,6 @@ fi
 info "Installing suckless utilities"
 (cd ~/.local/src; ./build.sh > /dev/null 2> /dev/null)
 sudo groupadd nogroup
-
-## Tela Icons
-info "Installing Icons"
-/tmp/tela/install.sh > /dev/null 2> /dev/null
-
-## Start page
-info "Setting up start page"
-prev=$(pwd)
-cd ~/.local/share/startpage
-sudo npm install -g parcel-bundler
-npm install > /dev/null 2> /dev/null
-npm run build > /dev/null 2> /dev/null
-cd $prev
-
-# Vim and tmux plugins
-mkdir -p ~/.tmux/plugins
-vim +PlugInstall +qall
-cd ~/.config/coc/extensions
-yarn install
-cd $prev
-
-# Install mconnect
-info "Installing mconnect"
-git clone https://github.com/theFr1nge/mconnect.git /tmp/mconnect.git > /dev/null 2> /dev/null
-cd /tmp/mconnect.git
-mkdir -p build
-cd build
-meson .. > /dev/null 2> /dev/null
-ninja > /dev/null 2> /dev/null
-sudo ninja install > /dev/null 2> /dev/null
-cd $prev
-mkdir -p ~/Downloads/mconnect
-
-## Simcrop
-info "Installing simcrop"
-git clone https://github.com/theFr1nge/simcrop.git /tmp/simcrop > /dev/null 2> /dev/null
-cd /tmp/simcrop
-sudo make install > /dev/null 2> /dev/null
-cd $prev
 
 # Do a cleanup and delete some problematic files
 rm -rf ~/.fzf*
