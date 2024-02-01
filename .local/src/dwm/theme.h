@@ -9,6 +9,8 @@
 #ifndef theme_h
 #define theme_h
 
+#include <unistd.h>
+
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
@@ -25,7 +27,14 @@ static const int vertpad            = 10;       /* vertical padding of bar */
 static const int sidepad            = 10;       /* horizontal padding of bar */
 static int floatposgrid_x           = 5;        /* float grid columns */
 static int floatposgrid_y           = 5;        /* float grid rows */
-static const char *fonts[]          = { "CaskaydiaCove Nerd Font:size=12" };
+
+char hostname[1024];
+
+#ifdef HOSTNAME_tarnag
+  static const char *fonts[]          = { "CaskaydiaCove Nerd Font:size=12" };
+#else
+  static const char *fonts[]          = { "CaskaydiaCove Nerd Font:size=10" };
+#endif
 
 static const char fore[]   = "#cdd6f4";
 static const char back[]   = "#1e1e2e";

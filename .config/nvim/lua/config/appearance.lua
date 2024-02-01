@@ -21,5 +21,11 @@ vim.cmd.colorscheme "catppuccin"
 vim.wo.relativenumber = true
 vim.wo.number = true
 
-vim.o.guifont = "CaskaydiaCove Nerd Font Mono:h12:#h-slight"
+if vim.fn.hostname() == "tarnag" then
+  -- Desktop needs different font
+  vim.o.guifont = "CaskaydiaCove Nerd Font Mono:h12:#h-slight"
+else
+  vim.o.guifont = "CaskaydiaCove Nerd Font Mono:h8:#h-slight"
+end
+
 vim.g.neovide_cursor_vfx_mode = "railgun"
