@@ -104,7 +104,7 @@ for i in $(cat "$HOME/.local/root/mappings"); do
   sudo cp "$HOME/.local/root/$src" "$dest"
 done
 
-yay -S --needed --noconfirm "$(dots show main:pkg.list)"
+yay -S --needed --noconfirm "$($dots show main:pkg.list)"
 
 # Install fonts and icons
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/CascadiaCode.zip
