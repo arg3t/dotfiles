@@ -35,7 +35,7 @@ if [ "$ARIA2C" = true ] ; then
 fi
 
 # Only run these if we are not in a VNC session
-if ! xpdyinfo | grep -q VNC ; then
+if ! xdpyinfo | grep -q VNC ; then
   redshift -x 2> /dev/null > /dev/null
   redshift -r -l "$LATLONG" > /dev/null 2> /dev/null &
 
@@ -73,7 +73,7 @@ if ! xpdyinfo | grep -q VNC ; then
 
   restart_if_fails "picom --no-fading-openclose"
 
-  restart_if_fails "xfce4-power-manager"
-
-  curl 'http://yeetclock/setcolor?R=136&G=192&B=208' &
+  if [ NO_BAT = false ]; then
+    restart_if_fails "xfce4-power-manager"
+  fi
 fi

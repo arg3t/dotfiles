@@ -16,7 +16,7 @@ export QT_STYLE_OVERRIDE=kvantum
 # Environment variables
 export SHELL=/bin/zsh
 export TERMINAL=/usr/local/bin/st
-export BROWSER=firefox
+export BROWSER=chromium
 export EDITOR=nvim
 export OPENER=xdg-open
 export DEFAULT_RECIPIENT="yigitcolakoglu@hotmail.com"

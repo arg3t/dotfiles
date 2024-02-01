@@ -25,7 +25,7 @@ static const int vertpad            = 10;       /* vertical padding of bar */
 static const int sidepad            = 10;       /* horizontal padding of bar */
 static int floatposgrid_x           = 5;        /* float grid columns */
 static int floatposgrid_y           = 5;        /* float grid rows */
-static const char *fonts[]          = { "CaskaydiaCove Nerd Font:size=10" };
+static const char *fonts[]          = { "CaskaydiaCove Nerd Font:size=12" };
 
 static const char fore[]   = "#cdd6f4";
 static const char back[]   = "#1e1e2e";

@@ -21,7 +21,7 @@ unalternates *
 unmacro index o
 macro index o "<shell-escape>mw -y yigitcolakoglu@hotmail.com<enter>" "run mbsync to sync yigitcolakoglu@hotmail.com"
 
-mailboxes "=Archive" "=Archived Mail" "=Deleted" "=Drafts" "=INBOX" "=Junk" "=Mailspring/Snoozed" "=Notes" "=Outbox" "=Sent" "=Sync Issues/Conflicts" "=Sync Issues/Local Failures" "=Sync Issues/Server Failures"
+mailboxes "=Archive" "=Archived Mail" "=Deleted" "=Drafts" "=INBOX" "=Junk" "=Mailspring/Snoozed" "=Notes" "=Outbox" "=Sent"
 macro index,pager ga "<change-folder>=Archive<enter>" "go to archive"
 macro index,pager Ma ";<save-message>=Archive<enter>" "move mail to archive"
 macro index,pager Ca ";<copy-message>=Archive<enter>" "copy mail to archive"

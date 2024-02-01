@@ -15,7 +15,7 @@ ramp100=
 ac_bat=
 ac=ﮣ
 if [ "$NO_BAT" = true ] ; then
-    echo "^c#ebcb8b^$ac^d^"
+#    echo "^c#ebcb8b^$ac^d^"
 else
     export bat=$(cat /sys/class/power_supply/BAT0/capacity)
     export status=$(cat /sys/class/power_supply/BAT0/status)

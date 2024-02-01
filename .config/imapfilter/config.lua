@@ -17,14 +17,14 @@ function trim(s)
 end
 
 -- Gets password from pass
-status, dom_password = pipe_from('pass show Email/privateemail.com/yigit@yigitcolakoglu.com')
-domain = IMAP {
-  server = "mail.privateemail.com",
-  port = 143,
-  username = "yigit@yigitcolakoglu.com",
-  password = trim(dom_password ),
-  ssl = auto
-}
+-- status, dom_password = pipe_from('pass show Email/privateemail.com/yigit@yigitcolakoglu.com')
+-- domain = IMAP {
+--   server = "mail.privateemail.com",
+--   port = 143,
+--   username = "yigit@yigitcolakoglu.com",
+--   password = trim(dom_password ),
+--   ssl = auto
+-- }
 
 -- Gets password from pass
 status, hot_password = pipe_from('pass show AppPass/microsoft.com/yigitcolakoglu@hotmail.com')
