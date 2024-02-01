@@ -115,6 +115,26 @@ done
 
 yay -S --needed --noconfirm "$(cat ~/pkg.list)"
 
+# Install fonts and icons
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/CascadiaCode.zip
+unzip CascadiaCode.zip
+
+if [ ! -d $XDG_DATA_HOME/fonts ]; then
+  mkdir -p $XDG_DATA_HOME/fonts
+fi
+
+mv CascadiaCode/* $XDG_DATA_HOME/fonts
+fc-cache
+
+rm -rf CascadiaCode CascadiaCode.zip
+
+git clone https://github.com/vinceliuice/Tela-icon-theme.git /tmp/tela
+p=$(pwd)
+cd /tmp/tela
+./install.sh
+cd $p
+rm -rf /tmp/tela
+
 cp ~/.config/config.env.default ~/.config/config.env
 
 # Setup Crontab
@@ -132,7 +152,6 @@ fi
 
 sudo systemctl enable chronyd
 sudo systemctl enable cronie
-
 
 if [ "$username" = "yigit" ]; then
   mkdir -p "$XDG_DATA_HOME/mail/yigitcolakoglu@hotmail.com"
