@@ -36,26 +36,3 @@ hotmail = IMAP {
   password = trim(hot_password),
   ssl = auto
 }
-
--- Block fucking Aleksandr. LEAVE ME ALONE DUDE
-function fuckAleksandr()
-  mailboxes, folders = domain:list_all("/")
-  for _, v in pairs(mailboxes) do
-    messages = domain[v]:contain_subject("Предложение")
-    messages:delete_messages()
-  end
-end
-
--- Block annoying university advertisement e-mails
-function blockUni(blacklist)
-  mailboxes, folders = domain:list_all("/")
-  for _, v in pairs(mailboxes) do
-    for _, u in pairs(blacklist) do
-      messages = domain[v]:contain_body(u)
-      messages:delete_messages()
-    end
-  end
-end
-
-fuckAleksandr {}
-blockUni {"Hult", "hult"}

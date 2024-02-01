@@ -7,11 +7,16 @@
 ##   |_| |_____|_____| |_|
 ## .profile
 
+
+systemctl status display-manager 2> /dev/null > /dev/null
+disp_manager=$?
+
 # Vars for some bugs and applications
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export AWT_TOOLKIT=MToolkit
 export QT_STYLE_OVERRIDE=kvantum
+
 
 # Environment variables
 export SHELL=/bin/zsh
@@ -63,14 +68,18 @@ export RANDFILE="$XDG_DATA_HOME"/openssl/rnd
 export _Z_DATA="$XDG_DATA_HOME/z"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
 export WAKATIME_HOME="$XDG_CONFIG_HOME/wakatime"
-export XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
-export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
-export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
 export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME"/pass
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
+
+# Change X Config Files if we are not using a displaymanager
+if [ $disp_manager -ne 0 ]; then
+  export XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
+  export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
+  export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
+fi
 
 # Setup PATH
 export PATH=$ANDROID_HOME/tools:$PATH
@@ -94,10 +103,12 @@ LF_ICONS=${LF_ICONS//$'\n'/:}
 
 export LF_ICONS
 
-# Setup dbus
-case "$(readlink -f /sbin/init)" in
-	*systemd*) export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ;;
-esac
+if [ $disp_manager -ne 0 ]; then
+  # Setup dbus
+  case "$(readlink -f /sbin/init)" in
+    *systemd*) export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ;;
+  esac
+fi
 
 # Setup SSH
 if [ ! "$SSH_AUTH_SOCK" ]; then
@@ -105,8 +116,7 @@ if [ ! "$SSH_AUTH_SOCK" ]; then
   grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add > /dev/null 2> /dev/null
 fi
 
-# Start xinit if logged in from tty1
-if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ]; then
+if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ] && [ $disp_manager -ne 0 ]; then
   if [ "$DBUS_SESSION_BUS_ADDRESS" = "" ] && [ ! $(command -v dbus-run-session)  = "" ]; then
     exec dbus-run-session xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
   else

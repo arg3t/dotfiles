@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "$DISPLAY" > /tmp/asd
+source ~/.profile
+echo "$DISPLAY" >> /tmp/asd
+
 pkill -f clipmenud
 pkill -9 devmon
 pkill -f "bash /sbin/clipmenud"
@@ -41,6 +45,7 @@ fi
 xrdb  ~/.config/X11/Xresources &
 
 restarted=0
+
 while true;
 do
     if [ $restarted = 0 ]; then
@@ -51,5 +56,6 @@ do
     fi
 
     dwm > $XDG_RUNTIME_DIR/dwm.log 2> $XDG_RUNTIME_DIR/dwm.err
+    break
     sleep 0.5
 done
