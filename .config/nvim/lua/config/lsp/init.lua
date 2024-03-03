@@ -74,6 +74,7 @@ local utils = require("utils")
 
 local lspconfigs = {
   clangd = {},
+  hls = {},
   pyright = {},
   bashls = {},
   html = {},

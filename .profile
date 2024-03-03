@@ -15,7 +15,6 @@ disp_manager=$?
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export AWT_TOOLKIT=MToolkit
-export QT_STYLE_OVERRIDE=kvantum
 
 
 # Environment variables
@@ -93,6 +92,10 @@ export LM_LICENSE_FILE=27017@flexserv1.tudelft.nl
 # Set zettelkasten directory
 export ZK_NOTEBOOK_DIR=~/Projects/Neocortex/content
 
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
 # Setup LF Icons (Doing this everytime lf start might cause some overhead)
 LF_ICONS=$(sed ~/.config/lf/diricons \
             -e '/^[ \t]*#/d'       \
@@ -124,4 +127,3 @@ if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ] && [ $disp_manager -ne 0 ]; t
   fi
   exit
 fi
-

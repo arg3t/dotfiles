@@ -56,6 +56,5 @@ do
     fi
 
     dwm > $XDG_RUNTIME_DIR/dwm.log 2> $XDG_RUNTIME_DIR/dwm.err
-    break
     sleep 0.5
 done
