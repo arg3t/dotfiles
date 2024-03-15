@@ -46,7 +46,7 @@ return {
 			"SmiteshP/nvim-navic",
 			"nvim-tree/nvim-web-devicons", -- optional dependency
 		},
-		opts = {},
+	  config = require("config.plugin.barbecue"),
 	},
 	{
 		"lewis6991/gitsigns.nvim",
