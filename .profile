@@ -101,6 +101,10 @@ LF_ICONS=$(sed ~/.config/lf/diricons \
             -e 's/$/ /')
 LF_ICONS=${LF_ICONS//$'\n'/:}
 
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
 export LF_ICONS
 
 if [ $disp_manager -ne 0 ]; then
@@ -124,4 +128,3 @@ if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ] && [ $disp_manager -ne 0 ]; t
   fi
   exit
 fi
-
