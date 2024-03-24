@@ -37,7 +37,11 @@ fi
 # Only run these if we are not in a VNC session
 if ! xdpyinfo | grep -q VNC ; then
   redshift -x 2> /dev/null > /dev/null
-  redshift -r -l "$LATLONG" > /dev/null 2> /dev/null &
+  if [ $(hostnamectl hostname) = "tarnag" ]; then
+    redshift -r -l "$LATLONG" -g 1.1:1.1:1.1 > /dev/null 2> /dev/null &
+  else
+    redshift -r -l "$LATLONG" > /dev/null 2> /dev/null &
+  fi
 
   if [ "$SPOTIFYD" = true ] ; then
       spotifyd
@@ -72,6 +76,11 @@ if ! xdpyinfo | grep -q VNC ; then
   fi
 
   restart_if_fails "picom --no-fading-openclose"
+
+  restart_if_fails "pulseaudio"
+  # restart_if_fails "pipewire"
+  # restart_if_fails "pipewire-pulse"
+  # restart_if_fails "wireplumber"
 
   if [ NO_BAT = false ]; then
     restart_if_fails "xfce4-power-manager"
