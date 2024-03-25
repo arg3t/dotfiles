@@ -232,8 +232,8 @@ return {
 		dependencies = {
 			"zbirenbaum/copilot.lua",
 		},
-		config = true,
-	},
+		config = true
+  },
 	{
 		"hrsh7th/nvim-cmp",
 		config = require("config.plugin.nvim-cmp"),
