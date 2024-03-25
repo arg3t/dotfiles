@@ -1,6 +1,7 @@
 [global]
     frame_width = 0
-    font = CaskaydiaCove Nerd Font 10
+#    font = CaskaydiaCove Nerd Font 10
+    font = CaskaydiaCove Nerd Font 12
 
     follow = none
 

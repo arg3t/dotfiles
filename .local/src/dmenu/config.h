@@ -19,6 +19,8 @@ static const char *fonts[] = {
   "JoyPixels:pixelsize=8:antialias=true:autohint=true",
 };
 
+static const char *dynamic     = NULL;      /* -dy option; dynamic command to run on input change */
+
 
 static const char *prompt      = "Select an option";      /* -p  option; prompt to the left of input field */
 static const unsigned int min_lineheight = 27;
@@ -37,3 +39,4 @@ static unsigned int dmw = 1900; /* make dmenu this wide */
  * for example: " /?\"&[]"
  */
 static const char worddelimiters[] = " ";
+

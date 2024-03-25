@@ -37,7 +37,7 @@ static const char *outmenu[] = {"/home/yigit/.local/bin/dmenu-logout", NULL};
 static const char *refresh[] = {"/home/yigit/.local/bin/dmenu-refresh", NULL};
 static const char *keyboard[] = {"/home/yigit/.local/bin/kbmap_toggle", NULL};
 
-static const char *screenshot[] = { "scrot", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send -a \"SNAP\" \"$f\"", NULL };
+static const char *screenshot[] = { "flameshot", "full", NULL };
 static const char *windowshot[] = { "flameshot", "gui", NULL };
 static const char *simcrop[] = {"simcrop","-fc","-sc", "-g", "900x500",NULL};
 
@@ -87,6 +87,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_q, 			spawn, {.v = outmenu} },
 #endif
+	{ MODKEY,        	 							XK_w, spawn, {.v = web } },
 
 	{ MODKEY|Mod1Mask,              XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY|Mod1Mask,              XK_s,      incnmaster,     {.i = -1 } },

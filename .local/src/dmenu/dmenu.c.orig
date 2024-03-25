@@ -833,7 +833,7 @@ buttonpress(XEvent *e)
 					exit(0);
 				sel = item;
 				if (sel) {
-					sel->out = 1;
+					sel->id = 1;
 					drawmenu();
 				}
 				return;
@@ -861,7 +861,7 @@ buttonpress(XEvent *e)
 					exit(0);
 				sel = item;
 				if (sel) {
-					sel->out = 1;
+					sel->id = 1;
 					drawmenu();
 				}
 				return;

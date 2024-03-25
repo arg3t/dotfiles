@@ -32,16 +32,10 @@ usage() {
 }
 
 vol_interval=3
-sinks=$(pactl list short sinks | cut -c 1)
-latest_sink=${sinks[*]: -1}
+latest_sink=$(pacmd list-sinks | awk '/\*/ {print $3}')
 
-SINK=$(pactl list short sinks | grep -n RUNNING | cut -d":"  -f1)
-if [ "$SINK" = "" ]; then
-  SINK=1
-fi
-
-NOW=$( pactl list sinks | grep '^[[:space:]]Volume:' | head -n $SINK | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,' )
-MUTE=$(pactl list sinks | grep '^[[:space:]]Mute:'| head -n $SINK | tail -n 1 | awk -F ":" '{print $2}'| xargs)
+NOW=$(pactl get-sink-volume $latest_sink | head -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,' )
+MUTE=$(pactl get-sink-mute $latest_sink | head -n 1 | awk -F ":" '{print $2}'| xargs)
 
 case $1 in
     "up")
@@ -68,8 +62,8 @@ case $1 in
 esac
 
 
-NOW=$( pactl list sinks | grep '^[[:space:]]Volume:' | head -n $SINK | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,' )
-MUTE=$(pactl list sinks | grep '^[[:space:]]Mute:'| head -n $SINK | tail -n 1 | awk -F ":" '{print $2}'| xargs)
+NOW=$(pactl get-sink-volume $latest_sink | head -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,' )
+MUTE=$(pactl get-sink-mute $latest_sink | head -n 1 | awk -F ":" '{print $2}'| xargs)
 
 kill -48 $(pidof dwmblocks)
 send_notification $NOW $MUTE

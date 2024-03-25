@@ -52,6 +52,7 @@ static struct item *items = NULL;
 static struct item *matches, *matchend;
 static struct item *prev, *curr, *next, *sel;
 static int mon = -1, screen;
+static unsigned int max_lines = 0;
 
 static int *selid = NULL;
 static unsigned int selidsize = 0;
@@ -440,6 +441,56 @@ fuzzymatch(void)
 	calcoffsets();
 }
 
+static void readstdin(FILE* stream);
+
+static void
+refreshoptions()
+{
+	int dynlen = strlen(dynamic);
+	int cmdlen = dynlen + 4;
+	char *cmd;
+	char *c;
+	char *t = text;
+
+  if (*text)
+    while (*t)
+      cmdlen += *t++ == '\'' ? 4 : 1;
+
+	cmd = malloc(cmdlen);
+
+	if (cmd == NULL)
+	  die("cannot malloc %u bytes:", cmdlen);
+
+  strcpy(cmd, dynamic);
+
+  if (*text) {
+    c = cmd + dynlen;
+    t = text;
+    *(c++) = ' ';
+    *(c++) = '\'';
+    while (*t) {
+      // prefix ' with '\'
+      if (*t == '\'') {
+        *(c++) = '\'';
+        *(c++) = '\\';
+        *(c++) = '\'';
+      }
+      *(c++) = *(t++);
+    }
+    *(c++) = '\'';
+    *(c++) = 0;
+  }
+
+  FILE *stream = popen(cmd, "r");
+  if (!stream)
+    die("could not popen dynamic command (%s):", cmd);
+  readstdin(stream);
+  int r = pclose(stream);
+  if (r == -1)
+    die("could not pclose dynamic command");
+	free(cmd);
+}
+
 static void
 match(void)
 {
@@ -454,6 +505,16 @@ match(void)
 	int i, tokc = 0;
 	size_t len, textsize;
 	struct item *item, *lhpprefix, *lprefix, *lsubstr, *hpprefixend, *prefixend, *substrend;
+
+	if (dynamic) {
+		refreshoptions();
+		matches = matchend = NULL;
+		for (item = items; item && item->text; item++)
+			appenditem(item, &matches, &matchend);
+		curr = sel = matches;
+		calcoffsets();
+		return;
+	}
 
 	strcpy(buf, text);
 	/* separate input text into tokens to be matched individually */
@@ -932,7 +993,7 @@ paste(void)
 }
 
 static void
-readstdin(void)
+readstdin(FILE* stream)
 {
 	char buf[sizeof text], *p;
 	size_t i, imax = 0, size = 0;
@@ -943,7 +1004,7 @@ readstdin(void)
     return;
   }
 	/* read each line from stdin and add it to the item list */
-	for (i = 0; fgets(buf, sizeof buf, stdin); i++) {
+	for (i = 0; fgets(buf, sizeof buf, stream); i++) {
 		if (i + 1 >= size / sizeof *items)
 			if (!(items = realloc(items, (size += BUFSIZ))))
 				die("cannot realloc %u bytes:", size);
@@ -962,7 +1023,7 @@ readstdin(void)
 	if (items)
 		items[i].text = NULL;
 	inputw = items ? TEXTW(items[imax].text) : 0;
-	lines = MIN(lines, i);
+	lines = MIN(max_lines, i);
 }
 
 static void
@@ -1124,7 +1185,8 @@ static void
 usage(void)
 {
 	fputs("usage: dmenu [-bfiv] [-l lines] [-h height] [-p prompt] [-fn font] [-m monitor]\n"
-	      "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\n", stderr);
+	      "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\n"
+        "             [-dy command]\n", stderr);
 	exit(1);
 }
 
@@ -1185,6 +1247,8 @@ main(int argc, char *argv[])
 			colors[SchemeHp][ColFg] = argv[++i];
 		else if (!strcmp(argv[i], "-w"))   /* embedding window id */
 			embed = argv[++i];
+		else if (!strcmp(argv[i], "-dy"))  /* dynamic command to run */
+			dynamic = argv[++i] && *argv[i] ? argv[i] : NULL;
 		else if (!strcmp(argv[i], "-nhb")) /* normal hi background color */
 			colors[SchemeNormHighlight][ColBg] = argv[++i];
 		else if (!strcmp(argv[i], "-nhf")) /* normal hi foreground color */
@@ -1195,7 +1259,7 @@ main(int argc, char *argv[])
 			colors[SchemeSelHighlight][ColFg] = argv[++i];
 		else if (!strcmp(argv[i], "-hp"))
 			hpitems = tokenize(argv[++i], ",", &hplength);
-		else if (!strcmp(argv[i], "-it")) {   /* embedding window id */
+		else if (!strcmp(argv[i], "-it")) {
 			const char * text = argv[++i];
 			insert(text, strlen(text));
 		}
@@ -1224,11 +1288,14 @@ main(int argc, char *argv[])
 		die("pledge");
 #endif
 
+	max_lines = lines;
 	if (fast && !isatty(0)) {
 		grabkeyboard();
-		readstdin();
+		if (!dynamic)
+			readstdin(stdin);
 	} else {
-		readstdin();
+		if (!dynamic)
+			readstdin(stdin);
 		grabkeyboard();
 	}
 	setup();

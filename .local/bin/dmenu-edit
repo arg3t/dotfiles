@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DMENU='dmenu  -z 1900 -x 10 -y 10 -i'
+DMENU='dmenu  -z 1900 -x 10 -y 10 -i -l 4'
 blacklist="powerlevel10k|secret|gitignore|log|patches|config/surf|BetterDiscord|\.ccls-cache"
 
 files="$(git --git-dir="$HOME/.dotfiles.git/" --work-tree="$HOME" ls-files)"
