@@ -13,7 +13,11 @@ if ! xdpyinfo | grep -q VNC ; then
         redshift -x
         pid=""
       else
-        redshift -r -l "$LATLONG" > /dev/null 2> /dev/null &
+        if [ $(hostnamectl hostname) = "tarnag" ]; then
+          redshift -r -l "$LATLONG" -g 1.1:1.1:1.1 > /dev/null 2> /dev/null &
+        else
+          redshift -r -l "$LATLONG" > /dev/null 2> /dev/null &
+        fi
         pid="1"
       fi;;
   esac
