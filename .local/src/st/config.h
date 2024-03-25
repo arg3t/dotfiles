@@ -12,7 +12,7 @@ static char *font2[] = {
     "Symbola:pixelsize=16:antialias=true:autohint=true",
     "Joypixels:pixelsize=16:antialias=true:autohint=true"
 };
-char *iso14755_cmd = "dmenu -w \"$WINDOWID\" -p \"Enter unicode\"";
+char *iso14755_cmd = "cat \"$HOME\"/.local/src/st/unicodes | dmenu -i -l 5 -w \"$WINDOWID\" -p \"Enter unicode\" | cut -d '|' -f 1";
 
 static int borderpx = 2;
 
