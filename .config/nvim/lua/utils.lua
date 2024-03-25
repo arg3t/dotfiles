@@ -29,6 +29,15 @@ M.mergeTables = function(t1, t2)
     return t1
 end
 
+M.deleteIfExists = function(t1, t2)
+    for _, k in ipairs(t2) do
+      if t1[k] ~= nil then
+        t1[k] = nil
+      end
+    end
+    return t1
+end
+
 
 M.getTableKeys = function(tbl)
     local keys = {}

@@ -48,6 +48,7 @@ export NVM_DIR="$XDG_DATA_HOME"/nvm
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 export MBSYNCRC="$XDG_CONFIG_HOME"/isync/mbsyncrc
 export IMAPFILTER_CONFIG="$XDG_CONFIG_HOME/imapfilter/config.lua"
+export GHCUP_HOME="$HOME/.ghcup"
 # export VIMINIT="set nocp | source ${XDG_CONFIG_HOME:-$HOME/.config}/vim/vimrc"
 export MYSQL_HISTFILE="$XDG_DATA_HOME"/mysql_history
 export TASKDATA="$XDG_DATA_HOME"/task
@@ -82,8 +83,9 @@ fi
 
 # Setup PATH
 export PATH=$ANDROID_HOME/tools:$PATH
+export PATH=$ANDROID_HOME/tools:$PATH
 export PATH=$ANDROID_HOME/platform-tools:$PATH
-export PATH=$FLUTTER_HOME/bin:$PATH
+export PATH=$GHCUP_HOME/bin:$PATH
 export PATH="$XDG_DATA_HOME/nvim/mason/bin:$PATH:/usr/lib/w3m:$HOME/.local/bin:$HOME/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:$XDG_DATA_HOME/cargo/bin/:$XDG_DATA_HOME/questasim/questasim/linux_x86_64"
 export CPATH=/usr/include/opencv4
 

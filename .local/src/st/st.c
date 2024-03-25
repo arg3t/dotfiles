@@ -2136,7 +2136,9 @@ iso14755(const Arg *arg)
 	if (!(p = popen(iso14755_cmd, "r")))
 		return;
 
+
 	us = fgets(codepoint, sizeof(codepoint), p);
+
 	pclose(p);
 
 	if (!us || *us == '\0' || *us == '-' || strlen(us) > 7)

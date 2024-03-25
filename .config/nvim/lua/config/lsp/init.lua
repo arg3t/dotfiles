@@ -74,7 +74,6 @@ local utils = require("utils")
 
 local lspconfigs = {
   clangd = {},
-  hls = {},
   pyright = {},
   bashls = {},
   html = {},
@@ -86,11 +85,15 @@ local lspconfigs = {
   cmake = require("config.lsp.cmake"),
 }
 
+local lsp_extras = {
+  hls = {},
+}
+
 local mason_extras = {
 }
 
 return {
   mason_servers = utils.mergeTables(utils.getTableKeys(lspconfigs), mason_extras),
-  lspconfigs = lspconfigs,
+  lspconfigs = utils.mergeTables(lspconfigs, lsp_extras),
   lsp_onattach = custom_attach
 }
