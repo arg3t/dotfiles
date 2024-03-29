@@ -1,0 +1,26 @@
+# Object files
+*.o
+
+# Libraries
+*.lib
+*.a
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+
+autom4te.cache
+confdefs.h
+config.cache
+config.log
+Makefile
+config.status
+depcomp
+urlview
