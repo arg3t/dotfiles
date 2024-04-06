@@ -83,6 +83,7 @@ local lspconfigs = {
   asm_lsp = {},
   rust_analyzer = require("config.lsp.rust_analyzer"),
   cmake = require("config.lsp.cmake"),
+  jdtls = {}
 }
 
 local lsp_extras = {
