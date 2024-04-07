@@ -14,7 +14,7 @@ fi
 checkupdates 2> /dev/null > ~/.cache/pacman_updates &
 
 case $BLOCK_BUTTON in
-	1) "$TERMINAL" -c center -n center -e sudo /bin/pacman -Syyuw --noconfirm;;
+	1) "$TERMINAL" -c center -n center -e bash -c 'sudo /bin/pacman -Syyu --noconfirm; echo "Press enter to exit..."; read' ;;
 	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
 
