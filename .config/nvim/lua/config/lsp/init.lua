@@ -90,6 +90,8 @@ local lspconfigs = {
   cmake = require("config.lsp.cmake"),
   gopls = {},
   jdtls = {},
+  eslint = {},
+  svelte = {},
 }
 
 local lsp_extras = {
