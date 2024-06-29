@@ -1,5 +1,6 @@
 -- Generate comment for current line
 vim.keymap.set('n', '<Leader>/', '<Plug>(doge-generate)')
+vim.keymap.set('v', '<Leader>/', '<Plug>(doge-generate)')
 
 -- Interactive mode comment todo-jumping
 vim.keymap.set('n', '<TAB>', '<Plug>(doge-comment-jump-forward)')

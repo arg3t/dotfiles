@@ -192,14 +192,6 @@ return {
 		"neomutt/neomutt.vim",
 	},
 	{
-		"stevearc/aerial.nvim",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			"nvim-tree/nvim-web-devicons",
-		},
-    config = require("config.plugin.aerial")
-	},
-	{
 		"dcampos/nvim-snippy",
 		dependencies = {
 			"honza/vim-snippets",
@@ -321,5 +313,18 @@ return {
     'kkoomen/vim-doge',
     build = ':call doge#install()',
     config = require('config.plugin.doge')
-  }
+  },
+  {
+    "folke/trouble.nvim",
+    branch = "dev", -- IMPORTANT!
+    opts = {}, -- for default options, refer to the configuration section for custom setup.
+  },
+--	{
+--		"stevearc/aerial.nvim",
+--		dependencies = {
+--			"nvim-treesitter/nvim-treesitter",
+--			"nvim-tree/nvim-web-devicons",
+--		},
+--    config = require("config.plugin.aerial")
+--	},
 }

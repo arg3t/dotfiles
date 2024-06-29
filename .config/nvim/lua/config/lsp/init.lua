@@ -73,7 +73,12 @@ end
 local utils = require("utils")
 
 local lspconfigs = {
-  clangd = {},
+  clangd = {
+    cmd = {
+      "clangd",
+      "--offset-encoding=utf-16",
+    }
+  },
   pyright = {},
   bashls = {},
   html = {},

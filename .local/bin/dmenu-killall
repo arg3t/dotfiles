@@ -1,4 +1,5 @@
 #!/bin/bash
+
 #description: dmenu for killall
 #usage: dmenu-killall is best suited for launching from a shortcut
 
@@ -13,20 +14,23 @@ DMENU() { dmenu -i -p 'Kill'; }
 #looks better on xft powered dmenu:
 #https://bugs.launchpad.net/ubuntu/+source/suckless-tools/+bug/1093745
 
-_usage() {
+
+usage() {
     printf "%s\\n" "Usage: ${progname} [PATTERN]"
     printf "%s\\n" "Dmenu window selector for i3-wm."
     printf "%s\\n"
     printf "%s\\n" "  -h, --help      show this message and exit"
 }
 
-_die() {
+
+die() {
     [ -n "${1}" ] && _die_msg="${1}" || exit 1
     printf "%b%b\\n" "${_die_msg}" ", press <Enter> to exit" | DMENU
     exit 1
 }
 
-_notify() {
+
+notify() {
     [ -z "${1}" ] && return 1
     kill -9 $(pgrep notify-osd) >/dev/null 2>&1
     if ! DISPLAY=${DISPLAY:-:0} notify-send -t 1000 "${1}" "${2}"; then
@@ -40,40 +44,32 @@ _notify() {
     fi
 }
 
-_get_process_names() {
+get_process_names() {
     printf "%s\\n" "$(command ps xo command= | sed \
         -e "s: .*::; s:.*/::; s/:$//;"             \
         -e "s:^\[.*\]$::" -e "/^$/d"               \
         -e "s:^<defunct>$::")" | sort | uniq
 }
 
-if [ ! -t 0 ]; then
-    #add input comming from pipe or file to $@
-    set -- "${@}" $(cat)
-fi
-
 for arg in "${@}"; do #parse options
     case "${arg}" in
-        -h|--help) _usage && exit ;;
+        -h|--help) usage && exit ;;
     esac
 done
 
-if [ -z "${1}" ]; then
-    if ! command -v "dmenu" >/dev/null 2>&1; then
-        printf "%s\\n" "${progname}: install 'dmenu' to run this program" >&2
-        exit 1
-    fi
-    process_name="$(_get_process_names | DMENU)"
-else
-    process_name="$(_get_process_names | grep -i "${@}" 2>/dev/null | head -1 )"
+
+if ! command -v "dmenu" >/dev/null 2>&1; then
+    printf "%s\\n" "${progname}: install 'dmenu' to run this program" >&2
+    exit 1
 fi
+process_name="$(get_process_names | DMENU)"
 
 if [ -z "${process_name}" ]; then
-    _die
+    die
 else
     error_msg="$(kill -9 $(pgrep -x "${process_name}") 2>&1 1>/dev/null)"
     if [ X"${?}" != X"0" ]; then
-        _notify "Error" "${error_msg}"
+        notify "Error" "${error_msg}"
         exit 1
     fi
 fi

@@ -7,3 +7,4 @@ require('keybinds.terminal')
 require('keybinds.dap')
 
 require('keybinds.doge')
+require('keybinds.trouble')
