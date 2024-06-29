@@ -85,8 +85,9 @@ fi
 export PATH=$ANDROID_HOME/tools:$PATH
 export PATH=$ANDROID_HOME/tools:$PATH
 export PATH=$ANDROID_HOME/platform-tools:$PATH
-export PATH=$GHCUP_HOME/bin:$PATH
+export PATH="$PATH:$GHCUP_HOME/bin"
 export PATH="$XDG_DATA_HOME/nvim/mason/bin:$PATH:/usr/lib/w3m:$HOME/.local/bin:$HOME/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:$XDG_DATA_HOME/cargo/bin/:$XDG_DATA_HOME/questasim/questasim/linux_x86_64"
+# export PATH="$PATH:$XDG_DATA_HOME/anaconda3/bin"
 export CPATH=/usr/include/opencv4
 
 export LM_LICENSE_FILE=27017@flexserv1.tudelft.nl
@@ -94,9 +95,9 @@ export LM_LICENSE_FILE=27017@flexserv1.tudelft.nl
 # Set zettelkasten directory
 export ZK_NOTEBOOK_DIR=~/Projects/Neocortex/content
 
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.local/share/pyenv"
+# command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
 
 # Setup LF Icons (Doing this everytime lf start might cause some overhead)
 LF_ICONS=$(sed ~/.config/lf/diricons \
@@ -105,10 +106,6 @@ LF_ICONS=$(sed ~/.config/lf/diricons \
             -e 's/[ \t]\+/=/g'     \
             -e 's/$/ /')
 LF_ICONS=${LF_ICONS//$'\n'/:}
-
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
 
 export LF_ICONS
 

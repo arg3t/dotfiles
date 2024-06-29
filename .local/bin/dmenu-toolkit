@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 read -r -d '' MENU << EOM
 Arch Wiki | Open an entry from the Arch Wiki (offline) | dmenu-arch
 Bluetooth | Manage bluetooth and bluetooth devices | dmenu-bluetooth

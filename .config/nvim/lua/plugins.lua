@@ -214,6 +214,14 @@ return {
 		},
 		opts = require("config.plugin.nvim-ufo"),
 	},
+  {
+    "vhyrro/luarocks.nvim",
+    priority = 1000,
+    config = true,
+    opts = {
+      rocks = { "lua-curl", "nvim-nio", "mimetypes", "xml2lua" }
+    }
+  },
 	{
 		"rest-nvim/rest.nvim",
 		dependencies = { { "nvim-lua/plenary.nvim" } },
@@ -269,6 +277,7 @@ return {
     dependencies = {
       "pocco81/dap-buddy.nvim",
       "mfussenegger/nvim-dap",
+      "nvim-neotest/nvim-nio"
     },
     opts = {}
   },
