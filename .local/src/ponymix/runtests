@@ -1,0 +1,65 @@
+#!/bin/bash
+
+ponymix=$1
+
+if [[ -z $ponymix ]]; then
+  printf 'usage: %s path-to-ponymix\n' "${0##*/}"
+  exit 1
+fi
+
+if [[ ! -x $ponymix ]]; then
+  printf '==> ERROR: ponymix binary not found at %s\n' "$ponymix"
+  exit 1
+fi
+
+testno=0 fail=0 pass=0
+
+do_test() {
+  local expected=$1 verb=$2 arg=$3 result=
+
+  (( ++testno ))
+
+  result=$("$ponymix" "$verb" -- ${3+"$arg"} 2>/dev/null)
+  if [[ $result != $expected ]]; then
+    printf '==> test %d FAIL: expected %s, got %s\n' "$testno" "$expected" "$result"
+    (( ++fail ))
+  else
+    (( ++pass ))
+  fi
+}
+
+# strictly invalid
+do_test '' 'herp'
+do_test '' 'derp' 100
+
+# volume
+do_test 88 'set-volume' 88
+do_test 87 'decrease' 1
+do_test 50 'set-volume' 50
+do_test 10 'decrease' 40
+do_test 0 'decrease' 9001
+do_test 0 'get-volume'
+do_test 50 'increase' 50
+do_test 50 'mute'
+do_test 50 'unmute'
+do_test 50 'toggle'
+do_test 50 'toggle'
+do_test '' 'set-volume'
+do_test '' 'increase' foo
+do_test '' 'decrease' bar
+
+# balance
+do_test 30 'set-balance' 30
+do_test 30 'get-balance'
+do_test 100 'set-balance' 9001
+do_test -5 'adj-balance' -105
+do_test 45 'adj-balance' 50
+do_test 100 'adj-balance' 9001
+do_test 0 'set-balance' 0
+
+if (( ! fail )); then
+  printf '==> All %d tests successful\n' "$testno"
+else
+  printf '==> %d/%d tests failed\n' "$fail" "$testno"
+  exit 1
+fi

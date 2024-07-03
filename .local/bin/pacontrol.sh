@@ -8,8 +8,8 @@ function send_notification {
 
 
     if [ "$2" = "yes" ]; then
-        icon="婢"
-        dunstify -t 1000 -r 53 -a "蓼 Volume" "$icon MUTED"
+        icon="󰕾 "
+        dunstify -t 1000 -r 53 -a "󰕾 Volume" "$icon MUTED"
         return
     else
         if [  "$1" -lt "20" ]; then
@@ -24,7 +24,7 @@ function send_notification {
     fi
     bar=$(seq -s "▮" $(($1/4)) | sed 's/[0-9]//g')
     empty=$(seq -s "▯⁠" $((26 - $1/4)) | sed 's/[0-9]//g')
-    dunstify -t 1000 -r 53 -a "蓼 Volume" "$icon $bar$empty"
+    dunstify -t 1000 -r 53 -a "󰕾 Volume" "$icon $bar$empty"
 }
 
 usage() {

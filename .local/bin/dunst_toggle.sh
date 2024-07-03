@@ -12,14 +12,14 @@ getargs() {
 }
 
 start_dnd() {
-  dunstify -r 52 -a "  Notifications" "Switching to do not disturb"
+  dunstify -r 52 -a "󰂚 Notifications" "Switching to do not disturb"
   sleep 0.5
   dunstctl set-paused true
 }
 
 end_dnd() {
   dunstctl set-paused false
-  dunstify -r 52 -a "  Notifications" "Turning off do not disturb"
+  dunstify -r 52 -a "󰂛 Notifications" "Turning off do not disturb"
 }
 
 toggle_dnd() {

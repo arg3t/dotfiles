@@ -49,7 +49,7 @@ static const char col6[]   = "#88c0d0"; /* blue */
 static const char col7[]   = "#e5e9f0"; /* white */
 static const char col8[]   = "#4c566a"; /* gray */
 
-static char *colors[][3] = {
+static const char *colors[][3] = {
 	/*                       fg                bg                border                float */
 	[SchemeNorm]         = { fore, back, border},
 	[SchemeSel]          = { fore, back, col1},

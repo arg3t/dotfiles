@@ -7,13 +7,14 @@
   Yeet's DWMBlocks Config
 */
 
-#define PATH(name)			"/home/yigit/.local/bin/status-bar/"name
+#define PATH(name)			USERNAME"/.local/bin/status-bar/"name
 
 static Block blocks[] = {
 //	{ "", PATH("clipboard"),		120,		28},
+	{ "", PATH("security"),		    120,		28},
 	{ "", PATH("screensaver"),		120,		19},
 	{ "", PATH("dunst"),				  120,		18},
-	{ "", PATH("mail"),					  120,		23},
+//	{ "", PATH("mail"),					  120,		23},
 	{ "", PATH("keyboard"),			  120,		24},
 	{ "", PATH("redshift"),			  120,		29},
 //	{ "", PATH("mpc"),				  	240,		29},

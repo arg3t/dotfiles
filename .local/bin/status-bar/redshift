@@ -23,8 +23,8 @@ if ! xdpyinfo | grep -q VNC ; then
   esac
 
   if [ "$pid" = "" ]; then
-    echo "^c#ebcb8b^^d^"
+    echo "^c#ebcb8b^󰌶^d^"
   else
-    echo "^c#ebcb8b^^d^"
+    echo "^c#ebcb8b^󰌵^d^"
   fi
 fi

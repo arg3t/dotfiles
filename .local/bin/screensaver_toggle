@@ -12,11 +12,11 @@ getargs() {
 
 start_dnd() {
   xset s off -dpms
-  dunstify -r 51 -a "  System" "Screensaver off"
+  dunstify -r 51 -a "󰒳 System" "Screensaver off"
 }
 end_dnd() {
   xset s off +dpms
-  dunstify -r 51 -a "  System" "Screensaver on"
+  dunstify -r 51 -a "󰒲 System" "Screensaver on"
 }
 
 toggle_dnd() {

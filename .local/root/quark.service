@@ -1,9 +1,0 @@
-[Unit]
-Description=Quark instance on 9999 for start page
-
-[Service]
-Type=simple
-ExecStart=/usr/local/bin/quark -p 9999 -d /home/yigit/.dotfiles/browser/startpage/dist -h 127.0.0.1
-
-[Install]
-WantedBy=multi-user.target

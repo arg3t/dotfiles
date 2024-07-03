@@ -264,6 +264,7 @@ return {
     },
     opts = {}
   },
+  { "nvim-neotest/nvim-nio" },
   {
     "luckasRanarison/nvim-devdocs",
     dependencies = {
@@ -307,7 +308,6 @@ return {
   },
   {
     "folke/trouble.nvim",
-    branch = "dev", -- IMPORTANT!
     opts = {}, -- for default options, refer to the configuration section for custom setup.
   },
 --	{
