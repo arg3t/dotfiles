@@ -7,12 +7,12 @@ return {
 	},
 	{
 		"goolord/alpha-nvim",
-    cond = vim.g.vscode == nil,
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-      "nvim-telescope/telescope.nvim",
-    },
-    event = "VimEnter",
+		cond = vim.g.vscode == nil,
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+			"nvim-telescope/telescope.nvim",
+		},
+		event = "VimEnter",
 		config = require("config.plugin.alpha"),
 	},
 	{
@@ -32,8 +32,8 @@ return {
 		dependencies = {
 			"catppuccin/nvim",
 			"nvim-tree/nvim-web-devicons",
-      'AndreM222/copilot-lualine',
-      "zbirenbaum/copilot.lua",
+			'AndreM222/copilot-lualine',
+			"zbirenbaum/copilot.lua",
 
 		},
 		config = require("config.plugin.lualine"),
@@ -46,7 +46,7 @@ return {
 			"SmiteshP/nvim-navic",
 			"nvim-tree/nvim-web-devicons", -- optional dependency
 		},
-	  config = require("config.plugin.barbecue"),
+		config = require("config.plugin.barbecue"),
 	},
 	{
 		"lewis6991/gitsigns.nvim",
@@ -112,8 +112,8 @@ return {
 	{
 		"echasnovski/mini.nvim",
 		version = '*',
-    config = require("config.plugin.mini")
-  },
+		config = require("config.plugin.mini")
+	},
 	{
 		"tpope/vim-surround",
 	},
@@ -128,27 +128,27 @@ return {
 			"neovim/nvim-lspconfig",
 		},
 	},
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "folke/neodev.nvim"
-    }
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    opts = {
-      ensure_installed = require("config.lsp").mason_servers
-    },
-    dependencies = {
-      "folke/neodev.nvim"
-    }
-  },
+	{
+		"neovim/nvim-lspconfig",
+		dependencies = {
+			"folke/neodev.nvim"
+		}
+	},
+	{
+		"williamboman/mason-lspconfig.nvim",
+		opts = {
+			ensure_installed = require("config.lsp").mason_servers
+		},
+		dependencies = {
+			"folke/neodev.nvim"
+		}
+	},
 	{
 		"nvim-treesitter/nvim-treesitter",
-    dependencies = {
-      "neovim/nvim-lspconfig",
-    },
-    build = ":TSUpdate",
+		dependencies = {
+			"neovim/nvim-lspconfig",
+		},
+		build = ":TSUpdate",
 		config = require("config.plugin.treesitter"),
 	},
 	{
@@ -166,17 +166,17 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
-      "rmagatti/session-lens",
+			"rmagatti/session-lens",
 		},
 		config = function()
-	local telescope = require("telescope")
-	local config = require("config.plugin.telescope")
+			local telescope = require("telescope")
+			local config = require("config.plugin.telescope")
 
-	for _, ext in ipairs(config.extensions_list) do
-		telescope.load_extension(ext)
-	end
+			for _, ext in ipairs(config.extensions_list) do
+				telescope.load_extension(ext)
+			end
 
-	telescope.setup(config)
+			telescope.setup(config)
 		end,
 	},
 	{
@@ -210,14 +210,14 @@ return {
 		"rest-nvim/rest.nvim",
 		dependencies = { { "nvim-lua/plenary.nvim" } },
 		config = function()
-      require("rest-nvim").setup({})
+			require("rest-nvim").setup({})
 		end,
 	},
 	{
 		"zbirenbaum/copilot.lua",
 		cmd = "Copilot",
 		event = "InsertEnter",
-    config = require("config.plugin.copilot")
+		config = require("config.plugin.copilot")
 	},
 	{
 		"zbirenbaum/copilot-cmp",
@@ -225,7 +225,7 @@ return {
 			"zbirenbaum/copilot.lua",
 		},
 		config = true
-  },
+	},
 	{
 		"hrsh7th/nvim-cmp",
 		config = require("config.plugin.nvim-cmp"),
@@ -252,70 +252,80 @@ return {
 		version = "*",
 		config = true,
 	},
+	{
+		"folke/neodev.nvim",
+		opts = require("config.plugin.neodev")
+	},
+	{
+		"rcarriga/nvim-dap-ui",
+		dependencies = {
+			"pocco81/dap-buddy.nvim",
+			"mfussenegger/nvim-dap",
+		},
+		opts = {}
+	},
+	{ "nvim-neotest/nvim-nio" },
+	{
+		"luckasRanarison/nvim-devdocs",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+			"nvim-treesitter/nvim-treesitter",
+		},
+		config = require("config.plugin.nvim-devdocs")
+	},
+	{
+		'rmagatti/auto-session',
+		config = require("config.plugin.auto-session")
+	},
+	{
+		'rmagatti/session-lens',
+		dependencies = {
+			'rmagatti/auto-session',
+			'nvim-telescope/telescope.nvim'
+		},
+		opts = {}
+	},
+	{
+		"RRethy/vim-illuminate",
+	},
+	{
+		"petertriho/nvim-scrollbar",
+		opts = {}
+	},
+	{
+		"kevinhwang91/nvim-hlslens",
+		config = function()
+			require("scrollbar.handlers.search").setup({
+				override_lens = function() end,
+			})
+		end,
+	},
+	{
+		'kkoomen/vim-doge',
+		build = ':call doge#install()',
+		config = require('config.plugin.doge')
+	},
+	{
+		"stevearc/aerial.nvim",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
+		},
+		config = require("config.plugin.aerial")
+	},
   {
-    "folke/neodev.nvim",
-    opts = require("config.plugin.neodev")
-  },
-  {
-    "rcarriga/nvim-dap-ui",
-    dependencies = {
-      "pocco81/dap-buddy.nvim",
-      "mfussenegger/nvim-dap",
-    },
-    opts = {}
-  },
-  { "nvim-neotest/nvim-nio" },
-  {
-    "luckasRanarison/nvim-devdocs",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
+    "ray-x/go.nvim",
+    dependencies = {  -- optional packages
+      "ray-x/guihua.lua",
+      "neovim/nvim-lspconfig",
       "nvim-treesitter/nvim-treesitter",
     },
-    config = require("config.plugin.nvim-devdocs")
-  },
-  {
-  'rmagatti/auto-session',
-  config = require("config.plugin.auto-session")
-  },
-  {
-    'rmagatti/session-lens',
-    dependencies = {
-      'rmagatti/auto-session',
-      'nvim-telescope/telescope.nvim'
-    },
-    opts = {}
-  },
-  {
-    "RRethy/vim-illuminate",
-  },
-  {
-    "petertriho/nvim-scrollbar",
-    opts = {}
-  },
-  {
-    "kevinhwang91/nvim-hlslens",
     config = function()
-      require("scrollbar.handlers.search").setup({
-        override_lens = function() end,
-      })
+      require("go").setup()
     end,
-  },
-  {
-    'kkoomen/vim-doge',
-    build = ':call doge#install()',
-    config = require('config.plugin.doge')
-  },
-  {
-    "folke/trouble.nvim",
-    opts = {}, -- for default options, refer to the configuration section for custom setup.
-  },
---	{
---		"stevearc/aerial.nvim",
---		dependencies = {
---			"nvim-treesitter/nvim-treesitter",
---			"nvim-tree/nvim-web-devicons",
---		},
---    config = require("config.plugin.aerial")
---	},
+    event = {"CmdlineEnter"},
+    ft = {"go", 'gomod'},
+    build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
+  }
 }
