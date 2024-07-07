@@ -26,6 +26,5 @@ selection=$(printf "$MENU" | column -s '|' -t | dmenu -p "Select a tool" -l 7)
 
 cmd=$(echo "$selection" | sed 's/\s\{2,\}/\n/g' | tail -n 1)
 
-notify-send "$(which $cmd)"
 bash "$(which $cmd)"
 

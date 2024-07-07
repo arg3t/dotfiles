@@ -3,8 +3,8 @@
 for d in */ ; do
   echo "Building in $d"
   cd $d
-  make
-  sudo make clean install
+  sudo make
+  sudo make install
   if [ $? -ne 0 ]; then
     echo "An error occured..."
     exit 1

@@ -10,9 +10,9 @@ if ! xdpyinfo | grep -q VNC ; then
 
 
   if [ "$MUTE" = "yes" ]; then
-    echo "^c#a3be8c^婢 ^d^ $NOW%"
+    echo "^c#a3be8c^󰕾 ^d^$NOW%"
   else
-    echo "^c#a3be8c^墳 ^d^ $NOW%"
+    echo "^c#a3be8c^󰕾 ^d^$NOW%"
   fi
 
 case $BLOCK_BUTTON in

@@ -273,6 +273,7 @@ return {
     },
     opts = {}
   },
+  { "nvim-neotest/nvim-nio" },
   {
     "luckasRanarison/nvim-devdocs",
     dependencies = {
@@ -314,17 +315,16 @@ return {
     build = ':call doge#install()',
     config = require('config.plugin.doge')
   },
-  {
-    "folke/trouble.nvim",
-    branch = "main", -- IMPORTANT!
-    opts = {}, -- for default options, refer to the configuration section for custom setup.
-  },
---	{
---		"stevearc/aerial.nvim",
---		dependencies = {
---			"nvim-treesitter/nvim-treesitter",
---			"nvim-tree/nvim-web-devicons",
---		},
---    config = require("config.plugin.aerial")
---	},
+--  {
+--    "folke/trouble.nvim",
+--    opts = {}, -- for default options, refer to the configuration section for custom setup.
+--  },
+	{
+		"stevearc/aerial.nvim",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
+		},
+    config = require("config.plugin.aerial")
+	},
 }

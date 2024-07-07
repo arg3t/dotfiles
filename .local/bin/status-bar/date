@@ -1,6 +1,6 @@
 #! /bin/sh
 
-icon=
+icon=󰃭
 events=$(calcurse -a | grep -- '->' | wc -l)
 if [ ! "$events" = "0" ]; then
   events="($events) "

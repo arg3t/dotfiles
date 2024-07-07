@@ -567,6 +567,44 @@ unswallow(Client *c)
 	arrange(c->mon);
 }
 
+int
+status2dtextlength(char* stext)
+{
+	int i, w, len;
+	short isCode = 0;
+	char *text;
+
+	len = strlen(stext) + 1;
+	if (!(text = (char*) malloc(sizeof(char)*len)))
+		die("malloc");
+
+	copyvalidchars(text, stext);
+
+	/* compute width of the status text */
+	w = 0;
+	i = -1;
+	while (text[++i]) {
+		if (text[i] == '^') {
+			if (!isCode) {
+				isCode = 1;
+				text[i] = '\0';
+				w += TEXTW(text) - lrpad;
+				text[i] = '^';
+				if (text[++i] == 'f')
+					w += atoi(text + ++i);
+			} else {
+				isCode = 0;
+				text = text + i + 1;
+				i = -1;
+			}
+		}
+	}
+	if (!isCode)
+		w += TEXTW(text) - lrpad;
+	return w;
+}
+
+
 void
 buttonpress(XEvent *e)
 {
@@ -818,43 +856,6 @@ copyvalidchars(char *text, char *rawtext)
 		}
 	}
 	text[j] = '\0';
-}
-
-int
-status2dtextlength(char* stext)
-{
-	int i, w, len;
-	short isCode = 0;
-	char *text;
-
-	len = strlen(stext) + 1;
-	if (!(text = (char*) malloc(sizeof(char)*len)))
-		die("malloc");
-
-	copyvalidchars(text, stext);
-
-	/* compute width of the status text */
-	w = 0;
-	i = -1;
-	while (text[++i]) {
-		if (text[i] == '^') {
-			if (!isCode) {
-				isCode = 1;
-				text[i] = '\0';
-				w += TEXTW(text) - lrpad;
-				text[i] = '^';
-				if (text[++i] == 'f')
-					w += atoi(text + ++i);
-			} else {
-				isCode = 0;
-				text = text + i + 1;
-				i = -1;
-			}
-		}
-	}
-	if (!isCode)
-		w += TEXTW(text) - lrpad;
-	return w;
 }
 
 Monitor *

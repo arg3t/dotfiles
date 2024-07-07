@@ -1,1 +1,60 @@
-.config/X11/xinitrc
+#!/bin/bash
+
+echo "$DISPLAY" > /tmp/asd
+source ~/.profile
+echo "$DISPLAY" >> /tmp/asd
+
+pkill -f clipmenud
+pkill -9 devmon
+pkill -f "bash /sbin/clipmenud"
+pkill -f "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
+pkill -f devmon
+
+cat << EOF > "$XDG_CACHE_HOME/dbus_settings"
+export DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS
+export DBUS_SESSION_BUS_PID=$DBUS_SESSION_BUS_PID
+export DBUS_SESSION_BUS_WINDOWID=$DBUS_SESSION_BUS_WINDOWID
+EOF
+
+chmod +x "$XDG_CACHE_HOME/dbus_settings" 
+
+dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY
+
+rm -rf $XDG_RUNTIME_DIR/day_cache
+export XSESSION_PID="$$"
+
+source ~/.config/config.env
+
+if ! xdpyinfo | grep -q VNC ; then
+    pactl upload-sample /usr/share/sounds/freedesktop/stereo/bell.oga x11-bell
+    pactl load-module module-x11-bell sample=x11-bell display=$DISPLAY
+fi
+
+# Enable tapping for touchpad
+xinput set-prop 16 344 1
+
+xset b 100
+
+if ! xdpyinfo | grep -q VNC ; then
+    xset s 600 600
+else
+    echo "Running in VNC, disable screensaver"
+    xset s off
+fi
+
+xrdb  ~/.config/X11/Xresources &
+
+restarted=0
+
+while true;
+do
+    if [ $restarted = 0 ]; then
+        restarted=1
+    else
+        echo "Restarting DWM"
+        notify-send -a " Desktop Manager" "Dwm Restarted"
+    fi
+
+    dwm > $XDG_RUNTIME_DIR/dwm.log 2> $XDG_RUNTIME_DIR/dwm.err
+    sleep 0.5
+done

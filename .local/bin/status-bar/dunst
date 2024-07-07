@@ -3,7 +3,7 @@
 stats=$(dunstctl is-paused)
 
 if [ "$stats" = "true" ]; then
-  echo "^c#88c0d0^ ^d^"
+  echo "^c#88c0d0^󰂛 ^d^"
 else
   echo "^c#88c0d0^ ^d^"
 fi

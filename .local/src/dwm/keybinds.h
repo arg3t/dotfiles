@@ -18,12 +18,12 @@
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 static char dmenumon[2] = "0";
-static const char *dmenucmd[] = { "/home/yigit/.local/bin/dmenu_run_history", "-m", dmenumon, "-z", "1900", "-x", "10", "-y", "10"};
+static const char *dmenucmd[] = { USERNAME"/.local/bin/dmenu_run_history", "-m", dmenumon, "-z", "1900", "-x", "10", "-y", "10"};
 static const char *termcmd[]  = { "/usr/local/bin/st", NULL };
 static const char *termcmd_alt[]  = { "/usr/bin/alacritty", NULL };
-static const char *upvol[]   = { "/home/yigit/.local/bin/pacontrol.sh", "up",     NULL };
-static const char *downvol[]   = { "/home/yigit/.local/bin/pacontrol.sh", "down",     NULL };
-static const char *mutevol[]   = { "/home/yigit/.local/bin/pacontrol.sh", "toggle-mute",     NULL };
+static const char *upvol[]   = { "ponymix", "-N", "increase", "5",   NULL };
+static const char *downvol[]   = { "ponymix", "-N", "decrease", "5",   NULL };
+static const char *mutevol[]   = { "ponymix", "-N", "toggle", NULL };
 
 static const char *upbright[] = {"/usr/bin/xbacklight","-inc","10",NULL};
 static const char *downbright[] = {"/usr/bin/xbacklight","-dec","10",NULL};
@@ -33,35 +33,35 @@ static const char *clipmenu[] = {"/usr/bin/clipmenu","-i",NULL};
 static const char *play[] = {"/usr/bin/playerctl","play-pause",NULL};
 static const char *prev[] = {"/usr/bin/playerctl","previous",NULL};
 static const char *next[] = {"/usr/bin/playerctl","next",NULL};
-static const char *outmenu[] = {"/home/yigit/.local/bin/dmenu-logout", NULL};
-static const char *refresh[] = {"/home/yigit/.local/bin/dmenu-refresh", NULL};
-static const char *keyboard[] = {"/home/yigit/.local/bin/kbmap_toggle", NULL};
+static const char *outmenu[] = {USERNAME"/.local/bin/dmenu-logout", NULL};
+static const char *refresh[] = {USERNAME"/.local/bin/dmenu-refresh", NULL};
+static const char *keyboard[] = {USERNAME"/.local/bin/kbmap_toggle", NULL};
 
-static const char *screenshot[] = { "flameshot", "full", NULL };
+static const char *screenshot[] = { "scrot", "/tmp/%Y-%m-%d-%s_$wx$h.png", "-e","xclip -selection clipboard -target image/png -i $f; cp $f ~/Pictures/Screenshots;notify-send -a \"SNAP\" \"$f\"", NULL };
 static const char *windowshot[] = { "flameshot", "gui", NULL };
 static const char *simcrop[] = {"simcrop","-fc","-sc", "-g", "900x500",NULL};
 
-static const char *notification[] = {"/home/yigit/.local/bin/dunst_toggle.sh", "-t",NULL};
+static const char *notification[] = {USERNAME"/.local/bin/dunst_toggle.sh", "-t",NULL};
 
-static const char *screensaver[] = {"/home/yigit/.local/bin/screensaver_toggle", "-t",NULL};
+static const char *screensaver[] = {USERNAME"/.local/bin/screensaver_toggle", "-t",NULL};
 
-static const char *toolkit[] = {"/home/yigit/.local/bin/dmenu-toolkit", NULL};
+static const char *toolkit[] = {USERNAME"/.local/bin/dmenu-toolkit", NULL};
 
-static const char *bwmenu[] = {"/home/yigit/.local/bin/password_manager", NULL};
+static const char *bwmenu[] = {USERNAME"/.local/bin/password_manager", NULL};
 
-static const char *sessionload[] = {"/home/yigit/.local/bin/dmenu-sessions", NULL};
+static const char *sessionload[] = {USERNAME"/.local/bin/dmenu-sessions", NULL};
 
-static const char *wallabag[] = {"/home/yigit/.local/bin/dmenu-wallabag", "-s", NULL};
-static const char *wiki[] = {"/home/yigit/.local/bin/dmenu-arch", NULL};
+static const char *wallabag[] = {USERNAME"/.local/bin/dmenu-wallabag", "-s", NULL};
+static const char *wiki[] = {USERNAME"/.local/bin/dmenu-arch", NULL};
 
-static const char *grabcolor[] = {"/home/yigit/.local/bin/grabcolor", NULL};
-static const char *wc[] = {"/home/yigit/.local/bin/dmenu-wc", NULL};
-static const char *network_manager[] = {"/home/yigit/.local/bin/connman_dmenu", NULL};
-static const char *genpwd[] = {"/home/yigit/.local/bin/genpwd", NULL};
-static const char *web[] = {"/home/yigit/.local/bin/dmenu-web", NULL};
-static const char *xrandr[] = {"/home/yigit/.local/bin/dmenu-xrandr", NULL};
-static const char *surf[] = {"/home/yigit/.local/bin/tabbed_surf", NULL};
-static const char *hamster[] = {"/home/yigit/.local/bin/dmenu-hamster", NULL};
+static const char *grabcolor[] = {USERNAME"/.local/bin/grabcolor", NULL};
+static const char *wc[] = {USERNAME"/.local/bin/dmenu-wc", NULL};
+static const char *network_manager[] = {USERNAME"/.local/bin/connman_dmenu", NULL};
+static const char *genpwd[] = {USERNAME"/.local/bin/genpwd", NULL};
+static const char *web[] = {USERNAME"/.local/bin/dmenu-web", NULL};
+static const char *xrandr[] = {USERNAME"/.local/bin/dmenu-xrandr", NULL};
+static const char *surf[] = {USERNAME"/.local/bin/tabbed_surf", NULL};
+static const char *hamster[] = {USERNAME"/.local/bin/dmenu-hamster", NULL};
 
 /* commands */
 static Key keys[] = {
@@ -87,7 +87,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_q, 			spawn, {.v = outmenu} },
 #endif
-	{ MODKEY,        	 							XK_w, spawn, {.v = web } },
 
 	{ MODKEY|Mod1Mask,              XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY|Mod1Mask,              XK_s,      incnmaster,     {.i = -1 } },
@@ -141,7 +140,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,        	 							XK_h, spawn, {.v = hamster } },
 	{ MODKEY,        	 							XK_t, spawn, {.v = toolkit } },
 	{ MODKEY,                       XK_s,      togglescratch,          {.ui = 0 } },
-	{ MODKEY,                       XK_m,      togglescratch,          {.ui = 1 } },
 	{ MODKEY|ShiftMask,             XK_f, 		 togglescratch,          {.ui = 2} },
 	{ MODKEY|ShiftMask,             XK_c, 		 togglescratch,          {.ui = 3} },
 	{ MODKEY,                       XK_n, 		 togglescratch,          {.ui = 4} },

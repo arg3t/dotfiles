@@ -13,7 +13,7 @@ typedef struct {
 } Sp;
 
 #define STATUSBAR "dwmblocks"
-static const char *layoutmenu_cmd = "layoutmenu.sh";
+static const char *layoutmenu_cmd = USERNAME"/.local/bin/layoutmenu.sh";
 unsigned const int swallowfloating = 0;
 
 /* tagging */
@@ -31,11 +31,11 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "鉶",      tile },    /* first entry is default */
- 	{ "",      dwindle },
-	{ "ﱖ",      grid },
-	{ "",      centeredmaster },
-	{ "",      centeredfloatingmaster },
+	{ "[T]",      tile },    /* first entry is default */
+ 	{ "[F]",      dwindle },
+	{ "[F]",      grid },
+	{ "[C]",      centeredmaster },
+	{ "[c]",      centeredfloatingmaster },
 	{ "[M]",      monocle },
 	{ "[D]",      deck },
 	{ NULL,       NULL },
@@ -43,14 +43,12 @@ static const Layout layouts[] = {
 
 /* scratchpads */
 const char *spcmd1[] = {"st", "-c", "scratchpad", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"st", "-c", "scratchpad", "-n", "spmutt", "-g", "180x51", "-e", "neomutt", NULL };
 static const char *spcmd3[]  = { "/usr/bin/nemo", "-g", "1200x700", "--class=spfile", "--name=spfile", NULL };
 static const char *spcmd4[]  = { "/usr/local/bin/st", "-g", "150x35", "-c", "spcal", "-n", "spcal", "-e", "qcal", NULL };
-static const char *spcmd5[]  = { "obsidian" };
+static const char *spcmd5[]  = { USERNAME"/.local/bin/noteapp" };
 
 static Sp scratchpads[] = {
    {"spterm",      spcmd1},
-   {"spmutt",      spcmd2},
    {"spfile",      spcmd3},
    {"spcal",      spcmd4},
    {"obsidian",      spcmd5},

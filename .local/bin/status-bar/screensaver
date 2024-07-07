@@ -4,9 +4,9 @@ if ! xdpyinfo | grep -q VNC ; then
   stats=$(xset q | grep "DPMS is" | cut -c11-)
 
   if [ "$stats" = "Disabled" ]; then
-    echo "^c#a48ead^零 ^d^"
+    echo "^c#a48ead^󰒳 ^d^"
   else
-    echo "^c#a48ead^鈴 ^d^"
+    echo "^c#a48ead^󰒲 ^d^"
   fi
 
 
