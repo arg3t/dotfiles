@@ -316,7 +316,7 @@ return {
   },
   {
     "folke/trouble.nvim",
-    branch = "dev", -- IMPORTANT!
+    branch = "main", -- IMPORTANT!
     opts = {}, -- for default options, refer to the configuration section for custom setup.
   },
 --	{
