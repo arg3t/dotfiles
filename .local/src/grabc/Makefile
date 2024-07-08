@@ -36,7 +36,7 @@ $(PROGNAME) : $(OBJS)
 doc:
 	pod2man grabc.pod > grabc.1
 
-install: installdirs install-bin install-man
+install: $(PROGNAME) installdirs install-bin install-man
 
 install-bin:
 	${cp} ${binary} ${DESTDIR}${bindir}
