@@ -26,6 +26,11 @@ map('n', '<Leader>ld', "<Cmd> lua require('telescope.builtin').lsp_definitions()
   desc = "Go to definition"
 })
 
+map('n', '<Leader>lD', "<Cmd> lua  vim.diagnostic.open_float()<CR>", {
+  noremap = true,
+  desc = "Show diagnostic float"
+})
+
 map('n', '<Leader>lr', "<Cmd> lua require('telescope.builtin').lsp_references()<CR>", {
   noremap = true,
   desc = "List to references to word under cursor"

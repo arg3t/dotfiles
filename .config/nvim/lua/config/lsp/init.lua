@@ -79,7 +79,7 @@ local lspconfigs = {
       "--offset-encoding=utf-16",
     }
   },
-  pyright = {},
+  pyright = require("config.lsp.pyright"),
   bashls = {},
   html = {},
   tsserver = {},
