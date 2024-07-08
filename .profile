@@ -25,6 +25,7 @@ export EDITOR=nvim
 export OPENER=xdg-open
 export DEFAULT_RECIPIENT="yigitcolakoglu@hotmail.com"
 export LIBVIRT_DEFAULT_URI="qemu:///system"
+export GTK_THEME=Arc-Dark
 
 # Set XDG Directories
 export XDG_DATA_HOME="$HOME"/.local/share

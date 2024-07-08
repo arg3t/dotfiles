@@ -12,9 +12,9 @@ if ! xdpyinfo | grep -q VNC ; then
 
     if [ ! "$device" = "" ]; then
       if [ ! "$level" = "" ]; then
-        echo "^c#81a1c1^^d^ $(echo "$device" | head -n 1 | xargs | cut -c 7-) [$level%]"
+        echo "^c#81a1c1^󰂯^d^ $(echo "$device" | head -n 1 | xargs | cut -c 7-) [$level%]"
       else
-        echo "^c#81a1c1^^d^ $(echo "$device" | head -n 1 | xargs | cut -c 7-)"
+        echo "^c#81a1c1^󰂯^d^ $(echo "$device" | head -n 1 | xargs | cut -c 7-)"
       fi
     else
       :

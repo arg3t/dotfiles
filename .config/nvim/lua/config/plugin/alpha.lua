@@ -73,7 +73,7 @@ return function()
 		type = "group",
 		val = {
 			dashboard.button("e", " Edit Empty Buffer", "<cmd>ene<CR>"),
-			dashboard.button("s", " Open Sesssion", "<cmd>Telescope session-lens<CR>"),
+			dashboard.button("s", " Open Sesssion", "<cmd>SearchSession<CR>"),
 			dashboard.button("o", "󰈔 Open File", "<cmd>Telescope fd<CR>"),
 			dashboard.button("d", " Open Folder", "<cmd>let dir=system(\"zenity --file-selection --directory 2> /dev/null\")<CR><cmd>cd `=dir`<CR>"),
 			dashboard.button("c", " Edit Configuration", "<cmd>cd ~/.config/nvim<CR><cmd> Telescope fd<CR>"),

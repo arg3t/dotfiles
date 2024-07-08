@@ -14,11 +14,8 @@ dwmblocks
 mconnect
 dunst
 clipmenud
-darkhttpd
 devmon
-activitywatcher
-spotifyd
-pipewire"
+pulseaudio"
 
 # Open menu
 selection=$(printf '%s' "$items" | $DMENU)
@@ -66,11 +63,9 @@ case $selection in
 		killall -9 darkhttpd
 		darkhttpd $HOME/.local/share/startpage/dist --port 9999 --daemon --addr 127.0.0.1
 		;;
-	pipewire)
-		killall -9 pipewire
-    pipewire &
-    wireplumber &
-    pipewire-pulse &
+	pulseaudio)
+		killall -9 pulseaudio
+    pulseaudio &
 		;;
 esac
 
