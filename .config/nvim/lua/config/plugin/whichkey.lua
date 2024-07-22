@@ -1,9 +1,8 @@
 return {
-  opts = {},
-  register = {
-    ["<leader>f"] = { name = "+file" },
-    ["<leader>s"] = { name = "+search" },
-    ["<leader>g"] = { name = "+git" },
-    ["<leader>l"] = { name = "+lsp" },
+  spec = {
+    { "<leader>f", group = "file" },
+    { "<leader>g", group = "git" },
+    { "<leader>l", group = "lsp" },
+    { "<leader>s", group = "search" },
   }
 }

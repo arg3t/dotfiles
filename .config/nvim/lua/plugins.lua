@@ -92,8 +92,7 @@ return {
 		end,
 		config = function()
 			local settings = require("config.plugin.whichkey")
-			require("which-key").setup(settings.opts)
-			require("which-key").register(settings.register)
+			require("which-key").setup(settings)
 		end,
 	},
 	{
