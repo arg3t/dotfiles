@@ -1,0 +1,1 @@
+require("autocmd.format")
