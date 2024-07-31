@@ -1,9 +1,8 @@
-local M = {"nvim-telescope/telescope.nvim" }
+local M = { "nvim-telescope/telescope.nvim" }
 M.tag = "0.1.5"
 M.dependencies = {
-"nvim-lua/plenary.nvim",
-"nvim-telescope/telescope-ui-select.nvim",
-"rmagatti/session-lens",
+  "nvim-lua/plenary.nvim",
+  "nvim-telescope/telescope-ui-select.nvim",
 }
 
 local options = {
@@ -29,18 +28,17 @@ local options = {
       }
     },
   },
-  extensions_list = { "ui-select", "session-lens" },
+  extensions_list = { "ui-select" },
 }
 
 M.config = function()
-	local telescope = require("telescope")
+  local telescope = require("telescope")
 
-	for _, ext in ipairs(options.extensions_list) do
-	telescope.load_extension(ext)
-	end
+  for _, ext in ipairs(options.extensions_list) do
+    telescope.load_extension(ext)
+  end
 
-	telescope.setup(options)
+  telescope.setup(options)
 end
 
 return M
-

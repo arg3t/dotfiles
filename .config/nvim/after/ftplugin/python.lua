@@ -9,8 +9,7 @@ vim.api.nvim_create_autocmd(
     pattern = "*.py",
     group = "AutoFormat",
     callback = function()
-      vim.cmd("silent !black --quiet %")
-      vim.cmd("edit")
+      vim.cmd("Black")
     end,
   }
 )
