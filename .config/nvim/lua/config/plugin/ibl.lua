@@ -1,7 +1,0 @@
-return {
-  exclude = {
-    filetypes = {
-      "dashboard"
-    }
-  }
-}

@@ -84,6 +84,7 @@ if [ $disp_manager -ne 0 ]; then
 fi
 
 # Setup PATH
+export PATH=$HOME/.yarn/bin:$PATH
 export PATH=$ANDROID_HOME/tools:$PATH
 export PATH=$ANDROID_HOME/tools:$PATH
 export PATH=$ANDROID_HOME/platform-tools:$PATH

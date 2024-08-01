@@ -42,29 +42,32 @@ vim.opt.undolevels = 1000
 vim.opt.undoreload = 10000
 
 -- Wildignore settings
-vim.opt.wildignore:append({"*/tmp/*", "*.so", "*.zip", "*/vendor/bundle/*", "*/node_modules/"})
+vim.opt.wildignore:append({ "*/tmp/*", "*.so", "*.zip", "*/vendor/bundle/*", "*/node_modules/" })
 
 -- Autocommand to disable auto commenting on new lines
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = "*",
-    callback = function()
-        vim.opt_local.formatoptions:remove("c")
-        vim.opt_local.formatoptions:remove("r")
-        vim.opt_local.formatoptions:remove("o")
-    end
+  pattern = "*",
+  callback = function()
+    vim.opt_local.formatoptions:remove("c")
+    vim.opt_local.formatoptions:remove("r")
+    vim.opt_local.formatoptions:remove("o")
+  end
 })
+
+-- Set minimum yank message length to
+vim.opt.report = 10
 
 -- Filetype settings
 vim.cmd('filetype off')
 vim.cmd('filetype plugin on')
 
 -- Autocomplete settings
-vim.opt.completeopt = {"menu", "menuone", "noselect"}
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 -- Folding settings
 vim.o.foldcolumn = '1' -- '0' is not bad
-vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 
-vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions,globals"
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions,globals"

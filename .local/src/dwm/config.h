@@ -47,7 +47,8 @@ const char *spcmd2[] = {"st", "-c", "scratchpad", "-n", "spmutt", "-g", "180x51"
 static const char *spcmd3[]  = { "/usr/bin/nemo", "-g", "1200x700", "--class=spfile", "--name=spfile", NULL };
 static const char *spcmd4[]  = { "/usr/local/bin/st", "-g", "150x35", "-c", "spcal", "-n", "spcal", "-e", "qcal", NULL };
 #ifdef HOSTNAME_desktop
-static const char *spcmd5[]  = { USERNAME"/Projects/CRADLE/start.sh", NULL };
+// static const char *spcmd5[]  = { USERNAME"/Projects/CRADLE/start.sh", NULL };
+static const char *spcmd5[]  = { USERNAME"/Tooling/notesnook.AppImage", "--no-sandbox", NULL };
 #else
 static const char *spcmd5[]  = {"obsidian", NULL };
 #endif
@@ -58,7 +59,8 @@ static Sp scratchpads[] = {
    {"spfile",      spcmd3},
    {"spcal",      spcmd4},
 #ifdef HOSTNAME_desktop
-  {"cradle",      spcmd5},
+  // {"cradle",      spcmd5},
+  {"notesnook",      spcmd5},
 #else
   {"obsidian",      spcmd5},
 #endif

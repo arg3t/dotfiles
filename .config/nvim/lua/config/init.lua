@@ -1,4 +1,4 @@
 require('config.settings')
+require('config.lazy')
 require('config.appearance')
 require('config.dap')
-require('config.plugin')

@@ -43,6 +43,7 @@ static const Rule rules[] = {
 { "Microsoft Teams - Preview" , NULL       , NULL       , 1 << 5    , 0 ,         NULL          , 0  , 0  , -1  },
 { "Journal"          , NULL       , NULL       , 1 << 3    , 0 ,         NULL          , 0  , 0  , -1  },
 { "neovide"          , NULL       , NULL       , 1 << 2    , 0 ,         NULL          , 0  , 0  , -1  },
+{ "dev.zed.Zed"      , NULL       , NULL       , 1 << 2    , 0 ,         NULL          , 0  , 0  , -1  },
 { "Nemo"             , NULL       , NULL       , 0         , 1     , "50% 50% 1200W 800H"  , 0  , 0  , -1  },
 { "ranger"           , NULL       , NULL       , 0         , 1     , "50% 50% 800W 560H"   , 0  , 0  , -1  },
 { "lf"               , NULL       , NULL       , 0         , 1     , "50% 50% 800W 560H"   , 0  , 0  , -1  },
@@ -61,6 +62,7 @@ static const Rule rules[] = {
 { NULL               , "spmutt"   , NULL       , SPTAG(1)  , 1     ,         NULL          , 0  , 0  , -1  },
 { NULL               , "spfile"   , NULL       , SPTAG(2)  , 1     ,         NULL          , 0  , 0  , -1  },
 { NULL               , "spcal"    , NULL       , SPTAG(3)  , 1     ,         NULL          , 0  , 0  , -1  },
+{ NULL               , "notesnook"   , NULL     , SPTAG(4)  , 1     , "50% 50% 1400W 700H"  , 0  , 0  , -1  },
 
 #ifdef HOSTNAME_desktop
   { NULL               , "cradle"   , NULL     , SPTAG(4)  , 1     , "50% 50% 1400W 700H"  , 0  , 0  , -1  },

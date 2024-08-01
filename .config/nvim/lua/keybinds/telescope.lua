@@ -78,7 +78,7 @@ map('n', '<Leader>b', "<Cmd>lua require('telescope.builtin').buffers()<CR>", {
 })
 
 
-map('n', '<Leader>S', "<Cmd>Telescope persisted<CR>", {
+map('n', '<Leader>S', "<Cmd>SessionSearch<CR>", {
   noremap = true,
-  desc = "Select a persisted session"
+  desc = "Select a session"
 })
