@@ -1,5 +1,5 @@
 local map = vim.api.nvim_set_keymap
-local opts = {noremap = true}
+local opts = { noremap = true }
 
 -- [,w] SAVE
 map('', '<Leader>w', ':update<CR>', opts)
@@ -24,7 +24,7 @@ map('v', '<C-r>', '"hy:%s/<C-r>h//g<left><left><left>', opts)
 map('v', '.', ':normal .<CR>', opts)
 
 
--- Quit window 
+-- Quit window
 map('', '<Leader>qb', ':q<CR>', opts)
 
 -- Quit all without saving
@@ -32,6 +32,6 @@ map('', '<Leader>qq', ':qa!<CR>', opts)
 
 -- Quit with escape from man pages
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = "man",
-    command = "nnoremap <buffer> <Esc> :AerialClose<CR>:bd<CR>"
+  pattern = "man",
+  command = "nnoremap <buffer> <Esc> :AerialClose<CR>:bd<CR>"
 })

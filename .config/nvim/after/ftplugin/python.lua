@@ -3,13 +3,14 @@ local opts = { noremap = true, silent = true }
 
 -- map('n', '<leader>F', '<Cmd>echo 1<CR>', opts)
 
+
 vim.api.nvim_create_autocmd(
-  "BufWritePost",
+  "BufWritePre",
   {
     pattern = "*.py",
     group = "AutoFormat",
     callback = function()
-      vim.cmd("Black")
+      vim.lsp.buf.format {}
     end,
   }
 )

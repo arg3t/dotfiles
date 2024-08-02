@@ -1,7 +1,7 @@
 local M = { "zbirenbaum/copilot.lua" }
 M.cmd = "Copilot"
 M.event = "InsertEnter"
-M.config = function ()
+M.config = function()
   require("copilot").setup({
     auto_refresh = false,
     suggestion = {
@@ -15,5 +15,3 @@ M.config = function ()
 end
 
 return M
-
-
