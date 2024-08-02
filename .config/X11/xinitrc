@@ -46,6 +46,10 @@ xrdb  ~/.config/X11/Xresources &
 
 restarted=0
 
+if [ -f "~/.config/X11/xconfig.sh" ]; then
+  ~/.config/X11/xconfig.sh
+fi
+
 while true;
 do
     if [ $restarted = 0 ]; then

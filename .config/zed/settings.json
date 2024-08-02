@@ -17,7 +17,7 @@
   "load_direnv": "shell_hook",
   "theme": {
     "mode": "system",
-    "light": "One Dark",
+    "light": "Catppuccin Frappé",
     "dark": "Catppuccin Mocha"
   },
   "languages": {

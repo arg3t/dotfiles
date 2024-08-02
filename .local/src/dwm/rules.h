@@ -30,12 +30,12 @@ static const Rule rules[] = {
   { "Tor Browser",        NULL,        NULL,      1 << 1,   0,    NULL,                 0,        0,          -1  },
 
   /* Communication */
-  { "discord",            NULL,        NULL,      1 << 8,   0,    NULL,                 0,        0,          0  },
-  { "Mattermost",         NULL,        NULL,      1 << 8,   0,    NULL,                 0,        0,          0  },
-  { "Signal",             NULL,        NULL,      1 << 8,   0,    NULL,                 0,        0,          0  },
-  { "TelegramDesktop",    NULL,        NULL,      1 << 8,   0,    NULL,                 0,        0,          0  },
-  { "thunderbird",        NULL,        NULL,      1 << 7,   0,    NULL,                 0,        0,          0  },
-  { "zoom",               NULL,        NULL,      1 << 5,   0,    NULL,                 0,        0,          0  },
+  { "discord",            NULL,        NULL,      1 << 8,   0,    NULL,                 0,        0,          1  },
+  { "Mattermost",         NULL,        NULL,      1 << 8,   0,    NULL,                 0,        0,          1  },
+  { "Signal",             NULL,        NULL,      1 << 8,   0,    NULL,                 0,        0,          1  },
+  { "TelegramDesktop",    NULL,        NULL,      1 << 8,   0,    NULL,                 0,        0,          1  },
+  { "thunderbird",        NULL,        NULL,      1 << 7,   0,    NULL,                 0,        0,          1  },
+  { "zoom",               NULL,        NULL,      1 << 5,   0,    NULL,                 0,        0,          1  },
 
   /* Terminal */
   { "st-256color",        NULL,        NULL,      1 << 0,   0,    NULL,                 1,        1,          -1  },
@@ -47,8 +47,8 @@ static const Rule rules[] = {
   { "lf",                 NULL,        NULL,      0,        1,    "50% 50% 800W 560H",  0,        0,          -1  },
 
   /* Utils */
-  { "spotify",            NULL,        NULL,      1 << 8,   0,    NULL,                 0,        0,          0  },
-  { "Spotify",            NULL,        NULL,      1 << 8,   0,    NULL,                 0,        0,          0  },
+  { "spotify",            NULL,        NULL,      1 << 6,   0,    NULL,                 0,        0,          1  },
+  { "Spotify",            NULL,        NULL,      1 << 6,   0,    NULL,                 0,        0,          1  },
   { "VirtualBox Manager", NULL,        NULL,      1 << 4,   0,    NULL,                 0,        0,          -1  },
   { "VirtualBox Machine", NULL,        NULL,      1 << 4,   0,    NULL,                 0,        0,          -1  },
   { "stpulse",            NULL,        NULL,      0,        1,    "50% 50% 800W 560H",  0,        0,          -1  },
