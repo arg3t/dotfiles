@@ -1,10 +1,10 @@
-local M = {"nvim-lualine/lualine.nvim"}
+local M = { "nvim-lualine/lualine.nvim" }
 
 M.dependencies = {
-"catppuccin/nvim",
-"nvim-tree/nvim-web-devicons",
-'AndreM222/copilot-lualine',
-"zbirenbaum/copilot.lua",
+  "catppuccin/nvim",
+  "nvim-tree/nvim-web-devicons",
+  'AndreM222/copilot-lualine',
+  "zbirenbaum/copilot.lua",
 }
 
 -- Eviline config for lualine
@@ -28,12 +28,12 @@ local colors = {
 }
 
 local function show_macro_recording()
-    local recording_register = vim.fn.reg_recording()
-    if recording_register == "" then
-        return ""
-    else
-        return "Recording @" .. recording_register
-    end
+  local recording_register = vim.fn.reg_recording()
+  if recording_register == "" then
+    return ""
+  else
+    return "Recording @" .. recording_register
+  end
 end
 
 local conditions = {
@@ -51,8 +51,8 @@ local conditions = {
 }
 
 M.config = function()
-    local config =  {
-    extensions = {'nvim-tree', 'nvim-dap-ui', 'aerial'},
+  local config = {
+    extensions = { 'nvim-tree', 'nvim-dap-ui', 'aerial' },
     options = {
       -- Disable lualine in nvim-tree
       -- disabled_filetypes = { 'packer', 'NvimTree' },
@@ -102,7 +102,7 @@ M.config = function()
     function()
       return '▊'
     end,
-    color = { fg = colors.blue }, -- Sets highlighting of component
+    color = { fg = colors.blue },      -- Sets highlighting of component
     padding = { left = 0, right = 1 }, -- We don't need space before this
   }
 
@@ -210,7 +210,7 @@ M.config = function()
 
   -- Add components to right sections
   ins_right {
-    'o:encoding', -- option component same as &encoding in viml
+    'o:encoding',       -- option component same as &encoding in viml
     fmt = string.upper, -- I'm not sure why it's upper case either ;)
     cond = conditions.hide_in_width,
     color = { fg = colors.green, gui = 'bold' },
@@ -252,36 +252,35 @@ M.config = function()
   local lualine = require("lualine");
 
   vim.api.nvim_create_autocmd("RecordingEnter", {
-      callback = function()
-          lualine.refresh({
-              place = { "statusline" },
-          })
-      end,
+    callback = function()
+      lualine.refresh({
+        place = { "statusline" },
+      })
+    end,
   })
 
   vim.api.nvim_create_autocmd("RecordingLeave", {
-      callback = function()
-          -- This is going to seem really weird!
-          -- Instead of just calling refresh we need to wait a moment because of the nature of
-          -- `vim.fn.reg_recording`. If we tell lualine to refresh right now it actually will
-          -- still show a recording occuring because `vim.fn.reg_recording` hasn't emptied yet.
-          -- So what we need to do is wait a tiny amount of time (in this instance 50 ms) to
-          -- ensure `vim.fn.reg_recording` is purged before asking lualine to refresh.
-          local timer = vim.loop.new_timer()
-          timer:start(
-              50,
-              0,
-              vim.schedule_wrap(function()
-                  lualine.refresh({
-                      place = { "statusline" },
-                  })
-              end)
-          )
-      end,
+    callback = function()
+      -- This is going to seem really weird!
+      -- Instead of just calling refresh we need to wait a moment because of the nature of
+      -- `vim.fn.reg_recording`. If we tell lualine to refresh right now it actually will
+      -- still show a recording occuring because `vim.fn.reg_recording` hasn't emptied yet.
+      -- So what we need to do is wait a tiny amount of time (in this instance 50 ms) to
+      -- ensure `vim.fn.reg_recording` is purged before asking lualine to refresh.
+      local timer = vim.loop.new_timer()
+      timer:start(
+        50,
+        0,
+        vim.schedule_wrap(function()
+          lualine.refresh({
+            place = { "statusline" },
+          })
+        end)
+      )
+    end,
   })
 
   lualine.setup(config)
 end
 
 return M
-

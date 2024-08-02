@@ -1,6 +1,6 @@
 local M = { "echasnovski/mini.nvim" }
 M.version = '*'
-M.config = function ()
+M.config = function()
   require('mini.surround').setup({})
   require('mini.splitjoin').setup({})
   require('mini.trailspace').setup({})
@@ -16,5 +16,3 @@ M.config = function ()
 end
 
 return M
-
-

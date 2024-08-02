@@ -11,7 +11,7 @@ local function load_skeleton(filetype)
 end
 
 -- augroup setup
-vim.api.nvim_create_augroup('aug_skeleton', {clear = true})
+vim.api.nvim_create_augroup('aug_skeleton', { clear = true })
 vim.api.nvim_create_autocmd('BufNewFile', {
   group = 'aug_skeleton',
   pattern = '*',

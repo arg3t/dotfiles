@@ -1,4 +1,7 @@
-return {
+M = {}
+
+M.lsp = {
+  lua_ls = {
     on_new_config = function(new_config, root_dir)
       local pipfile_exists = require("lspconfig").util.search_ancestors(root_dir, function(path)
         local pipfile = require("lspconfig").util.path.join(path, "Pipfile")
@@ -14,3 +17,8 @@ return {
       end
     end,
   }
+}
+
+M.mason = { "lua_ls" }
+
+return M
