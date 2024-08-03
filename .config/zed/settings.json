@@ -17,7 +17,7 @@
   "load_direnv": "shell_hook",
   "theme": {
     "mode": "system",
-    "light": "Catppuccin Frappé",
+    "light": "Catppuccin Mocha",
     "dark": "Catppuccin Mocha"
   },
   "languages": {
@@ -29,5 +29,9 @@
         }
       }
     }
-  }
+  },
+  "vim": {
+    "use_system_clipboard": "never"
+  },
+  "relative_line_numbers": true
 }

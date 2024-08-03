@@ -1,0 +1,40 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: Open Default Keymap`
+// from the command palette.
+[
+  {
+    "bindings": {
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
+      "alt-c": "pane::CloseActiveItem",
+      "alt-,": "pane::ActivatePrevItem",
+      "alt-.": "pane::ActivateNextItem"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal && vim_operator == none && !VimWaiting",
+    "bindings": {
+      ", y": ["workspace::SendKeystrokes", "\" + y"],
+      ", Y": ["workspace::SendKeystrokes", "\" + y"],
+      ", p": ["workspace::SendKeystrokes", "\" + p"],
+      ", P": ["workspace::SendKeystrokes", "\" + P"],
+      ", d": ["workspace::SendKeystrokes", "\" + d"],
+      ", D": ["workspace::SendKeystrokes", "\" + D"]
+    }
+  },
+  {
+    "context": "Editor && !menu",
+    "bindings": {
+      "ctrl-shift-c": "editor::Copy", // vim default: return to normal mode
+      "ctrl-shift-x": "editor::Cut", // vim default: decrement
+      "ctrl-shift-v": "editor::Paste", // vim default: visual block mode
+      "ctrl-o": "workspace::Open" // vim default: go back
+    }
+  }
+]

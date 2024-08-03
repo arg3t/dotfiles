@@ -62,9 +62,7 @@ if ! xdpyinfo | grep -q VNC ; then
 
   restart_if_fails "picom --no-fading-openclose"
 
-  if [ $NO_BAT = false ]; then
-    restart_if_fails "xfce4-power-manager"
-  fi
+  restart_if_fails "xfce4-power-manager"
 
   if [ -f "$XDG_DATA_HOME/dwm/machine_specific.sh" ]; then
     "$XDG_DATA_HOME/dwm/machine_specific.sh"
