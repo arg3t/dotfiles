@@ -42,9 +42,72 @@ M.philosopher_bust = {
 }
 
 M.gryphon = {
+  [[                           _          ]],
+  [[                          _)\.-.      ]],
+  [[         .-.__,___,_.-=-. )\`  a`\_   ]],
+  [[     .-.__\__,__,__.-=-. `/  \     `\ ]],
+  [[     {~,-~-,-~.-~,-,;;;;\ |   '--;`)/ ]],
+  [[      \-,~_-~_-,~-,(_(_(;\/   ,;/     ]],
+  [[       ",-.~_,-~,-~,)_)_)'.  ;;(      ]],
+  [[         `~-,_-~,-~(_(_(_(_\  `;\     ]],
+  [[   ,          `"~~--,)_)_)_)\_   \    ]],
+  [[   |\              (_(_/_(_,   \  ;   ]],
+  [[   \ '-.       _.--'  /_/_/_)   | |   ]],
+  [[    '--.\    .'          /_/    | |   ]],
+  [[        ))  /       \      |   /.'    ]],
+  [[       //  /,        | __.'|  ||      ]],
+  [[      //   ||        /`    (  ||      ]],
+  [[     ||    ||      .'       \ \       ]],
+  [[     ||    ||    .'_         \ \      ]],
+  [[      \   //   / _ `\        \ \\__   ]],
+  [[       \'-'/(   _  `\,;        \ '--:,]],
+  [[        `"`  `"` `-,,;         `"`",,;]],
+}
+
+M.saturn = {
+  [[                     .::.]],
+  [[                  .:'  .:]],
+  [[        ,MMM8&&&.:'   .:']],
+  [[       MMMMM88&&&&  .:'  ]],
+  [[      MMMMM88&&&&&&:'    ]],
+  [[      MMMMM88&&&&&&      ]],
+  [[    .:MMMMM88&&&&&&      ]],
+  [[  .:'  MMMMM88&&&&       ]],
+  [[.:'   .:'MMM8&&&'        ]],
+  [[:'  .:'                  ]],
+  [['::'                     ]],
+}
+
+M.earth = {
+  [[              _-o#&&*''''?d:>b\_              ]],
+  [[          _o/"`''  '',, dMF9MMMMMHo_          ]],
+  [[       .o&#'        `"MbHMMMMMMMMMMMHo.       ]],
+  [[     .o"" '         vodM*$&&HMMMMMMMMMM?.     ]],
+  [[    ,'              $M&ood,~'`(&##MMMMMMH\    ]],
+  [[   /               ,MMMMMMM#b?#bobMMMMHMMML   ]],
+  [[  &              ?MMMMMMMMMMMMMMMMM7MMM$R*Hk  ]],
+  [[ ?$.            :MMMMMMMMMMMMMMMMMMM/HMMM|`*L ]],
+  [[|               |MMMMMMMMMMMMMMMMMMMMbMH'   T,]],
+  [[$H#:            `*MMMMMMMMMMMMMMMMMMMMb#}'  `?]],
+  [[]MMH#             ""*""""*#MMMMMMMMMMMMM'    -]],
+  [[MMMMMb_                   |MMMMMMMMMMMP'     :]],
+  [[HMMMMMMMHo                 `MMMMMMMMMT       .]],
+  [[?MMMMMMMMP                  9MMMMMMMM}       -]],
+  [[-?MMMMMMM                  |MMMMMMMMM?,d-    ']],
+  [[ :|MMMMMM-                 `MMMMMMMT .M|.   : ]],
+  [[  .9MMM[                    &MMMMM*' `'    .  ]],
+  [[   :9MMk                    `MMM#"        -   ]],
+  [[     &M}                     `          .-    ]],
+  [[      `&.                             .       ]],
+  [[        `~,   .                     ./        ]],
+  [[            . _                  .-           ]],
+  [[              '`--._,dd###pp=""'              ]],
 }
 
 M.all_art = {
+  M.gryphon,
+  M.saturn,
+  M.earth,
   M.skull_bent,
   M.philosopher_bust,
 }

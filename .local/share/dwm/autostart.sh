@@ -7,6 +7,11 @@ function restart_if_fails(){
     done &
 }
 
+# Set up monitors
+if [ -f "$HOME/.config/X11/xconfig.sh" ]; then
+  $HOME/.config/X11/xconfig.sh
+fi
+
 ~/.local/bin/daily-update
 
 dwmblocks > $XDG_RUNTIME_DIR/dwmblocks.out 2> $XDG_RUNTIME_DIR/dwmblocks.err &

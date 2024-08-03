@@ -32,11 +32,11 @@ static unsigned int lines      = 0;
 
 static int dmx = 10; /* put dmenu at this x offset */
 static int dmy = 10; /* put dmenu at this y offset (measured from the bottom if topbar is 0) */
-static unsigned int dmw = 1900; /* make dmenu this wide */
+static unsigned int dmm = 20; /* give dmenu this much margin */
+static unsigned int dmw = 0; /* make dmenu this wide */
 
 /*
  * Characters not considered part of a word while deleting words
  * for example: " /?\"&[]"
  */
 static const char worddelimiters[] = " ";
-

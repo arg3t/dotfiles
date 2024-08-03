@@ -1125,7 +1125,7 @@ setup(void)
 
 		x = info[i].x_org + dmx;
 		y = info[i].y_org + (topbar ? dmy : info[i].height - mh - dmy);
-		mw = (dmw>0 ? dmw : info[i].width);
+		mw = (dmw>0 ? dmw : info[i].width) - dmm;
 		XFree(info);
 	} else
 #endif
@@ -1135,7 +1135,7 @@ setup(void)
 			    parentwin);
 		x = dmx;
 		y = topbar ? dmy : wa.height - mh - dmy;
-		mw = (dmw>0 ? dmw : wa.width);
+		mw = (dmw>0 ? dmw : wa.width) - dmm;
 	}
 	promptw = (prompt && *prompt) ? TEXTW(prompt) - lrpad / 4 : 0;
 	inputw = MIN(inputw, mw/3);
