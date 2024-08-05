@@ -15,7 +15,13 @@ local options = {
     sorting_strategy = "ascending",
     color_devicons = true,
     mappings = {
-    },
+      i = {
+        ["<C-o>"] = function(p_bufnr)
+          require("telescope.actions").send_selected_to_qflist(p_bufnr)
+          vim.cmd.cfdo("edit")
+        end,
+      },
+    }
   },
   pickers = {
     man_pages = {
