@@ -3,8 +3,6 @@
 ./tabbed/xembed
 ./dmenu/dmenu
 ./dmenu/stest
-./dmenu/dmenu_run
-./dmenu/dmenu_path
 ./slock/slock
 ./xbanish/xbanish
 ./urlview/urlview
