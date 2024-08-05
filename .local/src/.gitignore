@@ -40,3 +40,5 @@
 ./sent/util.o
 ./sent/drw.o
 ./ponymix/pulse.o
+
+**/*.o
