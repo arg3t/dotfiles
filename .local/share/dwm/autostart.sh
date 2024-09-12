@@ -35,7 +35,7 @@ if [ "$ACTIVITYWATCHER" = true ] ; then
 fi
 
 if [ "$ARIA2C" = true ] ; then
-  restart_if_fails "aria2c --async-dns=false --enable-rpc --rpc-secret '$ARIA2C_SECRET'"
+  restart_if_fails "aria2c -d $HOME/Downloads/ --async-dns=false --enable-rpc --rpc-secret '$ARIA2C_SECRET'"
 fi
 
 # Only run these if we are not in a VNC session
