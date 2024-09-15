@@ -66,7 +66,12 @@ map("v", "<Leader><Space>", "<Cmd>'<,'>lua vim.lsp.buf.code_action()<CR>", {
   desc = "Pick code action for selection"
 })
 
-map('n', '<Leader>ls', "<Cmd>lua require('telescope.builtin').live_grep()<CR>", {
+map('n', '<Leader>ls', "<Cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<CR>", {
+  noremap = true,
+  desc = "Lsp symbols"
+})
+
+map('n', '<Leader>lg', "<Cmd>lua require('telescope.builtin').live_grep()<CR>", {
   noremap = true,
   desc = "Live search"
 })

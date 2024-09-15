@@ -1,3 +1,3 @@
 #!/bin/sh
 
-stalonetray -i 20 --geometry 2x1+290+10 -bg '#1e1e2e' -s 27 --kludges fix_window_pos,force_icons_size
+stalonetray -v -i 21 --geometry 1x1+0+46 -bg '#1e1e2e' -s 25 --kludges fix_window_pos,force_icons_size -t

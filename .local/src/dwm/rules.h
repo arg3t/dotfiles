@@ -59,7 +59,7 @@ static const Rule rules[] = {
   { "htop",               NULL,        NULL,      0,        1,    "50% 50% 1200W 600H", 0,        0,          -1  },
   { "pavucontrol",        NULL,        NULL,      0,        1,    "50% 50% 1200W 600H", 0,        0,          -1  },
   { "Zathura",            NULL,        NULL,      0,        0,    NULL,                 0,        1,          -1  },
-  { "stalonetray",        NULL,        NULL,      0xFF,     0,    NULL,                 0,        1,          -1  },
+  { "stalonetray",        NULL,        NULL,      0x1F,     0,    NULL,                 0,        1,          -1  },
   { "Qemu-system-x86_64", NULL,        NULL,      0,        1,    NULL,                 0,        1,          -1  },
   { "bitwarden",          NULL,        NULL,      1 << 6,   0,    NULL,                 0,        0,          -1  },
   { "QtPass",             NULL,        NULL,      1 << 6,   0,    NULL,                 0,        0,          -1  },
