@@ -45,6 +45,7 @@ x-scheme-handler/webcal=userapp-Thunderbird-0BSLR2.desktop
 text/calendar=userapp-Thunderbird-0BSLR2.desktop
 application/x-extension-ics=userapp-Thunderbird-0BSLR2.desktop
 x-scheme-handler/webcals=userapp-Thunderbird-0BSLR2.desktop
+x-scheme-handler/tonsite=org.telegram.desktop.desktop
 
 [Added Associations]
 application/rtf=libreoffice-writer.desktop;nvim.desktop;
@@ -63,3 +64,4 @@ application/rss+xml=userapp-Thunderbird-AS9JR2.desktop;
 application/x-extension-rss=userapp-Thunderbird-AS9JR2.desktop;
 x-scheme-handler/webcal=userapp-Thunderbird-0BSLR2.desktop;
 x-scheme-handler/webcals=userapp-Thunderbird-0BSLR2.desktop;
+x-scheme-handler/tonsite=org.telegram.desktop.desktop;

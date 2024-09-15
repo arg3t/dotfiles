@@ -31,7 +31,7 @@ static int floatposgrid_y           = 5;        /* float grid rows */
 char hostname[1024];
 
 #ifdef HOSTNAME_tarnag
-  static const char *fonts[]          = { "CaskaydiaCove Nerd Font:size=12" };
+  static const char *fonts[]          = { "CaskaydiaCove Nerd Font:size=9" };
 #else
   static const char *fonts[]          = { "CaskaydiaCove Nerd Font:size=10" };
 #endif
