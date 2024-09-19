@@ -11,7 +11,7 @@ static int topbar = 1;                      /* -b  option; if 0, dmenu appears a
 /* -fn option overrides fonts[0]; default X11 font or font set */
 static const char *fonts[] = {
 #ifdef HOSTNAME_tarnag
-	"CaskaydiaCove Nerd Font Mono:size=12",
+	"CaskaydiaCove Nerd Font Mono:size=10",
 #else
 	"CaskaydiaCove Nerd Font Mono:size=10",
 #endif

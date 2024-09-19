@@ -18,7 +18,12 @@ dwmblocks > $XDG_RUNTIME_DIR/dwmblocks.out 2> $XDG_RUNTIME_DIR/dwmblocks.err &
 
 restart_if_fails "clipmenud > $XDG_RUNTIME_DIR/clipmenud.out 2> $XDG_RUNTIME_DIR/clipmenud.err"
 
-restart_if_fails dunst
+if [ $(hostnamectl hostname) = "tarnag" ] ; then
+  restart_if_fails "dunst --config '$XDG_CONFIG_HOME/dunst/dunstrc_tarnag'"
+else
+  restart_if_fails "dunst"
+fi
+
 restart_if_fails "xbanish"
 
 # Start emacs

@@ -42,7 +42,11 @@ case $selection in
 		;;
 	dunst)
 		kill -9 $(pidof dunst)
-		dunst &
+    if [ $(hostnamectl hostname) = "tarnag" ] ; then
+      restart_if_fails "dunst --config '$XDG_CONFIG_HOME/dunst/dunstrc_tarnag'"
+    else
+      restart_if_fails "dunst"
+    fi
 		;;
 	activitywatcher)
     pkill -f aw-watcher-window
