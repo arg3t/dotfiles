@@ -41,7 +41,7 @@ export BORG_KEYS_DIR="$XDG_DATA_HOME"/keys/borg
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export DOOMDIR="$XDG_CONFIG_HOME"/doom
 export GOPATH="$XDG_DATA_HOME"/go
-export GDBHISTFILE="$XDG_DATA_HOME"/gdb/history,  
+export GDBHISTFILE="$XDG_DATA_HOME"/gdb/history,
 export ANDROID_HOME="$XDG_DATA_HOME"/Sdk
 export FLUTTER_HOME="$XDG_DATA_HOME"/flutter
 export LEIN_HOME="$XDG_DATA_HOME"/lein
@@ -84,13 +84,20 @@ if [ $disp_manager -ne 0 ]; then
 fi
 
 # Setup PATH
-export PATH=$HOME/.yarn/bin:$PATH
-export PATH=$ANDROID_HOME/tools:$PATH
-export PATH=$ANDROID_HOME/tools:$PATH
-export PATH=$ANDROID_HOME/platform-tools:$PATH
+export PATH="$PATH:/usr/lib/emscripten"
+export PATH="$PATH:$HOME/.yarn/bin"
+export PATH="$PATH:$ANDROID_HOME/tools"
+export PATH="$PATH:$ANDROID_HOME/platform-tools"
 export PATH="$PATH:$GHCUP_HOME/bin"
-export PATH="$XDG_DATA_HOME/nvim/mason/bin:$PATH:/usr/lib/w3m:$HOME/.local/bin:$HOME/.gem/ruby/2.7.0/bin:$GOPATH/bin:$GOPATH/binexport:$XDG_DATA_HOME/cargo/bin/:$XDG_DATA_HOME/questasim/questasim/linux_x86_64"
+export PATH="$PATH:$XDG_DATA_HOME/nvim/mason/bin"
+export PATH="$PATH:/usr/lib/w3m:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.gem/ruby/2.7.0/bin"
+export PATH="$PATH:$GOPATH/bin"
+export PATH="$PATH:$GOPATH/binexport"
+export PATH="$PATH:$XDG_DATA_HOME/cargo/bin/"
+export PATH="$PATH:$XDG_DATA_HOME/questasim/questasim/linux_x86_64"
 # export PATH="$PATH:$XDG_DATA_HOME/anaconda3/bin"
+
 export CPATH=/usr/include/opencv4
 
 export LM_LICENSE_FILE=27017@flexserv1.tudelft.nl
