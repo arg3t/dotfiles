@@ -51,7 +51,7 @@ def main():
 
         chart += CHARS[
             clamp(
-                math.floor(normalize(s, 0, 255) * (len(CHARS))),
+                math.ceil(normalize(s, 0, 255) * (len(CHARS))),
                 0,
                 len(CHARS) - 1,
             )
