@@ -24,7 +24,5 @@ if [ $end != 0 ]; then
 		str=$(date -ud @$diff '+%H:%M:%S' | sed 's/^00://g')
 		echo "^c#a48ead^$icon ^d^ $str"
 	fi
-else
-		echo "^c#a48ead^$icon ^d^ NONE"
 fi
 
