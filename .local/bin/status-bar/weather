@@ -96,7 +96,7 @@ esac
 showweather
 
 if [ $BUIENRADAR ]; then
-  buiengraph=$(/home/user/.local/bin/status-bar/precipitation.py 6)
+  buiengraph=$($HOME/.local/bin/status-bar/precipitation.py 6)
   if [ $buiengraph ]; then
     printf " [^c#81a1c1^%s^d^]" $buiengraph
   fi
