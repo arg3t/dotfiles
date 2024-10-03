@@ -111,6 +111,7 @@ export PYENV_ROOT="$HOME/.local/share/pyenv"
 
 # [[ ! -r "$HOME/.opam/opam-init/init.sh" ]] || source "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null
 
+export MPV_IPC="$XDG_RUNTIME_DIR/mpv.socket"
 
 # Setup LF Icons (Doing this everytime lf start might cause some overhead)
 LF_ICONS=$(sed ~/.config/lf/diricons \

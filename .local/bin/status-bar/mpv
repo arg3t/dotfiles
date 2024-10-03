@@ -1,0 +1,29 @@
+#!/bin/sh
+
+function run_cmd() {
+  if [ "$2" = "" ]; then
+    echo "{ \"command\": [\"$1\"] }" | socat - $MPV_IPC | jq -r '.data'
+  else
+    echo "{ \"command\": [\"$1\", \"$2\"] }" | socat - $MPV_IPC | jq -r '.data'
+  fi
+}
+
+title=$(run_cmd "get_property" "media-title")
+
+if [ "$title" == "" ]; then
+  exit 0
+fi
+
+case $BLOCK_BUTTON in
+          1) run_cmd "cycle" "pause"
+esac
+
+
+progress=$(run_cmd "get_property" "percent-pos" | cut -d '.' -f 1)
+playing=$(run_cmd "get_property" "core-idle")
+
+if [ $playing == "true" ]; then
+  printf "^c#a48ead^󰎇 ^d^%s [%s%%]" "$title" "$progress"
+else
+  printf "^c#a48ead^󰎊 ^d^%s [%s%%]" "$title" "$progress"
+fi
