@@ -12,13 +12,13 @@ function run_cmd() {
 
 pid=$(pidof mpv)
 if [ "$pid" = "" ]; then # Start idle mpv server if not already running
-  nohup mpv --shuffle --no-video --input-ipc-server="$MPV_IPC" --idle=yes > $XDG_RUNTIME_DIR/mpv.log 2> $XDG_RUNTIME_DIR/mpv.error &
+  nohup mpv --ytdl-format=bestaudio --shuffle --no-video --input-ipc-server="$MPV_IPC" --idle=yes > $XDG_RUNTIME_DIR/mpv.log 2> $XDG_RUNTIME_DIR/mpv.error &
   sleep 1
 fi
 
 src=$(echo $YOUTUBE_SOURCES | tr ',' '\n' | shuf | head -n 1)
 
-notify-send "Music player" "Starting to play music"
+notify-send -a "Music player" "Starting to play music"
 
 run_cmd "loadfile" "ytdl://$src"
 run_cmd "playlist-shuffle"
