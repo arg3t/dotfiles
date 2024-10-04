@@ -15,14 +15,14 @@ if [ "$title" == "" ]; then
 fi
 
 case $BLOCK_BUTTON in
-          1) run_cmd "cycle" "pause"
+          1) run_cmd "cycle" "pause";
 esac
 
 
 progress=$(run_cmd "get_property" "percent-pos" | cut -d '.' -f 1)
 playing=$(run_cmd "get_property" "core-idle")
 
-if [ $playing == "true" ]; then
+if [ $playing == "false" ]; then
   printf "^c#a48ead^󰎇 ^d^%s [%s%%]" "$title" "$progress"
 else
   printf "^c#a48ead^󰎊 ^d^%s [%s%%]" "$title" "$progress"
