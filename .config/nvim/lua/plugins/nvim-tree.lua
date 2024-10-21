@@ -28,7 +28,7 @@ M.config = function()
       update_cwd = false,
     },
     view = {
-      adaptive_size = true,
+      adaptive_size = false,
     },
     diagnostics = {
       enable = true,

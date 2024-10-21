@@ -87,11 +87,12 @@ esac
 
 # The test if our forcecast is updated to the day. If it isn't download a new
 # weather report from wttr.in with the above function.
-[ "$(date -r "$XDG_CACHE_HOME/weatherreport" "+%d-%m-%Y")" = "$(date '+%d-%m-%Y')" ] ||
-	getforecast
+# Also check if the file is empty
+([ "$(date -r "$weatherreport" "+%d-%m-%Y")" = "$(date '+%d-%m-%Y')" ] &&
+  [ "$(cat "$weatherreport")" != "" ]) || getforecast
 
-[ "$(date -r "$XDG_CACHE_HOME/weatherreportjson" "+%d-%m-%Y %H")" = "$(date '+%d-%m-%Y %H')" ] ||
-	getforecastjson
+([ "$(date -r "$weatherreportjson" "+%d-%m-%Y %H")" = "$(date '+%d-%m-%Y %H')" ] &&
+  [ "$(cat "$weatherreportjson")" != "" ]) || getforecastjson
 
 showweather
 
