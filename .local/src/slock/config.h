@@ -1,4 +1,4 @@
-#define BEZEL_THICKNESS 16
+#define BEZEL_THICKNESS 24
 
 /* user and group to drop privileges to */
 static const char *user = "nobody";
@@ -29,11 +29,11 @@ static const int logow =
     1920; /* grid width and height for right center alignment*/
 static const int logoh = 1080;
 
-static XRectangle rectangles[9] = {
+static XRectangle rectangles[4] = {
     /* x	y	w	h */
-    {0, 0, 0xFFFF, BEZEL_THICKNESS},
-    {0, 0, BEZEL_THICKNESS, 0xFFFF},
-    {0, -1, 0xFFFF, BEZEL_THICKNESS},
-    {-1, 0, BEZEL_THICKNESS, 0xFFFF},
+    {0, 0, 0, BEZEL_THICKNESS},
+    {0, 0, BEZEL_THICKNESS, 0},
+    {0, -1, 0, BEZEL_THICKNESS},
+    {-1, 0, BEZEL_THICKNESS, 0},
 
 };

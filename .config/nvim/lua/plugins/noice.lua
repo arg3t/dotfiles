@@ -23,7 +23,6 @@ M.opts = {
 }
 M.dependencies = {
   "MunifTanjim/nui.nvim",
-  "rcarriga/nvim-notify",
 }
 
 return M
