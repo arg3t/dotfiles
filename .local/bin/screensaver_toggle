@@ -13,10 +13,12 @@ getargs() {
 start_dnd() {
   xset s off -dpms
   dunstify -r 51 -a "󰒳 System" "Screensaver off"
+  sleep 1; xfce4-power-manager --restart
 }
 end_dnd() {
   xset s off +dpms
   dunstify -r 51 -a "󰒲 System" "Screensaver on"
+  sleep 1; xfce4-power-manager --restart
 }
 
 toggle_dnd() {
