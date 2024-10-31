@@ -1,6 +1,8 @@
 #!/bin/sh
 
-MAX_LEN=8
+MAX_LEN=10
+SLIDE_FILE="/tmp/title_slide_pos"
+SLIDE_STEP=1
 
 function run_cmd() {
   if [ "$2" = "" ]; then
@@ -10,27 +12,41 @@ function run_cmd() {
   fi
 }
 
-title=$(run_cmd "get_property" "media-title")
-
-if [ "$title" == "" ]; then
+# Retrieve the media title and strip whitespace
+title="$(run_cmd "get_property" "media-title")"
+if [ "$title" == "" || "$title" == "null" ]; then
   exit 0
 fi
 
-case $BLOCK_BUTTON in
-          1) run_cmd "cycle" "pause";
-esac
-
 title_length=${#title}
 
+# Retrieve or initialize slide position
+slide_pos=0
+if [ -f "$SLIDE_FILE" ]; then
+  slide_pos=$(cat "$SLIDE_FILE")
+fi
+slide_pos=$(( (slide_pos + SLIDE_STEP) % title_length ))
+echo "$slide_pos" > "$SLIDE_FILE"
+
+# Slide title display
 if [ $title_length -gt $MAX_LEN ]; then
-  title=$(echo $title | cut -c 1-$MAX_LEN)"..."
+  sliding_title=$(echo "$title $title" | cut -c $((slide_pos + 1))-$((slide_pos + MAX_LEN)))
+else
+  sliding_title="$title"
 fi
 
+# Handle mouse click events
+case $BLOCK_BUTTON in
+  1) run_cmd "cycle" "pause";
+esac
+
+# Get current playback status
 progress=$(run_cmd "get_property" "percent-pos" | cut -d '.' -f 1)
 playing=$(run_cmd "get_property" "core-idle")
 
-if [ $playing == "false" ]; then
-  printf "^c#a48ead^󰎇 ^d^%s [%s%%]" "$title" "$progress"
+# Display the title with playback status
+if [ "$playing" == "false" ]; then
+  printf "^c#a48ead^󰎇 ^d^%s [%s%%]" "$sliding_title" "$progress"
 else
-  printf "^c#a48ead^󰎊 ^d^%s [%s%%]" "$title" "$progress"
+  printf "^c#a48ead^󰎊 ^d^%s [%s%%]" "$sliding_title" "$progress"
 fi

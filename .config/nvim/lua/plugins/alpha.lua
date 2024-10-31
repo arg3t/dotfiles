@@ -81,7 +81,7 @@ M.config = function()
     type = "group",
     val = {
       dashboard.button("e", " Edit Empty Buffer", "<cmd>ene<CR>"),
-      dashboard.button("s", " Open Sesssion", "<cmd>SessionSearch<CR>"),
+      dashboard.button("s", " Open Sesssion", function() require("persistence").select() end),
       dashboard.button("o", "󰈔 Open File", "<cmd>Telescope fd<CR>"),
       dashboard.button("d", " Open Folder",
         "<cmd>let dir=system(\"zenity --file-selection --directory 2> /dev/null\")<CR><cmd>cd `=dir`<CR>"),

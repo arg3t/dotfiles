@@ -75,10 +75,33 @@ static void resizerectangles(struct lock *lock) {
                                 ? lock->mh - rectangles[i].height
                                 : rectangles[i].y;
 
-    lock->rectangles[i].width = rectangles[i].width;
-    lock->rectangles[i].height = rectangles[i].height;
+    printf("%d\n", rectangles[i].height);
+    if (rectangles[i].width == 0)
+      lock->rectangles[i].width = lock->mw;
+    else
+      lock->rectangles[i].width = rectangles[i].width;
+
+    if (rectangles[i].height == 0)
+      lock->rectangles[i].height = lock->mh;
+    else
+      lock->rectangles[i].height = rectangles[i].height;
   }
 }
+
+/*
+static void resizerectangles(struct lock *lock) {
+  int i;
+
+  for (i = 0; i < LENGTH(rectangles); i++) {
+    lock->rectangles[i].x = (rectangles[i].x * logosize) + lock->xoff +
+                            ((lock->mw) / 2) - (logow / 2 * logosize);
+    lock->rectangles[i].y = (rectangles[i].y * logosize) + lock->yoff +
+                            ((lock->mh) / 2) - (logoh / 2 * logosize);
+    lock->rectangles[i].width = rectangles[i].width * logosize;
+    lock->rectangles[i].height = rectangles[i].height * logosize;
+  }
+}
+*/
 
 static void drawlogo(Display *dpy, struct lock *lock, int color) {
   XSetForeground(dpy, lock->gc, lock->colors[color]);
