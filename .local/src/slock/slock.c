@@ -68,14 +68,13 @@ static void resizerectangles(struct lock *lock) {
   int i;
 
   for (i = 0; i < LENGTH(rectangles); i++) {
-    lock->rectangles[i].x = rectangles[i].x == -1
-                                ? lock->mw - rectangles[i].width
-                                : rectangles[i].x;
-    lock->rectangles[i].y = rectangles[i].y == -1
-                                ? lock->mh - rectangles[i].height
-                                : rectangles[i].y;
+    lock->rectangles[i].x =
+        lock->xoff + (rectangles[i].x == -1 ? lock->mw - rectangles[i].width
+                                            : rectangles[i].x);
+    lock->rectangles[i].y =
+        lock->yoff + (rectangles[i].y == -1 ? lock->mh - rectangles[i].height
+                                            : rectangles[i].y);
 
-    printf("%d\n", rectangles[i].height);
     if (rectangles[i].width == 0)
       lock->rectangles[i].width = lock->mw;
     else
