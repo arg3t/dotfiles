@@ -1,5 +1,15 @@
 local M = {}
 
+M.neovideScale = function(amount)
+  local temp = vim.g.neovide_scale_factor + amount
+
+  if temp < 0.5 then
+    return
+  end
+
+  vim.g.neovide_scale_factor = temp
+end
+
 -- create colour gradient from hex values
 M.create_gradient = function(start, finish, steps)
   local r1, g1, b1 =
