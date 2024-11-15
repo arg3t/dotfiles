@@ -14,7 +14,7 @@ function run_cmd() {
 
 # Retrieve the media title and strip whitespace
 title="$(run_cmd "get_property" "media-title")"
-if [ "$title" == "" || "$title" == "null" ]; then
+if [[ "$title" == "" || "$title" == "null" ]]; then
   exit 0
 fi
 
