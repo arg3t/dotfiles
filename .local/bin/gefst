@@ -1,0 +1,18 @@
+#!/bin/bash
+
+pipe=$(mktemp -u)
+
+trap "rm -f $pipe" EXIT
+
+if [[ ! -p $pipe ]]; then
+    mkfifo $pipe
+fi
+
+st -c gef_helper -o $pipe -e bash -c 'tty; cat -' &
+pts=$(head -n 1 $pipe)
+tail -f $pipe > /dev/null &
+
+gdb -nh -x $HOME/.config/gdb/gefinit -ex "gef config context.redirect $pts" -ex "gef config context.clear_screen true" $@
+
+# Kill sub terminal
+trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT
