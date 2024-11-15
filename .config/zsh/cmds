@@ -177,3 +177,7 @@ rawurldecode() {
 pdfcomp(){
   gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${2}" "${1}"
 }
+
+pysrc() {
+  source $HOME/.venv/$1/bin/activate
+}
