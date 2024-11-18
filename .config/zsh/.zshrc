@@ -30,6 +30,7 @@ fi;
 HISTSIZE=100000
 SAVEHIST=100000
 setopt appendhistory
+setopt autocd
 
 antibody bundle < ~/.config/antibody/zsh_plugins.txt
 

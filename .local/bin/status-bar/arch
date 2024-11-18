@@ -20,5 +20,7 @@ esac
 
 
 #echo "$ifg $icon $tfg$(cat ~/.cache/pacman_updates)"
-echo "^c#a48ead^$icon ^d^$updates"
+if [ $updates != 0 ]; then
+  echo "^c#a48ead^$icon ^d^$updates"
+fi
 

@@ -18,7 +18,7 @@ local function open_nvim_tree(data)
   require("nvim-tree.api").tree.open({ focus = false, find_file = true, })
 end
 
-vim.api.nvim_create_autocmd({ "BufCreate" }, { callback = open_nvim_tree })
+-- vim.api.nvim_create_autocmd({ "BufCreate" }, { callback = open_nvim_tree })
 
 M.config = function()
   require("nvim-tree").setup({
@@ -28,7 +28,7 @@ M.config = function()
       update_cwd = false,
     },
     view = {
-      adaptive_size = true,
+      adaptive_size = false,
     },
     diagnostics = {
       enable = true,

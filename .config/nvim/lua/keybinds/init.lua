@@ -1,4 +1,5 @@
 require('keybinds.editor')    -- Vim native keybinds
+require('keybinds.neovide')   -- Keybinds for neovide
 
 require('keybinds.telescope') -- Keybinds for use with telescope
 require('keybinds.plugin')    -- Keybinds for use nvim tree

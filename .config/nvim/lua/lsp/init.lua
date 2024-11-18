@@ -109,5 +109,7 @@ function lspSetup(mod)
   end
 end
 
+require("neoconf").setup({})
+
 -- Load configs from lsp directory
 lsmod("lsp", lspSetup)

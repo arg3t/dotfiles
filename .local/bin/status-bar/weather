@@ -67,11 +67,11 @@ showweather() {
     data=$(echo -ne $(echo $data | cut -d' ' -f 1-4)" ${WCODES[$(echo $data | cut -d' ' -f 5)]}")
     echo $data | awk -F' ' '{
 		if ($4 > 30)
-			print "^c#ffffff^  ^d^" $4 "kh "$5 " ^d^" $1 "°C"
+			printf "^c#ffffff^  ^d^" $4 "kh "$5 " ^d^" $1 "°C"
 		else if ($2 < $3)
-			print "^c#ffffff^ ^d^" $3 "% "$5 " ^d^" $1 "°C"
+			printf "^c#ffffff^ ^d^" $3 "% "$5 " ^d^" $1 "°C"
 		else
-			print "^c#81a1c1^ ^d^" $2 "% " $5 " ^d^" $1 "°C"}'
+			printf "^c#81a1c1^ ^d^" $2 "% " $5 " ^d^" $1 "°C"}'
 }
 
 case $BLOCK_BUTTON in
@@ -87,10 +87,18 @@ esac
 
 # The test if our forcecast is updated to the day. If it isn't download a new
 # weather report from wttr.in with the above function.
-[ "$(date -r "$XDG_CACHE_HOME/weatherreport" "+%d-%m-%Y")" = "$(date '+%d-%m-%Y')" ] ||
-	getforecast
+# Also check if the file is empty
+([ "$(date -r "$weatherreport" "+%d-%m-%Y")" = "$(date '+%d-%m-%Y')" ] &&
+  [ "$(cat "$weatherreport")" != "" ]) || getforecast
 
-[ "$(date -r "$XDG_CACHE_HOME/weatherreportjson" "+%d-%m-%Y %H")" = "$(date '+%d-%m-%Y %H')" ] ||
-	getforecastjson
+([ "$(date -r "$weatherreportjson" "+%d-%m-%Y %H")" = "$(date '+%d-%m-%Y %H')" ] &&
+  [ "$(cat "$weatherreportjson")" != "" ]) || getforecastjson
 
 showweather
+
+if [ $BUIENRADAR ]; then
+  buiengraph=$($HOME/.local/bin/status-bar/precipitation.py 6)
+  if [ $buiengraph ]; then
+    printf " [^c#81a1c1^%s^d^]" $buiengraph
+  fi
+fi

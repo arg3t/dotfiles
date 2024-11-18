@@ -77,6 +77,7 @@ install: all
 	mkdir -p $(DESTDIR)$(PREFIX)/share/sxiv/exec
 	cp exec/* $(DESTDIR)$(PREFIX)/share/sxiv/exec/
 	chmod 755 $(DESTDIR)$(PREFIX)/share/sxiv/exec/*
+	cp sxiv.desktop $(DESTDIR)$(PREFIX)/share/applications
 
 uninstall:
 	@echo "REMOVE bin/sxiv"
@@ -85,4 +86,4 @@ uninstall:
 	rm -f $(DESTDIR)$(MANPREFIX)/man1/sxiv.1
 	@echo "REMOVE share/sxiv/"
 	rm -rf $(DESTDIR)$(PREFIX)/share/sxiv
-
+	rm -rf $(DESTDIR)$(PREFIX)/applications/sxiv.desktop

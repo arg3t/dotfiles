@@ -1,24 +1,21 @@
 #!/bin/bash
 
 read -r -d '' MENU << EOM
-Arch Wiki | Open an entry from the Arch Wiki (offline) | dmenu-arch
 Bluetooth | Manage bluetooth and bluetooth devices | dmenu-bluetooth
+Music | Automatically play some music to work along to | dmenu-music
 Network Settings | Manage network connections | dmenu-network
-Edit Config | Select and edit configuration files in your dotfiles | dmenu-edit
 Kill Process | Kill a process that is bothering you | dmenu-killall
 Record Screen | Record your screen, voice or anything | dmenu-record
+Edit Config | Select and edit configuration files in your dotfiles | dmenu-edit
+Word Count | Count the words, letters and lines in any string | dmenu-wc
+Arch Wiki | Open an entry from the Arch Wiki (offline) | dmenu-arch
 Mount Storage Devices | Manage connected detachable storage devices | dmenu-udevil
 Unmount Storage Devices | Manage connected detachable storage devices | dmenu-udevil -u
-Word Count | Count the words, letters and lines in any string | dmenu-wc
 Grab Color | Grab any color on your screen | grabcolor
-Sync Mail | Synchronize your mail | mailsync
 Toggle Trackpad | Enable/Disable your trackpad | toggle_trackpad.sh
-Sync Nextcloud | Synchronize with your nextcloud instance | nextcloud-sync
 Backup | Backup your system | backup
 Insert Emoji | Insert an emoji or glyph | dmenu-emoji
 Create Timer | Create or manage a timer | dmenu-timer
-Watch Youtube | Search and watch a youtube video | dmenu-youtube
-Read Books | Connect to calibre-web and read a book | dmenu-books
 EOM
 
 selection=$(printf "$MENU" | column -s '|' -t | dmenu -p "Select a tool" -l 7)
@@ -27,4 +24,3 @@ selection=$(printf "$MENU" | column -s '|' -t | dmenu -p "Select a tool" -l 7)
 cmd=$(echo "$selection" | sed 's/\s\{2,\}/\n/g' | tail -n 1)
 
 bash "$(which $cmd)"
-

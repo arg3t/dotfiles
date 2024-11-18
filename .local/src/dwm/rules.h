@@ -16,6 +16,8 @@
  *	WM_WINDOW_ROLE(STRING) = role
  *	_NET_WM_WINDOW_TYPE(ATOM) = wintype
  */
+
+// clang-format off
 static const Rule rules[] = {
 
 	/* class,               instance,    title,     tags,     mask, isfloating,           floatpos, isterminal, noswallow, monitor */
@@ -35,6 +37,7 @@ static const Rule rules[] = {
   { "Signal",             NULL,        NULL,      1 << 8,   0,    NULL,                 0,        0,          1  },
   { "TelegramDesktop",    NULL,        NULL,      1 << 8,   0,    NULL,                 0,        0,          1  },
   { "thunderbird",        NULL,        NULL,      1 << 7,   0,    NULL,                 0,        0,          1  },
+  { NULL,                 NULL,        "Reminder",  0xFF,   0,    NULL,                 0,        0,          0 },
   { "zoom",               NULL,        NULL,      1 << 5,   0,    NULL,                 0,        0,          1  },
 
   /* Terminal */
@@ -85,5 +88,6 @@ static const Rule rules[] = {
   { NULL,                 "obsidian",  NULL,      SPTAG(4), 1,    "50% 50% 1400W 700H", 0,        0,          -1  },
 #endif
 };
+// clang-format on
 
 #endif /* rules_h */

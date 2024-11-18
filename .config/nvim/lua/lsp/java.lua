@@ -1,7 +1,11 @@
 M = {}
 
-M.lsp = { jdtls = {} }
+M.lsp = {
+  jdtls = {}
+}
 
-M.mason = {}
+M.mason = {
+  "jdtls"
+}
 
 return M

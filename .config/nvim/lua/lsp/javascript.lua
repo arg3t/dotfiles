@@ -2,18 +2,16 @@ M = {}
 
 M.lsp = {
   html = {},
-  tsserver = {},
+  ts_ls = {},
   cssls = {},
-  jdtls = {},
   eslint = {},
   svelte = {},
 }
 
 M.mason = {
   "html",
-  "tsserver",
+  "ts_ls",
   "cssls",
-  "jdtls",
   "eslint",
   "svelte",
 }
