@@ -1,11 +1,11 @@
 # Fr1nge's Dotfiles
 
 Welcome to my dungeon. Here, I keep all my configuration files in case I have a stroke an
-d lose all my memory. You're very welcome to explore and use anything in this repository. 
-Have fun! Another copy of all of this is [here](https://git.yigitcolakoglu.com/yigitcolakoglu/dotfiles).  
+d lose all my memory. You're very welcome to explore and use anything in this repository.
+Have fun! Another copy of all of this is [here](https://git.yigitcolakoglu.com/yigitcolakoglu/dotfiles).
 *For instructions on installattion, see [Installation](#Installation). I highly recommend you follow them.*
 
-## My Setup: 
+## My Setup:
 
 * Arch Linux
 * DWM ([dwm-flexipatch](https://github.com/bakkeby/dwm-flexipatch))
@@ -31,13 +31,20 @@ dots show main:install.sh | sh
 ```
 
 This will download everything you need. After that, I have a list of all the packages I have installed on my machine in the directory arch-setup/.
-If you have any problems regarding the setup, you should first check whether you have missing packages. 
-After the clone process, it is pretty straightforward, you can run the `install.sh` script which creates necessary symlinks. 
+If you have any problems regarding the setup, you should first check whether you have missing packages.
+After the clone process, it is pretty straightforward, you can run the `install.sh` script which creates necessary symlinks.
 You might want to edit your crontab and the ~/.config/config.env.
 
 ## Some eye candy
 
-Screenshots can be found on my [reddit post](https://www.reddit.com/r/unixporn/comments/mc3a77/dwm_material_ocean_on_dwm/) 
+> **Warning**
+> The configurations has changed significantly since being posted. So it might look different when you install it.
+
+Screenshots can be found on my [reddit post](https://www.reddit.com/r/unixporn/comments/mc3a77/dwm_material_ocean_on_dwm/). And here:
+
+![imgur](https://i.imgur.com/0Ac5grW.jpeg)
+
+
 
 ## TODOS
 
