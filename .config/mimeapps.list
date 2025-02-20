@@ -1,8 +1,8 @@
 [Default Applications]
 x-scheme-handler/jetbrains=jetbrains-toolbox.desktop
 x-scheme-handler/mailspring=mailspring.desktop
-x-scheme-handler/http=userapp-Firefox-HRFVY1.desktop
-x-scheme-handler/https=userapp-Firefox-HRFVY1.desktop
+x-scheme-handler/http=chromium.desktop
+x-scheme-handler/https=chromium.desktop
 image/png=sxiv.desktop
 image/jpeg=sxiv.desktop
 text/plain=vim.desktop
@@ -11,7 +11,7 @@ x-scheme-handler/gitkraken=GitKraken.desktop
 x-scheme-handler/ssh=ktelnetservice5.desktop
 video/mp4=mpv.desktop
 video/x-matroska=vlc.desktop
-text/html=userapp-Firefox-HRFVY1.desktop
+text/html=chromium.desktop
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop
 application/x-shellscript=vim.desktop
 inode/directory=lf.desktop
@@ -46,6 +46,8 @@ text/calendar=userapp-Thunderbird-0BSLR2.desktop
 application/x-extension-ics=userapp-Thunderbird-0BSLR2.desktop
 x-scheme-handler/webcals=userapp-Thunderbird-0BSLR2.desktop
 x-scheme-handler/tonsite=org.telegram.desktop.desktop
+x-scheme-handler/about=chromium.desktop
+x-scheme-handler/unknown=chromium.desktop
 
 [Added Associations]
 application/rtf=libreoffice-writer.desktop;nvim.desktop;
