@@ -187,5 +187,33 @@ pdfcomp(){
 }
 
 pysrc() {
-  source $HOME/.venv/$1/bin/activate
+  env=""
+  if [ -z "$1" ]; then
+    if [ -f "$XDG_CACHE_HOME/pyhon_envs" ]; then
+      env="$(cat $XDG_CACHE_HOME/pyhon_envs | grep -A 1 -x $(pwd) | tail -n 1)"
+    fi
+  else
+    env=$1
+  fi
+
+  if [ -z "$env" ]; then
+    echo "No cached env, please provide an env name"
+  fi
+
+  if ! [ -f "$HOME/.venv/$env/bin/activate" ]; then
+    echo "No venv found for $env: $HOME/.venv/$env/bin/activate"
+    return 1
+  fi
+
+  source $HOME/.venv/$env/bin/activate
+
+  if [ -f "$XDG_CACHE_HOME/pyhon_envs" ]; then
+    if ! grep -q -x $(pwd) "$XDG_CACHE_HOME/pyhon_envs"; then
+      pwd >> $XDG_CACHE_HOME/pyhon_envs
+      echo "$env" >> $XDG_CACHE_HOME/pyhon_envs
+    fi
+  else
+    pwd >> $XDG_CACHE_HOME/pyhon_envs
+    echo "$env" >> $XDG_CACHE_HOME/pyhon_envs
+  fi
 }

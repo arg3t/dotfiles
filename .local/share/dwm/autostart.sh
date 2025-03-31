@@ -47,7 +47,7 @@ fi
 if ! xdpyinfo | grep -q VNC ; then
   redshift -x 2> /dev/null > /dev/null
   if [ $(hostnamectl hostname) = "tarnag" ]; then
-    redshift -r -l "$LATLONG" -g 1.1:1.1:1.1 > /dev/null 2> /dev/null &
+    redshift -r -l "$LATLONG" -g 1.3:1.3:1.3 > /dev/null 2> /dev/null &
   else
     redshift -r -l "$LATLONG" > /dev/null 2> /dev/null &
   fi
