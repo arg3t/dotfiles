@@ -12,10 +12,10 @@ vim.opt.tabstop = 2
 vim.opt.laststatus = 2
 
 -- Material theme style
-vim.opt.termguicolors = true
+vim.o.termguicolors = true
 
 -- Colorscheme settings
-vim.opt.background = "dark"
+-- vim.opt.background = "dark"
 
 vim.cmd.colorscheme "catppuccin"
 vim.wo.relativenumber = true
