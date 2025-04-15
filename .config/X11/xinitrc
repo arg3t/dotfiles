@@ -55,8 +55,8 @@ do
         notify-send -a " Desktop Manager" "Dwm Restarted"
     fi
 
-    echo "START DWM..." >> $XDG_RUNTIME_DIR/dwm.log
-    echo "START DWM..." >> $XDG_RUNTIME_DIR/dwm.err
+    echo "START DWM:$DISPLAY" >> $XDG_RUNTIME_DIR/dwm.log
+    echo "START DWM:$DISPLAY" >> $XDG_RUNTIME_DIR/dwm.err
 
     dwm >> $XDG_RUNTIME_DIR/dwm.log 2>> $XDG_RUNTIME_DIR/dwm.err
     sleep 0.5
