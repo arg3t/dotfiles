@@ -3,7 +3,7 @@
 <channel name="xfce4-power-manager" version="1.0">
   <property name="xfce4-power-manager" type="empty">
     <property name="inactivity-sleep-mode-on-ac" type="uint" value="1"/>
-    <property name="inactivity-on-ac" type="uint" value="0"/>
+    <property name="inactivity-on-ac" type="uint" value="15"/>
     <property name="general-notification" type="bool" value="true"/>
     <property name="show-tray-icon" type="bool" value="true"/>
     <property name="presentation-mode" type="bool" value="false"/>
@@ -15,5 +15,6 @@
     <property name="critical-power-level" type="uint" value="1"/>
     <property name="dpms-on-ac-off" type="uint" value="0"/>
     <property name="dpms-enabled" type="bool" value="false"/>
+    <property name="inactivity-on-battery" type="uint" value="15"/>
   </property>
 </channel>
