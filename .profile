@@ -106,8 +106,6 @@ export LM_LICENSE_FILE=27017@flexserv1.tudelft.nl
 export ZK_NOTEBOOK_DIR=~/Projects/Neocortex/content
 
 export PYENV_ROOT="$HOME/.local/share/pyenv"
-# command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-# eval "$(pyenv init -)"
 
 # [[ ! -r "$HOME/.opam/opam-init/init.sh" ]] || source "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null
 

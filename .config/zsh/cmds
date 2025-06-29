@@ -217,3 +217,8 @@ pysrc() {
     echo "$env" >> $XDG_CACHE_HOME/pyhon_envs
   fi
 }
+
+activate_pyenv(){
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+}

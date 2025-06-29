@@ -7,6 +7,14 @@
 // custom settings, run the `zed: Open Default Settings` command
 // from the command palette
 {
+  "agent": {
+    "model_parameters": [],
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "gpt-4o"
+    },
+    "version": "2"
+  },
   "outline_panel": {
     "dock": "right"
   },
@@ -17,7 +25,7 @@
   "load_direnv": "shell_hook",
   "theme": {
     "mode": "system",
-    "light": "Catppuccin Mocha",
+    "light": "Catppuccin Macchiato",
     "dark": "Catppuccin Mocha"
   },
   "languages": {
