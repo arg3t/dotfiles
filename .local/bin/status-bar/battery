@@ -14,13 +14,12 @@ ramp90=󰂂
 ramp100=󰁹
 ac_bat=󰂄
 ac=ﮣ
-if ! [ "$NO_BAT" = true ] ; then
-#    echo "^c#ebcb8b^$ac^d^"
-# else
-    export bat=$(cat /sys/class/power_supply/BAT0/capacity)
-    export status=$(cat /sys/class/power_supply/BAT0/status)
+
+if ! [ "$BATTERY" = "" ] ; then
+    export bat=$(cat $BATTERY/capacity)
+    export status=$(cat $BATTERY/status)
     export plugged=$(cat /sys/class/power_supply/AC/online)
-    tleft=$(acpi -b | sed -r 's/.* ([0-9]{2}:[0-9]{2}).*/\1/g')
+    tleft=$(acpi -b | tail -n 1 | sed -r 's/.* ([0-9]{2}:[0-9]{2}).*/\1/g')
     if [ -f "$XDG_CACHE_HOME/battery_tleft" ] && [ ! $(echo "$tleft" | grep "Full")]; then
         stats="$tleft"
     else
@@ -60,4 +59,3 @@ case $BLOCK_BUTTON in
     fi
       ;;
 esac
-

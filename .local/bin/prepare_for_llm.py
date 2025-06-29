@@ -45,7 +45,11 @@ def traverse_directory(directory, output_file, spec):
                     print(f"Error reading {file_path}: {e}")
 
 
-def prepare(codebase_directory, output_file_path):
+def main():
+    # Define the directory to traverse and the output file
+    codebase_directory = sys.argv[1]
+    output_file_path = sys.argv[2]
+
     # Load .gitignore rules
     spec = load_gitignore(codebase_directory)
 
@@ -55,19 +59,6 @@ def prepare(codebase_directory, output_file_path):
         # Open the output file and start traversing the directory
         with open(output_file_path, "w", encoding="utf-8") as output_file:
             traverse_directory(codebase_directory, output_file, spec)
-
-
-def main():
-    if len(sys.argv) < 2:
-        print(
-            "Usage: python prepare_for_llm.py <codebase_directory> [output_file_path]"
-        )
-        sys.exit(1)
-
-    codebase_directories = sys.argv[1:-1]
-    output_file_path = sys.argv[-1] if len(sys.argv) > 2 else "-"
-    for codebase_directory in codebase_directories:
-        prepare(codebase_directory, output_file_path)
 
 
 if __name__ == "__main__":
