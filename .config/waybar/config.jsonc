@@ -1,0 +1,151 @@
+{
+    "layer": "bottom",
+    "position": "top",
+    "height": 30,
+    "spacing": 4,
+    "reload_style_on_change": true,
+    "reload_config_on_change": true,
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": [],
+    "modules-right": [
+        "custom/dnd",
+        "custom/screensaver",
+        "hyprland/language",
+        "bluetooth",
+        "memory",
+        "temperature",
+        "custom/weather",
+        "custom/arch",
+        "pulseaudio",
+        "network",
+        "battery",
+        "clock#time",
+        "custom/empty",
+        "clock#date"
+    ],
+
+    "hyprland/workspaces": {
+      "format": "{icon}",
+      "format-icons": {
+        "empty": "",
+        "default": ""
+      },
+      "persistent-workspaces": {
+        "*": 10
+      },
+      "on-click": "activate"
+    },
+
+    "bluetooth": {
+        "format-no-controller": "",
+        "format": "<span color=\"#81a1c1\"></span>",
+        "format-connected": "<span color=\"#81a1c1\"></span> {device_alias}",
+        "format-connected-battery": "<span color=\"#81a1c1\"></span> {device_alias} [{device_battery_percentage}%]",
+    },
+
+    "memory": {
+        "interval": 120,
+        "format": "<span color=\"#a3be8c\">󰍛</span> {}%",
+        "max-length": 10
+    },
+
+    "temperature": {
+        "interval": 30,
+        "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        "format": "<span color=\"#bf616a\">{icon}</span> {temperatureC}°C",
+        "format-icons": [
+          "", "", "", "", "", ""
+        ]
+    },
+
+
+    "pulseaudio": {
+      "format": "<span color=\"#a3be8c\">{icon}</span> {volume}%",
+      "format-muted": "",
+      "format-icons": {
+        "default": ["", "", ""]
+      },
+      "on-click": "pavucontrol"
+    },
+
+    "network": {
+      "format-wifi": "",
+      "format-ethernet": "",
+      "format-disconnected": "",
+      "interval": 120,
+      "tooltip-format": "{essid} ({signalStrength}%)",
+      "on-click": "nm-connection-editor"
+    },
+
+    "battery": {
+          "interval": 120,
+          "states": {
+              "good": 95,
+              "warning": 30,
+              "critical": 15
+          },
+          "format": "{icon} {capacity}%",
+          "format-full": "{icon} {capacity}%",
+          "format-charging": "󰂄 {capacity}%",
+          "format-plugged": "󰂄 {capacity}%",
+          "format-alt": "{icon} {time}",
+          "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    },
+
+    "clock#time": {
+        "interval": 30,
+        "format": " {:%H:%M}",
+    },
+
+    "clock#date": {
+        "interval": 240,
+        "format": "󰃭 {:%h%e}",
+    },
+
+    "hyprland/language": {
+        "format": "<span color=\"#a3be8c\"></span>  {}",
+        "format-en": "us",
+        "format-tr": "tr",
+        "interval": 120
+    },
+    "custom/weather": {
+      "format": "{}",
+      "return-type": "text",
+      "tooltip": false,
+      "interval": 3600,
+      "exec": "$HOME/.local/bin/status-bar/weather",
+    },
+    "custom/arch": {
+      "format": "{}",
+      "return-type": "text",
+      "tooltip": false,
+      "interval": 3600,
+      "exec": "$HOME/.local/bin/status-bar/arch",
+    },
+    "custom/empty": {
+      "format": "​",
+      "return-type": "text",
+      "tooltip": false,
+      "interval": 360000,
+      "exec": "id",
+    },
+    "custom/screensaver": {
+        "format": "{} ",
+        "return-type": "text",
+        "tooltip": false,
+        "interval": 3600,
+        "on-click": "$HOME/.local/bin/screensaver_toggle -t",
+        "exec": "$HOME/.local/bin/status-bar/screensaver",
+        "signal": 10
+    },
+    "custom/dnd": {
+        "format": "{} ",
+        "return-type": "text",
+        "tooltip": false,
+        "interval": 3600,
+        "on-click": "$HOME/.local/bin/dunst_toggle.sh -t",
+        "exec": "$HOME/.local/bin/status-bar/dunst",
+        "signal": 11
+    }
+}

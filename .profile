@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 ## __   _______ _____ _____
 ## \ \ / / ____| ____|_   _|
@@ -100,6 +100,9 @@ export PATH="$PATH:$XDG_DATA_HOME/questasim/questasim/linux_x86_64"
 
 export CPATH=/usr/include/opencv4
 
+## BeMenu config
+source $HOME/.config/bemenu/config.sh
+
 export LM_LICENSE_FILE=27017@flexserv1.tudelft.nl
 
 # Set zettelkasten directory
@@ -133,14 +136,13 @@ fi
 # Setup SSH
 if [ ! "$SSH_AUTH_SOCK" ]; then
   eval "$(ssh-agent | head -n 2)"
-  grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add > /dev/null 2> /dev/null
 fi
 
 if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ] && [ $disp_manager -ne 0 ]; then
   if [ "$DBUS_SESSION_BUS_ADDRESS" = "" ] && [ ! $(command -v dbus-run-session)  = "" ]; then
-    exec dbus-run-session xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
+    exec dbus-run-session Hyprland 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
   else
-    exec xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
+    exec Hyprland 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
   fi
   exit
 fi

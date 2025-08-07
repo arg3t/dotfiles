@@ -1,0 +1,105 @@
+@import "catppuccin_mocha.css";
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "CaskaydiaCove Nerd Font", "Font Awesome 6 Free";
+    font-size: 12px;
+    min-height: 0;
+}
+
+window#waybar {
+    color: #ffffff;
+    transition-property: background-color;
+    transition-duration: .5s;
+    background: transparent;
+}
+
+
+window > box {
+    margin: 5px;
+    margin-bottom: 0px;
+    background-color: shade(@base, 1);
+    color: white;
+}
+
+window#waybar.hidden {
+    opacity: 1;
+}
+
+#workspaces button {
+    background-color: transparent;
+    color: #ffffff;
+    padding: 4px;
+}
+
+#workspaces button:hover {
+    background-color: transparent;
+    color: #ffffff;
+    padding: 4px;
+}
+
+#workspaces button.active {
+    background-color: #ACA3EB;
+    color: shade(@base, 1);
+}
+
+#workspaces button.urgent {
+    background-color: #e78284;
+    color: shade(@base, 1);
+}
+
+/* Status modules */
+.modules-right .module {
+    color: #ffffff;
+    border-right: 2px solid #AAAAAA;
+    /* Otherwise nerdfont icons are offset */
+    padding-left: 7px;
+    padding-right: 10px;
+    margin: 5px 0px;
+}
+
+#custom-empty {
+  padding: 0;
+  margin: 5px 0px 5px 4px;
+}
+
+#custom-screensaver {
+  color: #a48ead;
+}
+
+#custom-dnd {
+  color: #88c0d0;
+}
+
+#network {
+  color: #88c0d0;
+}
+
+#clock {
+    color: shade(@base, 1);
+    margin: 0 0 0 4px;
+    padding: 3px 5px;
+    border: 0;
+}
+
+
+.date {
+    background-color: #88c0d0;
+}
+
+.time {
+    background-color: #bf616a;
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+    color: #ffffff;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}

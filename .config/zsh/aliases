@@ -3,9 +3,9 @@
 alias feh="feh --scale-down --auto-zoom --no-fehbg"
 alias open=xdg-open
 alias rm="rm -i"
-alias clip="xclip -selection clipboard"
+alias clip="wl-copy < "
 alias g="git "
-alias tmux="TERM=screen-256color-bce tmux"
+alias tmux="tmux"
 alias t="tmux"
 alias tn="tmux new -s "
 alias tat="tmux a -t "
