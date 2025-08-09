@@ -3,8 +3,8 @@
 # This script uses grabc (https://github.com/muquit/grabc) to grab
 # a pixel from your screen and copy its value to clipboard
 
-color=$(grabc)
+color=$(hyprpicker -n)
 
-printf "%s" "$color" | xclip -selection clipboard
+printf "%s" "$color" | wl-copy
 
 notify-send -h "string:fgcolor:$color" -a " Color Grabbed" "$color"

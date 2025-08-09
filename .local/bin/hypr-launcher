@@ -1,0 +1,6 @@
+#!/bin/bash
+# Application launcher script - dmenu replacement
+
+# Launch wofi with dmenu-style interface
+wofi --show run --width 600 --height 400 --prompt "Run:" \
+     --cache-file /dev/null --term kitty

@@ -1,13 +1,11 @@
 #!/bin/sh
 
-stats=$(dunstctl is-paused)
+stats=$(makoctl mode)
 
-if [ "$stats" = "true" ]; then
-  echo "^c#88c0d0^󰂛 ^d^"
+if [ "$stats" = "dnd" ]; then
+  echo "󰂛"
 else
-  echo "^c#88c0d0^ ^d^"
+  echo ""
 fi
 
-case $BLOCK_BUTTON in
-          1) ~/.local/bin/dunst_toggle.sh -t;;
-esac
+echo ''

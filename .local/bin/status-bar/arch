@@ -2,25 +2,12 @@
 
 icon=󰏔
 
-if [ ! -f ~/.cache/pacman_updates ]; then
-	updates=0
-else
-	updates=$(checkupdates | wc -l)
-	if [ "$updates" = "" ]; then
-		updates=0
-	fi
+updates=$(checkupdates | wc -l)
+if [ "$updates" = "" ]; then
+  updates=0
 fi
 
-checkupdates 2> /dev/null > ~/.cache/pacman_updates &
 
-case $BLOCK_BUTTON in
-	1) "$TERMINAL" -c center -n center -e bash -c 'sudo /bin/pacman -Syyu --noconfirm; echo "Press enter to exit..."; read' ;;
-	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
-esac
-
-
-#echo "$ifg $icon $tfg$(cat ~/.cache/pacman_updates)"
 if [ $updates != 0 ]; then
-  echo "^c#a48ead^$icon ^d^$updates"
+  echo -e "<span color=\"#a48ead\">$icon</span> $updates\n\n"
 fi
-
