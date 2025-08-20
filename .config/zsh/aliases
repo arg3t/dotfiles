@@ -3,7 +3,7 @@
 alias feh="feh --scale-down --auto-zoom --no-fehbg"
 alias open=xdg-open
 alias rm="rm -i"
-alias clip="wl-copy < "
+alias clip="wl-copy"
 alias g="git "
 alias tmux="tmux"
 alias t="tmux"

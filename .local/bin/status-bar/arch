@@ -7,7 +7,4 @@ if [ "$updates" = "" ]; then
   updates=0
 fi
 
-
-if [ $updates != 0 ]; then
-  echo -e "<span color=\"#a48ead\">$icon</span> $updates\n\n"
-fi
+echo -e "<span color=\"#a48ead\">$icon</span> $updates\n\n"

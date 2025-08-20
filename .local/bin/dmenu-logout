@@ -19,7 +19,7 @@ case $selection in
     hyprctl dispatch exit
 		;;
 	hibernate)
-		loginctl hibernate
+		loginctl hibernate || systemctl suspend
 		;;
 	suspend)
 		sudo sleep

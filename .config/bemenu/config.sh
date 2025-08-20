@@ -1,7 +1,7 @@
 export BEMENU_OPTS="--prompt 'Select an option' \
 --line-height 25 \
 --fn 'CaskaydiaCove Nerd Font 10' \
---tb '#89dceb' \
+--tb '#ACA3EB' \
 --tf '#1e1e2e' \
 --fb '#1e1e2e' \
 --hp '8px' \
@@ -10,13 +10,13 @@ export BEMENU_OPTS="--prompt 'Select an option' \
 --nf '#cdd6f4' \
 --ab '#1e1e2e' \
 --af '#cdd6f4' \
---hb '#89dceb' \
+--hb '#ACA3EB' \
 --hf '#1e1e2e' \
---sb '#89dceb' \
+--sb '#ACA3EB' \
 --sf '#1e1e2e' \
---cb '#89dceb' \
+--cb '#ACA3EB' \
 --cf '#1e1e2e' \
 --fbb '#1e1e2e' \
---fbf '#89dceb' \
+--fbf '#ACA3EB' \
 --border 5 \
 --bdr #00000000";

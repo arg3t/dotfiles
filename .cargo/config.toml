@@ -1,7 +1,7 @@
 [build]
 rustc-wrapper = "sccache"
 jobs = 32
-target-dir = "/home/yigit/.cargo/sscache-build"
+# target-dir = "/home/yigit/.cargo/sscache-build"
 
 [target.x86_64-unknown-linux-gnu]
 linker = "clang"

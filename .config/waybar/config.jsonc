@@ -37,7 +37,6 @@
     },
 
     "bluetooth": {
-        "format-no-controller": "",
         "format": "<span color=\"#81a1c1\"></span>",
         "format-connected": "<span color=\"#81a1c1\"></span> {device_alias}",
         "format-connected-battery": "<span color=\"#81a1c1\"></span> {device_alias} [{device_battery_percentage}%]",
@@ -62,7 +61,7 @@
 
     "pulseaudio": {
       "format": "<span color=\"#a3be8c\">{icon}</span> {volume}%",
-      "format-muted": "",
+      "format-muted": "<span color=\"#a3be8c\"> </span>",
       "format-icons": {
         "default": ["", "", ""]
       },
@@ -70,9 +69,9 @@
     },
 
     "network": {
-      "format-wifi": "",
-      "format-ethernet": "",
-      "format-disconnected": "",
+      "format-wifi": " ",
+      "format-ethernet": " ",
+      "format-disconnected": " ",
       "interval": 120,
       "tooltip-format": "{essid} ({signalStrength}%)",
       "on-click": "nm-connection-editor"
@@ -100,7 +99,7 @@
 
     "clock#date": {
         "interval": 240,
-        "format": "󰃭 {:%h%e}",
+        "format": "󰃭 {:%h %e}",
     },
 
     "hyprland/language": {

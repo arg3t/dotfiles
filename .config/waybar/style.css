@@ -30,13 +30,16 @@ window#waybar.hidden {
 #workspaces button {
     background-color: transparent;
     color: #ffffff;
-    padding: 4px;
+    padding: 3px;
+    padding-right: 6px;
 }
 
+
 #workspaces button:hover {
-    background-color: transparent;
-    color: #ffffff;
-    padding: 4px;
+  background-color: shade(@mauve, 0.4);
+  box-shadow: none;
+  text-shadow: none;
+  transition: background-color 0.1s;
 }
 
 #workspaces button.active {
