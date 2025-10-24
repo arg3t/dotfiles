@@ -1,0 +1,442 @@
+#!/usr/bin/env python3
+"""
+Git Worktree Manager - A friendly wrapper for git worktree management
+
+Usage:
+    wt new <branch>         Create a new worktree
+    wt ls                   List all worktrees with stats
+    wt cd <name>            Navigate to a worktree (requires bash function)
+    wt collapse <src> [dst] Collapse src worktree changes into dst (removes src after)
+    wt rm <name>            Remove a worktree
+    wt status               Show git status for all worktrees
+    wt which                Show current worktree
+    wt clean                Remove worktrees for deleted branches
+"""
+
+import sys
+import os
+import subprocess
+import re
+from pathlib import Path
+from typing import List, Tuple, Optional
+
+WORKTREE_BASE = Path("/home/yigit/Projects/.worktrees")
+
+
+class Colors:
+    RED = "\033[91m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    BLUE = "\033[94m"
+    MAGENTA = "\033[95m"
+    CYAN = "\033[96m"
+    BOLD = "\033[1m"
+    DIM = "\033[2m"
+    RESET = "\033[0m"
+
+
+def run(
+    cmd: List[str], cwd: Optional[Path] = None, capture=True
+) -> Tuple[int, str, str]:
+    """Run a command and return (returncode, stdout, stderr)"""
+    result = subprocess.run(cmd, cwd=cwd, capture_output=capture, text=True)
+    return result.returncode, result.stdout, result.stderr
+
+
+def get_repo_name() -> str:
+    """Get the name of the current git repository"""
+    code, out, _ = run(["git", "rev-parse", "--show-toplevel"])
+    if code != 0:
+        print(f"{Colors.RED}Error: Not in a git repository{Colors.RESET}")
+        sys.exit(1)
+    return Path(out.strip()).name
+
+
+def get_worktrees() -> List[dict]:
+    """Get list of all worktrees with metadata"""
+    code, out, _ = run(["git", "worktree", "list", "--porcelain"])
+    if code != 0:
+        return []
+
+    worktrees = []
+    current = {}
+
+    for line in out.strip().split("\n"):
+        if line.startswith("worktree "):
+            if current:
+                worktrees.append(current)
+            current = {"path": line.split(" ", 1)[1]}
+        elif line.startswith("HEAD "):
+            current["head"] = line.split(" ", 1)[1]
+        elif line.startswith("branch "):
+            current["branch"] = line.split(" ", 1)[1].replace("refs/heads/", "")
+        elif line.startswith("detached"):
+            current["detached"] = True
+
+    if current:
+        worktrees.append(current)
+
+    return worktrees
+
+
+def find_worktree(pattern: str) -> Optional[dict]:
+    """Find a worktree by partial name match"""
+    worktrees = get_worktrees()
+    matches = []
+
+    pattern_lower = pattern.lower()
+
+    for wt in worktrees:
+        path = Path(wt["path"])
+        name = path.name.lower()
+        branch = wt.get("branch", "").lower()
+
+        if pattern_lower in name or pattern_lower in branch:
+            matches.append(wt)
+
+    if len(matches) == 0:
+        return None
+    elif len(matches) == 1:
+        return matches[0]
+    else:
+        # Multiple matches, try exact match first
+        for wt in matches:
+            if Path(wt["path"]).name.lower() == pattern_lower:
+                return wt
+            if wt.get("branch", "").lower() == pattern_lower:
+                return wt
+        # Return first match if no exact match
+        return matches[0]
+
+
+def sanitize_branch_name(branch: str) -> str:
+    """Convert branch name to filesystem-safe directory name"""
+    return branch.replace("/", "_").replace(" ", "-")
+
+
+def cmd_new(branch: str):
+    """Create a new worktree"""
+    repo_name = get_repo_name()
+    safe_branch = sanitize_branch_name(branch)
+    worktree_name = f"{repo_name}-{safe_branch}"
+    worktree_path = WORKTREE_BASE / worktree_name
+
+    WORKTREE_BASE.mkdir(parents=True, exist_ok=True)
+
+    # Check if branch exists
+    code, _, _ = run(["git", "rev-parse", "--verify", f"refs/heads/{branch}"])
+    branch_exists = code == 0
+
+    cmd = ["git", "worktree", "add"]
+    if not branch_exists:
+        cmd.append("-b")
+        cmd.append(branch)
+    cmd.append(str(worktree_path))
+    if branch_exists:
+        cmd.append(branch)
+
+    code, out, err = run(cmd, capture=False)
+
+    if code == 0:
+        print(
+            f"{Colors.GREEN}✓{Colors.RESET} Created worktree: {Colors.CYAN}{worktree_path}{Colors.RESET}"
+        )
+        print(f"  Branch: {Colors.YELLOW}{branch}{Colors.RESET}")
+    else:
+        print(f"{Colors.RED}✗ Failed to create worktree{Colors.RESET}")
+        sys.exit(1)
+
+
+def cmd_ls():
+    """List all worktrees with diff stats"""
+    worktrees = get_worktrees()
+
+    if not worktrees:
+        print(f"{Colors.DIM}No worktrees found{Colors.RESET}")
+        return
+
+    cwd = os.getcwd()
+
+    for wt in worktrees:
+        path = Path(wt["path"])
+        branch = wt.get("branch", "detached")
+        is_main = path == Path(run(["git", "rev-parse", "--show-toplevel"])[1].strip())
+        is_current = str(path) == cwd or cwd.startswith(str(path) + "/")
+
+        # Get diff stats (both staged and unstaged)
+        code, out, _ = run(["git", "diff", "HEAD", "--shortstat"], cwd=path)
+        stats = out.strip() if code == 0 else ""
+
+        # Parse stats
+        additions = deletions = 0
+        if stats:
+            match = re.search(r"(\d+) insertion", stats)
+            if match:
+                additions = int(match.group(1))
+            match = re.search(r"(\d+) deletion", stats)
+            if match:
+                deletions = int(match.group(1))
+
+        # Get untracked files
+        code, out, _ = run(
+            ["git", "ls-files", "--others", "--exclude-standard"], cwd=path
+        )
+        untracked = len(out.strip().split("\n")) if out.strip() else 0
+
+        # Format output
+        marker = "→" if is_current else " "
+        main_tag = f" {Colors.BLUE}[main]{Colors.RESET}" if is_main else ""
+
+        print(f"{Colors.BOLD}{marker} {path.name}{Colors.RESET}{main_tag}")
+        print(
+            f"  {Colors.DIM}├─{Colors.RESET} Branch: {Colors.YELLOW}{branch}{Colors.RESET}"
+        )
+
+        stat_parts = []
+        if additions > 0:
+            stat_parts.append(f"{Colors.GREEN}+{additions}{Colors.RESET}")
+        if deletions > 0:
+            stat_parts.append(f"{Colors.RED}-{deletions}{Colors.RESET}")
+        if untracked > 0:
+            stat_parts.append(f"{Colors.MAGENTA}?{untracked}{Colors.RESET}")
+
+        if stat_parts:
+            print(f"  {Colors.DIM}└─{Colors.RESET} Changes: {' '.join(stat_parts)}")
+        else:
+            print(f"  {Colors.DIM}└─{Colors.RESET} {Colors.GREEN}Clean{Colors.RESET}")
+        print()
+
+
+def cmd_cd(pattern: str):
+    """Output cd command for bash function to execute"""
+    wt = find_worktree(pattern)
+
+    if not wt:
+        print(
+            f"{Colors.RED}✗ No worktree found matching: {pattern}{Colors.RESET}",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    # Just print the path for the bash function to use
+    print(wt["path"])
+
+
+def cmd_collapse(src: str, dst: str = "main", keep: bool = False):
+    """Collapse changes from src worktree into dst worktree"""
+    src_wt = find_worktree(src)
+    dst_wt = find_worktree(dst)
+
+    if not src_wt:
+        print(f"{Colors.RED}✗ Source worktree not found: {src}{Colors.RESET}")
+        sys.exit(1)
+
+    if not dst_wt:
+        print(f"{Colors.RED}✗ Destination worktree not found: {dst}{Colors.RESET}")
+        sys.exit(1)
+
+    src_path = Path(src_wt["path"])
+    dst_path = Path(dst_wt["path"])
+    dst_branch = dst_wt.get("branch", "HEAD")
+
+    # Don't allow collapsing main into something else
+    main_path = Path(run(["git", "rev-parse", "--show-toplevel"])[1].strip())
+    if src_path == main_path:
+        print(f"{Colors.RED}✗ Cannot collapse main worktree{Colors.RESET}")
+        sys.exit(1)
+
+    print(
+        f"Collapsing {Colors.CYAN}{src_path.name}{Colors.RESET} → {Colors.CYAN}{dst_path.name}{Colors.RESET}"
+    )
+
+    # Stage all changes in source
+    print(f"{Colors.DIM}Staging changes in source...{Colors.RESET}")
+    run(["git", "add", "-A"], cwd=src_path, capture=False)
+
+    # Get diff
+    print(f"{Colors.DIM}Generating diff...{Colors.RESET}")
+    code, diff_output, _ = run(["git", "diff", dst_branch], cwd=src_path)
+
+    if not diff_output.strip():
+        print(f"{Colors.YELLOW}No changes to apply{Colors.RESET}")
+        if not keep:
+            print(f"{Colors.DIM}Removing empty worktree...{Colors.RESET}")
+            run(["git", "worktree", "remove", str(src_path), "--force"])
+            print(f"{Colors.GREEN}✓ Worktree removed{Colors.RESET}")
+        return
+
+    # Apply to destination
+    print(f"{Colors.DIM}Applying changes to destination...{Colors.RESET}")
+    result = subprocess.run(
+        ["git", "apply"],
+        input=diff_output,
+        text=True,
+        cwd=dst_path,
+        capture_output=True,
+    )
+
+    success = False
+    if result.returncode == 0:
+        print(f"{Colors.GREEN}✓ Changes applied successfully{Colors.RESET}")
+        success = True
+    else:
+        print(
+            f"{Colors.YELLOW}⚠ Applying with --3way for conflict resolution...{Colors.RESET}"
+        )
+        result = subprocess.run(
+            ["git", "apply", "--3way"],
+            input=diff_output,
+            text=True,
+            cwd=dst_path,
+            capture_output=True,
+        )
+        if result.returncode == 0:
+            print(f"{Colors.GREEN}✓ Changes applied with 3-way merge{Colors.RESET}")
+            success = True
+        else:
+            print(f"{Colors.RED}✗ Failed to apply changes{Colors.RESET}")
+            print(result.stderr)
+            sys.exit(1)
+
+    # Remove source worktree after successful collapse
+    if success and not keep:
+        print(f"{Colors.DIM}Removing source worktree...{Colors.RESET}")
+        code, _, err = run(["git", "worktree", "remove", str(src_path), "--force"])
+        if code == 0:
+            print(f"{Colors.GREEN}✓ Source worktree removed{Colors.RESET}")
+        else:
+            print(
+                f"{Colors.YELLOW}⚠ Could not remove worktree automatically{Colors.RESET}"
+            )
+            print(f"  Run: wt rm {src_path.name}")
+
+
+def cmd_rm(pattern: str):
+    """Remove a worktree"""
+    wt = find_worktree(pattern)
+
+    if not wt:
+        print(f"{Colors.RED}✗ No worktree found matching: {pattern}{Colors.RESET}")
+        sys.exit(1)
+
+    path = Path(wt["path"])
+
+    # Don't allow removing main worktree
+    main_path = Path(run(["git", "rev-parse", "--show-toplevel"])[1].strip())
+    if path == main_path:
+        print(f"{Colors.RED}✗ Cannot remove main worktree{Colors.RESET}")
+        sys.exit(1)
+
+    print(f"Removing worktree: {Colors.CYAN}{path.name}{Colors.RESET}")
+    code, _, err = run(["git", "worktree", "remove", str(path), "--force"])
+
+    if code == 0:
+        print(f"{Colors.GREEN}✓ Worktree removed{Colors.RESET}")
+    else:
+        print(f"{Colors.RED}✗ Failed to remove worktree{Colors.RESET}")
+        print(err)
+        sys.exit(1)
+
+
+def cmd_status():
+    """Show git status for all worktrees"""
+    worktrees = get_worktrees()
+
+    for wt in worktrees:
+        path = Path(wt["path"])
+        branch = wt.get("branch", "detached")
+
+        print(
+            f"{Colors.BOLD}{path.name}{Colors.RESET} ({Colors.YELLOW}{branch}{Colors.RESET})"
+        )
+        print(f"{Colors.DIM}{'─' * 60}{Colors.RESET}")
+
+        run(["git", "status", "--short"], cwd=path, capture=False)
+        print()
+
+
+def cmd_which():
+    """Show which worktree you're currently in"""
+    cwd = Path(os.getcwd())
+    worktrees = get_worktrees()
+
+    for wt in worktrees:
+        path = Path(wt["path"])
+        if cwd == path or str(cwd).startswith(str(path) + "/"):
+            branch = wt.get("branch", "detached")
+            print(
+                f"{Colors.CYAN}{path.name}{Colors.RESET} ({Colors.YELLOW}{branch}{Colors.RESET})"
+            )
+            print(f"{Colors.DIM}{path}{Colors.RESET}")
+            return
+
+    print(f"{Colors.DIM}Not in a worktree{Colors.RESET}")
+
+
+def cmd_clean():
+    """Remove worktrees for branches that no longer exist"""
+    worktrees = get_worktrees()
+    main_path = Path(run(["git", "rev-parse", "--show-toplevel"])[1].strip())
+
+    removed = 0
+    for wt in worktrees:
+        path = Path(wt["path"])
+        if path == main_path:
+            continue
+
+        branch = wt.get("branch")
+        if not branch:
+            continue
+
+        # Check if branch exists
+        code, _, _ = run(["git", "rev-parse", "--verify", f"refs/heads/{branch}"])
+        if code != 0:
+            print(
+                f"Removing worktree for deleted branch: {Colors.CYAN}{path.name}{Colors.RESET}"
+            )
+            run(["git", "worktree", "remove", str(path), "--force"])
+            removed += 1
+
+    if removed > 0:
+        print(f"{Colors.GREEN}✓ Removed {removed} worktree(s){Colors.RESET}")
+    else:
+        print(f"{Colors.DIM}No stale worktrees found{Colors.RESET}")
+
+
+def main():
+    if len(sys.argv) < 2:
+        print(__doc__)
+        sys.exit(1)
+
+    cmd = sys.argv[1]
+
+    if cmd == "new" and len(sys.argv) >= 3:
+        cmd_new(sys.argv[2])
+    elif cmd == "ls":
+        cmd_ls()
+    elif cmd == "cd" and len(sys.argv) >= 3:
+        cmd_cd(sys.argv[2])
+    elif cmd == "collapse" and len(sys.argv) >= 3:
+        src = sys.argv[2]
+        dst = (
+            sys.argv[3]
+            if len(sys.argv) >= 4 and not sys.argv[3].startswith("--")
+            else "main"
+        )
+        keep = "--keep" in sys.argv
+        cmd_collapse(src, dst, keep)
+    elif cmd == "rm" and len(sys.argv) >= 3:
+        cmd_rm(sys.argv[2])
+    elif cmd == "status":
+        cmd_status()
+    elif cmd == "which":
+        cmd_which()
+    elif cmd == "clean":
+        cmd_clean()
+    else:
+        print(__doc__)
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

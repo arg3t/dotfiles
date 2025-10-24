@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Load dmenu config
 # shellcheck source=/dev/null
@@ -19,7 +19,7 @@ case $selection in
     hyprctl dispatch exit
 		;;
 	hibernate)
-		loginctl hibernate || systemctl suspend
+		systemctl suspend || loginctl hibernate
 		;;
 	suspend)
 		sudo sleep

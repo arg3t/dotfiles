@@ -106,6 +106,12 @@ M.perl = {
   [[                -- Larry Wall in <199704251604.JAA27300@wall.org> ]],
 }
 
+M.bug = {
+  [[Every program has at least one bug and can be shortened by at least one]],
+  [[instruction -- from which, by induction, one can deduce that every]],
+  [[program can be reduced to one instruction which doesn't work.]],
+}
+
 M.all_quotes = {
   M.simple_einstein,
   M.honesty,

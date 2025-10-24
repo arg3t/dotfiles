@@ -73,3 +73,5 @@ alias eduvpn="sudo openvpn ~/Documents/eduVPN.ovpn"
 alias sshlogin="ssh -o IdentitiesOnly=yes"
 alias scplogin="scp -o IdentitiesOnly=yes"
 alias pastebin="curl -F 'sprunge=<-' http://sprunge.us"
+
+alias clippie="cargo clippy --fix --allow-dirty --all-targets --all-features --allow-staged --broken-code -p"

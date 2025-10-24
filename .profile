@@ -15,6 +15,7 @@ disp_manager=$?
 
 # Vars for some bugs and applications
 export QT_QPA_PLATFORMTHEME="qt5ct"
+export BAT_THEME="Catppuccin Mocha"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export AWT_TOOLKIT=MToolkit
 

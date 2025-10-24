@@ -3,8 +3,8 @@
     "position": "top",
     "height": 30,
     "spacing": 4,
-    "reload_style_on_change": true,
-    "reload_config_on_change": true,
+    "reload_style_on_change": false,
+    "reload_config_on_change": false,
     "modules-left": ["hyprland/workspaces"],
     "modules-center": [],
     "modules-right": [
@@ -63,7 +63,7 @@
       "format": "<span color=\"#a3be8c\">{icon}</span> {volume}%",
       "format-muted": "<span color=\"#a3be8c\"> </span>",
       "format-icons": {
-        "default": ["", "", ""]
+        "default": [" ", " ", " "]
       },
       "on-click": "pavucontrol"
     },

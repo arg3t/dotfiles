@@ -1,7 +1,6 @@
 -- === Initialize LSP Servers ===
 -- For a list of LSP Servers and documentation:
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-local lspconfig = require 'lspconfig'
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local utils = require("utils")
 local lsmod = require("lazy.core.util").lsmod
@@ -98,14 +97,15 @@ function lspSetup(mod)
   local config = require(mod)
 
   for k, v in pairs(config.lsp) do
-    lspconfig[k].setup(
-      utils.mergeTables(v, {
-        root_dir = function()
-          return vim.loop.cwd()
-        end,
-        on_attach = on_attach,
-        capabilities = capabilities
-      }))
+    vim.lsp.config(k,
+        utils.mergeTables(v, {
+          root_dir = function()
+            return vim.loop.cwd()
+          end,
+          on_attach = on_attach,
+          capabilities = capabilities
+        })
+      )
   end
 end
 
