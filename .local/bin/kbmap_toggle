@@ -1,22 +1,10 @@
 #!/bin/sh
 
-layout=$(xkb-switch -p)
-
-layouts=$(xkb-switch -l | xargs)
-
-if [ ! "$layouts" = "us tr" ]; then
-  ~/.local/bin/keyboard
+active_keyboard=$(hyprctl --instance "${HYPRLAND_INSTANCE}" devices -j \
+  | jq -r '.keyboards | map(select(.main)) | .[0] | .name')
+if [ -z ${active_keyboard} ]; then
+  debug 'Keyboard not found, exiting'
+  exit 2
 fi
 
-
-if [ "$layout" = "tr" ]; then
-  xkb-switch -s "us"
-  dunstify -r 169 -a "  Keyboard" "Layout switched to us"
-else
-  xkb-switch -s "tr"
-  dunstify -r 169 -a "  Keyboard" "Layout switched to tr"
-fi
-
-kill -58 $(pidof dwmblocks)
-
-
+hyprctl --instance "${HYPRLAND_INSTANCE_SIGNATURE}" switchxkblayout ${active_keyboard} next

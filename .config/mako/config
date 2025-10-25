@@ -1,0 +1,52 @@
+# Mako configuration
+# Global settings
+font=CaskaydiaCove Nerd Font 10
+markup=1
+sort=-time
+layer=overlay
+anchor=top-right
+width=400
+height=100
+margin=5
+padding=10
+border-size=1
+border-radius=0
+default-timeout=5000
+ignore-timeout=0
+max-visible=8
+max-history=20
+
+# Colors and appearance
+background-color=#1E1E2E
+text-color=#CDD6F4
+border-color=#B7A6F1
+progress-color=#B7A6F1
+
+# Icon settings
+icon-path=/usr/share/icons/Adwaita/
+max-icon-size=32
+
+# Actions
+on-button-left=dismiss
+on-button-middle=invoke-default-action
+on-button-right=dismiss-all
+
+# Format
+format=<b>%a</b>\n%s\n%b
+
+# Criteria-based rules
+[urgency=low]
+default-timeout=5000
+
+[urgency=normal]
+default-timeout=5000
+
+[urgency=critical]
+border-color=#FAB387
+default-timeout=0
+ignore-timeout=1
+
+[mode=dnd]
+invisible=1
+
+# vim: ft=cfg

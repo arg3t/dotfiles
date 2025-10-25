@@ -1,27 +1,8 @@
-#!/bin/sh
-
-# Set environment
-export BSPWM_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/bspwm"
-
-# Function to kill programs
-killprogs() {
-	# Kill udisks-glue
-	pkill -x udisks-glue
-	# Kill panel
-	pkill -x panel
-	# Kill Redshift
-	pkill -x redshift
-}
-
-
-# Logout function
-logout() {
-    pkill dwm
-}
+#!/bin/bash
 
 # Load dmenu config
 # shellcheck source=/dev/null
-[ -f "$HOME/.dmenurc" ] && . "$HOME/.dmenurc" || DMENU='dmenu  -z 1900 -x 10 -y 10 -i'
+[ -f "$HOME/.dmenurc" ] && . "$HOME/.dmenurc" || DMENU='dmenu -i'
 
 # Menu items
 items="logout
@@ -35,12 +16,10 @@ selection=$(printf '%s' "$items" | $DMENU)
 
 case $selection in
 	logout)
-		firefox-sync &
-		kill -9 "$DBUS_SESSION_BUS_PID"
-		kill -9 "$XSESSION_PID"
+    hyprctl dispatch exit
 		;;
 	hibernate)
-		loginctl hibernate
+		systemctl suspend || loginctl hibernate
 		;;
 	suspend)
 		sudo sleep

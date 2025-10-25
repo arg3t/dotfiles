@@ -1,16 +1,6 @@
 #!/bin/sh
 
-if ! xdpyinfo | grep -q VNC ; then
-  stats=$(xset q | grep "DPMS is" | cut -c11-)
-
-  if [ "$stats" = "Disabled" ]; then
-    echo "^c#a48ead^󰒳 ^d^"
-  else
-    echo "^c#a48ead^󰒲 ^d^"
-  fi
-
-
-  case $BLOCK_BUTTON in
-            1) ~/.local/bin/screensaver_toggle -t;;
-  esac
-fi
+pid=$(pgrep hypridle)
+/bin/kill -SIGRTMIN+10 $(pgrep waybar)
+if [[ "$pid" == "" ]]; then echo '󰒳'; else echo '󰒲'; fi
+echo ''

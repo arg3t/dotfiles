@@ -1,0 +1,11 @@
+[Unit]
+Description=Update wallpaper script
+
+[Service]
+Type=oneshot
+Environment=HOME=%h
+ExecStart=%h/.local/bin/update_wallpaper
+RemainAfterExit=no
+
+[Install]
+WantedBy=default.target

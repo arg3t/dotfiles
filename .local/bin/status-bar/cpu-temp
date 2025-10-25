@@ -1,7 +1,12 @@
 #!/bin/bash
 
+# Get CPU usage percentage
+CPU=$(top -bn1 | grep "Cpu(s)" | awk '{print 100 - $8}' | awk '{printf("%d", $1)}')
+TEMP=""
+ICON="󰍛"
+
 if ! xdpyinfo | grep -q VNC ; then
-	i=0
+
 	max=0
 	while [ -f "/sys/class/thermal/thermal_zone$i/temp" ]; do
 		if [ "$(sed 's/[0-9][0-9][0-9]$//' "/sys/class/thermal/thermal_zone$i/temp")" -gt "$max" ]; then
@@ -9,8 +14,9 @@ if ! xdpyinfo | grep -q VNC ; then
 		fi
 		i=$((i+1))
 	done
-
-	icon=
-
-	echo "^c#bf616a^$icon^d^ $max°C"
+  TEMP=$(printf ", %d°C" "$max")
 fi
+
+
+
+echo "^c#bf616aa^$ICON^d^ $CPU%$TEMP"

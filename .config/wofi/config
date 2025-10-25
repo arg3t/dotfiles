@@ -1,0 +1,28 @@
+# Wofi configuration file
+# Save as ~/.config/wofi/config
+
+# Basic behavior
+mode=drun
+allow_markup=false
+allow_images=false
+image_size=16
+insensitive=true
+hide_scroll=true
+no_actions=true
+
+# Positioning and size (matching dmenu offset and margin)
+x=5
+y=-25
+width=400
+height=300
+
+# Prompt text
+prompt=Select an option
+
+# Filter mode
+matching=fuzzy
+
+# Other options
+single_click=false
+parse_search=false
+print_command=true
