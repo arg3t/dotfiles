@@ -1,17 +1,11 @@
-local M = { "zbirenbaum/copilot.lua" }
-M.cmd = "Copilot"
-M.event = "InsertEnter"
+local M = { "github/copilot.vim" }
+
 M.config = function()
-  require("copilot").setup({
-    auto_refresh = false,
-    suggestion = {
-      enabled = false,
-      auto_trigger = false,
-    },
-    panel = {
-      enabled = false
-    },
-  })
+    vim.keymap.set('i', '<M-Tab>', 'copilot#Accept("\\<CR>")', {
+      expr = true,
+      replace_keycodes = false
+    })
+    vim.g.copilot_no_tab_map = true
 end
 
 return M
