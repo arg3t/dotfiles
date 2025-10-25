@@ -75,3 +75,4 @@ alias scplogin="scp -o IdentitiesOnly=yes"
 alias pastebin="curl -F 'sprunge=<-' http://sprunge.us"
 
 alias clippie="cargo clippy --fix --allow-dirty --all-targets --all-features --allow-staged --broken-code -p"
+alias zlaude="ANTHROPIC_AUTH_TOKEN=Z_AI_TOKEN ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic claude --dangerously-skip-permissions"
