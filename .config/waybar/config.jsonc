@@ -70,7 +70,7 @@
 
     "network": {
       "format-wifi": " ",
-      "format-ethernet": " ",
+      "format-ethernet": "󰈀 ",
       "format-disconnected": " ",
       "interval": 120,
       "tooltip-format": "{essid} ({signalStrength}%)",
@@ -84,11 +84,11 @@
               "warning": 30,
               "critical": 15
           },
-          "format": "{icon} {capacity}%",
-          "format-full": "{icon} {capacity}%",
-          "format-charging": "󰂄 {capacity}%",
-          "format-plugged": "󰂄 {capacity}%",
-          "format-alt": "{icon} {time}",
+          "format": "<span color=\"#ebcb8b\">{icon}</span> {capacity}%",
+          "format-full": "<span color=\"#ebcb8b\">{icon}</span> {capacity}%",
+          "format-charging": "<span color=\"#ebcb8b\">󰂄</span> {capacity}%",
+          "format-plugged": "<span color=\"#ebcb8b\">󰂄</span> {capacity}%",
+          "format-alt": "<span color=\"#ebcb8b\">{icon}</span> {time}",
           "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
     },
 
