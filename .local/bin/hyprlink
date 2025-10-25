@@ -1,0 +1,11 @@
+#!/bin/sh
+
+HOSTNAME=$(hostnamectl hostname)
+
+rm -rf "$HOME/.config/hypr/own"
+
+if [ -d "$HOME/.config/hypr/$HOSTNAME" ]; then
+  ln -s "$HOME/.config/hypr/$HOSTNAME" "$HOME/.config/hypr/own"
+else
+  ln -s "$HOME/.config/hypr/default" "$HOME/.config/hypr/own"
+fi

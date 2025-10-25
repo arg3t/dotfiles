@@ -42,6 +42,7 @@ alias gcm="git commit -m"
 alias gp="git push"
 alias gpall="git remote | xargs -I R git push R"
 alias gpl="git pull"
+alias clippie="cargo clippy --fix --allow-dirty --all-targets --all-features --allow-staged --broken-code -p"
 
 # Homedir Cleanup
 alias wget="wget --hsts-file=\"$XDG_CACHE_HOME/wget-hsts\""
@@ -68,7 +69,7 @@ alias lights_on="curl 'http://yeetclock/setcolor?R=136&G=192&B=208'"
 
 alias v="nvim"
 
-alias eduvpn="sudo openvpn ~/Documents/eduVPN.ovpn"
+# alias eduvpn="sudo openvpn ~/Documents/eduVPN.ovpn"
 
 alias sshlogin="ssh -o IdentitiesOnly=yes"
 alias scplogin="scp -o IdentitiesOnly=yes"

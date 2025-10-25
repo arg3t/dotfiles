@@ -1,10 +1,11 @@
 #!/bin/sh
 
+# Get memory usage percentage
 MEM=$(free | grep Mem | awk '{printf("%d", $3/$2 * 100.0)}')
 
-echo "^c#a3be8c^󰍛 ^d^$MEM%"
+# Print memory and CPU usage
+echo "^c#88c0d0^ ^d^$MEM%"
 
 case $BLOCK_BUTTON in
-          1) setsid -f st -c htop -n htop -e htop;;
+    1) setsid -f st -c htop -n htop -e htop;;
 esac
-

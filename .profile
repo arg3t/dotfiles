@@ -28,6 +28,7 @@ export EDITOR=nvim
 export OPENER=xdg-open
 export DEFAULT_RECIPIENT="yigitcolakoglu@hotmail.com"
 export LIBVIRT_DEFAULT_URI="qemu:///system"
+export GTK_THEME="catppuccin-mocha-mauve-standard+default"
 
 # Set XDG Directories
 export XDG_DATA_HOME="$HOME"/.local/share
@@ -98,6 +99,7 @@ export PATH="$PATH:$GOPATH/bin"
 export PATH="$PATH:$GOPATH/binexport"
 export PATH="$PATH:$XDG_DATA_HOME/cargo/bin/"
 export PATH="$PATH:$XDG_DATA_HOME/questasim/questasim/linux_x86_64"
+export PATH=$XDG_DATA_HOME/node/bin:$PATH
 # export PATH="$PATH:$XDG_DATA_HOME/anaconda3/bin"
 
 export CPATH=/usr/include/opencv4
