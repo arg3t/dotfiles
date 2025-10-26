@@ -3,9 +3,9 @@
 alias feh="feh --scale-down --auto-zoom --no-fehbg"
 alias open=xdg-open
 alias rm="rm -i"
-alias clip="xclip -selection clipboard"
+alias clip="wl-copy"
 alias g="git "
-alias tmux="TERM=screen-256color-bce tmux"
+alias tmux="tmux"
 alias t="tmux"
 alias tn="tmux new -s "
 alias tat="tmux a -t "
@@ -42,6 +42,7 @@ alias gcm="git commit -m"
 alias gp="git push"
 alias gpall="git remote | xargs -I R git push R"
 alias gpl="git pull"
+alias clippie="cargo clippy --fix --allow-dirty --all-targets --all-features --allow-staged --broken-code -p"
 
 # Homedir Cleanup
 alias wget="wget --hsts-file=\"$XDG_CACHE_HOME/wget-hsts\""
@@ -68,8 +69,11 @@ alias lights_on="curl 'http://yeetclock/setcolor?R=136&G=192&B=208'"
 
 alias v="nvim"
 
-alias eduvpn="sudo openvpn ~/Documents/eduVPN.ovpn"
+# alias eduvpn="sudo openvpn ~/Documents/eduVPN.ovpn"
 
 alias sshlogin="ssh -o IdentitiesOnly=yes"
 alias scplogin="scp -o IdentitiesOnly=yes"
 alias pastebin="curl -F 'sprunge=<-' http://sprunge.us"
+
+alias clippie="cargo clippy --fix --allow-dirty --all-targets --all-features --allow-staged --broken-code -p"
+alias zlaude="ANTHROPIC_AUTH_TOKEN=Z_AI_TOKEN ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic claude --dangerously-skip-permissions"

@@ -7,7 +7,7 @@ killprogs() {
 	pkill -x redshift
 }
 
-DMENU='dmenu  -z 1900 -x 10 -y 10 -i'
+DMENU='dmenu -i'
 
 items="dwm
 dwmblocks

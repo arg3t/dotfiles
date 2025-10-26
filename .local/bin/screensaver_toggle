@@ -10,31 +10,31 @@ getargs() {
   done
 }
 
-start_dnd() {
+start_screensaver() {
   xset s off -dpms
-  dunstify -r 51 -a "󰒳 System" "Screensaver off"
-  sleep 1; xfce4-power-manager --restart
+  notify-send -r 51 -a "󰒲 System" "Screensaver on"
+  hypridle
 }
-end_dnd() {
+end_screensaver() {
   xset s off +dpms
-  dunstify -r 51 -a "󰒲 System" "Screensaver on"
-  sleep 1; xfce4-power-manager --restart
+  notify-send -r 51 -a "󰒳 System" "Screensaver off"
+  pkill hypridle
 }
 
-toggle_dnd() {
-  if [ $(xset q | grep "DPMS is" | xargs | cut -c9-) = "Enabled" ]; then
-    start_dnd
+toggle_screensaver() {
+  if [ $(pidof hypridle) ]; then
+    end_screensaver
   else
-    end_dnd
+    start_screensaver
   fi
 }
 
 main() {
   getargs "$@";
-  [[ "$start" ]] && start_dnd;
-  [[ "$end" ]] && end_dnd;
-  [[ "$toggle" ]] && toggle_dnd;
-  kill -53 $(pidof dwmblocks)
+  [[ "$start" ]] && start_screensaver;
+  [[ "$end" ]] && end_screensaver;
+  [[ "$toggle" ]] && toggle_screensaver;
+  /bin/kill -SIGRTMIN+10 $(pgrep waybar)
 }
 
 main "$@"

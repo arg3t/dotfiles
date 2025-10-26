@@ -82,12 +82,7 @@ static const Rule rules[] = {
   { NULL,                 "spfile",    NULL,      SPTAG(2), 1,    NULL,                 0,        0,          -1  },
   { NULL,                 "spcal",     NULL,      SPTAG(3), 1,    NULL,                 0,        0,          -1  },
   { NULL,                 "notesnook", NULL,      SPTAG(4), 1,    "50% 50% 1400W 700H", 0,        0,          -1  },
-
-#ifdef HOSTNAME_desktop
-  { NULL,                 "cradle",    NULL,      SPTAG(4), 1,    "50% 50% 1400W 700H", 0,        0,          -1  },
-#else
-  { NULL,                 "obsidian",  NULL,      SPTAG(4), 1,    "50% 50% 1400W 700H", 0,        0,          -1  },
-#endif
+  { NULL,                 "obsidian",  NULL,      1 << 3,   1,    NULL, 0,        0,          -1  },
 };
 // clang-format on
 

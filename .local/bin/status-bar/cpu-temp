@@ -16,6 +16,4 @@ if ! xdpyinfo | grep -q VNC ; then
   TEMP=$(printf "%d°C" "$max")
 fi
 
-
-
 echo -e "^c#bf616aa^$ICON ^d^$CPU% $TEMP"

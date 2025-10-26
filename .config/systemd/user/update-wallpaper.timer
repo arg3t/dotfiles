@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Update Wallpaper every 5 minutes
+
+[Timer]
+OnActiveSec=15sec
+OnUnitActiveSec=10min
+Unit=update-wallpaper.service
+
+[Install]
+WantedBy=timers.target

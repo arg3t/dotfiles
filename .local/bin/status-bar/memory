@@ -4,7 +4,7 @@
 MEM=$(free | grep Mem | awk '{printf("%d", $3/$2 * 100.0)}')
 
 # Print memory and CPU usage
-echo "^c#88c0d0^ ^d^ $MEM%"
+echo "^c#88c0d0^ ^d^$MEM%"
 
 case $BLOCK_BUTTON in
     1) setsid -f st -c htop -n htop -e htop;;

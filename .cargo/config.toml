@@ -1,0 +1,16 @@
+[build]
+rustc-wrapper = "sccache"
+jobs = 32
+# target-dir = "/home/yigit/.cargo/sscache-build"
+
+[target.x86_64-unknown-linux-gnu]
+linker = "clang"
+rustflags = [
+   "-Clink-arg=-fuse-ld=mold",
+   "-Clink-arg=-Wl,--no-rosegment",
+   "-Ctarget-cpu=native",
+   "-Ccodegen-units=32",
+]
+
+[env]
+CXXFLAGS = "-include cstdint"

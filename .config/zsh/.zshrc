@@ -1,3 +1,4 @@
+#!/bin/zsh
 ## __   _______ _____ _____
 ## \ \ / / ____| ____|_   _|
 ##  \ V /|  _| |  _|   | |
@@ -13,7 +14,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-source ~/.profile
 # Created by kuro for 5.8
 source <(antibody init)
 
@@ -39,6 +39,7 @@ antibody bundle < ~/.config/antibody/zsh_plugins.txt
 fpath=("$XDG_CONFIG_HOME"/zsh/completions $fpath)
 autoload -Uz compinit
 compinit
+
 
 source "$XDG_CONFIG_HOME"/zsh/aliases
 

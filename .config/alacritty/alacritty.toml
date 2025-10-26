@@ -1,0 +1,26 @@
+general.import = [
+  "~/.config/alacritty/catppuccin-mocha.toml"
+]
+
+[window]
+  opacity = 1
+  decorations = "None"
+
+[font]
+  normal.family = "CaskaydiaCove Nerd Font Mono"
+  bold.family = "CaskaydiaCove Nerd Font Mono"
+  italic.family = "CaskaydiaCove Nerd Font Mono"
+  bold_italic.family = "CaskaydiaCove Nerd Font Mono"
+
+  size =  10
+
+[keyboard]
+  bindings = [
+     { key = "K", mods = "Alt", action = "ScrollHalfPageUp" },
+     { key = "J", mods = "Alt", action = "ScrollHalfPageDown" },
+     { key = "U", mods = "Alt", action = "ScrollPageUp" },
+     { key = "D", mods = "Alt", action = "ScrollPageDown" },
+
+     { key = "K", mods = "Alt|Shift", action = "IncreaseFontSize" },
+     { key = "J", mods = "Alt|Shift", action = "DecreaseFontSize" },
+  ]
