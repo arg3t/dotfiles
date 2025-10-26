@@ -25,7 +25,7 @@ export EDITOR=nvim
 export OPENER=xdg-open
 export DEFAULT_RECIPIENT="yigitcolakoglu@hotmail.com"
 export LIBVIRT_DEFAULT_URI="qemu:///system"
-export GTK_THEME=Arc-Dark
+export GTK_THEME="catppuccin-mocha-mauve-standard+default"
 
 # Set XDG Directories
 export XDG_DATA_HOME="$HOME"/.local/share
@@ -42,7 +42,7 @@ export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export DOOMDIR="$XDG_CONFIG_HOME"/doom
 export GOPATH="$XDG_DATA_HOME"/go
 export GDBHISTFILE="$XDG_DATA_HOME"/gdb/history,
-export ANDROID_HOME="$XDG_DATA_HOME"/Sdk
+export ANDROID_HOME="$XDG_DATA_HOME"/Android/Sdk
 export FLUTTER_HOME="$XDG_DATA_HOME"/flutter
 export LEIN_HOME="$XDG_DATA_HOME"/lein
 export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
@@ -75,6 +75,7 @@ export PASSWORD_STORE_DIR="$XDG_DATA_HOME"/pass
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
+export BUN_INSTALL="$HOME/.local/share/bun"
 
 # Change X Config Files if we are not using a displaymanager
 if [ $disp_manager -ne 0 ]; then
@@ -96,6 +97,7 @@ export PATH="$PATH:$GOPATH/bin"
 export PATH="$PATH:$GOPATH/binexport"
 export PATH="$PATH:$XDG_DATA_HOME/cargo/bin/"
 export PATH="$PATH:$XDG_DATA_HOME/questasim/questasim/linux_x86_64"
+export PATH="$BUN_INSTALL/bin:$PATH"
 # export PATH="$PATH:$XDG_DATA_HOME/anaconda3/bin"
 
 export CPATH=/usr/include/opencv4
@@ -144,3 +146,5 @@ if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ] && [ $disp_manager -ne 0 ]; t
   fi
   exit
 fi
+
+. "$HOME/.local/share/../bin/env"

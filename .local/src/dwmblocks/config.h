@@ -12,7 +12,7 @@
 static Block blocks[] = {
     //	{ "", PATH("clipboard"),		120,		28},
     {"", PATH("security"), 120, 28},
-    {"", PATH("mpv"), 1, 20},
+    // {"", PATH("mpv"), 1, 20},
     {"", PATH("screensaver"), 120, 19},
     {"", PATH("dunst"), 120, 18},
     //	{ "", PATH("mail")       ,					  120,

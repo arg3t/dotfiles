@@ -64,6 +64,7 @@ static const Rule rules[] = {
   { "Zathura",            NULL,        NULL,      0,        0,    NULL,                 0,        1,          -1  },
   { "stalonetray",        NULL,        NULL,      0x1F,     0,    NULL,                 0,        1,          -1  },
   { "Qemu-system-x86_64", NULL,        NULL,      0,        1,    NULL,                 0,        1,          -1  },
+  { "ghidra-Ghidra",      NULL,        NULL,      0,        1,    NULL,                 0,        1,          -1  },
   { "bitwarden",          NULL,        NULL,      1 << 6,   0,    NULL,                 0,        0,          -1  },
   { "QtPass",             NULL,        NULL,      1 << 6,   0,    NULL,                 0,        0,          -1  },
   { NULL,                 "sxiv",      NULL,      0,        1,    "100% 1% 600W 350H",  1,        0,          -1  },
