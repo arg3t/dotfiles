@@ -13,6 +13,7 @@
         "hyprland/language",
         "bluetooth",
         "memory",
+        "cpu",
         "temperature",
         "custom/weather",
         "custom/arch",
@@ -38,14 +39,19 @@
 
     "bluetooth": {
         "format": "<span color=\"#81a1c1\"></span>",
-        "format-connected": "<span color=\"#81a1c1\"></span> {device_alias}",
-        "format-connected-battery": "<span color=\"#81a1c1\"></span> {device_alias} [{device_battery_percentage}%]",
+        "format-connected": "<span color=\"#81a1c1\"></span> {device_alias:6}",
+        "format-connected-battery": "<span color=\"#81a1c1\"></span> {device_alias:6} [{device_battery_percentage}%]",
     },
 
     "memory": {
         "interval": 120,
-        "format": "<span color=\"#a3be8c\">󰍛</span> {}%",
+        "format": "<span color=\"#aca3eb\"> </span> {}%",
         "max-length": 10
+    },
+
+    "cpu": {
+        "interval": 30,
+        "format": "<span color=\"#a3be8c\">󰍛</span> {usage:2}%",
     },
 
     "temperature": {
@@ -70,7 +76,7 @@
 
     "network": {
       "format-wifi": " ",
-      "format-ethernet": "󰈀",
+      "format-ethernet": " ",
       "format-disconnected": " ",
       "interval": 120,
       "tooltip-format": "{essid} ({signalStrength}%)",
