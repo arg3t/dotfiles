@@ -7,7 +7,6 @@
 # Menu items
 items="logout
 suspend
-hibernate
 reboot
 poweroff"
 
@@ -18,11 +17,8 @@ case $selection in
 	logout)
     hyprctl dispatch exit
 		;;
-	hibernate)
-		systemctl suspend || loginctl hibernate
-		;;
 	suspend)
-		sudo sleep
+		systemctl suspend || loginctl hibernate
 		;;
 	reboot)
 		sudo reboot
