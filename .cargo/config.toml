@@ -1,5 +1,4 @@
 [build]
-rustc-wrapper = "sccache"
 jobs = 32
 # target-dir = "/home/yigit/.cargo/sscache-build"
 
