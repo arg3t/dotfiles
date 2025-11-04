@@ -7,5 +7,6 @@ M.lsp = {
 }
 
 M.mason = { "coq_lsp" }
+M.mason = {}
 
 return M

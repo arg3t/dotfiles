@@ -3,8 +3,7 @@ local M = { "nvim-lualine/lualine.nvim" }
 M.dependencies = {
   "catppuccin/nvim",
   "nvim-tree/nvim-web-devicons",
-  'AndreM222/copilot-lualine',
-  "zbirenbaum/copilot.lua",
+  'ofseed/copilot-status.nvim',
 }
 
 -- Eviline config for lualine
@@ -184,27 +183,27 @@ M.config = function()
     -- Lsp server name .
     function()
       local msg = 'No Active Lsp'
-      local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-      local clients = vim.lsp.get_active_clients()
+      local bufnr = vim.api.nvim_get_current_buf()
+      local clients = vim.lsp.get_clients({ bufnr = bufnr })
       if next(clients) == nil then
         return msg
       end
-      for _, client in ipairs(clients) do
-        local filetypes = client.config.filetypes
-        if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-          return client.name
-        end
-      end
-      return msg
+      return clients[1].name
     end,
     icon = ' LSP:',
     color = { fg = '#ffffff', gui = 'bold' },
   }
 
   ins_right {
-    'copilot',
-    show_colors = true,
-    show_loading = true
+    "copilot",
+    show_running = true,
+    symbols = {
+      status = {
+        enabled = "",
+        disabled = "",
+      },
+      spinners = require("copilot-status.spinners").dots,
+    },
   }
 
 

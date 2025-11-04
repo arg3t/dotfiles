@@ -98,14 +98,16 @@ function lspSetup(mod)
 
   for k, v in pairs(config.lsp) do
     vim.lsp.config(k,
-        utils.mergeTables(v, {
-          root_dir = function()
-            return vim.loop.cwd()
-          end,
-          on_attach = on_attach,
-          capabilities = capabilities
-        })
-      )
+      utils.mergeTables(v, {
+        -- root_dir = function()
+        --   print("Setting root_dir " .. vim.loop.cwd())
+        --   return vim.loop.cwd()
+        -- end,
+        on_attach = on_attach,
+        capabilities = capabilities
+      })
+    )
+    vim.lsp.enable(k)
   end
 end
 
