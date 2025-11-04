@@ -277,5 +277,6 @@
         "configurations": [
         
         ]
-    }
+    },
+    "python.defaultInterpreterPath": "/bin/python"
 }
