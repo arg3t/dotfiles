@@ -3,6 +3,7 @@
 HOSTNAME=$(hostnamectl hostname)
 
 rm -rf "$HOME/.config/hypr/own"
+echo '' > $HOME/.config/hypr/monitors.conf
 
 if [ -d "$HOME/.config/hypr/$HOSTNAME" ]; then
   ln -s "$HOME/.config/hypr/$HOSTNAME" "$HOME/.config/hypr/own"
