@@ -16,6 +16,16 @@ local diagnostic_symbols = {
   INFO  = "",
 }
 
+
+local float_opts = {
+  focusable = false,
+  close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+  border = "rounded",
+  source = "always",
+  scope = "cursor",
+  anchor_biase = "above",
+}
+
 -- Global diagnostic config
 vim.diagnostic.config({
   virtual_text = {
@@ -64,65 +74,6 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
     })
   end,
 })
-
--- === Noice setup ===
--- Make sure you have noice.nvim installed and loaded. Noice will handle hover rendering.
--- The lsp.hover.enabled = true tells Noice to take over hover views.
-local ok_noice, noice = pcall(require, "noice")
-if ok_noice then
-  noice.setup({
-    lsp = {
-      -- let noice show hover/signature help etc.
-      hover = {
-        enabled = true,
-        -- you can change the view, e.g. "hover" (default) or custom
-        view = "hover",
-        silent = true,
-      },
-      signature = {
-        enabled = true,
-        auto_open = {
-          enabled = false, -- keep default; set true if you want autoshow
-        },
-      },
-      -- override these helpers if you want markdown formatting via noice
-      override = {
-        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-        ["vim.lsp.util.stylize_markdown"] = true,
-        ["cmp.entry.get_documentation"] = true,
-      },
-    },
-
-    -- keep the UI pleasant; Noice uses nui.nvim; these are safe defaults
-    views = {
-      hover = {
-        border = "rounded",
-        -- Noice hover will not steal focus by default; we'll also make sure global handler is non-focusable
-      },
-    },
-
-    -- Keep default routing, but you can add routes to filter noise
-    -- routes = { ... },
-  })
-end
-
--- === LSP handlers (single global hover handler, non-focusable) ===
--- Important: define hover handler globally once so both CursorHold and K get same behavior.
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-  vim.lsp.handlers.hover,
-  {
-    border = "rounded",
-    focusable = false,
-  }
-)
-
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-  vim.lsp.handlers.signature_help,
-  {
-    border = "rounded",
-    focusable = false,
-  }
-)
 
 -- === Common capabilities (example using cmp_nvim_lsp) ===
 local capabilities_ok, cmp_cap = pcall(require, "cmp_nvim_lsp")
@@ -217,26 +168,14 @@ vim.api.nvim_create_autocmd("CursorHold", {
     local cursor_line = vim.api.nvim_win_get_cursor(0)[1] - 1
     local diags = vim.diagnostic.get(bufnr, { lnum = cursor_line })
 
-    local float_opts = {
-      focusable = false,
-      close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-      border = "rounded",
-      source = "always",
-      scope = "cursor",
-    }
-
     if #diags > 0 then
       -- show diagnostics (non-focusable)
       vim.diagnostic.open_float(nil, float_opts)
       return
     end
 
-    -- No diagnostics on this line -> prefer hover (Noice will render it if enabled)
-    -- Call the LSP hover (global handler set above is non-focusable)
-    local clients = vim.lsp.get_clients({ bufnr = bufnr, method = "textDocument/hover" })
-    if #clients > 0 and not are_docs_shown() then
-      -- If Noice is present and configured for hover, it will route the hover output into its view.
-      vim.lsp.buf.hover()
+    if not are_docs_shown() then
+      require("noice.lsp").hover()
     end
   end,
 })

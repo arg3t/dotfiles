@@ -180,15 +180,18 @@ M.config = function()
   }
 
   ins_left {
-    -- Lsp server name .
     function()
       local msg = 'No Active Lsp'
       local bufnr = vim.api.nvim_get_current_buf()
       local clients = vim.lsp.get_clients({ bufnr = bufnr })
-      if next(clients) == nil then
-        return msg
+
+      for _, client in ipairs(clients) do
+        if not string.find(string.lower(client.name), "copilot") then
+          return client.name
+        end
       end
-      return clients[1].name
+
+      return msg
     end,
     icon = ' LSP:',
     color = { fg = '#ffffff', gui = 'bold' },
