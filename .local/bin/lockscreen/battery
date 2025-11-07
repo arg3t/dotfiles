@@ -1,0 +1,47 @@
+#!/bin/bash
+
+source ~/.config/config.env
+
+ramp10=󰁺
+ramp20=󰁻
+ramp30=󰁼
+ramp40=󰁽
+ramp50=󰁾
+ramp60=󰁿
+ramp70=󰂀
+ramp80=󰂁
+ramp90=󰂂
+ramp100=󰁹
+ac_bat=󰂄
+ac=ﮣ
+
+if ! [ "$BATTERY" = "" ] ; then
+    export bat=$(cat $BATTERY/capacity)
+    export status=$(cat $BATTERY/status)
+    export plugged=$(cat /sys/class/power_supply/AC/online)
+    tleft=$(acpi -b | tail -n 1 | sed -r 's/.* ([0-9]{2}:[0-9]{2}).*/\1/g')
+    stats="$bat%"
+    if [[ $plugged == "1" ]]; then
+        echo "$ac_bat $stats"
+    elif [[ $bat -lt 10 ]]; then
+        echo "$ramp10 $stats"
+    elif [[ $bat -lt 20 ]]; then
+        echo "$ramp20 $stats"
+    elif [[ $bat -lt "30" ]]; then
+        echo "$ramp30 $stats"
+    elif [[ $bat -lt "40" ]]; then
+        echo "$ramp40 $stats"
+    elif [[ $bat -lt "50" ]]; then
+        echo "$ramp50 $stats"
+    elif [[ $bat -lt "60" ]]; then
+        echo "$ramp60 $stats"
+    elif [[ $bat -lt "70" ]]; then
+        echo "$ramp70 $stats"
+    elif [[ $bat -lt "80" ]]; then
+        echo "$ramp80 $stats"
+    elif [[ $bat -lt "90" ]]; then
+        echo "$ramp90 $stats"
+    elif [[ $bat -le "100" ]]; then
+        echo "$ramp100 $stats"
+    fi
+fi

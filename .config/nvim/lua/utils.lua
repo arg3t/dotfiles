@@ -33,19 +33,17 @@ M.create_gradient = function(start, finish, steps)
 end
 
 M.mergeTables = function(t1, t2)
-  -- Create a new table to avoid modifying the original
   local result = {}
-  
-  -- Copy all items from t1
-  for i, v in ipairs(t1) do
-    table.insert(result, v)
-  end
-  
-  -- Copy all items from t2
-  for i, v in ipairs(t2) do
-    table.insert(result, v)
-  end
-  
+  if t1 then for k, v in pairs(t1) do result[k] = v end end
+  if t2 then for k, v in pairs(t2) do result[k] = v end end
+  return result
+end
+
+M.mergeArrays = function(a1, a2)
+  local result = {}
+
+  if a1 then for _, v in ipairs(a1) do table.insert(result, v) end end
+  if a2 then for _, v in ipairs(a2) do table.insert(result, v) end end
   return result
 end
 

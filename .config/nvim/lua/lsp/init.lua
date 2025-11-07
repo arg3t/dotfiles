@@ -23,7 +23,8 @@ local float_opts = {
   border = "rounded",
   source = "always",
   scope = "cursor",
-  anchor_biase = "above",
+  anchor_bias = "above",
+  anchor = "NW",
 }
 
 -- Global diagnostic config
@@ -145,7 +146,7 @@ end
 --]]
 
 -- === CursorHold autocmd: diagnostics first, otherwise hover ===
-function are_docs_shown()
+function hover_shown()
   local base_win_id = vim.api.nvim_get_current_win()
   local windows = vim.api.nvim_tabpage_list_wins(0)
   for _, win_id in ipairs(windows) do
@@ -159,7 +160,16 @@ function are_docs_shown()
   return false
 end
 
--- Using focusable = false for both diagnostic float and hover
+function has_hover_capability(bufnr)
+  local clients = vim.lsp.get_clients({ bufnr = bufnr })
+  for _, client in pairs(clients) do
+    if client.server_capabilities.hoverProvider then
+      return true
+    end
+  end
+  return false
+end
+
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
     if vim.fn.mode() == "i" then return end
@@ -174,7 +184,7 @@ vim.api.nvim_create_autocmd("CursorHold", {
       return
     end
 
-    if not are_docs_shown() then
+    if not hover_shown() and has_hover_capability(bufnr) then
       require("noice.lsp").hover()
     end
   end,
@@ -184,9 +194,7 @@ vim.api.nvim_create_autocmd("CursorHold", {
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(event)
     vim.keymap.set("n", "K", function()
-      if are_docs_shown() then
-        require("noice.lsp.docs").hide(require("noice.lsp.docs").get("hover"))
-      else
+      if not hover_shown() and has_hover_capability(event.buf) then
         require("noice.lsp").hover()
       end
     end, { buffer = event.buf, remap = false, silent = true })
@@ -211,12 +219,18 @@ function lspSetup(mod)
   local config = require(mod)
 
   for k, v in pairs(config.lsp) do
-    vim.lsp.config(k,
-      utils.mergeTables(v, {
-        on_attach = on_attach,
-        capabilities = capabilities
-      })
-    )
+    local v_attach = v.on_attach
+    local conf = utils.mergeTables(v, {
+      on_attach = function(client, bufnr)
+        on_attach(client, bufnr)
+        if v_attach then
+          v_attach(client, bufnr)
+        end
+      end,
+      capabilities = capabilities
+    })
+
+    vim.lsp.config(k, conf)
     vim.lsp.enable(k)
   end
 end

@@ -11,7 +11,7 @@ function masonSetup(mod)
   end
 
   local config = require(mod)
-  required_pkgs = utils.mergeTables(required_pkgs, config.mason)
+  required_pkgs = utils.mergeArrays(required_pkgs, config.mason)
 end
 
 -- Load configs from lsp directory

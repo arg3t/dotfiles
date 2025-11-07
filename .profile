@@ -151,3 +151,5 @@ if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ] && [ $disp_manager -ne 0 ]; t
   fi
   exit
 fi
+
+. "$HOME/.local/share/../bin/env"
