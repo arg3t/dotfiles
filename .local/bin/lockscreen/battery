@@ -22,26 +22,26 @@ if ! [ "$BATTERY" = "" ] ; then
     tleft=$(acpi -b | tail -n 1 | sed -r 's/.* ([0-9]{2}:[0-9]{2}).*/\1/g')
     stats="$bat%"
     if [[ $plugged == "1" ]]; then
-        echo "$ac_bat $stats"
+        echo "$stats $ac_bat"
     elif [[ $bat -lt 10 ]]; then
-        echo "$ramp10 $stats"
+        echo "$stats $ramp10"
     elif [[ $bat -lt 20 ]]; then
-        echo "$ramp20 $stats"
+        echo "$stats $ramp20"
     elif [[ $bat -lt "30" ]]; then
-        echo "$ramp30 $stats"
+        echo "$stats $ramp30"
     elif [[ $bat -lt "40" ]]; then
-        echo "$ramp40 $stats"
+        echo "$stats $ramp40"
     elif [[ $bat -lt "50" ]]; then
-        echo "$ramp50 $stats"
+        echo "$stats $ramp50"
     elif [[ $bat -lt "60" ]]; then
-        echo "$ramp60 $stats"
+        echo "$stats $ramp60"
     elif [[ $bat -lt "70" ]]; then
-        echo "$ramp70 $stats"
+        echo "$stats $ramp70"
     elif [[ $bat -lt "80" ]]; then
-        echo "$ramp80 $stats"
+        echo "$stats $ramp80"
     elif [[ $bat -lt "90" ]]; then
-        echo "$ramp90 $stats"
+        echo "$stats $ramp90"
     elif [[ $bat -le "100" ]]; then
-        echo "$ramp100 $stats"
+        echo "$stats $ramp100"
     fi
 fi

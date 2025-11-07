@@ -8,19 +8,27 @@ end
 local M = { "hrsh7th/nvim-cmp" }
 
 M.config = function()
-  local cmp = require'cmp'
+  local cmp = require 'cmp'
   local snippy = require("snippy")
   local lspkind = require('lspkind')
 
   cmp.setup({
     snippet = {
       expand = function(args)
-        require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        require('snippy').expand_snippet(args.body)
       end,
     },
     window = {
-      completion = cmp.config.window.bordered(),
-      documentation = cmp.config.window.bordered(),
+      completion = {
+        border = "single",
+        winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder",
+        winblend = 10,
+      },
+      documentation = {
+        border = "single",
+        winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder",
+        winblend = 10,
+      },
     },
     mapping = cmp.mapping.preset.insert({
       ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -75,7 +83,7 @@ M.config = function()
         preset = 'codicons',
         maxwidth = 50,
         ellipsis_char = '...',
-        before = function (entry, vim_item)
+        before = function(entry, vim_item)
           return vim_item
         end,
         symbol_map = { Copilot = "" },
@@ -94,7 +102,7 @@ M.config = function()
   cmp.setup.cmdline({ '/', '?' }, {
     mapping = cmp.mapping.preset.cmdline(),
     view = {
-      entries = {name = 'wildmenu', separator = '|' }
+      entries = { name = 'wildmenu', separator = '|' }
     },
     sources = {
       { name = 'buffer' },
@@ -113,18 +121,16 @@ M.config = function()
 end
 
 M.dependencies = {
-"onsails/lspkind.nvim",
-"hrsh7th/cmp-nvim-lsp",
-"hrsh7th/cmp-nvim-lua",
-"hrsh7th/cmp-buffer",
-"hrsh7th/cmp-path",
-"hrsh7th/cmp-cmdline",
-"hrsh7th/cmp-nvim-lsp-signature-help",
-"dcampos/cmp-snippy",
-"micangl/cmp-vimtex",
-"dcampos/nvim-snippy",
+  "onsails/lspkind.nvim",
+  "hrsh7th/cmp-nvim-lsp",
+  "hrsh7th/cmp-nvim-lua",
+  "hrsh7th/cmp-buffer",
+  "hrsh7th/cmp-path",
+  "hrsh7th/cmp-cmdline",
+  "hrsh7th/cmp-nvim-lsp-signature-help",
+  "dcampos/cmp-snippy",
+  "micangl/cmp-vimtex",
+  "dcampos/nvim-snippy",
 }
 
 return M
-
-

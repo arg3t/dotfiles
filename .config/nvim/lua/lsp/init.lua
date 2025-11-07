@@ -20,7 +20,6 @@ local diagnostic_symbols = {
 local float_opts = {
   focusable = false,
   close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-  border = "rounded",
   source = "always",
   scope = "cursor",
   anchor_bias = "above",
@@ -133,17 +132,6 @@ local on_attach = function(client, bufnr)
     vim.notify(("Language server %s started!"):format(client.name), vim.log.levels.INFO, { title = "Nvim-config" })
   end
 end
-
--- Example: helper to setup servers (adapt to your server loader)
---[[
-local servers = { "pyright", "tsserver", ... }
-for _, lsp_name in ipairs(servers) do
-  require("lspconfig")[lsp_name].setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-  })
-end
---]]
 
 -- === CursorHold autocmd: diagnostics first, otherwise hover ===
 function hover_shown()
