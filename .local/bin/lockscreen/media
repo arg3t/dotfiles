@@ -1,0 +1,24 @@
+#!/bin/sh
+
+MAX_LEN=16
+SLIDE_FILE=$XDG_RUNTIME_DIR/media_slider
+
+title="$(playerctl metadata xesam:title)"
+artist="$(playerctl metadata xesam:artist)"
+status="$(playerctl status)"
+
+title_length=${#title}
+artist_length=${#artist_length}
+
+if [ $title_length -eq 0 ] | [ $artist_length -eq 0 ]; then
+  printf "\n0" > $SLIDE_FILE
+fi
+
+text="${title} - ${artist}"
+
+# Display the title with playback status
+if [ "$status" = "Paused" ]; then
+  printf "󰎇 %s" "$text"
+elif [ "$status" = "Playing" ]; then
+  printf "󰎇 %s" "$text"
+fi

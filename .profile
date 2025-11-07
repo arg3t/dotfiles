@@ -150,5 +150,3 @@ if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ] && [ $disp_manager -ne 0 ]; t
   fi
   exit
 fi
-
-export PATH="$HOME/.elan/bin:$PATH"

@@ -236,6 +236,5 @@
     "scminput": false,
     "latex": true,
     "bibtex": true
-  },
-  "lean4.alwaysAskBeforeInstallingLeanVersions": false
+  }
 }
