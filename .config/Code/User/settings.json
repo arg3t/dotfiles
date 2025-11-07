@@ -1,282 +1,241 @@
 {
-    "workbench.iconTheme": "catppuccin-mocha",
-    "editor.fontFamily": "CaskaydiaCove Nerd Font",
-    "editor.minimap.enabled": false,
-    "workbench.colorTheme": "Catppuccin Mocha",
-    "files.associations": {
-        "*.toml": "toml"
+  "workbench.iconTheme": "catppuccin-mocha",
+  "editor.fontFamily": "CaskaydiaCove Nerd Font",
+  "editor.minimap.enabled": false,
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "files.associations": {
+    "*.toml": "toml"
+  },
+  "editor.fontLigatures": false,
+  "editor.fontSize": 12,
+  "vim.neovimConfigPath": "~/.config/nvim/init.vim",
+  "vim.neovimUseConfigFile": true,
+  "explorer.compactFolders": false,
+  "database-client.autoSync": true,
+  "git.enableSmartCommit": true,
+  "git.autofetch": true,
+  "editor.formatOnSave": true,
+  "git.blame.editorDecoration.enabled": true,
+  "git.confirmSync": false,
+  "github.copilot.nextEditSuggestions.enabled": false,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.activityBar.orientation": "vertical",
+  "vim.normalModeKeyBindings": [
+    {
+      "before": ["<C-n>"],
+      "commands": [":nohl"]
     },
-    "editor.fontLigatures": false,
-    "editor.fontSize": 12,
-    "vim.neovimConfigPath": "~/.config/nvim/init.vim",
-    "vim.neovimUseConfigFile": true,
-    "explorer.compactFolders": false,
-    "database-client.autoSync": true,
-    "git.enableSmartCommit": true,
-    "git.autofetch": true,
-    "editor.formatOnSave": true,
-    "git.blame.editorDecoration.enabled": true,
-    "git.confirmSync": false,
-    "github.copilot.nextEditSuggestions.enabled": true,
-    "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    {
+      "before": ["leader", "l", "d"],
+      "when": "editorTextFocus && vim.active",
+      "commands": ["editor.action.revealDefinition"]
+    }
+  ],
+  "vim.leader": ",",
+  "keyboard.dispatch": "keyCode",
+  "latex-workshop.message.error.show": false,
+  "[latex]": {
+    "editor.defaultFormatter": "James-Yu.latex-workshop"
+  },
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk",
+      "tools": ["latexmk"]
     },
-    "[javascript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    {
+      "name": "latexmk (latexmkrc)",
+      "tools": ["latexmk_rconly"]
     },
-    "workbench.activityBar.orientation": "vertical",
-    "vim.normalModeKeyBindings": [
-        {
-            "before":["<C-n>"],
-            "commands": [
-                ":nohl",
-            ]
-        },
-        {
-            "before": ["leader", "l", "d"],
-            "when": "editorTextFocus && vim.active",
-            "commands": [
-                "editor.action.revealDefinition"
-            ]
-        }
-    ],
-    "vim.leader": ",",
-    "keyboard.dispatch": "keyCode",
-    "latex-workshop.message.error.show": false,
-    "[latex]": {
-        "editor.defaultFormatter": "James-Yu.latex-workshop"
+    {
+      "name": "latexmk (lualatex)",
+      "tools": ["lualatexmk"]
     },
-    "latex-workshop.latex.recipes": [
-        {
-            "name": "latexmk",
-            "tools": [
-                "latexmk"
-            ],
-        },
-        {
-            "name": "latexmk (latexmkrc)",
-            "tools": [
-                "latexmk_rconly"
-            ]
-        },
-        {
-            "name": "latexmk (lualatex)",
-            "tools": [
-                "lualatexmk"
-            ]
-        },
-        {
-            "name": "latexmk (xelatex)",
-            "tools": [
-                "xelatexmk"
-            ]
-        },
-        {
-            "name": "pdflatex -> bibtex -> pdflatex * 2",
-            "tools": [
-                "pdflatex",
-                "bibtex",
-                "pdflatex",
-                "pdflatex"
-            ]
-        },
-        {
-            "name": "Compile Rnw files",
-            "tools": [
-                "rnw2tex",
-                "latexmk"
-            ]
-        },
-        {
-            "name": "Compile Jnw files",
-            "tools": [
-                "jnw2tex",
-                "latexmk"
-            ]
-        },
-        {
-            "name": "Compile Pnw files",
-            "tools": [
-                "pnw2tex",
-                "latexmk"
-            ]
-        },
-        {
-            "name": "tectonic",
-            "tools": [
-                "tectonic"
-            ]
-        }
-    ],
-    "latex-workshop.latex.tools": [
-        {
-            "name": "latexmk",
-            "command": "latexmk",
-            "args": [
-                "-synctex=1",
-                "-interaction=nonstopmode",
-                "-file-line-error",
-                "--shell-escape",
-                "-pdf",
-                "-outdir=%OUTDIR%",
-                "%DOC%"
-            ],
-            "env": {}
-        },
-        {
-            "name": "lualatexmk",
-            "command": "latexmk",
-            "args": [
-                "-synctex=1",
-                "-interaction=nonstopmode",
-                "-file-line-error",
-                "-lualatex",
-                "-outdir=%OUTDIR%",
-                "%DOC%"
-            ],
-            "env": {}
-        },
-        {
-            "name": "xelatexmk",
-            "command": "latexmk",
-            "args": [
-                "-synctex=1",
-                "-interaction=nonstopmode",
-                "-file-line-error",
-                "-xelatex",
-                "-outdir=%OUTDIR%",
-                "%DOC%"
-            ],
-            "env": {}
-        },
-        {
-            "name": "latexmk_rconly",
-            "command": "latexmk",
-            "args": [
-                "%DOC%"
-            ],
-            "env": {}
-        },
-        {
-            "name": "pdflatex",
-            "command": "pdflatex",
-            "args": [
-                "-synctex=1",
-                "-interaction=nonstopmode",
-                "-file-line-error",
-                "%DOC%"
-            ],
-            "env": {}
-        },
-        {
-            "name": "bibtex",
-            "command": "bibtex",
-            "args": [
-                "%DOCFILE%"
-            ],
-            "env": {}
-        },
-        {
-            "name": "rnw2tex",
-            "command": "Rscript",
-            "args": [
-                "-e",
-                "knitr::opts_knit$set(concordance = TRUE); knitr::knit('%DOCFILE_EXT%')"
-            ],
-            "env": {}
-        },
-        {
-            "name": "jnw2tex",
-            "command": "julia",
-            "args": [
-                "-e",
-                "using Weave; weave(\"%DOC_EXT%\", doctype=\"tex\")"
-            ],
-            "env": {}
-        },
-        {
-            "name": "jnw2texminted",
-            "command": "julia",
-            "args": [
-                "-e",
-                "using Weave; weave(\"%DOC_EXT%\", doctype=\"texminted\")"
-            ],
-            "env": {}
-        },
-        {
-            "name": "pnw2tex",
-            "command": "pweave",
-            "args": [
-                "-f",
-                "tex",
-                "%DOC_EXT%"
-            ],
-            "env": {}
-        },
-        {
-            "name": "pnw2texminted",
-            "command": "pweave",
-            "args": [
-                "-f",
-                "texminted",
-                "%DOC_EXT%"
-            ],
-            "env": {}
-        },
-        {
-            "name": "tectonic",
-            "command": "tectonic",
-            "args": [
-                "--synctex",
-                "--keep-logs",
-                "--print",
-                "%DOC%.tex"
-            ],
-            "env": {}
-        }
-    ],
-    "todohighlight.isEnable": true,
-    "todohighlight.keywordsPattern": "(//|#|<!--).*?(DEBUG:|REVIEW:|NOTE:|HACK:|TODO:).*?$",
-    "todohighlight.keywords": [
-        "DEBUG:",
-        "REVIEW:",
-        {
-            "text": "NOTE:",
-            "color": "#F5E0DC", // Catppuccin Rosewater
-            "backgroundColor": "#F2CDCD", // Catppuccin Pink
-            "overviewRulerColor": "#CBA6F7", // Catppuccin Lavender
-            "border": "1px solid #F5E0DC",
-            "borderRadius": "2px"
-        },
-        {
-            "text": "HACK:",
-            "color": "#F5A97F", // Catppuccin Peach
-            "isWholeLine": false
-        },
-        {
-            "text": "TODO:",
-            "color": "#F5E0DC", // Catppuccin Rosewater
-            "backgroundColor": "rgba(245, 224, 220, 0.5)", // Catppuccin Rosewater with transparency
-            "overviewRulerColor": "#F5E0DC", // Catppuccin Rosewater
-            "border": "1px solid #F5E0DC",
-            "borderRadius": "2px"
-        }
-    ],
-    "todohighlight.defaultStyle": {
-        "color": "#F5E0DC", // Catppuccin Rosewater
-        "backgroundColor": "#F2CDCD", // Catppuccin Pink
-        "overviewRulerColor": "#CBA6F7", // Catppuccin Lavender
-        "cursor": "pointer",
-        "border": "1px solid #F5E0DC",
-        "borderRadius": "2px",
-        "isWholeLine": true
+    {
+      "name": "latexmk (xelatex)",
+      "tools": ["xelatexmk"]
     },
-    "git.blame.statusBarItem.enabled": false,
-    "lldb-dap.executable-path": "/usr/bin/lldb-dap",
-    "launch": {
-        "configurations": [
-        
-        ]
+    {
+      "name": "pdflatex -> bibtex -> pdflatex * 2",
+      "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
     },
-    "python.defaultInterpreterPath": "/bin/python"
+    {
+      "name": "Compile Rnw files",
+      "tools": ["rnw2tex", "latexmk"]
+    },
+    {
+      "name": "Compile Jnw files",
+      "tools": ["jnw2tex", "latexmk"]
+    },
+    {
+      "name": "Compile Pnw files",
+      "tools": ["pnw2tex", "latexmk"]
+    },
+    {
+      "name": "tectonic",
+      "tools": ["tectonic"]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "--shell-escape",
+        "-pdf",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "lualatexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-lualatex",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "xelatexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-xelatex",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "latexmk_rconly",
+      "command": "latexmk",
+      "args": ["%DOC%"],
+      "env": {}
+    },
+    {
+      "name": "pdflatex",
+      "command": "pdflatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "bibtex",
+      "command": "bibtex",
+      "args": ["%DOCFILE%"],
+      "env": {}
+    },
+    {
+      "name": "rnw2tex",
+      "command": "Rscript",
+      "args": [
+        "-e",
+        "knitr::opts_knit$set(concordance = TRUE); knitr::knit('%DOCFILE_EXT%')"
+      ],
+      "env": {}
+    },
+    {
+      "name": "jnw2tex",
+      "command": "julia",
+      "args": ["-e", "using Weave; weave(\"%DOC_EXT%\", doctype=\"tex\")"],
+      "env": {}
+    },
+    {
+      "name": "jnw2texminted",
+      "command": "julia",
+      "args": [
+        "-e",
+        "using Weave; weave(\"%DOC_EXT%\", doctype=\"texminted\")"
+      ],
+      "env": {}
+    },
+    {
+      "name": "pnw2tex",
+      "command": "pweave",
+      "args": ["-f", "tex", "%DOC_EXT%"],
+      "env": {}
+    },
+    {
+      "name": "pnw2texminted",
+      "command": "pweave",
+      "args": ["-f", "texminted", "%DOC_EXT%"],
+      "env": {}
+    },
+    {
+      "name": "tectonic",
+      "command": "tectonic",
+      "args": ["--synctex", "--keep-logs", "--print", "%DOC%.tex"],
+      "env": {}
+    }
+  ],
+  "todohighlight.isEnable": true,
+  "todohighlight.keywordsPattern": "(//|#|<!--).*?(DEBUG:|REVIEW:|NOTE:|HACK:|TODO:).*?$",
+  "todohighlight.keywords": [
+    "DEBUG:",
+    "REVIEW:",
+    {
+      "text": "NOTE:",
+      "color": "#F5E0DC", // Catppuccin Rosewater
+      "backgroundColor": "#F2CDCD", // Catppuccin Pink
+      "overviewRulerColor": "#CBA6F7", // Catppuccin Lavender
+      "border": "1px solid #F5E0DC",
+      "borderRadius": "2px"
+    },
+    {
+      "text": "HACK:",
+      "color": "#F5A97F", // Catppuccin Peach
+      "isWholeLine": false
+    },
+    {
+      "text": "TODO:",
+      "color": "#F5E0DC", // Catppuccin Rosewater
+      "backgroundColor": "rgba(245, 224, 220, 0.5)", // Catppuccin Rosewater with transparency
+      "overviewRulerColor": "#F5E0DC", // Catppuccin Rosewater
+      "border": "1px solid #F5E0DC",
+      "borderRadius": "2px"
+    }
+  ],
+  "todohighlight.defaultStyle": {
+    "color": "#F5E0DC", // Catppuccin Rosewater
+    "backgroundColor": "#F2CDCD", // Catppuccin Pink
+    "overviewRulerColor": "#CBA6F7", // Catppuccin Lavender
+    "cursor": "pointer",
+    "border": "1px solid #F5E0DC",
+    "borderRadius": "2px",
+    "isWholeLine": true
+  },
+  "git.blame.statusBarItem.enabled": false,
+  "lldb-dap.executable-path": "/usr/bin/lldb-dap",
+  "launch": {
+    "configurations": []
+  },
+  "python.defaultInterpreterPath": "/bin/python",
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false,
+    "latex": true,
+    "bibtex": true
+  },
+  "lean4.alwaysAskBeforeInstallingLeanVersions": false
 }
