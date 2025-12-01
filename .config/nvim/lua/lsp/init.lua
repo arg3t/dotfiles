@@ -6,7 +6,7 @@
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
 -- === Basic settings ===
-vim.opt.updatetime = 600 -- CursorHold delay
+vim.opt.updatetime = 1500 -- CursorHold delay
 
 -- Diagnostic symbols
 local diagnostic_symbols = {
@@ -29,7 +29,6 @@ local float_opts = {
 -- Global diagnostic config
 vim.diagnostic.config({
   virtual_text = {
-    source = "always",
     spacing = 4,
     prefix = function(diagnostic)
       local s = diagnostic.severity
@@ -53,7 +52,6 @@ vim.diagnostic.config({
   update_in_insert = false,
   float = {
     border = "rounded",
-    source = "always",
     header = "",
     prefix = " ",
   },
@@ -131,10 +129,26 @@ local on_attach = function(client, bufnr)
   if vim.g.logging_level == 'debug' then
     vim.notify(("Language server %s started!"):format(client.name), vim.log.levels.INFO, { title = "Nvim-config" })
   end
+  if vim.lsp.inlay_hint then
+    vim.lsp.inlay_hint.enable(false)
+  end
 end
 
+local function toggle_inlay_hints()
+  local enabled = vim.lsp.inlay_hint.is_enabled()
+
+  vim.lsp.inlay_hint.enable(not enabled)
+
+  if not enabled then
+    print("Inlay hints enabled")
+  else
+    print("Inlay hints disabled")
+  end
+end
+
+
 -- === CursorHold autocmd: diagnostics first, otherwise hover ===
-function hover_shown()
+local function hover_shown()
   local base_win_id = vim.api.nvim_get_current_win()
   local windows = vim.api.nvim_tabpage_list_wins(0)
   for _, win_id in ipairs(windows) do
@@ -148,7 +162,7 @@ function hover_shown()
   return false
 end
 
-function has_hover_capability(bufnr)
+local function has_hover_capability(bufnr)
   local clients = vim.lsp.get_clients({ bufnr = bufnr })
   for _, client in pairs(clients) do
     if client.server_capabilities.hoverProvider then
@@ -167,13 +181,8 @@ vim.api.nvim_create_autocmd("CursorHold", {
     local diags = vim.diagnostic.get(bufnr, { lnum = cursor_line })
 
     if #diags > 0 then
-      -- show diagnostics (non-focusable)
       vim.diagnostic.open_float(nil, float_opts)
       return
-    end
-
-    if not hover_shown() and has_hover_capability(bufnr) then
-      require("noice.lsp").hover()
     end
   end,
 })
@@ -193,13 +202,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
 vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = "Set diagnostic loclist" })
+vim.keymap.set('n', '<leader>dq', vim.diagnostic.setqflist, { desc = "Set diagnostic qflist" })
+vim.keymap.set('n', '<leader>hh', toggle_inlay_hints, { desc = "Toggle inlay hints" })
 
 
 -- === LSP Server Setup Function ===
 local utils = require("utils")
 local lsmod = require("lazy.core.util").lsmod
 
-function lspSetup(mod)
+local function lspSetup(mod)
   if mod == "lsp" then
     return
   end

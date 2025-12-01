@@ -29,3 +29,20 @@ else
 end
 
 vim.g.neovide_cursor_vfx_mode = "railgun"
+
+local cp = require("catppuccin.palettes").get_palette()
+
+vim.api.nvim_set_hl(0, "LspInlayHint", {
+  fg = cp.surface2,
+  italic = true,
+})
+
+vim.api.nvim_set_hl(0, "LspInlayHintParameter", {
+  fg = cp.mauve,
+  italic = true,
+})
+
+vim.api.nvim_set_hl(0, "LspInlayHintType", {
+  fg = cp.teal,
+  italic = true,
+})

@@ -1,8 +1,6 @@
 local M = { "folke/noice.nvim" }
 M.event = "VeryLazy"
 M.opts = {
-  -- ... (Other lsp, routes, and presets configuration)
-
   presets = {
     bottom_search = true,
     command_palette = true,
@@ -12,38 +10,38 @@ M.opts = {
   },
 
   views = {
-    cmdline_popup = {
-      border = {
-        style = "single",
-        padding = { 0, 0 },
-      },
-      filter_options = {},
-      win_options = {
-        winblend = 10,
-        winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-      },
-    },
-
-    popup = {
-      border = {
-        style = "single",   -- Changed from "none"
-        padding = { 0, 0 }, -- Removed padding
-      },
-      win_options = {
-        winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-      },
-    },
-
-    lsp_doc = {
-      border = {
-        style = "single",
-        padding = { 0, 0 },
-      },
-      win_options = {
-        winblend = 10,
-        winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-      },
-    },
+    -- cmdline_popup = {
+    --   border = {
+    --     style = "single",
+    --     padding = { 0, 0 },
+    --   },
+    --   filter_options = {},
+    --   win_options = {
+    --     winblend = 10,
+    --     winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+    --   },
+    -- },
+    --
+    -- popup = {
+    --   border = {
+    --     style = "single",
+    --     padding = { 0, 0 },
+    --   },
+    --   win_options = {
+    --     winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+    --   },
+    -- },
+    --
+    -- lsp_doc = {
+    --   border = {
+    --     style = "single",
+    --     padding = { 0, 0 },
+    --   },
+    --   win_options = {
+    --     winblend = 10,
+    --     winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+    --   },
+    -- },
   },
 }
 M.dependencies = {

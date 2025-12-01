@@ -4,9 +4,12 @@ M.lsp = {
   rust_analyzer = {
     settings = {
       ['rust-analyzer'] = {
+        checkOnSave = {
+          enable = true,
+        },
         diagnostics = {
-          enable = false,
-        }
+          enable = true,
+        },
       }
     }
   }

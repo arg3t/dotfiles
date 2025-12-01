@@ -41,6 +41,11 @@ map('n', '<Leader>lR', "<Cmd> lua vim.lsp.buf.rename()<CR>", {
   desc = "Rename the word under the cursor"
 })
 
+map('n', '<F2>', "<Cmd> lua vim.lsp.buf.rename()<CR>", {
+  noremap = true,
+  desc = "Rename the word under the cursor"
+})
+
 map('n', '<Leader>lt', "<Cmd>lua require('telescope.builtin').treesitter()<CR>", {
   noremap = true,
   desc = "List symbols in workspace with treesitter"
