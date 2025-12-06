@@ -1,11 +1,34 @@
-#!/bin/sh
+#!/usr/bin/env python
+import json
+from pydbus import SessionBus
+from gi.repository import GLib
 
-stats=$(makoctl mode)
+loop = GLib.MainLoop()
 
-if [ "$stats" = "dnd" ]; then
-  echo "󰂛"
-else
-  echo ""
-fi
+bus = SessionBus()
+mako_object = bus.get("org.freedesktop.Notifications", "/fr/emersion/Mako")
 
-echo ''
+
+def format_notification_for_waybar(modes, notifications):
+    dnd = "dnd" in modes
+    response_struct = {
+        "text": "󰂛" if dnd else "",
+        "alt": f"{len(notifications) if len(notifications) <= 9 else '9+'}",
+        "tooltip": "\r".join(
+            [f"{i+1}: {m['summary']}" for i, m in enumerate(notifications)]
+        ),
+        "class": "has-notifications" if len(notifications) > 0 else "",
+    }
+
+    print(json.dumps(response_struct), flush=True)
+
+
+def on_notifications_changed(iface, prop_changed, prop_invalidated):
+    if "Notifications" in prop_invalidated:
+        format_notification_for_waybar(mako_object.Modes, mako_object.Notifications)
+
+
+format_notification_for_waybar(mako_object.Modes, mako_object.Notifications)
+
+with mako_object.PropertiesChanged.connect(on_notifications_changed):
+    loop.run()

@@ -145,12 +145,11 @@
         "signal": 10
     },
     "custom/dnd": {
-        "format": "{} ",
-        "return-type": "text",
-        "tooltip": false,
-        "interval": 3600,
-        "on-click": "$HOME/.local/bin/dunst_toggle.sh -t",
-        "exec": "$HOME/.local/bin/status-bar/dunst",
-        "signal": 11
-    }
+      "format": "{}",
+      "on-click": "makoctl mode -t dnd; notify-send -t 1 ''",
+      "on-click-right": "makoctl restore",
+      "exec": "~/.local/bin/status-bar/dunst",
+      "return-type": "json",
+      "escape": true,
+    },
 }
