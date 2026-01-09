@@ -7,13 +7,17 @@
 // custom settings, run the `zed: Open Default Settings` command
 // from the command palette
 {
+  "show_edit_predictions": true,
+  "show_completions_on_input": true,
+  "features": {
+    "edit_prediction_provider": "copilot"
+  },
   "agent": {
     "model_parameters": [],
     "default_model": {
       "provider": "copilot_chat",
       "model": "claude-3.7-sonnet"
-    },
-    "version": "2"
+    }
   },
   "outline_panel": {
     "dock": "right"
@@ -23,11 +27,7 @@
   "ui_font_size": 16,
   "vim_mode": true,
   "load_direnv": "shell_hook",
-  "theme": {
-    "mode": "system",
-    "light": "Catppuccin Macchiato",
-    "dark": "Catppuccin Mocha"
-  },
+  "theme": "Catppuccin Mocha",
   "languages": {
     "Python": {
       "formatter": {
@@ -41,5 +41,5 @@
   "vim": {
     "use_system_clipboard": "never"
   },
-  "relative_line_numbers": true
+  "relative_line_numbers": "enabled"
 }

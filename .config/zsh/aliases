@@ -26,6 +26,16 @@ weechat(){
    fi
 }
 
+venvinit(){
+    if [ ! -f .venv/bin/activate ]; then
+      python -m venv .venv
+      echo "source .venv/bin/activate" >> .envrc
+      direnv allow
+    fi
+
+    source .venv/bin/activate
+}
+
 # Suffix aliases
 alias -g G=" | rg -i "
 alias gshh="gcloud cloud-shell ssh --authorize-session"
@@ -77,3 +87,5 @@ alias pastebin="curl -F 'sprunge=<-' http://sprunge.us"
 
 alias clippie="cargo clippy --fix --allow-dirty --all-targets --all-features --allow-staged --broken-code -p"
 alias zlaude="ANTHROPIC_AUTH_TOKEN=Z_AI_TOKEN ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic claude --dangerously-skip-permissions"
+
+alias pysrcl="source .venv/bin/activate"

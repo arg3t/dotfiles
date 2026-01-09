@@ -147,12 +147,13 @@ def cmd_new(branch: str):
         sys.exit(1)
 
 
-def cmd_ls():
+def cmd_ls(plain=False):
     """List all worktrees with diff stats"""
     worktrees = get_worktrees()
 
     if not worktrees:
-        print(f"{Colors.DIM}No worktrees found{Colors.RESET}")
+        if not plain:
+            print(f"{Colors.DIM}No worktrees found{Colors.RESET}")
         return
 
     cwd = os.getcwd()
@@ -162,6 +163,12 @@ def cmd_ls():
         branch = wt.get("branch", "detached")
         is_main = path == Path(run(["git", "rev-parse", "--show-toplevel"])[1].strip())
         is_current = str(path) == cwd or cwd.startswith(str(path) + "/")
+
+        if plain:
+            # Plain output: path branch [main]
+            main_tag = "[main]" if is_main else ""
+            print(f"{path} {branch} {main_tag}".strip())
+            continue
 
         # Get diff stats (both staged and unstaged)
         code, out, _ = run(["git", "diff", "HEAD", "--shortstat"], cwd=path)
@@ -409,11 +416,12 @@ def main():
         sys.exit(1)
 
     cmd = sys.argv[1]
+    plain = "--plain" in sys.argv
 
     if cmd == "new" and len(sys.argv) >= 3:
         cmd_new(sys.argv[2])
     elif cmd == "ls":
-        cmd_ls()
+        cmd_ls(plain=plain)
     elif cmd == "cd" and len(sys.argv) >= 3:
         cmd_cd(sys.argv[2])
     elif cmd == "collapse" and len(sys.argv) >= 3:

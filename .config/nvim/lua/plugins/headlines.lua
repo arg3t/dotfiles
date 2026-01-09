@@ -4,6 +4,6 @@ M.dependencies = {
 }
 M.opts = {}
 
-return M
+return {}
 
 

@@ -17,6 +17,7 @@ export QT_QPA_PLATFORMTHEME="qt5ct"
 export BAT_THEME="Catppuccin Mocha"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export AWT_TOOLKIT=MToolkit
+export ELECTRON_OZONE_PLATFORM_HINT=auto
 
 
 # Environment variables
@@ -101,6 +102,7 @@ export PATH="$PATH:$XDG_DATA_HOME/cargo/bin/"
 export PATH="$PATH:$XDG_DATA_HOME/questasim/questasim/linux_x86_64"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH=$XDG_DATA_HOME/node/bin:$PATH
+export PATH="$PATH:$XDG_DATA_HOME/codeql"
 # export PATH="$PATH:$XDG_DATA_HOME/anaconda3/bin"
 
 export CPATH=/usr/include/opencv4
