@@ -22,7 +22,6 @@ M.opts = {
 }
 
 M.dependencies = {
-  "folke/neodev.nvim",
   "williamboman/mason.nvim",
 }
 

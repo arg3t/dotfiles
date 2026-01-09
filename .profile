@@ -156,4 +156,7 @@ if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ] && [ $disp_manager -ne 0 ]; t
   fi
   exit
 fi
-. "/home/yigit/.local/share/cargo/env"
+
+if [ -f "$HOME/.local/share/cargo/env" ]; then
+  . "$HOME/.local/share/cargo/env"
+fi

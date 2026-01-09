@@ -1,16 +1,16 @@
-local M = {"nvim-treesitter/nvim-treesitter"}
+local M = { "nvim-treesitter/nvim-treesitter" }
 M.dependencies = {
-"neovim/nvim-lspconfig",
+  "neovim/nvim-lspconfig",
 }
 M.build = ":TSUpdate"
 M.config = function()
   local configs = require("nvim-treesitter.configs")
   configs.setup {
-    ensure_installed = { "html", "json", "c", "cpp", "css", "bash", "lua", "java", "python", "javascript", "latex", "markdown" },
+    ensure_installed = { "html", "json", "jsonc", "regex", "c", "cpp", "css", "bash", "lua", "java", "python", "javascript", "latex", "markdown", "markdown_inline", "vim", "regex", "go" },
     sync_install = false,
     auto_install = true,
 
-    ignore_install = { },
+    ignore_install = {},
 
     highlight = {
       enable = true,
@@ -20,4 +20,3 @@ M.config = function()
 end
 
 return M
-

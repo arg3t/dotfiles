@@ -191,7 +191,18 @@ vim.api.nvim_create_autocmd("CursorHold", {
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(event)
     vim.keymap.set("n", "K", function()
-      if not hover_shown() and has_hover_capability(event.buf) then
+      if hover_shown() then
+        return
+      end
+
+      local cursor_line = vim.api.nvim_win_get_cursor(0)[1] - 1
+      local diags = vim.diagnostic.get(0, { lnum = cursor_line })
+      if #diags > 0 then
+        vim.diagnostic.open_float(nil, float_opts)
+        return
+      end
+
+      if has_hover_capability(event.buf) then
         require("noice.lsp").hover()
       end
     end, { buffer = event.buf, remap = false, silent = true })
