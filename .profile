@@ -154,3 +154,4 @@ if [ "$DISPLAY" = "" ] && [ "$(tty)" = /dev/tty1 ] && [ $disp_manager -ne 0 ]; t
   fi
   exit
 fi
+. "/home/yigit/.local/share/cargo/env"
