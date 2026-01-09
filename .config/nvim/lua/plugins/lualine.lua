@@ -3,7 +3,7 @@ local M = { "nvim-lualine/lualine.nvim" }
 M.dependencies = {
   "catppuccin/nvim",
   "nvim-tree/nvim-web-devicons",
-  'ofseed/copilot-status.nvim',
+  "Exafunction/windsurf.nvim"
 }
 
 -- Eviline config for lualine
@@ -25,6 +25,30 @@ local colors = {
   blue     = '#51afef',
   red      = '#ec5f67',
 }
+
+
+local function get_codeium_status()
+  -- Safety check: ensure the module exists
+  local ok, codeium = pcall(require, 'codeium.virtual_text')
+  if not ok then return "" end
+
+  local status = codeium.status()
+
+  if status.state == 'idle' then
+    -- Return an icon or empty space when idle
+    return '  '
+  end
+
+  if status.state == 'waiting' then
+    return "  Waiting..."
+  end
+
+  if status.state == 'completions' and status.total > 0 then
+    return string.format('  %d/%d', status.current, status.total)
+  end
+
+  return '  0 '
+end
 
 local function show_macro_recording()
   local recording_register = vim.fn.reg_recording()
@@ -198,15 +222,28 @@ M.config = function()
   }
 
   ins_right {
-    "copilot",
-    show_running = true,
-    symbols = {
-      status = {
-        enabled = "",
-        disabled = "",
-      },
-      spinners = require("copilot-status.spinners").dots,
-    },
+    get_codeium_status,
+    color = function()
+      local ok, codeium = pcall(require, 'codeium.virtual_text')
+      if not ok then return { fg = colors.red } end
+
+      local status = codeium.status()
+
+      -- Use red if there are 0 completions or if the state is not "completions"
+      -- (This usually indicates it is effectively disabled or not finding anything)
+      if status.total == 0 then
+        return { fg = colors.red, gui = 'bold' }
+      end
+
+      -- Use yellow for waiting
+      if status.state == 'waiting' then
+        return { fg = colors.yellow, gui = 'bold' }
+      end
+
+      -- Use green when completions are active
+      return { fg = colors.green, gui = 'bold' }
+    end,
+    cond = conditions.hide_in_width,
   }
 
 

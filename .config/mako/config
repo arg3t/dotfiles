@@ -13,8 +13,8 @@ border-size=1
 border-radius=0
 default-timeout=5000
 ignore-timeout=0
-max-visible=8
-max-history=20
+max-visible=-1
+border-size=0
 
 # Colors and appearance
 background-color=#1E1E2E
