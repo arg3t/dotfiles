@@ -1,94 +1,130 @@
-local map = vim.api.nvim_set_keymap
+local map = vim.keymap.set
 
--- == LSP Pickers ==
-map('n', '<Leader>ll', "<Cmd> Telescope <CR>", {
+-- ============================================================================
+-- Telescope: entry points / general pickers
+-- ============================================================================
+map('n', '<Leader>ll', '<Cmd>Telescope<CR>', {
   noremap = true,
-  desc = "Open main telescope picket"
+  desc = 'Telescope: builtins (main picker)',
 })
 
-map('n', '<C-p>', "<Cmd> Telescope commands <CR>", {
+map('n', '<C-p>', '<Cmd>Telescope commands<CR>', {
   noremap = true,
-  desc = "Open main telescope picket"
+  desc = 'Telescope: commands',
 })
 
-map('n', '<Leader><Leader>', "<Cmd>lua vim.lsp.buf.code_action()<CR>", {
+map('n', '<Leader>lf', function()
+  require('telescope.builtin').find_files()
+end, {
   noremap = true,
-  desc = "Resume last pick action"
+  desc = 'Telescope: find files',
 })
 
-map('n', '<Leader>lf', "<Cmd> lua require('telescope.builtin').find_files()<CR>", {
+map('n', '<Leader>b', function()
+  require('telescope.builtin').buffers()
+end, {
   noremap = true,
-  desc = "Open File"
+  desc = 'Telescope: buffers',
 })
 
-map('n', '<Leader>ld', "<Cmd> lua require('telescope.builtin').lsp_definitions()<CR>", {
+map('n', '<Leader>lg', function()
+  require('telescope.builtin').live_grep()
+end, {
   noremap = true,
-  desc = "Go to definition"
+  desc = 'Telescope: live grep',
 })
 
-map('n', '<Leader>lD', "<Cmd> lua  vim.diagnostic.open_float()<CR>", {
+-- ============================================================================
+-- LSP: navigation / symbols / references (via Telescope)
+-- ============================================================================
+map('n', '<Leader>ld', function()
+  require('telescope.builtin').lsp_definitions()
+end, {
   noremap = true,
-  desc = "Show diagnostic float"
+  desc = 'LSP: go to definition (Telescope)',
 })
 
-map('n', '<Leader>lr', "<Cmd> lua require('telescope.builtin').lsp_references()<CR>", {
+map('n', '<Leader>lr', function()
+  require('telescope.builtin').lsp_references()
+end, {
   noremap = true,
-  desc = "List to references to word under cursor"
+  desc = 'LSP: references (Telescope)',
 })
 
-map('n', '<Leader>lR', "<Cmd> lua vim.lsp.buf.rename()<CR>", {
+map('n', '<Leader>ls', function()
+  require('telescope.builtin').lsp_dynamic_workspace_symbols()
+end, {
   noremap = true,
-  desc = "Rename the word under the cursor"
+  desc = 'LSP: workspace symbols (Telescope)',
 })
 
-map('n', '<F2>', "<Cmd> lua vim.lsp.buf.rename()<CR>", {
+map('n', '<Leader>lt', function()
+  require('telescope.builtin').treesitter()
+end, {
   noremap = true,
-  desc = "Rename the word under the cursor"
+  desc = 'Symbols: treesitter (Telescope)',
 })
 
-map('n', '<Leader>lt', "<Cmd>lua require('telescope.builtin').treesitter()<CR>", {
+-- ============================================================================
+-- LSP: actions / diagnostics
+-- ============================================================================
+map('n', '<Leader><Leader>', vim.lsp.buf.code_action, {
   noremap = true,
-  desc = "List symbols in workspace with treesitter"
+  desc = 'LSP: code actions',
 })
 
-map('n', '<Leader>lw', "<Cmd>lua require('telescope.builtin').diagnostics()<CR>", {
+map('n', '<Leader><Space>', vim.lsp.buf.code_action, {
   noremap = true,
-  desc = "List diagnostic items"
+  desc = 'LSP: code actions',
 })
 
-map('n', '<Leader>lm', "<Cmd>lua require('telescope.builtin').man_pages()<CR>", {
+map('v', '<Leader><Space>', vim.lsp.buf.code_action, {
   noremap = true,
-  desc = "List view manpage"
+  desc = 'LSP: code actions (selection)',
 })
 
-map('n', '<Leader><Space>', "<Cmd>lua vim.lsp.buf.code_action()<CR>", {
+map('n', '<F2>', vim.lsp.buf.rename, {
   noremap = true,
-  desc = "Pick code action"
+  desc = 'LSP: rename symbol',
 })
 
-map("v", "<Leader><Space>", "<Cmd>'<,'>lua vim.lsp.buf.code_action()<CR>", {
+map('n', '<Leader>lD', vim.diagnostic.open_float, {
   noremap = true,
-  desc = "Pick code action for selection"
+  desc = 'Diagnostics: float under cursor',
 })
 
-map('n', '<Leader>ls', "<Cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<CR>", {
+map('n', '<Leader>lw', function()
+  require('telescope.builtin').diagnostics()
+end, {
   noremap = true,
-  desc = "Lsp symbols"
+  desc = 'Diagnostics: list (Telescope)',
 })
 
-map('n', '<Leader>lg', "<Cmd>lua require('telescope.builtin').live_grep()<CR>", {
+-- ============================================================================
+-- Docs / help
+-- ============================================================================
+map('n', '<Leader>lm', function()
+  require('telescope.builtin').man_pages()
+end, {
   noremap = true,
-  desc = "Live search"
+  desc = 'Man pages (Telescope)',
 })
 
--- == Misc Keybinds ==
-map('n', '<Leader>b', "<Cmd>lua require('telescope.builtin').buffers()<CR>", {
+-- ============================================================================
+-- Sessions
+-- ============================================================================
+map('n', '<Leader>S', '<Cmd>SessionSearch<CR>', {
   noremap = true,
-  desc = "List and pick buffers"
+  desc = 'Sessions: search/select',
 })
 
-
-map('n', '<Leader>S', "<Cmd>SessionSearch<CR>", {
-  noremap = true,
-  desc = "Select a session"
-})
+-- ============================================================================
+-- Telescope -> Quickfix (results export)
+-- ============================================================================
+-- Inside ANY Telescope picker:
+--   <C-q>  sends the entire current results list to quickfix (+ opens it)
+--   <M-q>  sends only the selected entries to quickfix (+ opens it)
+--
+-- These are Telescope default mappings. If you want them ALWAYS available
+-- (even if you override Telescope mappings elsewhere), add them in your
+-- telescope.setup({ defaults = { mappings = ... } }) config. :contentReference[oaicite:1]{index=1}

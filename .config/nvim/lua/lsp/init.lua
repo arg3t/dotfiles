@@ -5,17 +5,14 @@
 -- For a list of LSP Servers and documentation:
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
--- === Basic settings ===
-vim.opt.updatetime = 1500 -- CursorHold delay
+vim.opt.updatetime = 1500
 
--- Diagnostic symbols
 local diagnostic_symbols = {
   ERROR = "",
   WARN  = "",
   HINT  = "",
   INFO  = "",
 }
-
 
 local float_opts = {
   focusable = false,
@@ -26,93 +23,117 @@ local float_opts = {
   anchor = "NW",
 }
 
--- Global diagnostic config
-vim.diagnostic.config({
-  virtual_text = {
-    spacing = 4,
-    prefix = function(diagnostic)
-      local s = diagnostic.severity
-      if s == vim.diagnostic.severity.ERROR then return diagnostic_symbols.ERROR end
-      if s == vim.diagnostic.severity.WARN then return diagnostic_symbols.WARN end
-      if s == vim.diagnostic.severity.INFO then return diagnostic_symbols.INFO end
-      if s == vim.diagnostic.severity.HINT then return diagnostic_symbols.HINT end
-      return "■"
-    end,
-  },
-  signs = {
+local function diag_prefix(diagnostic)
+  local s = diagnostic.severity
+  if s == vim.diagnostic.severity.ERROR then return diagnostic_symbols.ERROR end
+  if s == vim.diagnostic.severity.WARN then return diagnostic_symbols.WARN end
+  if s == vim.diagnostic.severity.INFO then return diagnostic_symbols.INFO end
+  if s == vim.diagnostic.severity.HINT then return diagnostic_symbols.HINT end
+  return "■"
+end
+
+local function diag_signs()
+  return {
     text = {
       [vim.diagnostic.severity.ERROR] = diagnostic_symbols.ERROR,
       [vim.diagnostic.severity.WARN]  = diagnostic_symbols.WARN,
       [vim.diagnostic.severity.HINT]  = diagnostic_symbols.HINT,
       [vim.diagnostic.severity.INFO]  = diagnostic_symbols.INFO,
     },
-  },
+  }
+end
+
+vim.diagnostic.config({
+  virtual_text = { spacing = 4, prefix = diag_prefix },
+  signs = diag_signs(),
   underline = true,
   severity_sort = true,
   update_in_insert = false,
-  float = {
-    border = "rounded",
-    header = "",
-    prefix = " ",
-  },
+  float = { border = "rounded", header = "", prefix = " " },
 })
 
--- Ensure diagnostic signs persist when entering windows (some plugins change config)
 vim.api.nvim_create_autocmd("BufWinEnter", {
   callback = function()
-    vim.diagnostic.config({
-      signs = {
-        text = {
-          [vim.diagnostic.severity.ERROR] = diagnostic_symbols.ERROR,
-          [vim.diagnostic.severity.WARN]  = diagnostic_symbols.WARN,
-          [vim.diagnostic.severity.HINT]  = diagnostic_symbols.HINT,
-          [vim.diagnostic.severity.INFO]  = diagnostic_symbols.INFO,
-        },
-      },
-    })
+    vim.diagnostic.config({ signs = diag_signs() })
   end,
 })
 
--- === Common capabilities (example using cmp_nvim_lsp) ===
-local capabilities_ok, cmp_cap = pcall(require, "cmp_nvim_lsp")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-if capabilities_ok and cmp_cap and cmp_cap.default_capabilities then
-  capabilities = cmp_cap.default_capabilities(capabilities)
+do
+  local ok, cmp_cap = pcall(require, "cmp_nvim_lsp")
+  if ok and cmp_cap and cmp_cap.default_capabilities then
+    capabilities = cmp_cap.default_capabilities(capabilities)
+  end
 end
-
--- Add snippet & other typical capabilities
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
 
--- === on_attach ===
+local function has_hover_capability(bufnr)
+  for _, client in pairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+    if client.server_capabilities and client.server_capabilities.hoverProvider then
+      return true
+    end
+  end
+  return false
+end
+
+local function line_diags(bufnr)
+  local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
+  return vim.diagnostic.get(bufnr, { lnum = lnum })
+end
+
+local function show_diags_or_hover(bufnr, prefer)
+  local diags = line_diags(bufnr)
+  if #diags > 0 then
+    vim.diagnostic.open_float(nil, float_opts)
+    return true
+  end
+
+  if has_hover_capability(bufnr) then
+    if prefer == "noice" then
+      require("noice.lsp").hover()
+    else
+      vim.lsp.buf.hover()
+    end
+    return true
+  end
+
+  return false
+end
+
+local function toggle_inlay_hints()
+  if not vim.lsp.inlay_hint then return end
+  local enabled = vim.lsp.inlay_hint.is_enabled()
+  vim.lsp.inlay_hint.enable(not enabled)
+  print(not enabled and "Inlay hints enabled" or "Inlay hints disabled")
+end
+
 local on_attach = function(client, bufnr)
   local function map(mode, lhs, rhs, desc)
     vim.keymap.set(mode, lhs, rhs, { noremap = true, silent = true, buffer = bufnr, desc = desc })
   end
 
-  -- basic LSP keymaps (only mapping examples used earlier)
   if client.server_capabilities.definitionProvider then
-    map('n', '<leader>gd', vim.lsp.buf.definition, "Goto Definition")
-    map('n', '<leader>gD', vim.lsp.buf.declaration, "Goto Declaration")
+    map("n", "<leader>gd", vim.lsp.buf.definition, "Goto Definition")
+    map("n", "<leader>gD", vim.lsp.buf.declaration, "Goto Declaration")
   end
   if client.server_capabilities.typeDefinitionProvider then
-    map('n', '<leader>gy', vim.lsp.buf.type_definition, "Goto Type Definition")
+    map("n", "<leader>gy", vim.lsp.buf.type_definition, "Goto Type Definition")
   end
   if client.server_capabilities.implementationProvider then
-    map('n', '<leader>gi', vim.lsp.buf.implementation, "Goto Implementation")
+    map("n", "<leader>gi", vim.lsp.buf.implementation, "Goto Implementation")
   end
   if client.server_capabilities.referencesProvider then
-    map('n', '<leader>gr', vim.lsp.buf.references, "Goto References")
+    map("n", "<leader>gr", vim.lsp.buf.references, "Goto References")
   end
   if client.server_capabilities.renameProvider then
-    map('n', '<leader>rn', vim.lsp.buf.rename, "Rename")
+    map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
   end
   if client.server_capabilities.documentFormattingProvider then
     vim.bo[bufnr].formatexpr = "v:lua.vim.lsp.formatexpr()"
-    map('n', '<leader>gq', function() vim.lsp.buf.format({ async = true }) end, "Format Buffer")
+    map("n", "<leader>gq", function() vim.lsp.buf.format({ async = true }) end, "Format Buffer")
   end
 
-  -- Document highlight if supported
   if client.server_capabilities.documentHighlightProvider then
     vim.cmd([[
       hi! link LspReferenceRead Visual
@@ -126,126 +147,58 @@ local on_attach = function(client, bufnr)
     ]])
   end
 
-  if vim.g.logging_level == 'debug' then
+  if vim.g.logging_level == "debug" then
     vim.notify(("Language server %s started!"):format(client.name), vim.log.levels.INFO, { title = "Nvim-config" })
   end
+
   if vim.lsp.inlay_hint then
     vim.lsp.inlay_hint.enable(false)
   end
 end
 
-local function toggle_inlay_hints()
-  local enabled = vim.lsp.inlay_hint.is_enabled()
-
-  vim.lsp.inlay_hint.enable(not enabled)
-
-  if not enabled then
-    print("Inlay hints enabled")
-  else
-    print("Inlay hints disabled")
-  end
-end
-
-
--- === CursorHold autocmd: diagnostics first, otherwise hover ===
-local function hover_shown()
-  local base_win_id = vim.api.nvim_get_current_win()
-  local windows = vim.api.nvim_tabpage_list_wins(0)
-  for _, win_id in ipairs(windows) do
-    if win_id ~= base_win_id then
-      local win_cfg = vim.api.nvim_win_get_config(win_id)
-      if win_cfg.relative == "win" and win_cfg.win == base_win_id then
-        return true
-      end
-    end
-  end
-  return false
-end
-
-local function has_hover_capability(bufnr)
-  local clients = vim.lsp.get_clients({ bufnr = bufnr })
-  for _, client in pairs(clients) do
-    if client.server_capabilities.hoverProvider then
-      return true
-    end
-  end
-  return false
-end
-
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
     if vim.fn.mode() == "i" then return end
-
-    local bufnr = 0
-    local cursor_line = vim.api.nvim_win_get_cursor(0)[1] - 1
-    local diags = vim.diagnostic.get(bufnr, { lnum = cursor_line })
-
-    if #diags > 0 then
-      vim.diagnostic.open_float(nil, float_opts)
-      return
-    end
+    show_diags_or_hover(0, "noice")
   end,
 })
 
--- === Keymaps for hover and diagnostics ===
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(event)
     vim.keymap.set("n", "K", function()
-      if hover_shown() then
-        return
-      end
+      show_diags_or_hover(event.buf, "noice")
+    end, { buffer = event.buf, silent = true })
 
-      local cursor_line = vim.api.nvim_win_get_cursor(0)[1] - 1
-      local diags = vim.diagnostic.get(0, { lnum = cursor_line })
-      if #diags > 0 then
-        vim.diagnostic.open_float(nil, float_opts)
-        return
-      end
-
-      if has_hover_capability(event.buf) then
-        require("noice.lsp").hover()
-      end
-    end, { buffer = event.buf, remap = false, silent = true })
-  end
+    vim.keymap.set("n", "<leader>hh", toggle_inlay_hints, { buffer = event.buf, desc = "Toggle inlay hints" })
+  end,
 })
 
--- diagnostic navigation keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
-vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = "Set diagnostic loclist" })
-vim.keymap.set('n', '<leader>dq', vim.diagnostic.setqflist, { desc = "Set diagnostic qflist" })
-vim.keymap.set('n', '<leader>hh', toggle_inlay_hints, { desc = "Toggle inlay hints" })
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
+vim.keymap.set("n", "<leader>dl", vim.diagnostic.setloclist, { desc = "Set diagnostic loclist" })
+vim.keymap.set("n", "<leader>dq", vim.diagnostic.setqflist, { desc = "Set diagnostic qflist" })
 
-
--- === LSP Server Setup Function ===
 local utils = require("utils")
 local lsmod = require("lazy.core.util").lsmod
 
 local function lspSetup(mod)
-  if mod == "lsp" then
-    return
-  end
-
+  if mod == "lsp" then return end
   local config = require(mod)
 
-  for k, v in pairs(config.lsp) do
-    local v_attach = v.on_attach
-    local conf = utils.mergeTables(v, {
+  for server, server_conf in pairs(config.lsp) do
+    local v_attach = server_conf.on_attach
+    local conf = utils.mergeTables(server_conf, {
       on_attach = function(client, bufnr)
         on_attach(client, bufnr)
-        if v_attach then
-          v_attach(client, bufnr)
-        end
+        if v_attach then v_attach(client, bufnr) end
       end,
-      capabilities = capabilities
+      capabilities = capabilities,
     })
 
-    vim.lsp.config(k, conf)
-    vim.lsp.enable(k)
+    vim.lsp.config(server, conf)
+    vim.lsp.enable(server)
   end
 end
 
 require("neoconf").setup({})
-
--- Load configs from lsp directory
 lsmod("lsp", lspSetup)
