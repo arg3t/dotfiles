@@ -55,6 +55,7 @@
   "telescope-ui-select.nvim": { "branch": "master", "commit": "6e51d7da30bd139a6950adf2a47fda6df9fa06d2" },
   "telescope.nvim": { "branch": "master", "commit": "a8c2223ea6b185701090ccb1ebc7f4e41c4c9784" },
   "toggleterm.nvim": { "branch": "main", "commit": "50ea089fc548917cc3cc16b46a8211833b9e3c7c" },
+  "typst-preview.nvim": { "branch": "master", "commit": "e123a7ab64e52d836e00dea9251e85b201f38966" },
   "vim-cppman": { "branch": "master", "commit": "de1318252b68fba9b8249254475b6e050d160b73" },
   "vim-doge": { "branch": "master", "commit": "03a84072ef21b205237c77986c78914395d646c3" },
   "vim-easy-align": { "branch": "master", "commit": "9815a55dbcd817784458df7a18acacc6f82b1241" },

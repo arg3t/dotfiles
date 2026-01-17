@@ -1,4 +1,5 @@
 M = { "sphamba/smear-cursor.nvim" }
-M.opts = {}
+M.opts = {
+}
 
 return M
