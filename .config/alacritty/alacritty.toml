@@ -23,4 +23,5 @@ general.import = [
 
      { key = "K", mods = "Alt|Shift", action = "IncreaseFontSize" },
      { key = "J", mods = "Alt|Shift", action = "DecreaseFontSize" },
+     { key = "Return", mods = "Shift", chars = "\u001b\r" },
   ]
