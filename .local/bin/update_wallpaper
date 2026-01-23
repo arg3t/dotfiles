@@ -8,18 +8,18 @@ night=19
 
 if [ "$hour" -le "$morning" ]; then
   if [ ! "$cached" = "night"  ]; then
-    hyprctl hyprpaper reload ,"$(find ~/.local/backgrounds/evening -type f | sort -R | tail -1 )"
+    hyprctl hyprpaper wallpaper ,"$(find ~/.local/backgrounds/evening -type f | sort -R | tail -1 )"
   fi
 elif [ "$night" -le "$hour" ]; then
   if [ ! "$cached" = "night"  ]; then
-    hyprctl hyprpaper reload ,"$(find ~/.local/backgrounds/evening -type f | sort -R | tail -1 )"
+    hyprctl hyprpaper wallpaper ,"$(find ~/.local/backgrounds/evening -type f | sort -R | tail -1 )"
   fi
 elif [ "$afternoon" -le "$hour" ]; then
   if [ ! "$cached" = "afternoon"  ]; then
-    hyprctl hyprpaper reload ,"$(find ~/.local/backgrounds/afternoon -type f | sort -R | tail -1 )"
+    hyprctl hyprpaper wallpaper ,"$(find ~/.local/backgrounds/afternoon -type f | sort -R | tail -1 )"
   fi
 else
   if [ ! "$cached" = "morning"  ]; then
-    hyprctl hyprpaper reload ,"$(find ~/.local/backgrounds/morning -type f | sort -R | tail -1 )"
+    hyprctl hyprpaper wallpaper ,"$(find ~/.local/backgrounds/morning -type f | sort -R | tail -1 )"
   fi
 fi
