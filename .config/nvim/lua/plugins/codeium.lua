@@ -1,7 +1,6 @@
 M = { "Exafunction/windsurf.nvim" }
 M.dependencies = {
   "nvim-lua/plenary.nvim",
-  "hrsh7th/nvim-cmp",
 }
 
 M.config = function()
