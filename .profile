@@ -129,6 +129,9 @@ LF_ICONS=$(sed ~/.config/lf/diricons \
             -e 's/$/ /')
 LF_ICONS=${LF_ICONS//$'\n'/:}
 
+# Sudo Prompt
+export SUDO_PROMPT="$(printf '\033[38;5;141m\033[0m Shall you pass?') "
+
 export LF_ICONS
 
 if [ $disp_manager -ne 0 ]; then
