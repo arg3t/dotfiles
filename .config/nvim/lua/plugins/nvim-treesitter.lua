@@ -3,6 +3,7 @@ M.dependencies = {
   "neovim/nvim-lspconfig",
 }
 M.build = ":TSUpdate"
+M.lazy = false
 M.config = function()
   local ts = require("nvim-treesitter")
   ts.setup {}
