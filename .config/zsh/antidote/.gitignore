@@ -1,0 +1,14 @@
+~*
+.*/
+*.zwc
+*.zwc.old
+.cache/
+!/tests/**/.cache/
+.tmp/
+.plugins/
+.todo/
+sandbox/
+*.old
+**/realzdotdir/zsh_plugins.zsh
+foo*.*
+!footer.*

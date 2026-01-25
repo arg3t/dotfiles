@@ -1,7 +1,4 @@
 zsh-users/zsh-completions
-
-# robbyrussell/oh-my-zsh path:plugins/aws
-
 zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-history-substring-search
 zsh-users/zsh-autosuggestions

@@ -8,7 +8,7 @@ M.config = function()
   local ts = require("nvim-treesitter")
   ts.setup {}
 
-  ts.install { "html", "json", "regex", "c", "cpp", "css", "bash", "lua", "java", "python", "javascript", "latex", "markdown", "markdown_inline", "vim", "regex", "go", "rust" }
+  ts.install { "html", "json", "regex", "c", "cpp", "css", "bash", "lua", "java", "python", "javascript", "latex", "markdown", "markdown_inline", "vim", "regex", "go", "rust", "typst" }
 end
 
 return M

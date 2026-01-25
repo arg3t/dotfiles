@@ -14,8 +14,26 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Created by kuro for 5.8
-source <(antibody init)
+
+zsh_plugins=${ZDOTDIR}/.zsh_plugins
+
+# Ensure the zsh_plugins.txt file exists so you can add plugins.
+[[ -f ${zsh_plugins}.txt ]] || touch ${zsh_plugins}.txt
+
+# Lazy-load antidote from its functions directory.
+fpath=(${ZDOTDIR}/antidote/functions $fpath)
+autoload -Uz antidote
+
+# Generate a new static file whenever .zsh_plugins.txt is updated.
+if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
+  antidote bundle <${zsh_plugins}.txt >|${zsh_plugins}.zsh
+fi
+
+
+source ${zsh_plugins}.zsh
+
+# powerlevel10k theme
+source ${ZDOTDIR}/p10k.zsh
 
 #Autocompletion
 autoload -Uz compinit
@@ -25,16 +43,11 @@ else
   compinit -C -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
 fi;
 
-
 [[ ! -d  "$XDG_DATA_HOME"/zsh/history ]] || source  "$XDG_DATA_HOME"/zsh/history
 HISTSIZE=100000
 SAVEHIST=100000
 setopt appendhistory
 setopt autocd
-
-antibody bundle < ~/.config/antibody/zsh_plugins.txt
-
-[[ ! -f ~/.config/antibody/p10k.zsh ]] || source ~/.config/antibody/p10k.zsh
 
 fpath=("$XDG_CONFIG_HOME"/zsh/completions $fpath)
 autoload -Uz compinit
