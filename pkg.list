@@ -1117,3 +1117,5 @@ zlib 1:1.3.1-2
 zsh 5.9-5
 zstd 1.5.6-1
 zxing-cpp 2.2.1-1
+brightnessctl 0.5.1-3
+syshud 2025.12.09-1
