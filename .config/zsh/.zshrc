@@ -22,6 +22,9 @@ antidote load
 # powerlevel10k theme
 source ${ZDOTDIR}/p10k.zsh
 
+# starship
+# eval "$(starship init zsh)"
+
 #Autocompletion
 autoload -Uz compinit
 if [[ -n $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION ]]; then

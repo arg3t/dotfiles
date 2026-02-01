@@ -88,6 +88,7 @@ if [ $disp_manager -ne 0 ]; then
 fi
 
 # Setup PATH
+export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$PATH:/usr/lib/emscripten"
 export PATH="$PATH:$HOME/.yarn/bin"
 export PATH="$PATH:$ANDROID_HOME/tools"
@@ -100,7 +101,6 @@ export PATH="$PATH:$GOPATH/bin"
 export PATH="$PATH:$GOPATH/binexport"
 export PATH="$PATH:$XDG_DATA_HOME/cargo/bin/"
 export PATH="$PATH:$XDG_DATA_HOME/questasim/questasim/linux_x86_64"
-export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH=$XDG_DATA_HOME/node/bin:$PATH
 export PATH="$PATH:$XDG_DATA_HOME/codeql"
 # export PATH="$PATH:$XDG_DATA_HOME/anaconda3/bin"
