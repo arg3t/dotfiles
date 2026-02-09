@@ -163,3 +163,7 @@ fi
 if [ -f "$HOME/.local/share/cargo/env" ]; then
   . "$HOME/.local/share/cargo/env"
 fi
+
+if [ -f "$HOME/.config/config.env" ]; then
+  source "$HOME/.config/config.env"
+fi
