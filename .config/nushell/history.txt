@@ -1,0 +1,21 @@
+clear
+ls
+clear
+curl -s https://api.github.com/repos/nushell/nushell/contributors | jq -c '.[] | {login,contributions}'
+http get https://api.github.com/repos/nushell/nushell/contributors | select login contributions
+cd Projects/machete/machete/logs/
+cat 2026-01-29_21-54-46/hello_2875508.jsonl | from json
+cat 2026-01-29_21-54-46/hello_2875508.jsonl | from jsonl
+cat 2026-01-29_21-54-46/hello_2875508.jsonl | from json --objects
+cat 2026-01-29_21-54-46/hello_2875508.jsonl | from json --objects | less
+cat 2026-01-29_21-54-46/hello_2875508.jsonl | from json --objects | explore
+clear
+cat 2026-01-29_21-54-46/hello_2875508.jsonl | from json --objects | get sandbox
+cat 2026-01-29_21-54-46/hello_2875508.jsonl | from json --objects | get sandbox,type
+cat 2026-01-29_21-54-46/hello_2875508.jsonl | from json --objects | get sandbox type
+cat 2026-01-29_21-54-46/hello_2875508.jsonl | from json --objects | select sandbox type
+cat 2026-01-29_21-54-46/hello_2875508.jsonl | from json --objects | select sandbox type | explore
+vim /home/yigit/.config/nushell/config.nu
+yay -S gh-cli
+yay -S github-cli
+vim /home/yigit/.config/nushell/config.nu

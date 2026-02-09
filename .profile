@@ -21,7 +21,7 @@ export ELECTRON_OZONE_PLATFORM_HINT=auto
 
 
 # Environment variables
-export SHELL=/bin/zsh
+export SHELL=/usr/bin/zsh
 export TERMINAL=/usr/local/bin/st
 export BROWSER=firefox
 export EDITOR=nvim
