@@ -19,7 +19,7 @@
         "custom/arch",
         "pulseaudio",
         "network",
-        "battery",
+        "custom/battery",
         "clock#time",
         "custom/empty",
         "clock#date"
@@ -83,19 +83,11 @@
       "on-click": "nm-connection-editor"
     },
 
-    "battery": {
-          "interval": 120,
-          "states": {
-              "good": 95,
-              "warning": 30,
-              "critical": 15
-          },
-          "format": "<span color=\"#ebcb8b\">{icon}</span> {capacity}%",
-          "format-full": "<span color=\"#ebcb8b\">{icon}</span> {capacity}%",
-          "format-charging": "<span color=\"#ebcb8b\">󰂄</span> {capacity}%",
-          "format-plugged": "<span color=\"#ebcb8b\">󰂄</span> {capacity}%",
-          "format-alt": "<span color=\"#ebcb8b\">{icon}</span> {time}",
-          "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    "custom/battery": {
+      "format": "{}",
+      "return-type": "json",
+      "interval": 120,
+      "exec": "$HOME/.local/bin/status-bar/batteries",
     },
 
     "clock#time": {

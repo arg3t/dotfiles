@@ -116,6 +116,7 @@ export LM_LICENSE_FILE=27017@flexserv1.tudelft.nl
 export ZK_NOTEBOOK_DIR=~/Projects/Neocortex/content
 
 export PYENV_ROOT="$HOME/.local/share/pyenv"
+export CLAUDE_USE_WAYLAND=1
 
 # [[ ! -r "$HOME/.opam/opam-init/init.sh" ]] || source "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null
 
@@ -143,11 +144,11 @@ fi
 
 # Setup SSH
 if [ ! "$SSH_AUTH_SOCK" ]; then
-  if [ -e "$XDG_RUNTIME_DIR/gcr/ssh" ]; then
+  if [ -e "$XDG_RUNTIME_DIR/gcr/ssh" ] && [ -z "$SSH_TTY" ]; then
     export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
   else
     eval "$(ssh-agent | head -n 2)"
-    grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add > /dev/null 2> /dev/null
+    # grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add > /dev/null 2> /dev/null
   fi
 fi
 
