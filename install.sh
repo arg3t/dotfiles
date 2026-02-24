@@ -1,145 +1,173 @@
-#!/bin/sh
+#!/bin/bash
 
-set -e
+dots="git --git-dir=\$HOME/.dotfiles.git/ --work-tree=\$HOME"
+username=$(whoami)
+prev=$(pwd)
+verbose=0
 
-if ! command -v sudo > /dev/null; then
-    echo "The sudo command is not installed. Please install it before running this script."
-    exit 1
+rm -rf "~/dots_backup"
+
+while getopts "v" OPTION
+do
+  case $OPTION in
+    v) verbose=1
+       ;;
+    *) echo "Only available option is -v" ;;
+  esac
+done
+
+mvie(){
+  if [ -e "$1" ];then
+    rm -rf "$2"
+    mv "$1" "$2"
+  fi
+}
+
+info(){
+  printf "[\e[32mINFO\e[0m]:%s\n" "$1"
+}
+
+debug(){
+  if [ $verbose ]; then
+    printf "[\e[33mDEBUG\e[0m]:%s\n" "$1"
+  fi
+}
+
+error(){
+  printf "[\e[31mERROR\e[0m]:%s\n" "$1"
+}
+
+prompt(){
+  printf "[\e[35mPROMPT\e[0m]: %s" "$1"
+  read -r ans
+  printf "%s" "$ans"
+}
+
+echo "Running backup of old dotfiles"
+IFS="
+"
+
+info "Checking out dotfiles"
+bash -c "$dots checkout"
+
+info "Setting up sudo so that you won't be prompted for a password for the next of the script"
+
+# Don't prompt for a password for the rest of the script
+sudo bash -c 'echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nopwd'
+
+
+eval "$(grep -h -- \
+	"^\s*\(export \)\?\(CARGO_HOME\|GOPATH\|ANDROID_HOME\|FLUTTER_HOME\|LEIN_HOME\|NVM_DIR\|GNUPGHOME\|WEECHAT_HOME\|JUPYTER_CONFIG_DIR\|PYLINTHOME\|XDG_DATA_HOME\|XDG_CONFIG_HOME\|XDG_CACHE_HOME\|_Z_DATA\)=" \
+	"$HOME/.profile"  2>/dev/null)"
+
+info "Creating relevant directories"
+# Create necessary folders
+mkdir -p "$HOME/.local/share/ncmpcpp/lyrics"
+mkdir -p "$HOME/.local/share/calcurse"
+mkdir -p "$CARGO_HOME"
+mkdir -p "$GOPATH"
+mkdir -p "$ANDROID_HOME"
+mkdir -p "$FLUTTER_HOME"
+mkdir -p "$LEIN_HOME"
+mkdir -p "$NVM_DIR"
+mkdir -p "$GNUPGHOME"
+mkdir -p "$WEECHAT_HOME"
+mkdir -p "$JUPYTER_CONFIG_DIR"
+mkdir -p "$PYLINTHOME"
+mkdir -p "$HOME/.local/share/zsh"
+mkdir -p "$XDG_DATA_HOME/mail"
+mkdir -p "$XDG_DATA_HOME/icons"
+mkdir -p "$XDG_DATA_HOME/themes"
+mkdir -p "$XDG_DATA_HOME/fonts"
+mkdir -p "$HOME/.local/backgrounds"
+mkdir -p "$XDG_CONFIG_HOME/git"
+mkdir -p "$XDG_CACHE_HOME/surf"
+mkdir -p "$HOME/.ssh"
+chmod 700 "$GNUPGHOME"
+touch "$XDG_CONFIG_HOME/git/config"
+touch "$_Z_DATA"
+
+info "Copying some necessary files that are not in ~"
+IFS="
+"
+for i in $(cat "$HOME/.local/root/mappings"); do
+  src="$(echo "$i" | sed "s/ ->.*//g")"
+  dest="$(echo "$i" | sed "s/.*-> //g")"
+  sudo mkdir -p "$(echo "$dest" | sed "s/\/[^\/]*$//g")"
+  sudo cp "$HOME/.local/root/$src" "$dest"
+done
+
+yay -S --needed --noconfirm $(
+  bash -c "$dots show main:pkg.list" | cut -d ' ' -f1
+)
+
+# Install fonts and icons
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/CascadiaCode.zip
+unzip -d CascadiaCode CascadiaCode.zip
+
+if [ ! -d $XDG_DATA_HOME/fonts ]; then
+  mkdir -p $XDG_DATA_HOME/fonts
 fi
 
-ARCH="$(uname -m)"
+mv CascadiaCode/* $XDG_DATA_HOME/fonts
+fc-cache
 
-if [ ! "$ARCH" = "x86_64" ] && [ ! "$ARCH" = "amd64" ]; then
-    printf "Your architecture: %s, is not supported.
-Your architecture might, however, be supported by the Pip package. You may try the following instructions: https://docs.eduvpn.org/client/linux/installation.html#pip-installation" "$ARCH"
-    exit 1
+rm -rf CascadiaCode CascadiaCode.zip
+
+git clone https://github.com/vinceliuice/Tela-icon-theme.git /tmp/tela
+p=$(pwd)
+cd /tmp/tela
+./install.sh
+cd $p
+rm -rf /tmp/tela
+
+cp ~/.config/config.env.default ~/.config/config.env
+
+# Setup Crontab
+if [ ! -f "/var/spool/cron/$username" ]; then
+  crontab "$HOME/.config/crontab"
+else
+  echo -n "An existing cron file is detected, would you like to overwrite it?(Y/n): "
+  read -r cron
+  if [ ! "$cron" = "n" ]; then
+    crontab -l >> "$HOME/.config/crontab"
+    crontab "$HOME/.config/crontab"
+  fi
 fi
 
-. "/etc/os-release"
 
-install_deb() {
-    set -xeuo pipefail
-    sudo apt-get update
-    # Make sure dependencies are installed:
-    # * apt-transport-https required to fetch packages over https
-    # * curl + ca-certificates required to fetch the key
-    # * gnupg required to verify the key
-    sudo apt-get install --no-install-recommends apt-transport-https curl gnupg ca-certificates
-    curl -sSf https://app.eduvpn.org/linux/v4/deb/app+linux@eduvpn.org.asc | gpg --dearmor | sudo tee /usr/share/keyrings/eduvpn-v4.gpg >/dev/null
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/eduvpn-v4.gpg] https://app.eduvpn.org/linux/v4/deb/ $1 main" | sudo tee /etc/apt/sources.list.d/eduvpn-v4.list
-    sudo apt-get update
-    sudo apt-get install eduvpn-client
-    exit 0
-}
+sudo systemctl enable chronyd
+sudo systemctl enable cronie
 
-install_fedora() {
-    set -x
-    curl -O https://app.eduvpn.org/linux/v4/rpm/app+linux@eduvpn.org.asc
-    sudo rpm --import app+linux@eduvpn.org.asc
-    cat << 'EOF' | sudo tee /etc/yum.repos.d/python-eduvpn-client_v4.repo
-[python-eduvpn-client_v4]
-name=eduVPN for Linux 4.x (Fedora $releasever)
-baseurl=https://app.eduvpn.org/linux/v4/rpm/fedora-$releasever-$basearch
-gpgcheck=1
-EOF
-    sudo dnf install eduvpn-client
-    exit 0
-}
+if [ "$username" = "yigit" ]; then
+  mkdir -p "$XDG_DATA_HOME/mail/yigitcolakoglu@hotmail.com"
+  git config --global user.email "yigitcolakoglu@hotmail.com"
+  git config --global user.name "Yigit Colakoglu"
+fi
 
-install_centos() {
-    if [ "$VERSION" != "9" ]; then
-	echo "CentOS Stream $VERSION is not supported"
-	exit 1
-    fi
-    set -x
-    curl -O https://app.eduvpn.org/linux/v4/rpm/app+linux@eduvpn.org.asc
-    sudo rpm --import app+linux@eduvpn.org.asc
-    cat << 'EOF' | sudo tee /etc/yum.repos.d/python-eduvpn-client_v4.repo
-[python-eduvpn-client_v4]
-name=eduVPN for Linux 4.x (CentOS Stream 9)
-baseurl=https://app.eduvpn.org/linux/v4/rpm/centos-stream+epel-next-9-$basearch
-gpgcheck=1
-EOF
-    sudo dnf install eduvpn-client
-    exit 0
-}
+# Build and Install Everything
+## Suckless utilities
+if [ "$(hostnamectl hostname)" = "workstation" ]; then
+  export VPS=1
+else
+  export VPS=0
+fi
 
-install_alma() {
-    if [ "${VERSION/.*/}" != "9" ]; then
-	echo "$PRETTY_NAME is not supported"
-	exit 1
-    fi
-    set -x
-    curl -O https://app.eduvpn.org/linux/v4/rpm/app+linux@eduvpn.org.asc
-    sudo rpm --import app+linux@eduvpn.org.asc
-    cat << 'EOF' | sudo tee /etc/yum.repos.d/python-eduvpn-client_v4.repo
-[python-eduvpn-client_v4]
-name=eduVPN for Linux 4.x (AlmaLinux 9)
-baseurl=https://app.eduvpn.org/linux/v4/rpm/alma+epel-9-$basearch
-gpgcheck=1
-EOF
-sudo dnf install epel-release
-sudo dnf install eduvpn-client
-exit 0
-}
+info "Installing suckless utilities"
+(cd ~/.local/src; ./build.sh > /dev/null 2> /dev/null)
+sudo groupadd nogroup
 
-install_rocky() {
-    if [ "${VERSION/.*/}" != "9" ]; then
-	echo "$PRETTY_NAME is not supported"
-	exit 1
-    fi
-    set -x
-    curl -O https://app.eduvpn.org/linux/v4/rpm/app+linux@eduvpn.org.asc
-    sudo rpm --import app+linux@eduvpn.org.asc
-    cat << 'EOF' | sudo tee /etc/yum.repos.d/python-eduvpn-client_v4.repo
-[python-eduvpn-client_v4]
-name=eduVPN for Linux 4.x (Rocky Linux 9)
-baseurl=https://app.eduvpn.org/linux/v4/rpm/rocky+epel-9-$basearch
-gpgcheck=1
-EOF
-sudo dnf install epel-release
-sudo dnf install eduvpn-client
-exit 0
-}
-
-
-case $VERSION_CODENAME in
-    # ubuntu and deb versions
-    "focal" | "jammy" | "noble" | "plucky" | "bookworm" | "trixie")
-	install_deb "$VERSION_CODENAME"
-	;;
-    # For linux mint we need to do some redirections to ubuntu codenames
-    # See https://linuxmint.com/download_all.php
-    # redirect linux mint 20.x codenames to focal
-    "ulyana" | "ulyssa" | "uma" | "una")
-	install_deb "focal"
-	;;
-    # redirect linux mint 21.x codenames to jammy
-    "vanessa" | "vera" | "victoria")
-	install_deb "jammy"
-	;;
-    # redirect linux mint 22.x codenames to noble
-    "wilma")
-	install_deb "noble"
-	;;
-esac
-
-# No codename or unsupported codename, get based on name
-case $NAME in
-    "Fedora Linux")
-	install_fedora
-	;;
-    "CentOS Stream")
-	install_centos
-	;;
-    "AlmaLinux")
-    install_alma
-    ;;
-    "Rocky Linux")
-    install_rocky
-    ;;
-    *)
-	echo "OS: \"$NAME\" with codename \"$VERSION_CODENAME\" is not supported"
-	exit 1
-	;;
-esac
+# Do a cleanup and delete some problematic files
+rm -rf ~/.fzf*
+rm -rf ~/.bash_profile
+rm -rf ~/.dotfiles/yarn.lock
+rm -rf ~/.dotfiles/.git/hooks/*
+rm -rf ~/install.sh
+rm -rf ~/README.md
+rm -rf ~/pkg.list
+bash -c "$dots update-index --assume-unchanged {pkg.list,install.sh,README.md}"
+bash -c "$dots config --local status.showUntrackedFiles no"
+sudo rm -rf /etc/urlview/system.urlview
+echo "I am now restarting your system so that the configurations changes apply"
+sleep 5
+sudo bash -c "rm -rf /etc/sudoers.d/nopwd; reboot"
