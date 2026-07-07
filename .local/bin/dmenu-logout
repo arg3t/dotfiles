@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Load dmenu config
 # shellcheck source=/dev/null

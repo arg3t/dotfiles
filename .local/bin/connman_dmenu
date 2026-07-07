@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 readonly SCAN_RESULT=/tmp/connman.scan
 readonly STORAGE_PATH=/var/lib/connman
 readonly VPN_STORAGE_PATH=/var/lib/connman-vpn

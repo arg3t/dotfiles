@@ -23,6 +23,9 @@
     alacritty
     firefox
     bemenu
+    j4-dmenu-desktop
+    cliphist
+    alsa-utils
     mako
     grim
     slurp

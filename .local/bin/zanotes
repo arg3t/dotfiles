@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 NOTES_FOLDER="$HOME/Documents/Notes"
 JSON_DB="$NOTES_FOLDER/books.yml"

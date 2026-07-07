@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #pidof emacs && emacsclient -e '(org-caldav-sync)' # Sync emacs-caldav as well
 eval "$(grep -h -- \

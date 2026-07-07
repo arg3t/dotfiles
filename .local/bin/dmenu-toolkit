@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 read -r -d '' MENU << EOM
 Bluetooth | Manage bluetooth and bluetooth devices | dmenu-bluetooth

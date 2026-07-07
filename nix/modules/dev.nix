@@ -29,6 +29,8 @@
     nil # nix
 
     # non-LSP tooling nvim configs expect
+    tree-sitter
+    gcc # nvim-treesitter compiles grammars
     ripgrep
     fd
   ];
