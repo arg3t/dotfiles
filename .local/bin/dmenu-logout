@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Load dmenu config
+# shellcheck source=/dev/null
+[ -f "$HOME/.dmenurc" ] && . "$HOME/.dmenurc" || DMENU='dmenu -i'
+
+# Menu items
+items="logout
+suspend
+reboot
+poweroff"
+
+# Open menu
+selection=$(printf '%s' "$items" | $DMENU)
+
+case $selection in
+	logout)
+    hyprctl dispatch exit
+		;;
+	suspend)
+		systemctl suspend || loginctl hibernate
+		;;
+	reboot)
+		sudo reboot
+		;;
+	halt|poweroff|shutdown)
+		sudo shutdown -h now
+		;;
+esac
+
+exit

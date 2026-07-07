@@ -1,0 +1,5 @@
+#!/bin/sh
+
+clp=$(sselp)
+
+echo "^c#ebcb8b^ ^d^${clp:0:40}"

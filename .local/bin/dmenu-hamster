@@ -1,0 +1,35 @@
+#!/bin/sh
+
+function menu {
+	dmenu -i -l 20 $@
+}
+
+function refresh {
+	echo "refresh" 
+}
+
+current=$(hamster current)
+
+# choose an action
+if [ "No activity" = "$current" ]; then
+	action="start"
+else
+	action=$(echo -e -n "start\nstop $current" | menu -p Action)
+fi
+
+[ -z "$action" ] && exit 1
+
+case "$action" in
+	start)
+		activity=$(hamster activities | menu -p Start)
+		[ -z "$activity" ] && exit 1
+		hamster start $activity
+		notify-send "Started $activity"
+		refresh
+	;;
+	stop*)
+		hamster stop
+		notify-send "Stopped $current"
+		refresh
+	;;
+esac

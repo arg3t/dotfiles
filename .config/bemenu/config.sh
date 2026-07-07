@@ -1,0 +1,22 @@
+export BEMENU_OPTS="--prompt 'Select an option' \
+--line-height 25 \
+--fn 'CaskaydiaCove Nerd Font 10' \
+--tb '#ACA3EB' \
+--tf '#1e1e2e' \
+--fb '#1e1e2e' \
+--hp '8px' \
+--ff '#cdd6f4' \
+--nb '#1e1e2e' \
+--nf '#cdd6f4' \
+--ab '#1e1e2e' \
+--af '#cdd6f4' \
+--hb '#ACA3EB' \
+--hf '#1e1e2e' \
+--sb '#ACA3EB' \
+--sf '#1e1e2e' \
+--cb '#ACA3EB' \
+--cf '#1e1e2e' \
+--fbb '#1e1e2e' \
+--fbf '#ACA3EB' \
+--border 5 \
+--bdr #00000000";

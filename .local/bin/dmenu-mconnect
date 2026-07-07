@@ -1,0 +1,134 @@
+#!/usr/bin/env bash
+# dmenu_kdeconnect.sh is a script based off of these scripts
+# [polybar-kdeconnect] https://github.com/HackeSta/polybar-kdeconnect
+# [polybar-kdeconnect-scripts] https://github.com/witty91/polybar-kdeconnect-scripts
+# Added features
+# - Removed polybar as a Dependencies (since I use dwm)
+# - Integration with a variety of file managers
+# - Implementation as one simplified shell script
+# - utilize sh instead of bash
+
+#TODO
+# 1. Allow different dmenu colors based on the battery percentage
+# 2. Make the script no sh complaint
+# 3. Implement a contacts list to make sms messaging easier
+
+# Dependancies
+# -dmenu
+# -kdeconnect
+# -zenity, nnn, or ranger
+# -qt5-tools
+# -dbus
+# -dunst
+
+# options
+# nnn
+# zenity
+# ranger
+Picker='lf'
+
+# Color Settings of dmenu
+COLOR_DISCONNECTED='#000'       # Device Disconnected
+COLOR_NEWDEVICE='#ff0'          # New Device
+COLOR_BATTERY_90='#fff'         # Battery >= 90
+COLOR_BATTERY_80='#ccc'         # Battery >= 80
+COLOR_BATTERY_70='#aaa'         # Battery >= 70
+COLOR_BATTERY_60='#888'         # Battery >= 60
+COLOR_BATTERY_50='#666'         # Battery >= 50
+COLOR_BATTERY_LOW='#f00'        # Battery <  50
+
+# Icons shown in dmenu
+ICON_SMARTPHONE=''
+ICON_TABLET=''
+SEPERATOR='|'
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+source ~/.config/config.env
+
+show_devices (){
+		device=$(mconnectctl | grep $MCONNECT_DEVICE | sed 's/\s\{2,\}/\n/g; s/ - /\n/g;s/^\n//g' | head -n 1)
+		deviceobj=$(echo "$device" | cut -f2 -d"\"" | tr -d '\n' | xargs)
+		devicename=$(dbus-send --print-reply --session --dest=org.mconnect "$deviceobj" org.freedesktop.DBus.Properties.Get string:org.mconnect.Device string:Name | grep -E string | cut -f2 -d"\"")
+		isreach="$(dbus-send --print-reply --session --dest=org.mconnect "$deviceobj" org.freedesktop.DBus.Properties.Get string:org.mconnect.Device string:IsConnected | grep -E boolean | cut -b 26-)"
+		devicetype=$(dbus-send --print-reply --session --dest=org.mconnect "$deviceobj" org.freedesktop.DBus.Properties.Get string:org.mconnect.Device string:DeviceType | grep -E string | cut -f2 -d"\"")
+		istrust="$(dbus-send --print-reply --session --dest=org.mconnect "$deviceobj" org.freedesktop.DBus.Properties.Get string:org.mconnect.Device string:Allowed | grep -E boolean | cut -b 26-)"
+		if [ "$isreach" = "true" ] && [ "$istrust" = "true" ];then
+				#is connected
+				battery="$(dbus-send --print-reply --session --dest=org.mconnect $deviceobj org.freedesktop.DBus.Properties.Get string:org.mconnect.Device.Battery string:Level | grep -e uint32 | cut -b 25-)%"
+				icon=$(get_icon $battery $devicetype)
+				# colors="$(get_colors $battery)"
+				# echo "$colors"
+				show_menu "$devicename | $battery $icon" $deviceobj $battery
+				devices+="$devicename $battery $icon $SEPERATOR"
+		elif [ "$isreach" = "false" ] && [ "$istrust" = "true" ];then
+				#nothing is found
+				devices+="$(get_icon -1 $devicetype)$SEPERATOR"
+		else
+				#found but not yet paired
+				icon=$(get_icon -2 $devicetype)
+				show_pmenu $devicename $deviceobj
+				devices+="$devicename $icon $SEPERATOR"
+		fi
+}
+
+SendKeys(){
+    output="?"
+    TEMPFILE=$XDG_RUNTIME_DIR/VimFloat
+    > $TEMPFILE
+    st -t "vim-anywhere" -n 'popup' -e "${EDITOR:-vi}" -c 'startinsert' $TEMPFILE
+    xsel -i < $TEMPFILE
+    output=$(xsel -o)
+    notify-send "$output"
+    kdeconnect-cli --device "$*" -k "$output"
+}
+
+#displays a menu for the connected device
+show_menu () {
+    optionNum=5
+    options="Send SMS\nSend File\nSend Text\nSend URL\nDisconnect\n"
+    menu=$(printf "$options" | dmenu -i -p "$1" -l $optionNum )
+    case "$menu" in
+	*'Send File')
+			mkdir -p $XDG_RUNTIME_DIR/lf/
+			rm -rf $XDG_RUNTIME_DIR/lf/sentfile
+			st -c ranger -e lf-ueberzug -selection-path "$XDG_RUNTIME_DIR/lf/sentfile"
+			if [ -f $XDG_RUNTIME_DIR/lf/sentfile ]; then
+					mconnectctl share-file "$2" "$(cat $XDG_RUNTIME_DIR/lf/sentfile)"
+	    fi;;
+	*'Send SMS' )
+	    message=$(echo 'OTW' | dmenu -i -p "Msg to send")
+	    recipient=$(echo '14039199518' | dmenu -i -p "Recipient's phone #")
+	    mconnectctl send-sms "$2" "$message"  "$recipient" ;;
+	*'Send URL' )
+	    message=$(dmenu -i -p "Enter Url:" < /dev/null)
+			if [ "$message" = "Clipboard" ]; then
+				message=$(sselp)
+			fi
+	    mconnectctl share-url "$2" "$message";;
+	*'Send Text' )
+	    message=$(dmenu -i -p "Enter Text:" < /dev/null)
+	    mconnectctl share-text "$2" "$message";;
+	*'Disconnect' )
+	    mconnectctl disallow-device "$2"
+	esac
+}
+
+show_pmenu () {
+    menu="$(printf "Pair Device" | dmenu -i -p "$1"  )"
+    case "$menu" in
+	*'Pair Device') mconnectctl allow-device $2 ;;
+    esac
+}
+
+get_icon () {
+    if [ "$2" = "tablet" ]
+    then
+	ICON=$ICON_TABLET
+    else
+	ICON=$ICON_SMARTPHONE
+    fi
+    echo $ICON
+}
+show_devices
+#vim:ft=sh

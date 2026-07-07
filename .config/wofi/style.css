@@ -1,0 +1,65 @@
+* {
+    font-family: "CaskaydiaCove Nerd Font Mono", "Symbola", "JoyPixels", monospace;
+    font-size: 10pt;
+}
+
+window {
+    margin: 20px;
+    border: 1px solid #ccc;
+    background-color: #222222;
+    color: #bbbbbb;
+    border-radius: 0px;
+}
+
+#input {
+    margin: 5px;
+    border: none;
+    color: #ffffff;
+    background-color: #222222;
+    font-family: "CaskaydiaCove Nerd Font Mono", monospace;
+    font-size: 10pt;
+    min-height: 27px;
+}
+
+#inner-box {
+    margin: 5px;
+    border: none;
+    background-color: #222222;
+}
+
+#outer-box {
+    margin: 0px;
+    border: none;
+    background-color: #222222;
+}
+
+#scroll {
+    margin: 0px;
+    border: none;
+}
+
+#text {
+    margin: 5px;
+    border: none;
+    color: #bbbbbb;
+    font-family: "CaskaydiaCove Nerd Font Mono", monospace;
+    font-size: 10pt;
+    min-height: 27px;
+}
+
+#entry {
+    border: none;
+    margin: 1px;
+    min-height: 27px;
+    background-color: transparent;
+}
+
+#entry:selected {
+    background-color: #005577;
+    color: #ffffff;
+}
+
+#entry:hover {
+    background-color: #005577;
+    color: #ffffff;
+}

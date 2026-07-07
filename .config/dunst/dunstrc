@@ -1,0 +1,91 @@
+[global]
+    frame_width = 0
+    font = CaskaydiaCove Nerd Font 10
+
+    follow = none
+
+    markup = yes
+    stack_duplicates = true
+    format = "<b>%a</b>\n%s%p\n%b"
+
+    sort = yes
+
+    indicate_hidden = yes
+
+    alignment = left
+
+    show_age_threshold = 60
+
+    word_wrap = yes
+
+    ignore_newline = no
+    width=(0,500)
+    height=100
+    notification_limit=8
+
+    indicate_hidden = yes
+    shrink = yes
+
+    transparency = 0
+    idle_threshold = 120
+    monitor = 0
+    sticky_history = yes
+    history_length = 20
+    show_indicators = yes
+    line_height = 0
+    separator_height = 1
+    padding = 8
+    horizontal_padding = 10
+    separator_color = auto
+    startup_notification = true
+    dmenu = /usr/local/bin/dmenu -p context:
+    browser = /bin/firefox
+    icon_position = left
+    max_icon_size=32
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
+    frame_color = "#89B4FA"
+    separator_color= frame
+
+[shortcuts]
+    close_all = ctrl+shift+space
+    history = ctrl+grave
+    context = ctrl+shift+grave
+
+[urgency_low]
+    background = "#1E1E2E"
+    foreground = "#CDD6F4"
+    timeout = 5
+
+[urgency_normal]
+    background = "#1E1E2E"
+    foreground = "#CDD6F4"
+    timeout = 5
+
+[urgency_critical]
+    background = "#1E1E2E"
+    foreground = "#CDD6F4"
+    frame_color = "#FAB387"
+    timeout = 0
+
+[volume]
+        appname = 蓼 Volume
+        history_ignore = yes
+
+[screensaver]
+        appname =   System
+        history_ignore = yes
+
+[notification]
+        appname =   Notifications
+        history_ignore = yes
+
+[keyboard]
+        appname =   Keyboard
+        history_ignore = yes
+
+[color]
+        appname =  Color Grabbed
+        history_ignore = yes
+# vim: ft=cfg

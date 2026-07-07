@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# https://docs.asciidoctor.org/asciidoctor/latest/manpage/
+# https://mookid.github.io/manpages-asciidoc/
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "$0")" && pwd)"
+BASEDIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+TMPDIR="$BASEDIR/.tmp/buildman"
+
+if [ -d "$TMPDIR" ]; then
+  rm -rf "$TMPDIR"
+fi
+mkdir -p "$TMPDIR"
+
+if ! command -v "asciidoctor" >/dev/null 2>&1; then
+  printf "Missing command %s (required for manpage builds).\n" "asciidoctor" >&2
+  exit 1
+fi
+
+for manpage in "$BASEDIR"/man/*.adoc; do
+  [ -e "$manpage" ] || continue
+  manpage_name="$(basename "$manpage")"
+  manpage_name="${manpage_name%.adoc}"
+
+  case "$manpage_name" in
+    footer|example) continue ;;
+  esac
+
+  printf "Building %s manpage...\n" "$manpage_name"
+  mkdir -p "$BASEDIR/man/man1"
+
+  manfile="$BASEDIR/man/man1/$manpage_name.1"
+  adocfile="$TMPDIR/$manpage_name.adoc"
+
+  cp "$manpage" "$adocfile"
+  if [ -f "$BASEDIR/man/footer.adoc" ]; then
+    printf "\n" >> "$adocfile"
+    cat "$BASEDIR/man/footer.adoc" >> "$adocfile"
+  fi
+
+  asciidoctor --quiet -b manpage -d manpage -o "$manfile" "$adocfile"
+done

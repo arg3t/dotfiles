@@ -1,0 +1,10 @@
+#!/bin/sh
+
+activity=$(hamster current)
+
+if [[ "$activity" == "No activity" ]]; then
+  activity="None"
+fi
+
+echo "^c#ebcb8b^﨟 ^d^${activity}"
+

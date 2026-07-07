@@ -1,0 +1,36 @@
+#!/bin/sh
+
+[ -f "$XDG_CACHE_HOME/dbus_settings" ] && "$XDG_CACHE_HOME/dbus_settings" # Load the dbus settings for current session
+
+ping -q -c 1 example.org > /dev/null || exit
+
+
+displays="$(ps -u $(id -u) -o pid= \
+| xargs -I PID -r cat /proc/PID/environ 2> /dev/null \
+| tr '\0' '\n' \
+| grep ^DISPLAY=: \
+| sort -u \
+| xargs \
+| cut -d ":" -f2)"
+notify() {
+        IFS="\n"
+        for x in $displays; do
+                export DISPLAY=$x
+                notify-send --app-name="$1" "$2"
+        done ;
+}
+
+notify " Repository Sync" "Checking for package updates..."
+
+sudo pacman -Syyuw --noconfirm || notify " An error occured" "Error downloading updates.
+Check your internet connection, if pacman is already running, or run update manually to see errors."
+
+if pacman -Qu | grep -v "\[ignored\]"
+then
+	checkupdates 2> /dev/null > ~/.cache/pacman_updates
+	notify " Repository Sync" "$(pacman -Qu | grep -v "\[ignored\]" | wc -l) Updates available. Click statusbar icon (  ) for update."
+else
+	notify " Repository Sync"  "Sync complete. No new packages for update."
+fi
+
+kill -49 "$(pidof dwmblocks)"

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+source $HOME/.config/bemenu/config.sh
+bemenu $@

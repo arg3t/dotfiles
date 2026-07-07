@@ -1,0 +1,40 @@
+#!/bin/bash
+
+if ! xdpyinfo | grep -q VNC ; then
+  source ~/.config/config.env
+
+  if [ ! "$MCONNECT" = true ] ; then
+    exit 0
+  fi
+
+  device=$(mconnectctl | grep $MCONNECT_DEVICE | sed 's/\s\{2,\}/\n/g; s/ - /\n/g;s/^\n//g' | head -n 1)
+  device_status=$(mconnectctl show-device $device)
+
+  IFS=$'\n'
+
+  lines=($device_status)
+  IFS=": "
+  read -ra connected <<< ${lines[8]}
+  connected=${connected[1]}
+
+  if [ ! "$connected" = true ] ; then
+    exit 0
+  fi
+
+  battery_status=$(mconnectctl show-battery $device)
+
+  IFS=$'\n'
+
+  lines=($battery_status)
+  IFS=": "
+  read -ra level <<< ${lines[0]}
+  level=${level[1]}
+  read -ra charging <<< ${lines[1]}
+  charging=${charging[1]}
+
+  if [ "$charging" = 1 ] ; then
+    echo "^c#EBCB8B^ ^d^ $level%+"
+  else
+    echo "^c#EBCB8B^ ^d^ $level%"
+  fi
+fi

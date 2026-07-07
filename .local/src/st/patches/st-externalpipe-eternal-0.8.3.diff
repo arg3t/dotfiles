@@ -1,0 +1,74 @@
+From 2228468a6db1e648c69849860d30867c0e77650e Mon Sep 17 00:00:00 2001
+From: AtomToast <reg-2@t-online.de>
+Date: Wed, 29 Apr 2020 02:31:29 +0200
+Subject: [PATCH] apply Luke Smiths external pipe eternal patch
+
+Enables external pipe to work on the entire scrollback history.
+
+Source: https://github.com/LukeSmithxyz/st/commit/da13ef12463d1870caed94584db464d68c6b3182
+Made to work on semi-vanilla st.
+
+This patch requires both externalpipe and scrollback patch in order to work
+---
+ st.c | 25 +++++++++++++++++++++----
+ 1 file changed, 21 insertions(+), 4 deletions(-)
+
+diff --git a/st.c b/st.c
+index d4c88a2..2716f44 100644
+--- a/st.c
++++ b/st.c
+@@ -46,6 +46,7 @@
+ #define TLINE(y)		((y) < term.scr ? term.hist[((y) + term.histi - \
+ 				term.scr + HISTSIZE + 1) % HISTSIZE] : \
+ 				term.line[(y) - term.scr])
++#define TLINE_HIST(y)           ((y) <= HISTSIZE-term.row+2 ? term.hist[(y)] : term.line[(y-HISTSIZE+term.row-3)])
+ 
+ enum term_mode {
+ 	MODE_WRAP        = 1 << 0,
+@@ -431,6 +432,20 @@ tlinelen(int y)
+ 	return i;
+ }
+ 
++int
++tlinehistlen(int y)
++{
++	int i = term.col;
++
++	if (TLINE_HIST(y)[i - 1].mode & ATTR_WRAP)
++		return i;
++
++	while (i > 0 && TLINE_HIST(y)[i - 1].u == ' ')
++		--i;
++
++	return i;
++}
++
+ void
+ selstart(int col, int row, int snap)
+ {
+@@ -2025,16 +2040,18 @@ externalpipe(const Arg *arg)
+ 	/* ignore sigpipe for now, in case child exists early */
+ 	oldsigpipe = signal(SIGPIPE, SIG_IGN);
+ 	newline = 0;
+-	for (n = 0; n < term.row; n++) {
+-		bp = term.line[n];
+-		lastpos = MIN(tlinelen(n) + 1, term.col) - 1;
++	for (n = 0; n <= HISTSIZE + 2; n++) {
++		bp = TLINE_HIST(n);
++		lastpos = MIN(tlinehistlen(n) + 1, term.col) - 1;
+ 		if (lastpos < 0)
+ 			break;
++        if (lastpos == 0)
++            continue;
+ 		end = &bp[lastpos + 1];
+ 		for (; bp < end; ++bp)
+ 			if (xwrite(to[1], buf, utf8encode(bp->u, buf)) < 0)
+ 				break;
+-		if ((newline = term.line[n][lastpos].mode & ATTR_WRAP))
++		if ((newline = TLINE_HIST(n)[lastpos].mode & ATTR_WRAP))
+ 			continue;
+ 		if (xwrite(to[1], "\n", 1) < 0)
+ 			break;
+-- 
+2.26.2
+

@@ -1,0 +1,23 @@
+[calendars]
+
+[[holidays_local]]
+path = ~/.local/share/calendars/holidays/
+type = discover
+
+[[nx_calendar_local]]
+path = ~/.local/share/calendars/nx_calendar/*
+type = discover
+
+[[tudelft_local]]
+path = ~/.local/share/calendars/tudelft/
+type = discover
+
+[locale]
+timeformat = %H:%M
+dateformat = %d/%m/%Y
+longdateformat = %d/%m/%Y
+datetimeformat = %d/%m/%Y %H:%M
+longdatetimeformat = %d/%m/%Y %H:%M
+
+[default]
+default_calendar = 

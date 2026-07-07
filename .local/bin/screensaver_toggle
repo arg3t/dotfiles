@@ -1,0 +1,40 @@
+#!/bin/zsh
+getargs() {
+  while getopts "set" opt
+  do
+    case $opt in
+      s) start="true";;
+      e) end="true";;
+      t) toggle="true";;
+    esac
+  done
+}
+
+start_screensaver() {
+  xset s off -dpms
+  notify-send -r 51 -a "󰒲 System" "Screensaver on"
+  hypridle
+}
+end_screensaver() {
+  xset s off +dpms
+  notify-send -r 51 -a "󰒳 System" "Screensaver off"
+  pkill hypridle
+}
+
+toggle_screensaver() {
+  if [ $(pidof hypridle) ]; then
+    end_screensaver
+  else
+    start_screensaver
+  fi
+}
+
+main() {
+  getargs "$@";
+  [[ "$start" ]] && start_screensaver;
+  [[ "$end" ]] && end_screensaver;
+  [[ "$toggle" ]] && toggle_screensaver;
+  /bin/kill -SIGRTMIN+10 $(pgrep waybar)
+}
+
+main "$@"

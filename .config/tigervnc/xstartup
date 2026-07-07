@@ -1,0 +1,5 @@
+#!/bin/sh
+
+export DESKTOP_SESSION=custom
+
+source ~/.profile

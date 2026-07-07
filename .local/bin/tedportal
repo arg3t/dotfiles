@@ -1,0 +1,11 @@
+#!/bin/sh
+
+selection=$(cat ~/.cache/tedportal | dmenu -i -l 8)
+echo $selection
+
+IFS="|"
+
+read -ra url <<< "$selection"
+url=$(echo ${url[1]} | xargs)
+
+zoom "${url[1]}"

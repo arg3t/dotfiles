@@ -1,0 +1,3 @@
+ * strlen function which is aware of unicode
+ * handle wrapping lines in scrolling line count correctly
+ * hotkey to dump buffer to file (like screen hardcopy)

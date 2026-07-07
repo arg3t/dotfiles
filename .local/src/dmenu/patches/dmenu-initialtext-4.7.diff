@@ -1,0 +1,49 @@
+diff --git a/dmenu.1 b/dmenu.1
+index 9eab758..b4947f9 100644
+--- a/dmenu.1
++++ b/dmenu.1
+@@ -22,6 +22,8 @@ dmenu \- dynamic menu
+ .IR color ]
+ .RB [ \-w
+ .IR windowid ]
++.RB [ \-it
++.IR text ]
+ .P
+ .BR dmenu_run " ..."
+ .SH DESCRIPTION
+@@ -80,6 +82,9 @@ prints version information to stdout, then exits.
+ .TP
+ .BI \-w " windowid"
+ embed into windowid.
++.TP
++.BI \-it " text".
++start with initial text input.
+ .SH USAGE
+ dmenu is completely controlled by the keyboard.  Items are selected using the
+ arrow keys, page up, page down, home, and end.
+diff --git a/dmenu.c b/dmenu.c
+index d605ab4..0564dfe 100644
+--- a/dmenu.c
++++ b/dmenu.c
+@@ -637,7 +637,8 @@ static void
+ usage(void)
+ {
+ 	fputs("usage: dmenu [-bfiv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
+-	      "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\n", stderr);
++	      "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\n"
++	      "             [-it text]\n", stderr);
+ 	exit(1);
+ }
+ 
+@@ -680,7 +681,10 @@ main(int argc, char *argv[])
+ 			colors[SchemeSel][ColFg] = argv[++i];
+ 		else if (!strcmp(argv[i], "-w"))   /* embedding window id */
+ 			embed = argv[++i];
+-		else
++		else if (!strcmp(argv[i], "-it")) {   /* embedding window id */
++			const char * text = argv[++i];
++			insert(text, strlen(text));
++		} else
+ 			usage();
+ 
+ 	if (!setlocale(LC_CTYPE, "") || !XSupportsLocale())

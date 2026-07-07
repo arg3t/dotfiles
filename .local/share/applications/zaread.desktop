@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Zathura
+Comment=A minimalistic PDF viewer
+Exec=zaread %f
+Terminal=false
+Categories=Office;Viewer;
+MimeType=application/pdf;

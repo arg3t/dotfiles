@@ -1,0 +1,28 @@
+#!/bin/sh
+
+
+if ! xdpyinfo | grep -q VNC ; then
+  power=$(timeout 1 bluetoothctl show | grep "Powered: yes" | wc -w)
+
+  if [ "$power"  -eq 0 ]; then
+    :
+  else
+    device="$(echo info | timeout 1 bluetoothctl | grep 'Name')"
+    level="$(echo info | timeout 1 bluetoothctl | grep 'Battery Percentage'| head -n 1 | xargs | cut -d '(' -f 2 | cut -d ')' -f 1)"
+
+    if [ ! "$device" = "" ]; then
+      if [ ! "$level" = "" ]; then
+        echo "^c#81a1c1^󰂯^d^ $(echo "$device" | head -n 1 | xargs | cut -c 7-) [$level%]"
+      else
+        echo "^c#81a1c1^󰂯^d^ $(echo "$device" | head -n 1 | xargs | cut -c 7-)"
+      fi
+    else
+      :
+    fi
+
+  fi
+
+  case $BLOCK_BUTTON in
+    1) ~/.local/bin/dmenu-bluetooth;;
+  esac
+fi

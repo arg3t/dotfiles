@@ -1,0 +1,76 @@
+#!/bin/sh
+
+
+killprogs() {
+	pkill -x udisks-glue
+	pkill -x panel
+	pkill -x redshift
+}
+
+DMENU='dmenu -i'
+
+items="dwm
+dwmblocks
+mconnect
+dunst
+clipmenud
+devmon
+pulseaudio"
+
+# Open menu
+selection=$(printf '%s' "$items" | $DMENU)
+
+case $selection in
+	dwm)
+		kill -9 $(pidof dwm)
+		;;
+	dwmblocks)
+		kill -9 $(pidof dwmblocks)
+		dwmblocks > $XDG_RUNTIME_DIR/dwmblocks.out 2> $XDG_RUNTIME_DIR/dwmblocks.err &
+		;;
+	mconnect)
+		kill -9 $(pidof mconnect)
+    (cd ~/Downloads/mconnect; mconnect -d > $XDG_RUNTIME_DIR/mconnect 2> $XDG_RUNTIME_DIR/mconnect.err &)
+		;;
+	clipmenud)
+		pkill -f clipmenud
+		clipmenud > $XDG_RUNTIME_DIR/clipmenud.out 2> $XDG_RUNTIME_DIR/clipmenud.err &
+		;;
+	spotifyd)
+		kill -9 $(pidof spotifyd)
+		spotifyd
+		;;
+	dunst)
+		kill -9 $(pidof dunst)
+    if [ $(hostnamectl hostname) = "tarnag" ] ; then
+      restart_if_fails "dunst --config '$XDG_CONFIG_HOME/dunst/dunstrc_tarnag'"
+    else
+      restart_if_fails "dunst"
+    fi
+		;;
+	activitywatcher)
+    pkill -f aw-watcher-window
+    pkill -f aw-watcher-afk
+    pkill -f aw-server
+    aw-server &
+    aw-watcher-window &
+    aw-watcher-afk &
+		;;
+	devmon)
+		pkill -f devmon
+		~/.local/bin/devmon --exec-on-drive "/sbin/notify-send '禍  drive mounted' '%l (%f) at %d '" \
+				--exec-on-remove "/sbin/notify-send '禍  drive removed' '%l (%f) from %d '" \
+				--exec-on-unmount  "/sbin/notify-send '禍  drive unmounted' '%l (%f) from %d '" \
+				--no-unmount --no-gui &
+		;;
+	darkhttpd)
+		killall -9 darkhttpd
+		darkhttpd $HOME/.local/share/startpage/dist --port 9999 --daemon --addr 127.0.0.1
+		;;
+	pulseaudio)
+		killall -9 pulseaudio
+    pulseaudio &
+		;;
+esac
+
+exit

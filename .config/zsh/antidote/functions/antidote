@@ -1,0 +1,16 @@
+#!/bin/zsh
+
+### antidote - the cure to slow zsh plugin management
+#
+# https://antidote.sh
+# run `antidote -h` for usage
+#
+# Note: this gets overridden if using `antidote init`.
+#
+#function antidote {
+  0=${(%):-%x}
+  if ! typeset -f antidote-main > /dev/null; then
+    source ${0:A:h:h}/antidote.zsh
+  fi
+  antidote-main "$@"
+#}

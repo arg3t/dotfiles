@@ -1,0 +1,17 @@
+#!/bin/bash
+
+source ~/.config/config.env
+
+is_eth_used=$(cat /sys/class/net/$ETH_IT/carrier)
+is_wlan_used=$(cat /sys/class/net/$WLAN_IT/carrier)
+
+if  [ "$is_eth_used" -eq 1 ]; then    # wired network is carrying
+  icon=""
+elif [ "$is_wlan_used" -eq 1 ]; then # wireless network is carrying
+  icon=""
+else
+  icon=""
+fi
+
+echo -n $icon
+

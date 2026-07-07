@@ -1,0 +1,81 @@
+#!/bin/sh
+
+skey="$(bw unlock --raw)"
+
+export BW_SESSION="$skey"
+
+data="$(bw list items | jq -r -M \
+'.[]| select( .type | contains(1)) |.name,.folderId,(.login|.username,.password,.totp,(.uris|.[0]|.uri))')"
+
+echo "Fetched passwords from bitwarden."
+
+uri=""
+password=""
+name=""
+username=""
+totp=""
+fid=""
+
+echo "Cleaning previuos store"
+prev=$(pwd)
+cd $PASSWORD_STORE_DIR
+for f in *; do
+  pass rm -rf "$f"
+done
+cd $prev
+
+strip_domain(){
+  if [ "$1" = "null" ]; then
+    echo "null"
+    return 0
+  fi
+  echo "$1" | head -n 1 | sed 's~http[s]*://~~g' | cut -d"/" -f 1
+}
+
+get_folder(){
+  if [ "$1" = "null" ]; then
+    echo "No Folder"
+    return 0
+  fi
+  bw get folder "$1" | jq -r -M ".name"
+}
+
+
+IFS="
+"
+for l in $data; do
+  if [ "$name" = "" ]; then
+    name=$l
+    echo "$name"
+  elif [ "$fid" = "" ]; then
+    fid=$l
+  elif [ "$username" = "" ]; then
+    username=$l
+  elif [ "$password" = "" ]; then
+    password=$l
+  elif [ "$totp" = "" ]; then
+    totp=$l
+  elif [ "$uri" = "" ]; then
+    uri=$(strip_domain $l)
+    folder=$(get_folder $fid)
+
+    if [ "$uri" = "null" ]; then
+      echo "$password" | pass insert -f -e "$folder/$name/$username" 2> /dev/null > /dev/null
+      if [ ! "$totp" = "null" ]; then
+        echo "$totp" | pass otp append -f -e "$folder/$name/$username" > /dev/null 2> /dev/null
+      fi
+    else
+      echo "$password" | pass insert -f -e "$folder/$uri/$username" 2> /dev/null > /dev/null
+      if [ ! "$totp" = "null" ]; then
+        echo "$totp" | pass otp append -f -e "$folder/$uri/$username" > /dev/null 2> /dev/null
+      fi
+    fi
+    uri=""
+    fid=""
+    password=""
+    name=""
+    username=""
+    totp=""
+  fi
+done
+

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+location="$1"
+
+mkdir -p "$(echo "$location" | sed 's|/[^/]*$||g')"
+xclip -selection clipboard -t image/png -o 2> /dev/null > $location
+
+if [ ! "$?" = "0" ]; then
+  printf "An error occured"
+  rm -f "$location"
+  exit 1
+fi
+
+printf "%s" "$location"
+

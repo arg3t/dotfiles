@@ -1,0 +1,11 @@
+#!/sbin/zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+tmux has-session -t default 2>/dev/null
+
+if [ $? != 0 ]; then
+	tmux new-session -s default
+else
+	tmux a -t default
+fi
+
