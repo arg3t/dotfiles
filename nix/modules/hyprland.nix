@@ -3,6 +3,12 @@
 {
   programs.hyprland.enable = true;
 
+  # Removable media: udisks2 (mount as user, no sudo), gvfs (nemo/gio mounts,
+  # trash, MTP, smb/dav), tumbler (thumbnails).
+  services.udisks2.enable = true;
+  services.gvfs.enable = true;
+  services.tumbler.enable = true;
+
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
 
@@ -62,6 +68,13 @@
     home.file.".config/wofi".source = ../../.config/wofi;
     home.file.".config/bemenu".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/bemenu";
+
+    # Automount removable drives with a tray icon.
+    services.udiskie = {
+      enable = true;
+      automount = true;
+      notify = true;
+    };
 
     home.pointerCursor = {
       package = pkgs.catppuccin-cursors.mochaMauve;
