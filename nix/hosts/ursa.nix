@@ -19,12 +19,14 @@
     ../modules/dev.nix
 
     ../modules/apps.nix
+    ../modules/graphics.nix
 
     ../home/base.nix
     ../home/env.nix
     ../home/scripts.nix
     ../home/shell.nix
     ../home/terminal.nix
+    ../home/firefox.nix
   ];
 
   boot.loader.systemd-boot.enable = true;

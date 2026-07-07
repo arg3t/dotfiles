@@ -21,7 +21,6 @@
   environment.systemPackages = with pkgs; [
     kitty
     alacritty
-    firefox
     bemenu
     j4-dmenu-desktop
     cliphist
