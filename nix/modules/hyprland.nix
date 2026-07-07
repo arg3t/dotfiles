@@ -31,6 +31,18 @@
     wl-clipboard
     libnotify
     xfce.xfce4-power-manager
+    nemo
+    lf
+    flameshot
+    syshud
+    thunderbird
+    satty
+    wf-recorder
+    playerctl
+    hyprpicker
+    pamixer
+    bc
+    pass
     hyprpaper
     hyprlock
     hypridle
