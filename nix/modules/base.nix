@@ -27,5 +27,8 @@
     Defaults pwfeedback
   '';
 
-  programs.nix-index.enable = true;
+  # Plain "command not found" instead of nix-index (its handler needs a
+  # generated database and errors cryptically without one).
+  programs.nix-index.enable = false;
+  programs.command-not-found.enable = false;
 }
