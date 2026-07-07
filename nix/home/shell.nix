@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  home-manager.users.yeet = { config, ... }: {
+  home-manager.users.yeet = { config, lib, ... }: {
     # Zsh fully declarative: plugins from nixpkgs (pinned by flake.lock),
     # replacing the vendored antidote + unpinned git clones.
     programs.zsh = {
@@ -9,6 +9,13 @@
       dotDir = "${config.xdg.configHome}/zsh";
 
       enableCompletion = true;
+
+      # Full compinit + compaudit costs ~800ms; do it at most once a day,
+      # use the cached dump (-C) otherwise.
+      completionInit = builtins.concatStringsSep "\n" [
+        "autoload -U compinit"
+        "if [[ -n \"\${ZDOTDIR}/.zcompdump\"(#qN.mh-24) ]]; then compinit -C; else compinit; fi"
+      ];
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
       historySubstringSearch.enable = true;
@@ -39,9 +46,18 @@
 
       # The old .zshrc body (aliases, cmds, p10k, keybinds) stays as files,
       # sourced after the HM-managed plugin setup.
-      initContent = ''
-        [[ -f ${config.xdg.configHome}/zsh/rc.zsh ]] && source ${config.xdg.configHome}/zsh/rc.zsh
-      '';
+      # p10k instant prompt must run before anything that prints (mkOrder 500
+      # puts it at the very top of .zshrc); personal config loads last.
+      initContent = lib.mkMerge [
+        (lib.mkOrder 500 ''
+          if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+            source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+          fi
+        '')
+        ''
+          [[ -f ${config.xdg.configHome}/zsh/rc.zsh ]] && source ${config.xdg.configHome}/zsh/rc.zsh
+        ''
+      ];
     };
 
     # zoxide replaces rupa/z (same `z` command, maintained, nix-native).

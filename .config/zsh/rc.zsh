@@ -11,10 +11,6 @@
 
 fortune -a | cowsay | lolcat
 
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # powerlevel10k configuration (theme itself is loaded as an HM plugin)
 source ${ZDOTDIR}/p10k.zsh
 
