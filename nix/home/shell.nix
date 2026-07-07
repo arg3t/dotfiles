@@ -2,36 +2,77 @@
 
 {
   home-manager.users.yeet = { config, ... }: {
-    # Out-of-store symlink: antidote writes .zsh_plugins.zsh next to its
-    # config, so ~/.config/zsh must stay writable (store links are read-only).
-    home.file.".config/zsh".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/zsh";
+    # Zsh fully declarative: plugins from nixpkgs (pinned by flake.lock),
+    # replacing the vendored antidote + unpinned git clones.
+    programs.zsh = {
+      enable = true;
+      dotDir = "${config.xdg.configHome}/zsh";
 
-    # Declarative .zshenv replacing `source ~/.profile`:
-    #  - loads Home Manager session variables (hm-session-vars.sh)
-    #  - points zsh at ~/.config/zsh
-    #  - custom sudo prompt from the old .profile
-    home.file.".zshenv".text = ''
-      for f in \
-        "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh" \
-        "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"; do
-        [ -f "$f" ] && . "$f" && break
-      done
+      enableCompletion = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
+      historySubstringSearch.enable = true;
 
-      export ZDOTDIR="$HOME/.config/zsh"
+      history = {
+        size = 100000;
+        save = 100000;
+        path = "${config.xdg.dataHome}/zsh/history";
+        append = true;
+      };
 
-      export SUDO_PROMPT="$(printf '\033[38;5;141m\xef\x80\xa3\033[0m Shall you pass?') "
-    '';
+      plugins = [
+        {
+          name = "powerlevel10k";
+          src = "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k";
+          file = "powerlevel10k.zsh-theme";
+        }
+        {
+          name = "fzf-tab";
+          src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
+          file = "fzf-tab.plugin.zsh";
+        }
+        {
+          name = "zsh-completions";
+          src = "${pkgs.zsh-completions}/share/zsh/site-functions";
+        }
+      ];
 
-    # Deps of the .zshrc: fzf keybindings, fortune/cowsay banner.
+      # The old .zshrc body (aliases, cmds, p10k, keybinds) stays as files,
+      # sourced after the HM-managed plugin setup.
+      initContent = ''
+        [[ -f ${config.xdg.configHome}/zsh/rc.zsh ]] && source ${config.xdg.configHome}/zsh/rc.zsh
+      '';
+    };
+
+    # zoxide replaces rupa/z (same `z` command, maintained, nix-native).
+    programs.zoxide.enable = true;
+
+    # fzf keybindings/completion wired by HM instead of hardcoded paths.
+    programs.fzf = {
+      enable = true;
+      enableNushellIntegration = false;
+    };
+
+    # Custom zsh files stay live-editable in the repo.
+    xdg.configFile."zsh/rc.zsh".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/zsh/rc.zsh";
+    xdg.configFile."zsh/aliases".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/zsh/aliases";
+    xdg.configFile."zsh/cmds".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/zsh/cmds";
+    xdg.configFile."zsh/p10k.zsh".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/zsh/p10k.zsh";
+    xdg.configFile."zsh/completions".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/zsh/completions";
+    xdg.configFile."zsh/bm-dirs".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/zsh/bm-dirs";
+
     home.packages = with pkgs; [
-      fzf
       fortune
       cowsay
-      lolcrab
+      lolcat
     ];
 
-    # Replaces the imperative `eval $(ssh-agent)` from the old .profile.
     services.ssh-agent.enable = true;
 
     programs.starship.enable = false;

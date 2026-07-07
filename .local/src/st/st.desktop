@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Simple Terminal
-Comment=simple-terminal emulator for X
-Icon=utilities-terminal
-Exec=st
-Categories=System;TerminalEmulator

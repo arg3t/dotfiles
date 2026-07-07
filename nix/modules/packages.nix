@@ -21,7 +21,6 @@
     zip
     bat
     file
-    tmux
     fastfetch
     magic-wormhole
 

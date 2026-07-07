@@ -1,11 +1,9 @@
 local M = { "nvim-java/nvim-java" }
-
 M.dependencies = {
   'neovim/nvim-lspconfig',
-  'williamboman/mason-lspconfig.nvim',
 }
-
 M.opts = {
+  -- jdtls comes from Nix (nix/modules/dev.nix), not mason
+  jdk = { auto_install = false },
 }
-
 return {}

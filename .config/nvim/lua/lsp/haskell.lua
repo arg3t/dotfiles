@@ -2,6 +2,6 @@ M = {}
 
 M.lsp = { hls = {} }
 
-M.mason = {}
+-- servers provided by Nix (nix/modules/dev.nix)
 
 return M

@@ -33,6 +33,6 @@ M.lsp = {
   }
 }
 
-M.mason = { "tinymist" }
+-- servers provided by Nix (nix/modules/dev.nix)
 
 return M

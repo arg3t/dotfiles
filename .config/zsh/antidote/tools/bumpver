@@ -1,7 +1,0 @@
-#!/usr/bin/env zsh
-0=${(%):-%x}
-bumpversion --allow-dirty ${1:-revision}
-newver=$(grep 'current_version' ${0:h:h}/.bumpversion.cfg | sed -E 's/^[^0-9]+(.*)$/\1/')
-print "Version bumped to $newver."
-print "Now run:"
-print "  git commit -am 'Bump version to $newver'" | tee >(pbcopy)

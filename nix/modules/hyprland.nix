@@ -15,7 +15,7 @@
     nerd-fonts.caskaydia-cove
     font-awesome
     noto-fonts
-    noto-fonts-emoji
+    noto-fonts-color-emoji
   ];
 
   environment.systemPackages = with pkgs; [
@@ -33,10 +33,15 @@
   ];
 
   home-manager.users.yeet = { config, ... }: {
-    # Out-of-store symlink: hypr config stays live-editable in ~/dotfiles
-    # (the repo dir also contains the machine-local `own` symlink).
+    # Out-of-store symlink: hypr config stays live-editable in ~/dotfiles.
     home.file.".config/hypr".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/hypr";
+
+    # Machine variant (default/desktop/tarnag/thinker), declared per host.
+    # hyprland.conf sources ~/.config/hypr-own/*.conf.
+    home.file.".config/hypr-own".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/hypr/default";
+
     home.file.".config/mako".source = ../../.config/mako;
     home.file.".config/wofi".source = ../../.config/wofi;
     home.file.".config/bemenu".source = ../../.config/bemenu;

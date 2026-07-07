@@ -6,7 +6,7 @@ M.lsp = {
   }
 }
 
-M.mason = { "coq_lsp" }
-M.mason = {}
+-- servers provided by Nix (nix/modules/dev.nix)
+-- servers provided by Nix (nix/modules/dev.nix)
 
 return M

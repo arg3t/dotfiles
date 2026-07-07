@@ -122,6 +122,7 @@ require("dapui").setup({
 })
 
 
+-- ponytail: bashdb/cppdbg adapters still point at dead mason paths; port to Nix pkgs (vscode-extensions.ms-vscode.cpptools) if you actually debug sh/C++ in nvim
 
 
 dap.adapters.bashdb = {
