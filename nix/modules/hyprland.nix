@@ -38,6 +38,7 @@
     libnotify
     xfce.xfce4-power-manager
     nemo
+    glib # gio CLI for gvfs mounts/trash
     lf
     flameshot
     syshud

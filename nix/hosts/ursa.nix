@@ -22,6 +22,7 @@
     ../modules/graphics.nix
     ../modules/power.nix
     ../modules/plymouth.nix
+    ../modules/theme.nix
 
     ../home/base.nix
     ../home/env.nix
