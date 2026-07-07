@@ -6,6 +6,10 @@
       enable = true;
 
       policies = {
+        # Bitwarden handles passwords; kill the built-in manager.
+        PasswordManagerEnabled = false;
+        OfferToSaveLogins = false;
+        AutofillCreditCardEnabled = false;
         # Force-installed, auto-updating extensions from AMO.
         ExtensionSettings = {
           "uBlock0@raymondhill.net" = {
