@@ -8,6 +8,7 @@
     discord
     chromium
     spotify
+    signal-desktop
     wireguard-tools
   ];
 
