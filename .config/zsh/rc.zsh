@@ -9,7 +9,7 @@
 ## Plugin management, compinit, history, fzf, direnv and zoxide are handled
 ## declaratively by nix/home/shell.nix. This file is everything personal.
 
-fortune -a | cowsay | lolcat
+fortune -a | cowsay | lolcat -f
 
 # powerlevel10k configuration (theme itself is loaded as an HM plugin)
 source ${ZDOTDIR}/p10k.zsh

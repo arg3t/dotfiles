@@ -84,7 +84,7 @@
 
     "custom/battery": {
       "format": "{}",
-      "return-type": "json",
+      "return-type": "text",
       "interval": 120,
       "exec": "$HOME/.local/bin/status-bar/battery",
     },

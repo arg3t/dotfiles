@@ -19,34 +19,34 @@ if ! [ "$BATTERY" = "" ] ; then
     export bat=$(cat $BATTERY/capacity)
     export status=$(cat $BATTERY/status)
     export plugged=$(cat /sys/class/power_supply/AC/online)
-    tleft=$(acpi -b | tail -n 1 | sed -r 's/.* ([0-9]{2}:[0-9]{2}).*/\1/g')
+    tleft=$(command -v acpi >/dev/null && acpi -b | tail -n 1 | sed -r 's/.* ([0-9]{2}:[0-9]{2}).*/\1/g')
     if [ -f "$XDG_CACHE_HOME/battery_tleft" ] && [ ! $(echo "$tleft" | grep "Full")]; then
         stats="$tleft"
     else
         stats="$bat%"
     fi
     if [[ $plugged == "1" ]]; then
-        echo "^c#ebcb8b^$ac_bat^d^ $stats"
+        echo "<span color=\"#ebcb8b\">$ac_bat</span> $stats"
     elif [[ $bat -lt 10 ]]; then
-        echo "^c#ebcb8b^$ramp10^d^ $stats"
+        echo "<span color=\"#ebcb8b\">$ramp10</span> $stats"
     elif [[ $bat -lt 20 ]]; then
-        echo "^c#ebcb8b^$ramp20^d^ $stats"
+        echo "<span color=\"#ebcb8b\">$ramp20</span> $stats"
     elif [[ $bat -lt "30" ]]; then
-        echo "^c#ebcb8b^$ramp30^d^ $stats"
+        echo "<span color=\"#ebcb8b\">$ramp30</span> $stats"
     elif [[ $bat -lt "40" ]]; then
-        echo "^c#ebcb8b^$ramp40^d^ $stats"
+        echo "<span color=\"#ebcb8b\">$ramp40</span> $stats"
     elif [[ $bat -lt "50" ]]; then
-        echo "^c#ebcb8b^$ramp50^d^ $stats"
+        echo "<span color=\"#ebcb8b\">$ramp50</span> $stats"
     elif [[ $bat -lt "60" ]]; then
-        echo "^c#ebcb8b^$ramp60^d^ $stats"
+        echo "<span color=\"#ebcb8b\">$ramp60</span> $stats"
     elif [[ $bat -lt "70" ]]; then
-        echo "^c#ebcb8b^$ramp70^d^ $stats"
+        echo "<span color=\"#ebcb8b\">$ramp70</span> $stats"
     elif [[ $bat -lt "80" ]]; then
-        echo "^c#ebcb8b^$ramp80^d^ $stats"
+        echo "<span color=\"#ebcb8b\">$ramp80</span> $stats"
     elif [[ $bat -lt "90" ]]; then
-        echo "^c#ebcb8b^$ramp90^d^ $stats"
+        echo "<span color=\"#ebcb8b\">$ramp90</span> $stats"
     elif [[ $bat -le "100" ]]; then
-        echo "^c#ebcb8b^$ramp100^d^ $stats"
+        echo "<span color=\"#ebcb8b\">$ramp100</span> $stats"
     fi
 fi
 
