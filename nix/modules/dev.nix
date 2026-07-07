@@ -12,6 +12,7 @@
   # dynamically-linked binaries that break on NixOS).
   # One entry per M.mason list previously in nvim/lua/lsp/*.lua.
   environment.systemPackages = with pkgs; [
+    our.oh-my-pi
     bash-language-server # bashls
     clang-tools # clangd
     cmake-language-server # cmake

@@ -46,7 +46,8 @@
 
     home.file.".config/mako".source = ../../.config/mako;
     home.file.".config/wofi".source = ../../.config/wofi;
-    home.file.".config/bemenu".source = ../../.config/bemenu;
+    home.file.".config/bemenu".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/bemenu";
 
     home.pointerCursor = {
       package = pkgs.catppuccin-cursors.mochaMauve;

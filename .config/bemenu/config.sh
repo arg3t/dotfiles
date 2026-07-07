@@ -1,5 +1,6 @@
 export BEMENU_OPTS="--prompt 'Select an option' \
 --line-height 25 \
+--no-overlap \
 --fn 'CaskaydiaCove Nerd Font 10' \
 --tb '#ACA3EB' \
 --tf '#1e1e2e' \

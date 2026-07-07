@@ -16,11 +16,22 @@
     let
       system = "x86_64-linux";
     in {
+      # Custom packages: nix build .#oh-my-pi
+      packages.${system} = import ./pkgs {
+        pkgs = nixpkgs.legacyPackages.${system};
+      };
+
+      # Overlay exposing them as pkgs.our.*
+      overlays.default = final: prev: {
+        our = import ./pkgs { pkgs = final; };
+      };
+
       nixosConfigurations.ursa = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs; };
 
         modules = [
+          { nixpkgs.overlays = [ self.overlays.default ]; }
           home-manager.nixosModules.home-manager
           impermanence.nixosModules.impermanence
           ./hosts/ursa.nix
