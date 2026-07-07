@@ -30,6 +30,7 @@
     ../home/scripts.nix
     ../home/shell.nix
     ../home/terminal.nix
+    ../home/git.nix
     ../home/firefox.nix
   ];
 

@@ -1,5 +1,5 @@
 export BEMENU_OPTS="--prompt 'Select an option' \
---line-height 30 \
+--line-height 25 \
 --fn 'CaskaydiaCove Nerd Font 10' \
 --tb '#ACA3EB' \
 --tf '#1e1e2e' \
@@ -18,5 +18,5 @@ export BEMENU_OPTS="--prompt 'Select an option' \
 --cf '#1e1e2e' \
 --fbb '#1e1e2e' \
 --fbf '#ACA3EB' \
---border 0 \
+--border 5 \
 --bdr #00000000";
