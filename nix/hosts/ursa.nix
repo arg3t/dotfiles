@@ -23,6 +23,7 @@
     ../modules/power.nix
     ../modules/plymouth.nix
     ../modules/theme.nix
+    ../modules/wallpaper.nix
 
     ../home/base.nix
     ../home/env.nix
