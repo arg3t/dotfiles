@@ -1,0 +1,92 @@
+#!/usr/bin/zsh
+
+alias feh="feh --scale-down --auto-zoom --no-fehbg"
+alias open=xdg-open
+alias rm="rm -i"
+alias clip="wl-copy"
+alias g="git "
+alias tmux="tmux"
+alias t="tmux"
+alias tn="tmux new -s "
+alias tat="tmux a -t "
+alias yain="yay -Syu "
+alias ls="ls --color"
+alias yay="yay --sudoloop"
+alias lf=lf-ueberzug
+alias vimorig=$(which vim)
+
+alias vim=nvim
+
+weechat(){
+   tmux has-session -t weechat 2> /dev/null
+   if [ $? != 0 ]; then
+    tmux new-session -s weechat weechat > /dev/null 2> /dev/null
+   else
+    tat weechat
+   fi
+}
+
+venvinit(){
+    if [ ! -f .venv/bin/activate ]; then
+      python -m venv .venv
+      echo "source .venv/bin/activate" >> .envrc
+      direnv allow
+    fi
+
+    source .venv/bin/activate
+}
+
+# Suffix aliases
+alias -g G=" | rg -i "
+alias gshh="gcloud cloud-shell ssh --authorize-session"
+
+# Git
+alias ga="git add"
+alias gcl="git clone --recursive --depth=16"
+alias gck="git checkout"
+alias gmg="git merge"
+alias gss="git stash"
+alias gsp="git stash pop"
+alias gc="git commit"
+alias gcm="git commit -m"
+alias gp="git push"
+alias gpall="git remote | xargs -I R git push R"
+alias gpl="git pull"
+alias clippie="cargo clippy --fix --allow-dirty --all-targets --all-features --allow-staged --broken-code -p"
+
+# Homedir Cleanup
+alias wget="wget --hsts-file=\"$XDG_CACHE_HOME/wget-hsts\""
+alias yarn="yarn --use-yarnrc $XDG_CONFIG_HOME/yarn/config"
+alias tmate="tmate -f $XDG_CONFIG_HOME/tmate/tmate.conf"
+alias mc="mc --config-dir=$XDG_CONFIG_HOME/mc"
+alias abook="abook --config \"$XDG_CONFIG_HOME\"/abook/abookrc --datafile \"$XDG_DATA_HOME\"/abook/addressbook"
+alias imapfilter="imapfilter -c \"$IMAPFILTER_CONFIG\""
+
+alias dots="git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME"
+alias dpall="dots remote | xargs -I R git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME push R"
+alias dignore="dots update-index --assume-unchanged {pkg.list,install.sh,README.md}"
+alias da="dots add -u"
+alias dcm="dots commit"
+alias pwndbg="gdb -nh -x \"$XDG_CONFIG_HOME\"/gdb/pwninit"
+alias gef="gdb -nh -x \"$XDG_CONFIG_HOME\"/gdb/gefinit"
+
+alias bon="sudo bash -c 'rc-service bluetooth start && rfkill unblock bluetooth'"
+
+alias cx="chmod +x"
+
+alias lights_on="curl 'http://yeetclock/setcolor?R=136&G=192&B=208'"
+
+
+alias v="nvim"
+
+# alias eduvpn="sudo openvpn ~/Documents/eduVPN.ovpn"
+
+alias sshlogin="ssh -o IdentitiesOnly=yes"
+alias scplogin="scp -o IdentitiesOnly=yes"
+alias pastebin="curl -F 'sprunge=<-' http://sprunge.us"
+
+alias clippie="cargo clippy --fix --allow-dirty --all-targets --all-features --allow-staged --broken-code -p"
+alias zlaude="ANTHROPIC_AUTH_TOKEN=Z_AI_TOKEN ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic claude --dangerously-skip-permissions"
+alias pysrcl="source .venv/bin/activate"
+
+alias hx="helix"
