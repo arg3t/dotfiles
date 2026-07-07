@@ -10,6 +10,11 @@
     };
 
     impermanence.url = "github:nix-community/impermanence";
+
+    mac-style-plymouth = {
+      url = "github:SergioRibera/s4rchiso-plymouth-theme";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, impermanence, ... }@inputs:
@@ -31,7 +36,12 @@
         specialArgs = { inherit inputs; };
 
         modules = [
-          { nixpkgs.overlays = [ self.overlays.default ]; }
+          {
+            nixpkgs.overlays = [
+              self.overlays.default
+              inputs.mac-style-plymouth.overlays.default
+            ];
+          }
           home-manager.nixosModules.home-manager
           impermanence.nixosModules.impermanence
           ./hosts/ursa.nix

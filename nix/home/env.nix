@@ -35,6 +35,7 @@
     home.file.".config/config.env".text = ''
       LOCATION=Delft
       BUIENRADAR=1
+      BATTERY=/sys/class/power_supply/BAT0
 
       if [ -f "$HOME/.config/config.env.local" ]; then
         . "$HOME/.config/config.env.local"

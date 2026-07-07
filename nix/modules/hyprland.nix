@@ -29,6 +29,8 @@
     grim
     slurp
     wl-clipboard
+    libnotify
+    xfce.xfce4-power-manager
     hyprpaper
     hyprlock
     hypridle

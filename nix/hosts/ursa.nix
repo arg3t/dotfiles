@@ -20,6 +20,8 @@
 
     ../modules/apps.nix
     ../modules/graphics.nix
+    ../modules/power.nix
+    ../modules/plymouth.nix
 
     ../home/base.nix
     ../home/env.nix

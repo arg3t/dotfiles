@@ -1,6 +1,6 @@
 #!/bin/sh
 
 pid=$(pgrep hypridle)
-/bin/kill -SIGRTMIN+10 $(pgrep waybar)
+kill -SIGRTMIN+10 $(pgrep waybar)
 if [[ "$pid" == "" ]]; then echo '󰒳'; else echo '󰒲'; fi
 echo ''

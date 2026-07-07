@@ -36,6 +36,6 @@ main() {
   [[ "$start" ]] && start_dnd;
   [[ "$end" ]] && end_dnd;
   [[ "$toggle" ]] && toggle_dnd;
-  /bin/kill -SIGRTMIN+11 $(pgrep waybar)
+  kill -SIGRTMIN+11 $(pgrep waybar)
 }
 main "$@"
