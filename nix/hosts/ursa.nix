@@ -18,6 +18,8 @@
     ../modules/shell.nix
     ../modules/dev.nix
 
+    ../modules/apps.nix
+
     ../home/base.nix
     ../home/env.nix
     ../home/scripts.nix

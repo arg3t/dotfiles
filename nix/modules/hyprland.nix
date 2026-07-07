@@ -33,14 +33,14 @@
   ];
 
   home-manager.users.yeet = { config, ... }: {
-    # Out-of-store symlink: hypr config stays live-editable in ~/dotfiles.
+    # Out-of-store symlink: hypr config stays live-editable in ~/.dots.
     home.file.".config/hypr".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/hypr";
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hypr";
 
     # Machine variant (default/desktop/tarnag/thinker), declared per host.
     # hyprland.conf sources ~/.config/hypr-own/*.conf.
     home.file.".config/hypr-own".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/hypr/default";
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hypr/default";
 
     home.file.".config/mako".source = ../../.config/mako;
     home.file.".config/wofi".source = ../../.config/wofi;

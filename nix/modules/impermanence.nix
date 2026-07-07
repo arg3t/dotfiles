@@ -43,6 +43,7 @@
       "/var/lib/nixos"
       "/var/lib/systemd"
       "/var/lib/bluetooth"
+      "/var/lib/tailscale"
       "/etc/NetworkManager/system-connections"
     ];
 

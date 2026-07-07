@@ -55,17 +55,17 @@
 
     # Custom zsh files stay live-editable in the repo.
     xdg.configFile."zsh/rc.zsh".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/zsh/rc.zsh";
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/zsh/rc.zsh";
     xdg.configFile."zsh/aliases".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/zsh/aliases";
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/zsh/aliases";
     xdg.configFile."zsh/cmds".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/zsh/cmds";
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/zsh/cmds";
     xdg.configFile."zsh/p10k.zsh".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/zsh/p10k.zsh";
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/zsh/p10k.zsh";
     xdg.configFile."zsh/completions".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/zsh/completions";
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/zsh/completions";
     xdg.configFile."zsh/bm-dirs".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/zsh/bm-dirs";
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/zsh/bm-dirs";
 
     home.packages = with pkgs; [
       fortune
