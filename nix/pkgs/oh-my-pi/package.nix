@@ -3,6 +3,7 @@
   stdenv,
   fetchurl,
   autoPatchelfHook,
+  makeWrapper,
   versionCheckHook,
 }:
 
@@ -35,7 +36,11 @@ stdenv.mkDerivation (finalAttrs: {
   dontUnpack = true;
   dontStrip = true;
 
-  nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [ autoPatchelfHook ];
+  nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [
+    autoPatchelfHook
+    makeWrapper
+  ];
+  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ stdenv.cc.cc.lib ];
 
   installPhase = ''
     runHook preInstall
@@ -43,6 +48,11 @@ stdenv.mkDerivation (finalAttrs: {
     install -Dm755 $src $out/bin/omp
 
     runHook postInstall
+  '';
+
+  postFixup = lib.optionalString stdenv.hostPlatform.isLinux ''
+    wrapProgram $out/bin/omp \
+      --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ stdenv.cc.cc.lib ]}
   '';
 
   nativeInstallCheckInputs = [ versionCheckHook ];

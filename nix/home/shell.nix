@@ -1,9 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, config, lib, username ? "yeet", standaloneHome ? false, ... }:
 
-{
-  home-manager.users.yeet = { config, lib, ... }: {
-    # Zsh fully declarative: plugins from nixpkgs (pinned by flake.lock),
-    # replacing the vendored antidote + unpinned git clones.
+let
+  userConfig = { config, lib, ... }: {
     programs.zsh = {
       enable = true;
       dotDir = "${config.xdg.configHome}/zsh";
@@ -13,6 +11,7 @@
       # Full compinit + compaudit costs ~800ms; do it at most once a day,
       # use the cached dump (-C) otherwise.
       completionInit = builtins.concatStringsSep "\n" [
+        "fpath=(\"${config.xdg.configHome}/zsh/completions\" $fpath)"
         "autoload -U compinit"
         "if [[ -n \"\${ZDOTDIR}/.zcompdump\"(#qN.mh-24) ]]; then compinit -C; else compinit; fi"
       ];
@@ -44,8 +43,6 @@
         }
       ];
 
-      # The old .zshrc body (aliases, cmds, p10k, keybinds) stays as files,
-      # sourced after the HM-managed plugin setup.
       # p10k instant prompt must run before anything that prints (mkOrder 500
       # puts it at the very top of .zshrc); personal config loads last.
       initContent = lib.mkMerge [
@@ -66,10 +63,15 @@
     # fzf keybindings/completion wired by HM instead of hardcoded paths.
     programs.fzf = {
       enable = true;
-      enableNushellIntegration = false;
     };
 
-    # Custom zsh files stay live-editable in the repo.
+    home.shellAliases = {
+      cat = "bat";
+      ga = "git add";
+      gc = "git commit";
+      gcm = "git commit -m";
+    };
+
     xdg.configFile."zsh/rc.zsh".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/zsh/rc.zsh";
     xdg.configFile."zsh/aliases".source =
@@ -78,10 +80,10 @@
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/zsh/cmds";
     xdg.configFile."zsh/p10k.zsh".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/zsh/p10k.zsh";
-    xdg.configFile."zsh/completions".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/zsh/completions";
     xdg.configFile."zsh/bm-dirs".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/zsh/bm-dirs";
+    xdg.configFile."zsh/completions".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/zsh/completions";
 
     home.packages = with pkgs; [
       fortune
@@ -98,4 +100,5 @@
       nix-direnv.enable = true;
     };
   };
-}
+in
+if standaloneHome then userConfig { inherit config lib; } else { home-manager.users.${username} = userConfig; }

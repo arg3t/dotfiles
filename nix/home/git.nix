@@ -1,17 +1,18 @@
-{ ... }:
+{ username ? "yeet", standaloneHome ? false, ... }:
 
-{
-  home-manager.users.yeet = {
+let
+  userConfig = {
     programs.git = {
       enable = true;
-      userName = "Yeet";
-      userEmail = "root@yigit.run";
+      settings = {
+        user.name = "Yeet";
+        user.email = "root@yigit.run";
 
-      extraConfig = {
         init.defaultBranch = "main";
         pull.rebase = true;
         push.autoSetupRemote = true;
       };
     };
   };
-}
+in
+if standaloneHome then userConfig else { home-manager.users.${username} = userConfig; }

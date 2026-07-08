@@ -1,15 +1,32 @@
 {
   description = "Alpha Centauri flake";
 
+  nixConfig = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     impermanence.url = "github:nix-community/impermanence";
+
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     mac-style-plymouth = {
       url = "github:SergioRibera/s4rchiso-plymouth-theme";
@@ -17,13 +34,23 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, impermanence, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      impermanence,
+      nix-darwin,
+      ...
+    }@inputs:
     let
-      system = "x86_64-linux";
-    in {
+      linuxSystem = "x86_64-linux";
+      darwinSystem = "aarch64-darwin";
+    in
+    {
       # Custom packages: nix build .#oh-my-pi
-      packages.${system} = import ./pkgs {
-        pkgs = nixpkgs.legacyPackages.${system};
+      packages.${linuxSystem} = import ./pkgs {
+        pkgs = nixpkgs.legacyPackages.${linuxSystem};
       };
 
       # Overlay exposing them as pkgs.our.*
@@ -32,8 +59,13 @@
       };
 
       nixosConfigurations.ursa = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = { inherit inputs; };
+        system = linuxSystem;
+        specialArgs = {
+          inherit inputs;
+          username = "yeet";
+          homeDirectory = "/home/yeet";
+          standaloneHome = false;
+        };
 
         modules = [
           {
@@ -44,7 +76,39 @@
           }
           home-manager.nixosModules.home-manager
           impermanence.nixosModules.impermanence
+          inputs.nix-index-database.nixosModules.nix-index
           ./hosts/ursa.nix
+        ];
+      };
+
+      homeConfigurations.ara = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          system = linuxSystem;
+          overlays = [ self.overlays.default ];
+        };
+        extraSpecialArgs = {
+          inherit inputs;
+          username = "yeet";
+          homeDirectory = "/home/yeet";
+          standaloneHome = true;
+        };
+        modules = [ ./hosts/ara.nix ];
+      };
+
+      darwinConfigurations.vela = nix-darwin.lib.darwinSystem {
+        system = darwinSystem;
+        specialArgs = {
+          inherit inputs;
+          username = "yeet";
+          homeDirectory = "/Users/yeet";
+          standaloneHome = false;
+        };
+        modules = [
+          {
+            nixpkgs.overlays = [ self.overlays.default ];
+          }
+          home-manager.darwinModules.home-manager
+          ./hosts/vela.nix
         ];
       };
     };

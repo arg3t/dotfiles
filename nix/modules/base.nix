@@ -27,8 +27,8 @@
     Defaults pwfeedback
   '';
 
-  # Plain "command not found" instead of nix-index (its handler needs a
-  # generated database and errors cryptically without one).
-  programs.nix-index.enable = false;
+  # Prebuilt nix-index database for package discovery and comma-powered
+  # one-off command execution without locally generating an index.
+  programs.nix-index-database.comma.enable = true;
   programs.command-not-found.enable = false;
 }

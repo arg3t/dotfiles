@@ -5,15 +5,14 @@
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-      intel-media-driver # VA-API for Broadwell+ (iHD)
-      intel-vaapi-driver # older fallback (i965)
+      intel-media-driver
+      intel-vaapi-driver
       libvdpau-va-gl
     ];
   };
 
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = "iHD";
-    # Electron/Chromium apps: native Wayland instead of blurry XWayland.
     NIXOS_OZONE_WL = "1";
   };
 

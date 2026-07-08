@@ -1,5 +1,3 @@
-# Custom packages, callPackage'd nixpkgs-style.
-# Add new packages as pkgs/<name>/package.nix and list them here.
 { pkgs }:
 
 {

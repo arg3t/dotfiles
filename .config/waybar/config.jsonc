@@ -9,14 +9,11 @@
     "modules-center": [],
     "modules-right": [
         "custom/dnd",
-        "custom/screensaver",
-        "hyprland/language",
         "bluetooth",
         "memory",
         "cpu",
         "temperature",
         "custom/weather",
-        "custom/arch",
         "pulseaudio",
         "network",
         "custom/battery",
@@ -99,12 +96,6 @@
         "format": "󰃭 {:%h %e}",
     },
 
-    "hyprland/language": {
-        "format": "<span color=\"#a3be8c\"></span>  {}",
-        "format-en": "us",
-        "format-tr": "tr",
-        "interval": 120
-    },
     "custom/weather": {
       "format": "{}",
       "return-type": "text",
@@ -112,28 +103,12 @@
       "interval": 3600,
       "exec": "$HOME/.local/bin/status-bar/weather",
     },
-    "custom/arch": {
-      "format": "{}",
-      "return-type": "text",
-      "tooltip": false,
-      "interval": 3600,
-      "exec": "$HOME/.local/bin/status-bar/arch",
-    },
     "custom/empty": {
       "format": "​",
       "return-type": "text",
       "tooltip": false,
       "interval": 360000,
       "exec": "id",
-    },
-    "custom/screensaver": {
-        "format": "{} ",
-        "return-type": "text",
-        "tooltip": false,
-        "interval": 3600,
-        "on-click": "$HOME/.local/bin/screensaver_toggle -t",
-        "exec": "$HOME/.local/bin/status-bar/screensaver",
-        "signal": 10
     },
     "custom/dnd": {
       "format": "{}",

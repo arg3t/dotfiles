@@ -12,18 +12,12 @@
     ../modules/audio.nix
 
     ../modules/hyprland.nix
-    ../modules/waybar.nix
-    ../modules/packages.nix
     ../modules/login.nix
-    ../modules/shell.nix
-    ../modules/dev.nix
 
     ../modules/apps.nix
     ../modules/graphics.nix
     ../modules/power.nix
     ../modules/plymouth.nix
-    ../modules/theme.nix
-    ../modules/wallpaper.nix
 
     ../home/base.nix
     ../home/env.nix
@@ -32,6 +26,11 @@
     ../home/terminal.nix
     ../home/git.nix
     ../home/firefox.nix
+    ../home/packages-cli.nix
+    ../home/packages-dev.nix
+    ../home/packages-nix.nix
+    ../home/packages-editor.nix
+    ../home/linux-theme.nix
   ];
 
   boot.loader.systemd-boot.enable = true;

@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, username ? "yeet", standaloneHome ? false, ... }:
 
-{
-  home-manager.users.yeet = {
+let
+  userConfig = {
     programs.firefox = {
       enable = true;
 
@@ -59,4 +59,5 @@
       };
     };
   };
-}
+in
+if standaloneHome then userConfig else { home-manager.users.${username} = userConfig; }
