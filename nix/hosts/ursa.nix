@@ -30,6 +30,7 @@
     ../home/packages-dev.nix
     ../home/packages-nix.nix
     ../home/packages-editor.nix
+    ../home/backgrounds.nix
     ../home/linux-theme.nix
   ];
 

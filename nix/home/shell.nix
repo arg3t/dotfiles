@@ -91,7 +91,6 @@ let
       lolcat
     ];
 
-    services.ssh-agent.enable = true;
 
     programs.starship.enable = false;
 

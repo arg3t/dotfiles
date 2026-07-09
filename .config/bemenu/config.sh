@@ -1,1 +1,1 @@
-/nix/store/3kl1gmmlll93lqdj7vcrkiilik4z2hgd-home-manager-files/.config/bemenu/config.sh
+/nix/store/xf1n2slzw2ai0ynnm92kwikfx0ww3w83-home-manager-files/.config/bemenu/config.sh

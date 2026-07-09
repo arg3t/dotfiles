@@ -21,6 +21,7 @@ let
       GOPATH = "$HOME/.local/share/go";
       GNUPGHOME = "$HOME/.local/share/gnupg";
 
+      SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/gcr/ssh";
       MPV_IPC = "$XDG_RUNTIME_DIR/mpv.socket";
     };
 
@@ -67,8 +68,8 @@ let
         "video/webm" = "mpv.desktop";
         "application/zip" = "engrampa.desktop";
         "x-scheme-handler/tg" = "org.telegram.desktop.desktop";
-        "x-scheme-handler/mailto" = "userapp-Thunderbird-4XXNR2.desktop";
-        "message/rfc822" = "userapp-Thunderbird-4XXNR2.desktop";
+        "x-scheme-handler/mailto" = "thunderbird.desktop";
+        "message/rfc822" = "thunderbird.desktop";
         "application/x-directory" = "lf.desktop";
         "x-scheme-handler/discord-474605546457137157" = "discord-474605546457137157.desktop";
         "x-scheme-handler/msteams" = "teams.desktop";
@@ -83,14 +84,14 @@ let
         "application/x-extension-xht" = "firefox.desktop";
         "x-scheme-handler/discord-589393213723246592" = "discord-589393213723246592.desktop";
         "x-scheme-handler/discord-1170028348756471908" = "discord-1170028348756471908.desktop";
-        "x-scheme-handler/mid" = "userapp-Thunderbird-4XXNR2.desktop";
-        "x-scheme-handler/feed" = "userapp-Thunderbird-AS9JR2.desktop";
-        "application/rss+xml" = "userapp-Thunderbird-AS9JR2.desktop";
-        "application/x-extension-rss" = "userapp-Thunderbird-AS9JR2.desktop";
-        "x-scheme-handler/webcal" = "userapp-Thunderbird-0BSLR2.desktop";
-        "text/calendar" = "userapp-Thunderbird-0BSLR2.desktop";
-        "application/x-extension-ics" = "userapp-Thunderbird-0BSLR2.desktop";
-        "x-scheme-handler/webcals" = "userapp-Thunderbird-0BSLR2.desktop";
+        "x-scheme-handler/mid" = "thunderbird.desktop";
+        "x-scheme-handler/feed" = "thunderbird.desktop";
+        "application/rss+xml" = "thunderbird.desktop";
+        "application/x-extension-rss" = "thunderbird.desktop";
+        "x-scheme-handler/webcal" = "thunderbird.desktop";
+        "text/calendar" = "thunderbird.desktop";
+        "application/x-extension-ics" = "thunderbird.desktop";
+        "x-scheme-handler/webcals" = "thunderbird.desktop";
         "x-scheme-handler/tonsite" = "org.telegram.desktop.desktop";
         "x-scheme-handler/betterdiscord" = "discord.desktop";
       };
@@ -104,13 +105,13 @@ let
         "text/plain" = "nvim.desktop";
         "x-scheme-handler/https" = [ "firefox.desktop" "userapp-Firefox-HRFVY1.desktop" "zen.desktop" ];
         "video/x-matroska" = "vlc.desktop";
-        "x-scheme-handler/mailto" = "userapp-Thunderbird-4XXNR2.desktop";
-        "x-scheme-handler/mid" = "userapp-Thunderbird-4XXNR2.desktop";
-        "x-scheme-handler/feed" = "userapp-Thunderbird-AS9JR2.desktop";
-        "application/rss+xml" = "userapp-Thunderbird-AS9JR2.desktop";
-        "application/x-extension-rss" = "userapp-Thunderbird-AS9JR2.desktop";
-        "x-scheme-handler/webcal" = "userapp-Thunderbird-0BSLR2.desktop";
-        "x-scheme-handler/webcals" = "userapp-Thunderbird-0BSLR2.desktop";
+        "x-scheme-handler/mailto" = "thunderbird.desktop";
+        "x-scheme-handler/mid" = "thunderbird.desktop";
+        "x-scheme-handler/feed" = "thunderbird.desktop";
+        "application/rss+xml" = "thunderbird.desktop";
+        "application/x-extension-rss" = "thunderbird.desktop";
+        "x-scheme-handler/webcal" = "thunderbird.desktop";
+        "x-scheme-handler/webcals" = "thunderbird.desktop";
         "x-scheme-handler/tonsite" = "org.telegram.desktop.desktop";
         "x-scheme-handler/http" = [ "firefox.desktop" "zen.desktop" ];
         "x-scheme-handler/chrome" = [ "firefox.desktop" "zen.desktop" ];
