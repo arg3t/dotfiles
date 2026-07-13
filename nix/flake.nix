@@ -95,6 +95,20 @@
         modules = [ ./hosts/ara.nix ];
       };
 
+      homeConfigurations.lyra = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          system = linuxSystem;
+          overlays = [ self.overlays.default ];
+        };
+        extraSpecialArgs = {
+          inherit inputs;
+          username = "yeet";
+          homeDirectory = "/home/yeet";
+          standaloneHome = true;
+        };
+        modules = [ ./hosts/lyra.nix ];
+      };
+
       darwinConfigurations.vela = nix-darwin.lib.darwinSystem {
         system = darwinSystem;
         specialArgs = {
