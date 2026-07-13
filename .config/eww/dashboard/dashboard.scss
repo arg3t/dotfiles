@@ -1,0 +1,28 @@
+@import "../theme/tokens.scss";
+
+.dashboard-bg {
+  background-color: transparent;
+  border-radius: $rad;
+  padding: 16px;
+}
+
+.trigger-zone {
+  padding: 4px;
+
+  .dashboard-nav-icon {
+    background-color: $glass;
+    font-size: 24px;
+    color: $lavender;
+    padding: 10px 24px 10px 20px;
+    margin-left: -4px;
+    border-radius: $rad;
+
+    box-shadow: none;
+
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: $rosewater;
+    }
+  }
+}

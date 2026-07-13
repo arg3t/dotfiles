@@ -1,0 +1,52 @@
+(defvar hover_web false)
+
+(defwidget web_btn [class arg icon]
+  (eventbox :cursor "pointer"
+            (button :class "web-btn ${class}-btn"
+                    :onclick "bash ~/.config/eww/corner/scripts/website.sh ${arg}"
+                    (label :class "web-icon ${class}-icon"
+                           :halign "center"
+                           :valign "center"
+                           :text icon)))
+  )
+
+(defwidget widget_website []
+  (eventbox :onhover "eww update hover_web=true"
+            :onhoverlost "eww update hover_web=false"
+
+            (revealer :transition "slideright"
+                      :duration "250ms"
+                      :reveal hover_web
+
+                      (box :class "web-card"
+                           :orientation "vertical"
+                           :spacing 8
+                           :space-evenly false
+
+                           (web_btn :class "arch"
+                                    :arg "--arch"
+                                    :icon "")
+
+                           (web_btn :class "github"
+                                    :arg "--gh"
+                                    :icon "")
+
+                           (web_btn :class "instagram"
+                                    :arg "--ig"
+                                    :icon "")
+
+                           (web_btn :class "whatsapp"
+                                    :arg "--wa"
+                                    :icon "")
+
+                           (web_btn :class "gmail"
+                                    :arg "--mail"
+                                    :icon "󰊫")
+
+                           (web_btn :class "inc"
+                                    :arg "--inc"
+                                    :icon "󰗹")
+                           )
+                      )
+            )
+  )

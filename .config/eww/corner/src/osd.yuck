@@ -1,0 +1,25 @@
+(defvar osd_value 0)
+(defvar osd_icon "")
+(defvar osd_type "volume")
+
+(defwidget widget_osd []
+  (box :class "osd-container"
+       :orientation "horizontal"
+       :space-evenly false
+       :spacing 12
+       
+       (box :class "osd-icon-box"
+            :halign "start"
+            :valign "center"
+            (label :class "osd-icon"
+                   :text osd_icon))
+       
+       (scale :class "osd-scale ${osd_type}"
+              :hexpand true
+              :valign "center"
+              :min 0
+              :max 101
+              :value osd_value
+              :active false)
+  )
+)

@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/env python3
 
 # https://gadgets.buienradar.nl/data/raintext/?lat=52.01&lon=4.36
 
@@ -19,12 +19,13 @@ def clamp(val, low, high):
 
 
 def main():
-    chart_length = sys.argv[1]
+    chart_length = int(sys.argv[1]) if len(sys.argv) > 1 else 24
 
-    # Get two environs: LATIUTUDE and LONGITUDE
+    # Get coordinates from environment/config.env.local.
     latitude = os.environ.get("LATITUDE")
     longitude = os.environ.get("LONGITUDE")
-
+    if not latitude or not longitude:
+        return
     response = requests.get(
         f"https://gadgets.buienradar.nl/data/raintext/?lat={latitude}&lon={longitude}"
     )
@@ -35,7 +36,7 @@ def main():
     if sum(data) == 0:
         return
 
-    chart_length = min(len(data), int(chart_length))
+    chart_length = max(1, min(len(data), int(chart_length)))
     step_size = math.ceil(len(data) / chart_length)
 
     i = 0

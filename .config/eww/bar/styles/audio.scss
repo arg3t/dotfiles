@@ -1,0 +1,35 @@
+@import "../../theme/tokens.scss";
+
+.audio-box {
+  padding-right: 8px;
+
+  .audio-icon {
+    font-size: 13px;
+    transition: color 0.2s ease;
+
+    &.unmuted {
+      color: $text;
+    }
+
+    &.muted {
+      color: $red;
+    }
+  }
+}
+
+.mic-box {
+  padding: 0 2px;
+
+  .mic-icon {
+    font-size: 13px;
+    transition: color 0.2s ease;
+
+    &.unmuted {
+      color: $sky;
+    }
+
+    &.muted {
+      color: $overlay2;
+    }
+  }
+}

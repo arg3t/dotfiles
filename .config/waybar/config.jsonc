@@ -9,7 +9,7 @@
     "modules-center": [],
     "modules-right": [
         "custom/dnd",
-        "bluetooth",
+        "custom/bluetooth",
         "memory",
         "cpu",
         "temperature",
@@ -34,10 +34,15 @@
       "on-click": "activate"
     },
 
-    "bluetooth": {
-        "format": "<span color=\"#81a1c1\"></span>",
-        "format-connected": "<span color=\"#81a1c1\"></span> {device_alias:6}",
-        "format-connected-battery": "<span color=\"#81a1c1\"></span> {device_alias:6} [{device_battery_percentage}%]",
+    "custom/bluetooth": {
+        "format": "{}",
+        "return-type": "json",
+        "escape": false,
+        "tooltip": true,
+        "interval": 30,
+        "exec": "$HOME/.config/waybar/scripts/bluetooth-devices bluetooth-json",
+        "on-click": "dmenu-bluetooth",
+        "on-click-right": "blueman-manager"
     },
 
     "memory": {
@@ -81,10 +86,15 @@
 
     "custom/battery": {
       "format": "{}",
-      "return-type": "text",
+      "return-type": "json",
+      "escape": false,
       "interval": 120,
-      "exec": "$HOME/.local/bin/status-bar/battery",
+      "exec": "$HOME/.config/waybar/scripts/battery-with-bluetooth",
+      "tooltip": true,
+      "on-click": "$HOME/.config/waybar/scripts/bluetooth-devices battery-menu",
+      "on-click-right": "$HOME/.config/waybar/scripts/bluetooth-devices power-menu"
     },
+
 
     "clock#time": {
         "interval": 30,

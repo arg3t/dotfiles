@@ -1,0 +1,14 @@
+(defwidget widget_network []
+  (box :class "network-container ${network_data.status == 'disconnected' ? 'is-off' :
+       network_data.status == 'not-connected' ? 'wifi-low' : 'is-on'}"
+       :orientation "horizontal"
+       :space-evenly false
+       :tooltip "${network_data.status == 'disconnected' ? 'Disconnected' :
+       network_data.status == 'not-connected' ? 'Wi-Fi On (Not Connected)' :
+       network_data.ssid == 'Ethernet' ? 'Ethernet Connection' :
+       '${network_data.ssid} (${network_data.signal}%)'}"
+
+       (label :class "network-icon"
+              :text "${network_data.icon}")
+       )
+  )

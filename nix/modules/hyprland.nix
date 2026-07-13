@@ -41,6 +41,7 @@
     wl-clipboard
     libnotify
     waybar
+    eww
     pavucontrol
     networkmanagerapplet
     xfce4-power-manager
@@ -108,6 +109,9 @@
 
     home.file.".config/waybar".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/waybar";
+
+    home.file.".config/eww".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/eww";
 
     systemd.user.services.update-wallpaper = {
       Unit = {

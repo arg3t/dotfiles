@@ -21,6 +21,11 @@ let
       file
       fastfetch
       magic-wormhole
+      (python3.withPackages (ps: with ps; [
+        pygobject3
+        pydbus
+        requests
+      ]))
     ];
   };
 in

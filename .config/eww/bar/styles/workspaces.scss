@@ -1,0 +1,35 @@
+@import "../../theme/tokens.scss";
+
+.ws-container {
+  padding: 0 4px;
+
+  .ws {
+    border-radius: 99px;
+    padding: 0;
+    min-height: 11px;
+    min-width: 11px;
+    margin: 0 3px;
+    font-size: 0;
+    background-color: rgba($surface1, 0.95);
+
+    &.active {
+      background-color: $blue;
+    }
+
+    &.occupied {
+      background-color: rgba($subtext1, 0.8);
+    }
+
+    &.urgent {
+      background-color: $maroon;
+    }
+
+    &.empty {
+      background-color: rgba($surface1, 0.95);
+    }
+
+    &:hover {
+      background-color: rgba($blue, 0.8);
+    }
+  }
+}

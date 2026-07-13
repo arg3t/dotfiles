@@ -1,0 +1,43 @@
+(defwidget wifi_popup []
+  (box :orientation "vertical"
+       :class "wifi-dropdown"
+       :space-evenly false
+       (box :orientation "horizontal"
+            :class "popup-header"
+            :space-evenly false
+            (label :class "popup-title"
+                   :hexpand true
+                   :text "Available Networks")
+            (button :class "close-btn"
+                    :onclick "eww close wifi_popup"
+                    (label :text "󰅖")))
+
+       (scroll :vscroll true
+               :hscroll false
+               :vexpand true
+
+         (box :class "entry-card"
+              :orientation "vertical"
+              :space-evenly false
+              :spacing 4
+              (for wifi in wifi_list
+                   (button :class "wifi-entry"
+                           :onclick "bash ~/.config/eww/corner/scripts/connect_wifi.sh '${wifi.ssid}' '${wifi.secure}' &"
+                           (box :orientation "horizontal"
+                                :space-evenly false
+                                :spacing 18
+                                (label :class "wifi-icon"
+                                       :text {wifi.icon})
+                                (label :class "wifi-name"
+                                       :hexpand true
+                                       :xalign 0
+                                       :text {wifi.ssid})
+                                (label :class "wifi-lock"
+                                       :text {wifi.secure ? "" : ""})
+                           )
+                   )
+              )
+         )
+      )
+  )
+)

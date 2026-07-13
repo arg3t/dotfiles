@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+
+set -u
+
+menu_select() {
+  local prompt=$1
+  local lines=${2:-12}
+  if command -v dmenu >/dev/null 2>&1; then
+    dmenu -l "$lines" -p "$prompt"
+  elif command -v bemenu >/dev/null 2>&1; then
+    bemenu -l "$lines" -p "$prompt" -i
+  else
+    return 127
+  fi
+}
+
+show_menu_text() {
+  local prompt=$1
+  shift
+  printf '%s\n' "$@" | menu_select "$prompt" 12
+}
+
+message_menu() {
+  local title=$1
+  local body=${2:-}
+  [ -n "$body" ] || body="No output"
+  printf '%s\n' "$body" | menu_select "$title" 12 >/dev/null || true
+}
+
+podctl_available() {
+  command -v podctl >/dev/null 2>&1
+}
+
+podctl_output() {
+  if podctl_available; then
+    podctl "$@" 2>&1
+  else
+    printf 'podctl is not installed\n'
+    return 127
+  fi
+}
+
+run_podctl() {
+  local title=$1 output status
+  shift
+
+  output=$(podctl_output "$@")
+  status=$?
+  if [ "$status" -eq 0 ]; then
+    message_menu "$title" "Applied: podctl $*\n\n$output"
+  else
+    message_menu "$title" "$output"
+  fi
+  return "$status"
+}
+
+choice_menu() {
+  local prompt command choice
+  prompt=$1
+  command=$2
+  shift 2
+  choice=$(show_menu_text "$prompt" "$@") || return 0
+  [ -n "$choice" ] || return 0
+  run_podctl "AirPods $prompt" "$command" "$choice"
+}
+
+volume_menu() {
+  local volume
+  volume=$(show_menu_text "AirPods volume" 20 30 40 50 60 70 80 90 100) || return 0
+  [ -n "$volume" ] || return 0
+  run_podctl "AirPods volume" volume "$volume"
+}
+
+battery_menu() {
+  message_menu "AirPods battery" "$(podctl_output battery)"
+}
+
+status_menu() {
+  message_menu "AirPods status" "$(podctl_output status)"
+}
+
+main_menu() {
+  local action
+  action=$(show_menu_text "AirPods" \
+    'Battery: left/right/case' \
+    'Status snapshot' \
+    'Listening: off' \
+    'Listening: ANC' \
+    'Listening: transparency' \
+    'Listening: adaptive' \
+    'Conversation awareness: on' \
+    'Conversation awareness: off' \
+    'Spatial audio mode' \
+    'Microphone mode' \
+    'One-bud ANC: on' \
+    'One-bud ANC: off' \
+    'In-ear detection: on' \
+    'In-ear detection: off' \
+    'Loud reduction: on' \
+    'Loud reduction: off' \
+    'Volume' \
+    'Set as default sink' \
+    'Connect' \
+    'Disconnect' \
+    'Restart podctl services') || return 0
+
+  case "$action" in
+    'Battery: left/right/case') battery_menu ;;
+    'Status snapshot') status_menu ;;
+    'Listening: off') run_podctl "AirPods listening" mode off ;;
+    'Listening: ANC') run_podctl "AirPods listening" mode anc ;;
+    'Listening: transparency') run_podctl "AirPods listening" mode transparency ;;
+    'Listening: adaptive') run_podctl "AirPods listening" mode adaptive ;;
+    'Conversation awareness: on') run_podctl "AirPods conversation" conv on ;;
+    'Conversation awareness: off') run_podctl "AirPods conversation" conv off ;;
+    'Spatial audio mode') choice_menu "spatial" spatial off fixed head-tracked ;;
+    'Microphone mode') choice_menu "microphone" mic auto left right ;;
+    'One-bud ANC: on') run_podctl "AirPods one-bud ANC" one-bud-anc on ;;
+    'One-bud ANC: off') run_podctl "AirPods one-bud ANC" one-bud-anc off ;;
+    'In-ear detection: on') run_podctl "AirPods in-ear detection" ear on ;;
+    'In-ear detection: off') run_podctl "AirPods in-ear detection" ear off ;;
+    'Loud reduction: on') run_podctl "AirPods loud reduction" loud-reduction on ;;
+    'Loud reduction: off') run_podctl "AirPods loud reduction" loud-reduction off ;;
+    Volume) volume_menu ;;
+    'Set as default sink') run_podctl "AirPods default sink" default ;;
+    Connect) run_podctl "AirPods connect" connect ;;
+    Disconnect) run_podctl "AirPods disconnect" disconnect ;;
+    'Restart podctl services') run_podctl "AirPods restart" reboot ;;
+  esac
+}
+
+main_menu

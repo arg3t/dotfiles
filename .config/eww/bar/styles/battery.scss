@@ -1,0 +1,94 @@
+@import "../../theme/tokens.scss";
+
+.battery-container {
+  padding: 0 4px;
+
+  transition: all 0.15s ease;
+
+  .battery-icon {
+    font-size: 13px;
+    margin-right: 4px;
+
+    transition: all 0.15s ease;
+  }
+
+  .battery-percent {
+    font-size: $small;
+    font-weight: bold;
+    margin-bottom: -2px;
+
+    transition: all 0.15s ease;
+  }
+
+  &.charging {
+
+    .battery-icon,
+    .battery-percent {
+      color: $green;
+    }
+  }
+
+  &.ac {
+
+    .battery-icon,
+    .battery-percent {
+      color: $sky;
+    }
+  }
+
+  &.full {
+
+    .battery-icon,
+    .battery-percent {
+      color: $lavender;
+    }
+  }
+
+  &.critical {
+
+    .battery-icon,
+    .battery-percent {
+      color: $red;
+    }
+  }
+
+  &.low {
+
+    .battery-icon,
+    .battery-percent {
+      color: $maroon;
+    }
+  }
+
+  &.warning-low {
+
+    .battery-icon,
+    .battery-percent {
+      color: $peach;
+    }
+  }
+
+  &.warning-high {
+
+    .battery-icon,
+    .battery-percent {
+      color: $yellow;
+    }
+  }
+
+  &.good {
+
+    .battery-icon,
+    .battery-percent {
+      color: $sapphire;
+    }
+  }
+
+  &.high {
+
+    .battery-icon,
+    .battery-percent {
+      color: $green;
+    }
+  }
+}

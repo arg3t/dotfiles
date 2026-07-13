@@ -1,0 +1,74 @@
+(include "./bar/src/audio.yuck")
+(include "./bar/src/battery.yuck")
+(include "./bar/src/network.yuck")
+(include "./bar/src/notification.yuck")
+(include "./bar/src/workspaces.yuck")
+
+(defwidget widget_bar []
+  (centerbox :class "bar"
+             :orientation "horizontal"
+             :valign "center"
+             :vexpand false
+
+             ;; LEFT
+             (box :class "left-container"
+                  :orientation "horizontal"
+                  :space-evenly false
+                  :spacing 4
+                  :halign "start"
+                  (eventbox :cursor "pointer"
+                            (button :class "bar-nix-trigger"
+                                    :onclick "${EWW_CMD} open --toggle window_dashboard"
+                                    :style "background: none; box-shadow: none;"
+                                    (label :class "nix-icon"
+                                           :valign "center"
+                                           :text "")
+                                    )
+                            )
+
+                  (box :orientation "horizontal"
+                       :space-evenly false
+                       :spacing 10
+                       (widget_workspaces)
+                       (systray :class "stray"
+                                :orientation "horizontal"
+                                :spacing 12
+                                :icon-size 13))
+                  )
+
+             ;; CENTER
+             (box :class "center-container"
+                  :halign "center"
+                  :orientation "horizontal"
+                  :space-evenly false
+                  :spacing 10
+                  (label :class "time"
+                         :text {formattime(EWW_TIME, "%I:%M %p")})
+                  (label :class "date"
+                         :text {formattime(EWW_TIME, "%b %e")})
+                  )
+
+             ;; RIGHT
+             (box :orientation "horizontal"
+                  :halign "end"
+                  :space-evenly false
+                  (box :class "right-container"
+                       :orientation "horizontal"
+                       :spacing 12
+                       :space-evenly false
+
+                       (widget_mic)
+                       (widget_audio)
+                       (widget_network)
+                       (widget_battery)
+                       (label :class "sep"
+                              :text "|")
+                       (widget_notification)
+                       (eventbox :cursor "pointer"
+                                 (button :class "panel-trigger"
+                                         :onclick "${EWW_CMD} open --toggle window_panel"
+                                         :style "background: none; box-shadow: none;"
+                                         (label :text "󱁛"))))
+                  )
+             )
+  )

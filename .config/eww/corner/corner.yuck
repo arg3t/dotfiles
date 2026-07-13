@@ -1,0 +1,80 @@
+(include "./corner/src/bluetooth_popup.yuck")
+(include "./corner/src/launcher.yuck")
+(include "./corner/src/osd.yuck")
+(include "./corner/src/power.yuck")
+(include "./corner/src/website.yuck")
+(include "./corner/src/wifi_popup.yuck")
+
+;;launcher
+(defwindow window_launcher
+  :monitor 0
+  :geometry (geometry :x "0%"
+                      :y "0%"
+                      :anchor "bottom center")
+  :stacking "overlay"
+  :windowtype "dialog"
+  :wm-ignore true
+  :namespace "eww-launcher"
+  (widget_launcher))
+
+
+;; osd
+(defwindow window_osd
+  :monitor 0
+  :geometry (geometry :x "0%"
+                      :y "3%"
+                      :width "260px"
+                      :height "30px"
+                      :anchor "top center")
+  :stacking "overlay"
+  :focusable false
+  :namespace "eww-osd"
+  (widget_osd))
+
+;; power-menu
+(defwindow window_power
+  :monitor 0
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :anchor "right center")
+  :stacking "overlay"
+  :windowtype "dialog"
+  :wm-ignore true
+  :namespace "eww-power"
+  (widget_power))
+
+;; website
+(defwindow window_website
+  :monitor 0
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :anchor "left center")
+  :stacking "overlay"
+  :windowtype "dialog"
+  :wm-ignore true
+  :namespace "eww-website"
+  (widget_website))
+
+;;popup wifi
+(defwindow wifi_popup
+  :monitor 0
+  :geometry (geometry :x "0%"
+                      :y "20px"
+                      :width "280px"
+                      :height "280px"
+                      :anchor "top center")
+  :stacking "fg"
+  :focusable false
+  (wifi_popup))
+
+;;popup bluetooth
+(defwindow bluetooth_popup
+  :monitor 0
+  :geometry (geometry :x "0%"
+                      :y "20px"
+                      :width "280px"
+                      :height "280px"
+                      :anchor "top center")
+  :stacking "fg"
+  :focusable false
+  (bluetooth_popup))

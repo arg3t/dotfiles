@@ -1,0 +1,35 @@
+@import "tokens.scss";
+
+// --- BAR ---
+@import "../bar/bar.scss";
+@import "../bar/styles/audio.scss";
+@import "../bar/styles/battery.scss";
+@import "../bar/styles/network.scss";
+@import "../bar/styles/notification.scss";
+@import "../bar/styles/workspaces.scss";
+
+// --- CORNER ---
+@import "../corner/styles/bluetooth_popup.scss";
+@import "../corner/styles/launcher.scss";
+@import "../corner/styles/osd.scss";
+@import "../corner/styles/power.scss";
+@import "../corner/styles/website.scss";
+@import "../corner/styles/wifi_popup.scss";
+
+// --- DASHBOARD ---
+@import "../dashboard/dashboard.scss";
+@import "../dashboard/styles/calendar.scss";
+@import "../dashboard/styles/timeinfo.scss";
+@import "../dashboard/styles/sysinfo.scss";
+@import "../dashboard/styles/todo.scss";
+@import "../dashboard/styles/weather.scss";
+@import "../dashboard/styles/weather_forecast.scss";
+
+// --- PANEL ---
+@import "../panel/panel.scss";
+@import "../panel/styles/bluetooth.scss";
+@import "../panel/styles/daemon.scss";
+@import "../panel/styles/dnd.scss";
+@import "../panel/styles/network.scss";
+@import "../panel/styles/quicktoggle.scss";
+@import "../panel/styles/sliders.scss";

@@ -1,0 +1,84 @@
+@import "../../theme/tokens.scss";
+
+.power-card {
+  background: $glass;
+  padding: 8px;
+  border-radius: $rad 0 0 $rad;
+
+  .power-btn {
+    background-color: $base;
+    border-radius: $rad;
+
+    min-width: 35px;
+    min-height: 44px;
+
+    transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.95);
+
+
+      .power-icon {
+        font-size: 32px;
+      }
+    }
+
+    &:active {
+      background-color: rgba(255, 255, 255, 0.12);
+    }
+  }
+
+  .power-icon {
+    font-size: 26px;
+    transition: font-size 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .p-shutdown {
+    .power-icon {
+      color: $maroon;
+    }
+
+    &:hover {
+      background-color: rgba($maroon, 0.2);
+    }
+  }
+
+  .p-reboot {
+    .power-icon {
+      color: $peach;
+    }
+
+    &:hover {
+      background-color: rgba($peach, 0.2);
+    }
+  }
+
+  .p-suspend {
+    .power-icon {
+      color: $mauve;
+    }
+
+    &:hover {
+      background-color: rgba($mauve, 0.2);
+    }
+  }
+
+  .p-logout {
+    .power-icon {
+      color: $teal;
+    }
+
+    &:hover {
+      background-color: rgba($teal, 0.2);
+    }
+  }
+
+  .power-btn.confirming {
+    background-color: rgba($blue, 0.3);
+
+    .power-icon {
+      color: $blue;
+      margin-left: -4px;
+    }
+  }
+}

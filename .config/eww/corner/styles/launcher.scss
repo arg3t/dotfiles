@@ -1,0 +1,34 @@
+@import "../../theme/tokens.scss";
+
+.launcher-card {
+  background: $glass;
+  border-radius: $rad $rad 0 0;
+  padding: 8px;
+
+  .launcher-btn {
+    background-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 38px 38px;
+
+    min-width: 40px;
+    min-height: 44px;
+
+    border: none;
+    border-radius: $rad;
+
+    -gtk-icon-transform: scale(1) translateY(0px);
+    transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.95);
+      background-size: 50px 54px;
+
+      -gtk-icon-transform: scale(1.1) translateY(-3px);
+    }
+
+    &:active {
+      -gtk-icon-transform: scale(0.95) translateY(0px);
+    }
+  }
+}

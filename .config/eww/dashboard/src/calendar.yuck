@@ -1,0 +1,15 @@
+(defvar selected_day "")
+(defvar selected_month "")
+(defvar selected_year "")
+
+(defwidget widget_calendar []
+  (box :class "calendar-container"
+       (calendar :class "calendar"
+                 :show-heading true
+                 :show-day-names true
+                 :show-details false
+                 :show-week-numbers false
+                 :onclick "eww update selected_day='{0}' selected_month='{1}' selected_year='{2}'"
+                 )
+       )
+  )

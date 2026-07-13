@@ -1,0 +1,105 @@
+@import "../../theme/tokens.scss";
+
+.weather-container {
+  background: $glass;
+
+  border-radius: $rad;
+
+  padding: 14px;
+
+  .weather-card {
+    background: $base;
+
+    border-radius: $rad;
+
+    padding: 8px 12px;
+
+    .weather-icon {
+      font-size: 90px;
+
+      margin-left: 10px;
+      margin-top: -4px;
+
+      transition: color 0.25s ease;
+
+      &.clear-day {
+        color: $yellow;
+      }
+
+      &.clear-night {
+        color: $lavender;
+      }
+
+      &.cloud-day {
+        color: $sapphire;
+      }
+
+      &.cloud-night {
+        color: $mauve;
+      }
+
+      &.cloudy {
+        color: $teal;
+      }
+
+      &.mist {
+        color: $peach;
+      }
+
+      &.drizzle {
+        color: $blue;
+      }
+
+      &.rain {
+        color: $sky;
+      }
+
+      &.thunder {
+        color: $red;
+      }
+
+      &.snow {
+        color: $green;
+      }
+
+      &.unknown {
+        color: $text;
+      }
+    }
+
+    .weather-temp {
+      color: $green;
+
+      font-size: 40px;
+      font-weight: bold;
+
+      margin-right: 4px;
+    }
+
+    .win-hum {
+      font-size: $xsmall;
+
+      margin-left: -6px;
+
+      color: rgba($subtext1, 0.6);
+    }
+
+    .loc-desc {
+      margin-bottom: 4px;
+
+      .weather-loc {
+        font-size: $small;
+        font-weight: bold;
+
+        color: rgba($subtext1, 0.6);
+      }
+
+      .weather-desc {
+        font-size: $normal;
+        font-weight: bold;
+
+        color: $text;
+      }
+    }
+  }
+}

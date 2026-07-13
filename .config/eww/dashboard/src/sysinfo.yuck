@@ -1,0 +1,100 @@
+(defvar open_cpu false)
+(defvar open_ram false)
+(defvar open_disk false)
+(defvar open_temp false)
+
+(defwidget widget_sysinfo []
+  (box :class "sys-container"
+       :orientation "vertical"
+       :space-evenly true
+       :spacing 12
+
+       ;; CPU
+       (box :class "sysinfo-card"
+            :orientation "vertical"
+            :halign "center"
+            (eventbox :onhover "eww update open_cpu=true"
+                      :onhoverlost "eww update open_cpu=false"
+                      (circular-progress :value {EWW_CPU.avg}
+                                         :class "sysinfo-cpu"
+                                         :thickness 6
+                                         :width 90
+                                         :height 90
+                                         (stack :selected {open_cpu ? 1 : 0}
+                                                :transition "slideright"
+                                                (label :class "sysinfo-icon"
+                                                       :text "󰻠")
+                                                (label :class "sysinfo-stat"
+                                                       :text "${round(EWW_CPU.avg, 0)}%")
+                                                )
+                                         )
+                      )
+            )
+
+       ;; RAM
+       (box :class "sysinfo-card"
+            :orientation "vertical"
+            :halign "center"
+            (eventbox :onhover "eww update open_ram=true"
+                      :onhoverlost "eww update open_ram=false"
+                      (circular-progress :value {EWW_RAM.used_mem_perc}
+                                         :class "sysinfo-ram"
+                                         :thickness 6
+                                         :width 90
+                                         :height 90
+                                         (stack :selected {open_ram ? 1 : 0}
+                                                :transition "slideright"
+                                                (label :class "sysinfo-icon"
+                                                       :text "󰍛")
+                                                (label :class "sysinfo-stat"
+                                                       :text "${round(EWW_RAM.used_mem_perc, 0)}%")
+                                                )
+                                         )
+                      )
+            )
+
+       ;; Disk
+       (box :class "sysinfo-card"
+            :orientation "vertical"
+            :halign "center"
+            (eventbox :onhover "eww update open_disk=true"
+                      :onhoverlost "eww update open_disk=false"
+                      (circular-progress :value {EWW_DISK["/"].used_perc}
+                                         :class "sysinfo-disk"
+                                         :thickness 6
+                                         :width 90
+                                         :height 90
+                                         (stack :selected {open_disk ? 1 : 0}
+                                                :transition "slideright"
+                                                (label :class "sysinfo-icon-disk"
+                                                       :text "󰋊")
+                                                (label :class "sysinfo-stat"
+                                                       :text "${round(EWW_DISK["/"].used_perc, 0)}%")
+                                                )
+                                         )
+                      )
+            )
+
+       ;; Temperature
+       (box :class "sysinfo-card"
+            :orientation "vertical"
+            :halign "center"
+            (eventbox :onhover "eww update open_temp=true"
+                      :onhoverlost "eww update open_temp=false"
+                      (circular-progress :value {((EWW_TEMPS["CORETEMP_PACKAGE_ID_0"] ?: EWW_TEMPS["Tdie"] ?: 0) / 100) * 100}
+                                         :class "sysinfo-temp"
+                                         :thickness 6
+                                         :width 90
+                                         :height 90
+                                         (stack :selected {open_temp ? 1 : 0}
+                                                :transition "slideright"
+                                                (label :class "sysinfo-icon-temp"
+                                                       :text "")
+                                                (label :class "sysinfo-stat"
+                                                       :text "${EWW_TEMPS["CORETEMP_PACKAGE_ID_0"] ?: EWW_TEMPS["Tdie"] ?: 0}°C")
+                                                )
+                                         )
+                      )
+            )
+       )
+  )

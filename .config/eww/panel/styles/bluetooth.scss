@@ -1,0 +1,89 @@
+@import "../../theme/tokens.scss";
+
+.bt-card {
+  background-color: transparent;
+
+  button {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .left-action {
+    padding: 12px 0 12px 14px;
+
+    .bt-icon {
+      font-size: 25px;
+      margin-right: 4px;
+      transition: color 0.2s ease;
+    }
+  }
+
+  .sep {
+    color: $overlay0;
+    font-size: $normal;
+  }
+
+  .right-action {
+    padding: 6px 8px;
+
+    .arrow {
+      font-size: $large;
+      color: $text;
+      transition: all 0.2s ease;
+    }
+
+    &:hover {
+      .arrow {
+        color: $overlay1;
+      }
+    }
+  }
+
+  &.is-off {
+    .bt-icon {
+      color: rgba($overlay2, 0.30);
+    }
+  }
+
+  .left-action:hover {
+    .bt-icon {
+      color: $text;
+    }
+  }
+
+  &.is-not-connected {
+    .bt-icon {
+      color: $peach;
+    }
+
+    .left-action:hover {
+      .bt-icon {
+        color: rgba($peach, 0.7);
+      }
+    }
+  }
+
+  &.is-on {
+    .bt-icon {
+      color: $sapphire;
+    }
+
+    .left-action:hover {
+      .bt-icon {
+        color: rgba($sapphire, 0.7);
+      }
+    }
+  }
+}
+
+.bt-title {
+  font-weight: bold;
+  font-size: $xsmall;
+  color: $text;
+}
+
+.bt-device {
+  font-size: 8px;
+  color: $subtext1;
+}

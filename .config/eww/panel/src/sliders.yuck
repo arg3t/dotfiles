@@ -1,0 +1,42 @@
+(deflisten slider_data
+  :initial '{"volume": 0, "brightness": 0}' "bash ~/.config/eww/panel/scripts/sliders.sh")
+
+(defwidget widget_sliders []
+  (box :orientation "vertical"
+       :space-evenly false
+       :spacing 8
+       :class "sliders-container"
+
+       (box :orientation "horizontal"
+            :space-evenly false
+            :spacing 10
+            :hexpand true
+
+            (label :class "slider-icon brightness"
+                   :text "󰖨")
+            (scale :class "osd-scale brightness"
+                   :hexpand true
+                   :valign "center"
+                   :min 0
+                   :max 101
+                   :value {slider_data.brightness}
+                   :onchange "brightnessctl set {}% && eww update osd_value={} osd_type=brightness osd_icon=󰖨")
+       )
+
+       (box :orientation "horizontal"
+            :space-evenly false
+            :spacing 10
+            :hexpand true
+
+            (label :class "slider-icon volume"
+                   :text "")
+            (scale :class "osd-scale volume"
+                   :hexpand true
+                   :valign "center"
+                   :min 0
+                   :max 101
+                   :value {slider_data.volume}
+                   :onchange "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ {}% && eww update osd_value={} osd_type=volume osd_icon=")
+       )
+  )
+)

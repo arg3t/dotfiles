@@ -1,0 +1,180 @@
+#!/usr/bin/env bash
+
+set -u
+
+BATTERY=${BATTERY:-/sys/class/power_supply/BAT0}
+AC=${AC:-/sys/class/power_supply/AC}
+
+menu_select() {
+  local prompt=$1
+  local lines=${2:-8}
+  if command -v dmenu >/dev/null 2>&1; then
+    dmenu -l "$lines" -p "$prompt"
+  elif command -v bemenu >/dev/null 2>&1; then
+    bemenu -l "$lines" -p "$prompt" -i
+  else
+    return 127
+  fi
+}
+
+show_menu_text() {
+  local prompt=$1
+  local body=${2:-}
+  [ -n "$body" ] || body='No output'
+  printf '%s\n' "$body" | menu_select "$prompt" 14 >/dev/null || true
+}
+
+run_privileged() {
+  if command -v run0 >/dev/null 2>&1; then
+    run0 "$@"
+  elif command -v sudo >/dev/null 2>&1; then
+    sudo "$@"
+  else
+    show_menu_text "Power" "Need run0 or sudo for privileged power controls."
+    return 1
+  fi
+}
+
+read_file() {
+  local path=$1
+  [ -r "$path" ] && cat "$path" || printf ''
+}
+
+format_duration() {
+  local total_minutes=$1
+  local hours minutes
+  hours=$((total_minutes / 60))
+  minutes=$((total_minutes % 60))
+  printf '%dh%02dm' "$hours" "$minutes"
+}
+
+battery_time_left() {
+  local status energy_now power_now minutes
+  status=$(read_file "$BATTERY/status")
+  energy_now=$(read_file "$BATTERY/energy_now")
+  power_now=$(read_file "$BATTERY/power_now")
+
+  if [ "$status" != 'Discharging' ]; then
+    printf 'charging / plugged in'
+    return 0
+  fi
+
+  if [ -z "$energy_now" ] || [ -z "$power_now" ] || [ "$power_now" -le 0 ] 2>/dev/null; then
+    printf 'unknown'
+    return 0
+  fi
+
+  minutes=$((energy_now * 60 / power_now))
+  format_duration "$minutes"
+}
+
+battery_watts() {
+  local power_now
+  power_now=$(read_file "$BATTERY/power_now")
+  if [ -n "$power_now" ]; then
+    awk "BEGIN { printf \"%.1f W\", $power_now / 1000000 }"
+  else
+    printf 'unknown W'
+  fi
+}
+
+battery_health() {
+  local energy_full energy_design
+  energy_full=$(read_file "$BATTERY/energy_full")
+  energy_design=$(read_file "$BATTERY/energy_full_design")
+  if [ -n "$energy_full" ] && [ -n "$energy_design" ] && [ "$energy_design" -gt 0 ] 2>/dev/null; then
+    awk "BEGIN { printf \"%.0f%%\", 100 * $energy_full / $energy_design }"
+  else
+    printf 'unknown'
+  fi
+}
+
+battery_details() {
+  local capacity status ac_online
+  capacity=$(read_file "$BATTERY/capacity")
+  status=$(read_file "$BATTERY/status")
+  ac_online=$(read_file "$AC/online")
+
+  cat <<EOF
+Battery: ${capacity:-unknown}%
+Time left: $(battery_time_left)
+Status: ${status:-unknown}
+Power draw: $(battery_watts)
+Battery health: $(battery_health)
+AC online: ${ac_online:-unknown}
+EOF
+}
+
+upower_info() {
+  if command -v upower >/dev/null 2>&1; then
+    upower -b 2>/dev/null || upower -d 2>/dev/null || true
+  else
+    printf 'upower is not installed or UPower is not active\n'
+  fi
+}
+
+tlp_status() {
+  if command -v tlp-stat >/dev/null 2>&1; then
+    tlp-stat -s 2>&1
+  else
+    printf 'tlp-stat is not installed\n'
+  fi
+}
+
+set_tlp_mode() {
+  local mode=$1 output status
+  output=$(run_privileged tlp "$mode" 2>&1)
+  status=$?
+  if [ "$status" -eq 0 ]; then
+    show_menu_text "TLP power mode" "Set TLP mode: $mode\n\n$output"
+  else
+    show_menu_text "TLP power mode" "$output"
+  fi
+}
+
+tlp_mode_menu() {
+  local mode
+  mode=$(printf 'balanced\npower-saver\nperformance\nac\nbat\n' | menu_select "TLP power mode" 5) || return 0
+  [ -n "$mode" ] || return 0
+  set_tlp_mode "$mode"
+}
+
+set_platform_profile() {
+  local profile=$1 output status
+  if [ ! -w /sys/firmware/acpi/platform_profile ]; then
+    output=$(run_privileged sh -c 'printf "%s\n" "$1" > /sys/firmware/acpi/platform_profile' sh "$profile" 2>&1)
+    status=$?
+  else
+    output=$(printf '%s\n' "$profile" > /sys/firmware/acpi/platform_profile 2>&1)
+    status=$?
+  fi
+
+  if [ "$status" -eq 0 ]; then
+    show_menu_text "Platform profile" "Set profile: $profile"
+  else
+    show_menu_text "Platform profile" "$output"
+  fi
+}
+
+platform_profile_menu() {
+  local choices profile
+  choices=$(cat /sys/firmware/acpi/platform_profile_choices 2>/dev/null || printf 'low-power balanced performance\n')
+  profile=$(printf '%s\n' $choices | menu_select "Platform profile" 5) || return 0
+  [ -n "$profile" ] || return 0
+  set_platform_profile "$profile"
+}
+
+main_menu() {
+  local action
+  action=$(printf 'Battery details\nUPower details\nTLP status\nSet TLP power mode\nSet platform profile\n' | menu_select "Power controls" 5) || return 0
+
+  case "$action" in
+    'Battery details') show_menu_text "Battery details" "$(battery_details)" ;;
+    'UPower details') show_menu_text "UPower details" "$(upower_info)" ;;
+    'TLP status') show_menu_text "TLP status" "$(tlp_status)" ;;
+    'Set TLP power mode') tlp_mode_menu ;;
+    'Set platform profile') platform_profile_menu ;;
+  esac
+}
+
+main_menu

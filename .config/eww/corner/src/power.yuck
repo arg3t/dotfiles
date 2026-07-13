@@ -1,0 +1,43 @@
+(defvar power_confirm "")
+(defvar hover_power false)
+
+(defwidget power-btn [icon cmd class_name]
+  (eventbox :cursor "pointer"
+            (button :class "power-btn ${class_name} ${power_confirm == class_name ? 'confirming' : ''}"
+                    :onclick {power_confirm == class_name ?
+                    "eww update power_confirm='' && bash ~/.config/eww/corner/scripts/power.sh ${class_name}" :
+                    "eww update power_confirm='${class_name}'"}
+                    (label :text {power_confirm == class_name ? "󰋗" : icon}
+                           :class "power-icon"))
+            )
+  )
+
+(defwidget widget_power []
+  (eventbox :onhover "eww update hover_power=true"
+            :onhoverlost "eww update hover_power=false && eww update power_confirm=''"
+
+            (box :orientation "horizontal"
+                 (revealer :transition "slideleft"
+                           :reveal hover_power
+                           :duration "250ms"
+
+                           (box :class "power-card"
+                                :orientation "vertical"
+                                :spacing 12
+
+                                (power-btn :icon "󰐥"
+                                           :class_name "p-shutdown"
+                                           :cmd "")
+                                (power-btn :icon "󰜉"
+                                           :class_name "p-reboot"
+                                           :cmd "")
+                                (power-btn :icon "󰤄"
+                                           :class_name "p-suspend"
+                                           :cmd "")
+                                (power-btn :icon "󰍃"
+                                           :class_name "p-logout"
+                                           :cmd ""))
+                           )
+                 )
+            )
+  )

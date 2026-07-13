@@ -1,0 +1,30 @@
+@import "../../theme/tokens.scss";
+
+.qt-container {
+
+  .qt-card {
+    background-color: transparent;
+    box-shadow: none;
+
+    .qt-card-icon {
+      background-color: transparent;
+
+      font-size: 30px;
+      color: $sky;
+
+      margin-left: -6px;
+      transition: color 0.15s ease;
+    }
+
+    .qt-card-label {
+      font-size: $small;
+      color: $text;
+    }
+
+    &:hover {
+      .qt-card-icon {
+        color: rgba($sapphire, 0.7);
+      }
+    }
+  }
+}

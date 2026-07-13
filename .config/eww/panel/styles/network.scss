@@ -1,0 +1,90 @@
+@import "../../theme/tokens.scss";
+
+.wifi-card {
+  background: transparent;
+
+  button {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .left-action {
+    padding: 12px 0 12px 14px;
+
+    .wifi-icon {
+      font-size: 25px;
+      margin-right: 10px;
+      margin-left: -4px;
+      transition: color 0.2s ease;
+    }
+  }
+
+  .sep {
+    color: $overlay0;
+    font-size: $normal;
+  }
+
+  .right-action {
+    padding: 6px 10px;
+
+    .arrow {
+      font-size: $large;
+      color: $text;
+      transition: all 0.2s ease;
+    }
+
+    &:hover {
+      .arrow {
+        color: $overlay1;
+      }
+    }
+  }
+
+  &.is-on {
+    .wifi-icon {
+      color: $sapphire;
+    }
+
+    .left-action:hover {
+      .wifi-icon {
+        color: rgba($sapphire, 0.7);
+      }
+    }
+  }
+
+  &.is-not-connected {
+    .wifi-icon {
+      color: $peach;
+    }
+
+    .left-action:hover {
+      .wifi-icon {
+        color: rgba($peach, 0.7);
+      }
+    }
+  }
+
+  &.is-off {
+    .wifi-icon {
+      color: rgba($overlay2, 0.30);
+    }
+
+    .left-action:hover {
+      .wifi-icon {
+        color: $text;
+      }
+    }
+  }
+}
+
+.wifi-title {
+  font-weight: bold;
+  font-size: $xsmall;
+  color: $text;
+}
+
+.wifi-ssid {
+  font-size: 8px;
+  color: $subtext1;
+}
