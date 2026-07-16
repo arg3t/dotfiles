@@ -19,6 +19,7 @@ in
     chromium
     spotify
     signal-desktop
+    telegram-desktop
     wireguard-tools
   ];
 
