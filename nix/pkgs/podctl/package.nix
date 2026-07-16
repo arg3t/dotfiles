@@ -16,8 +16,6 @@ rustPlatform.buildRustPackage (finalAttrs: {
   };
   cargoHash = "sha256-SLOHB0/Rhgic4E8lM5rifW8qRdUwCKY03QBC+ylwxAY=";
 
-  # podctl, podctld, podctl-tray, podctl-popup — autobins disabled in
-  # Cargo.toml, so point cargo at the declared bin entry-points.
   cargoBuildFlags = [
     "--bin"
     "podctl"

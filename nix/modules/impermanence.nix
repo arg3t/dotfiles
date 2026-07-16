@@ -1,7 +1,6 @@
 { lib, ... }:
 
 {
-  # /persist must be mounted before the impermanence bind mounts are set up.
   fileSystems."/persist".neededForBoot = true;
 
   # Roll the root subvolume back to the blank snapshot on every boot.

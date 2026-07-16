@@ -34,7 +34,7 @@
   swapDevices = [
     {
       device = "/swap/swapfile";
-      size = 16 * 1024; # MiB; = RAM, enough for hibernation
+      size = 16 * 1024;
     }
   ];
 

@@ -27,8 +27,6 @@
     Defaults pwfeedback
   '';
 
-  # Prebuilt nix-index database for package discovery and comma-powered
-  # one-off command execution without locally generating an index.
   programs.nix-index-database.comma.enable = true;
   programs.command-not-found.enable = false;
 }

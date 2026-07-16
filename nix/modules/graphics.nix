@@ -1,7 +1,6 @@
 { pkgs, ... }:
 
 {
-  # Intel GPU (i915): OpenGL/Vulkan + VA-API video decode.
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
@@ -17,11 +16,9 @@
   };
 
   environment.systemPackages = with pkgs; [
-    libva-utils # vainfo, to verify accel
+    libva-utils
   ];
 
-  # Font rendering: same settings as the old fontconfig/fonts.conf,
-  # applied system-wide.
   fonts.fontconfig = {
     enable = true;
     antialias = true;

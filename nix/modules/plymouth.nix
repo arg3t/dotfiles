@@ -7,7 +7,6 @@
     themePackages = [ pkgs.mac-style-plymouth ];
   };
 
-  # Quiet boot so the splash is actually visible.
   boot.kernelParams = [
     "quiet"
     "splash"
