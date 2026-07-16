@@ -47,5 +47,7 @@
     session = "hyprland";
   };
 
+  my.power.swapSize = 16 * 1024;
+
   system.stateVersion = "26.05";
 }

@@ -1,12 +1,13 @@
 {
   pkgs,
+  config,
   username ? "yeet",
   standaloneHome ? false,
   ...
 }:
 
 let
-  userConfig = {
+  userConfig = { config, ... }: {
     # Manages XDG base dirs declaratively (XDG_CONFIG_HOME, XDG_DATA_HOME,
     # XDG_CACHE_HOME) instead of exporting them in .profile.
     xdg.enable = true;
@@ -170,11 +171,17 @@ let
 
     xdg.dataFile."applications/mimeapps.list".force = true;
 
-    xdg.configFile."pavucontrol.ini".source = ../../.config/pavucontrol.ini;
+    xdg.configFile."pavucontrol.ini".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/pavucontrol.ini";
 
-    xdg.configFile."fontconfig/fonts.conf".source = ../../.config/fontconfig/fonts.conf;
+    xdg.configFile."fontconfig/fonts.conf".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/fontconfig/fonts.conf";
 
-    xdg.configFile."htop/htoprc".source = ../../.config/htop/htoprc;
+    xdg.configFile."htop/htoprc".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/htop/htoprc";
   };
 in
-if standaloneHome then userConfig else { home-manager.users.${username} = userConfig; }
+if standaloneHome then
+  userConfig { inherit config; }
+else
+  { home-manager.users.${username} = userConfig; }

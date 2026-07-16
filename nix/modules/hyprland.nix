@@ -71,12 +71,16 @@
     home.file.".config/hypr-own".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hypr/default";
 
-    xdg.configFile."mako/config".source = ../../.config/mako/config;
+    xdg.configFile."mako/config".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/mako/config";
 
-    xdg.configFile."wofi/config".source = ../../.config/wofi/config;
-    xdg.configFile."wofi/style.css".source = ../../.config/wofi/style.css;
+    xdg.configFile."wofi/config".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/wofi/config";
+    xdg.configFile."wofi/style.css".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/wofi/style.css";
 
-    xdg.configFile."bemenu/config.sh".source = ../../.config/bemenu/config.sh;
+    xdg.configFile."bemenu/config.sh".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/bemenu/config.sh";
 
     home.file.".config/waybar".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/waybar";
