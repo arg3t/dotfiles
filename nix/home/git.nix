@@ -1,7 +1,12 @@
-{ username ? "yeet", standaloneHome ? false, ... }:
+{
+  config,
+  username ? "yeet",
+  standaloneHome ? false,
+  ...
+}:
 
 let
-  userConfig = {
+  userConfig = { config, ... }: {
     programs.git = {
       enable = true;
       settings = {
@@ -11,8 +16,19 @@ let
         init.defaultBranch = "main";
         pull.rebase = true;
         push.autoSetupRemote = true;
+
+        core.pager = "delta --dark";
+        interactive.diffFilter = "delta --color-only";
+        delta.navigate = true;
+        merge.conflictStyle = "zdiff3";
       };
     };
+
+    xdg.configFile."lazygit/config.yml".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/lazygit/config.yml";
   };
 in
-if standaloneHome then userConfig else { home-manager.users.${username} = userConfig; }
+if standaloneHome then
+  userConfig { inherit config; }
+else
+  { home-manager.users.${username} = userConfig; }

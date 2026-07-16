@@ -1,7 +1,6 @@
 {
   pkgs,
   config,
-  lib,
   username ? "yeet",
   standaloneHome ? false,
   ...
@@ -9,12 +8,8 @@
 
 let
   userConfig = { config, ... }: {
-    programs.neovim = {
-      enable = true;
-      defaultEditor = true;
-    };
-
     home.packages = with pkgs; [
+      neovim
       our.oh-my-pi
 
       bash-language-server # bashls
@@ -38,9 +33,8 @@ let
       fd
     ];
 
-    xdg.configFile."nvim".source = lib.mkForce (
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/nvim"
-    );
+    xdg.configFile."nvim".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/nvim";
   };
 in
 if standaloneHome then

@@ -1,4 +1,11 @@
-{ pkgs, config, lib, username ? "yeet", standaloneHome ? false, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  username ? "yeet",
+  standaloneHome ? false,
+  ...
+}:
 
 let
   userConfig = { config, lib, ... }: {
@@ -66,7 +73,7 @@ let
     };
 
     home.shellAliases = {
-      cat = "bat";
+      cat = "bat -p --paging=never";
       ga = "git add";
       gc = "git commit";
       gcm = "git commit -m";
@@ -91,7 +98,6 @@ let
       lolcat
     ];
 
-
     programs.starship.enable = false;
 
     programs.direnv = {
@@ -100,4 +106,7 @@ let
     };
   };
 in
-if standaloneHome then userConfig { inherit config lib; } else { home-manager.users.${username} = userConfig; }
+if standaloneHome then
+  userConfig { inherit config lib; }
+else
+  { home-manager.users.${username} = userConfig; }

@@ -1,4 +1,9 @@
-{ pkgs, username ? "yeet", standaloneHome ? false, ... }:
+{
+  pkgs,
+  username ? "yeet",
+  standaloneHome ? false,
+  ...
+}:
 
 let
   userConfig = {
@@ -11,6 +16,8 @@ let
       terragrunt
       opentofu
       attic-client
+      lazygit
+      delta
     ];
   };
 in
