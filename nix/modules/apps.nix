@@ -41,4 +41,9 @@ in
   };
 
   services.tailscale.enable = true;
+
+  networking.wg-quick.interfaces.moonrise = {
+    autostart = false;
+    configFile = "/persist/wireguard/moonrise.conf";
+  };
 }

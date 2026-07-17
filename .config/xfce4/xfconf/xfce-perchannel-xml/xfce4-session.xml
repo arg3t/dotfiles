@@ -1,6 +1,9 @@
 <?xml version="1.1" encoding="UTF-8"?>
 
 <channel name="xfce4-session" version="1.0">
+  <property name="general" type="empty">
+    <property name="LockCommand" type="string" value="loginctl lock-session"/>
+  </property>
   <property name="shutdown" type="empty">
     <property name="LockScreen" type="bool" value="false"/>
   </property>
