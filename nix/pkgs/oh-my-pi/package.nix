@@ -7,29 +7,34 @@
   versionCheckHook,
 }:
 
+let
+  sources = lib.importJSON ./sources.json;
+
+  owner = "can1357";
+  repo = "oh-my-pi";
+
+  # Nix system -> release asset suffix. Single source of truth shared by the
+  # derivation and the update script.
+  suffixes = {
+    x86_64-linux = "linux-x64";
+    aarch64-linux = "linux-arm64";
+    x86_64-darwin = "darwin-x64";
+    aarch64-darwin = "darwin-arm64";
+  };
+in
 stdenv.mkDerivation (finalAttrs: {
   pname = "oh-my-pi";
-  version = "16.3.11";
+  version = sources.version;
 
   src =
     let
       inherit (stdenv.hostPlatform) system;
       selectSystem = attrs: attrs.${system} or (throw "oh-my-pi: unsupported system ${system}");
-      suffix = selectSystem {
-        x86_64-linux = "linux-x64";
-        aarch64-linux = "linux-arm64";
-        x86_64-darwin = "darwin-x64";
-        aarch64-darwin = "darwin-arm64";
-      };
-      hash = selectSystem {
-        x86_64-linux = "sha256-jZXU3jrhds1UtgMP3fM+KEdENzzdt4C4tP7Woa1j840=";
-        aarch64-linux = "sha256-Dqq4ldYkM/AJVUTodS4UPfu673c//BaL28fhU1oo4vM=";
-        x86_64-darwin = "sha256-8fWcQdJnJJd5Ul7AGWc5i5ngnxLLpznsffjaMY5limA=";
-        aarch64-darwin = "sha256-oRz4w623Msk/4ka6oHwjQIfE5x2SX3psYgTz2JU7Md4=";
-      };
+      suffix = selectSystem suffixes;
+      hash = selectSystem sources.hashes;
     in
     fetchurl {
-      url = "https://github.com/can1357/oh-my-pi/releases/download/v${finalAttrs.version}/omp-${suffix}";
+      url = "https://github.com/${owner}/${repo}/releases/download/v${finalAttrs.version}/omp-${suffix}";
       inherit hash;
     };
 
@@ -59,6 +64,8 @@ stdenv.mkDerivation (finalAttrs: {
   versionCheckProgram = "${placeholder "out"}/bin/omp";
   versionCheckProgramArg = "--version";
   doInstallCheck = true;
+
+  passthru.updateScript = [ ./update.sh ];
 
   meta = {
     description = "AI coding agent for the terminal with hash-anchored edits, LSP, DAP, and subagents";
