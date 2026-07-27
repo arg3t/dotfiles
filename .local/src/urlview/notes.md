@@ -1,5 +1,0 @@
-```
-autoreconf -vfi
-./configure
-make
-```
