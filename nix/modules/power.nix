@@ -39,9 +39,9 @@ in
       };
     };
 
-    # Allow interactive power-profile switching (dmenu-powerprofile,
-    # dmenu-battery, dmenu-toolkit) to run `tlp <profile>` without a
-    # password prompt. tlp writes root-owned sysfs, so it needs root.
+    # Allow interactive power-profile switching (dmenu-battery, invoked from
+    # the waybar battery menu and dmenu-toolkit) to run `tlp <profile>`
+    # without a password prompt. tlp writes root-owned sysfs, so it needs root.
     security.sudo.extraRules = [
       {
         users = [ "yeet" ];

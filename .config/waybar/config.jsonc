@@ -11,7 +11,7 @@
         "custom/dnd",
         "custom/bluetooth",
         "memory",
-        "cpu",
+        "custom/cpu",
         "temperature",
         "custom/weather",
         "pulseaudio",
@@ -51,9 +51,13 @@
         "max-length": 10
     },
 
-    "cpu": {
-        "interval": 30,
-        "format": "<span color=\"#a3be8c\">󰍛</span> {usage:2}%",
+    "custom/cpu": {
+        "format": "{}",
+        "return-type": "json",
+        "escape": false,
+        "tooltip": true,
+        "interval": 5,
+        "exec": "$HOME/.local/bin/status-bar/cpu"
     },
 
     "temperature": {
@@ -89,6 +93,7 @@
       "return-type": "json",
       "escape": false,
       "interval": 120,
+      "signal": 12,
       "exec": "$HOME/.config/waybar/scripts/battery-with-bluetooth",
       "tooltip": true,
       "on-click": "$HOME/.config/waybar/scripts/bluetooth-devices battery-menu",

@@ -80,6 +80,20 @@ battery_icon() {
   fi
 }
 
+tlp_profile() {
+  # tlp-stat -s reports "Power profile = <mode>/<AC|BAT>"; take the mode.
+  # This is the only source that reflects a manual `tlp <profile>` override.
+  command -v tlp-stat >/dev/null 2>&1 || return 0
+  local profile
+  profile=$(tlp-stat -s 2>/dev/null | awk -F'= ' '/Power profile/ { split($2, a, "/"); print a[1]; exit }')
+  case "$profile" in
+    performance) printf '󰓅' ;;
+    balanced) printf '󰾅' ;;
+    power-saver) printf '󰌪' ;;
+    *) [ -n "$profile" ] && printf '%s' "$profile" ;;
+  esac
+}
+
 if [ -d "$BATTERY" ]; then
   bat=$(read_file "$BATTERY/capacity")
   plugged=$(read_file "$AC/online")
@@ -87,5 +101,10 @@ if [ -d "$BATTERY" ]; then
 
   stats="$bat%"
 
-  printf '<span color="%s">%s</span> %s\n' "$tag_color" "$icon" "$stats"
+  profile_glyph=$(tlp_profile)
+  if [ -n "$profile_glyph" ]; then
+    printf '<span color="%s">%s</span> %s <span color="%s">%s</span>\n' "$tag_color" "$icon" "$stats" "$tag_color" "$profile_glyph"
+  else
+    printf '<span color="%s">%s</span> %s\n' "$tag_color" "$icon" "$stats"
+  fi
 fi

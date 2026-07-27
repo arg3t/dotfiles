@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+#
+# waybar custom/cpu module.
+#   text    : overall CPU usage percentage (matches the previous "cpu" module)
+#   tooltip : per-core usage AND current frequency
+#
+# Emits a single JSON object: {"text":..,"tooltip":..}
+
+set -u
+
+tag_color='#a3be8c'
+icon='󰍛'
+
+# Read cumulative jiffies for every cpuN line: "idle total" per core, newline
+# separated, indexed by core number.
+snapshot() {
+  awk '/^cpu[0-9]+ / {
+    idle = $5 + $6            # idle + iowait
+    total = 0
+    for (i = 2; i <= NF; i++) total += $i
+    print idle, total
+  }' /proc/stat
+}
+
+# Per-core usage% from two snapshots; prints one integer per line.
+core_usages() {
+  local -a a b
+  mapfile -t a < <(snapshot)
+  sleep 0.2
+  mapfile -t b < <(snapshot)
+
+  local i idle0 total0 idle1 total1 didle dtotal usage
+  for i in "${!a[@]}"; do
+    read -r idle0 total0 <<<"${a[$i]}"
+    read -r idle1 total1 <<<"${b[$i]}"
+    didle=$((idle1 - idle0))
+    dtotal=$((total1 - total0))
+    if [ "$dtotal" -gt 0 ]; then
+      usage=$(( (100 * (dtotal - didle) + dtotal / 2) / dtotal ))
+    else
+      usage=0
+    fi
+    printf '%d\n' "$usage"
+  done
+}
+
+core_freq_ghz() {
+  local khz=$1
+  [ -n "$khz" ] || { printf 'n/a'; return; }
+  awk "BEGIN { printf \"%.2f\", $khz / 1000000 }"
+}
+
+overall_usage() {
+  local idle0 total0 idle1 total1 didle dtotal
+  read -r idle0 total0 < <(awk '/^cpu / { print $5 + $6, $2+$3+$4+$5+$6+$7+$8+$9+$10+$11 }' /proc/stat)
+  sleep 0.2
+  read -r idle1 total1 < <(awk '/^cpu / { print $5 + $6, $2+$3+$4+$5+$6+$7+$8+$9+$10+$11 }' /proc/stat)
+  local didle=$((idle1 - idle0)) dtotal=$((total1 - total0))
+  if [ "$dtotal" -gt 0 ]; then
+    printf '%d' $(( (100 * (dtotal - didle) + dtotal / 2) / dtotal ))
+  else
+    printf '0'
+  fi
+}
+
+build_tooltip() {
+  local -a usages
+  mapfile -t usages < <(core_usages)
+
+  local i freq_khz freq
+  local out=''
+  for i in "${!usages[@]}"; do
+    freq_khz=$(cat "/sys/devices/system/cpu/cpu$i/cpufreq/scaling_cur_freq" 2>/dev/null)
+    freq=$(core_freq_ghz "$freq_khz")
+    out+=$(printf 'Core %-2d %3d%%  %s GHz' "$i" "${usages[$i]}" "$freq")
+    out+=$'\n'
+  done
+  # trim trailing newline
+  printf '%s' "${out%$'\n'}"
+}
+
+usage=$(overall_usage)
+tooltip=$(build_tooltip)
+text=$(printf '<span color="%s">%s</span> %2d%%' "$tag_color" "$icon" "$usage")
+
+jq -cn --arg text "$text" --arg tooltip "$tooltip" '{text:$text, tooltip:$tooltip}'

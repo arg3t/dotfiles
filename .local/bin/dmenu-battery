@@ -17,6 +17,22 @@ menu_select() {
   fi
 }
 
+notify() {
+  local urgency=$1 body=$2
+  command -v notify-send >/dev/null 2>&1 || return 0
+  notify-send -u "$urgency" "Power profile" "$body"
+}
+
+run_privileged() {
+  if command -v sudo >/dev/null 2>&1; then
+    sudo "$@"
+  elif command -v run0 >/dev/null 2>&1; then
+    run0 "$@"
+  else
+    return 1
+  fi
+}
+
 read_file() {
   local path=$1
   [ -r "$path" ] && cat "$path" || printf ''
@@ -48,6 +64,23 @@ battery_time_left() {
 
   minutes=$((energy_now * 60 / power_now))
   format_duration "$minutes"
+}
+
+# Active TLP profile mode: performance | balanced | power-saver.
+# tlp-stat -s reports "Power profile = <mode>/<AC|BAT>"; this is the only
+# source that reflects a manual `tlp <profile>` override.
+current_profile() {
+  command -v tlp-stat >/dev/null 2>&1 || return 0
+  tlp-stat -s 2>/dev/null | awk -F'= ' '/Power profile/ { split($2, a, "/"); print a[1]; exit }'
+}
+
+profile_label() {
+  case "$1" in
+    performance) printf 'Performance' ;;
+    balanced) printf 'Balanced' ;;
+    power-saver) printf 'Power Saver' ;;
+    *) printf '%s' "$1" ;;
+  esac
 }
 
 laptop_line() {
@@ -87,9 +120,14 @@ airpods_battery() {
   podctl battery 2>/dev/null || true
 }
 
-battery_lines() {
-  local bt airpods
+# Informational (non-actionable) lines, shared by the waybar tooltip and the
+# top of the interactive menu.
+info_lines() {
+  local bt airpods cur
   laptop_line
+
+  cur=$(current_profile)
+  [ -n "$cur" ] && printf 'Profile: %s\n' "$(profile_label "$cur")"
 
   bt=$(bluetooth_batteries)
   [ -n "$bt" ] && printf '%s\n' "$bt"
@@ -98,15 +136,58 @@ battery_lines() {
   [ -n "$airpods" ] && printf '%s\n' "$airpods"
 }
 
+# Selectable profile entries; the active profile is marked with a leading "*".
+profile_entries() {
+  local cur mode
+  cur=$(current_profile)
+  for mode in performance balanced power-saver; do
+    if [ "$mode" = "$cur" ]; then
+      printf '* %s\n' "$(profile_label "$mode")"
+    else
+      printf '  %s\n' "$(profile_label "$mode")"
+    fi
+  done
+}
+
+apply_profile() {
+  local label=$1 mode want now
+  case "$label" in
+    'Performance') mode=performance ;;
+    'Balanced') mode=balanced ;;
+    'Power Saver') mode=power-saver ;;
+    *) return 0 ;;
+  esac
+  want=$mode
+
+  if ! run_privileged tlp "$mode" >/dev/null 2>&1; then
+    notify critical "Failed to run tlp (need passwordless sudo for tlp)"
+    return 1
+  fi
+
+  # Verify the switch actually took effect.
+  now=$(current_profile)
+  if [ "$now" = "$want" ]; then
+    notify normal "Now on $label"
+  else
+    notify critical "Requested $label but active profile is $(profile_label "${now:-unknown}")"
+  fi
+
+  # Refresh the waybar battery module (custom/battery "signal": 12).
+  pgrep -x waybar >/dev/null 2>&1 && pkill -RTMIN+12 -x waybar
+}
+
 case "${1:-menu}" in
   --lines)
-    battery_lines
+    info_lines
     ;;
   *)
-    action='⚡ Change power profile'
-    selection=$( { battery_lines; printf '%s\n' "$action"; } | menu_select "Battery" 8 ) || exit 0
-    if [ "$selection" = "$action" ]; then
-      exec dmenu-powerprofile
-    fi
+    selection=$( { info_lines; profile_entries; } | menu_select "Battery" 10 ) || exit 0
+    [ -n "$selection" ] || exit 0
+    # Strip the active marker / indent, then act only on profile rows.
+    label=${selection#'* '}
+    label=${label#'  '}
+    case "$label" in
+      'Performance'|'Balanced'|'Power Saver') apply_profile "$label" ;;
+    esac
     ;;
 esac

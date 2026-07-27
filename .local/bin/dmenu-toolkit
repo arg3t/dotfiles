@@ -15,7 +15,7 @@ Grab Color | Grab any color on your screen | grabcolor
 Toggle Trackpad | Enable/Disable your trackpad | toggle_trackpad.sh
 Backup | Backup your system | backup
 Insert Emoji | Insert an emoji or glyph | dmenu-emoji
-Power Profile | Switch CPU power profile (performance/balanced/power-saver) | dmenu-powerprofile
+Power Profile | Battery status and CPU power profile (performance/balanced/power-saver) | dmenu-battery
 Create Timer | Create or manage a timer | dmenu-timer
 EOM
 
