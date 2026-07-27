@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+
+set -u
+
+BATTERY=${BATTERY:-/sys/class/power_supply/BAT0}
+AC=${AC:-/sys/class/power_supply/AC}
+
+menu_select() {
+  local prompt=$1
+  local lines=${2:-8}
+  if command -v dmenu >/dev/null 2>&1; then
+    dmenu -l "$lines" -p "$prompt"
+  elif command -v bemenu >/dev/null 2>&1; then
+    bemenu -l "$lines" -p "$prompt" -i
+  else
+    return 127
+  fi
+}
+
+read_file() {
+  local path=$1
+  [ -r "$path" ] && cat "$path" || printf ''
+}
+
+format_duration() {
+  local total_minutes=$1
+  local hours minutes
+  hours=$((total_minutes / 60))
+  minutes=$((total_minutes % 60))
+  printf '%dh%02dm' "$hours" "$minutes"
+}
+
+battery_time_left() {
+  local status energy_now power_now minutes
+  status=$(read_file "$BATTERY/status")
+  energy_now=$(read_file "$BATTERY/energy_now")
+  power_now=$(read_file "$BATTERY/power_now")
+
+  if [ "$status" != 'Discharging' ]; then
+    printf 'charging / plugged in'
+    return 0
+  fi
+
+  if [ -z "$energy_now" ] || [ -z "$power_now" ] || [ "$power_now" -le 0 ] 2>/dev/null; then
+    printf 'unknown'
+    return 0
+  fi
+
+  minutes=$((energy_now * 60 / power_now))
+  format_duration "$minutes"
+}
+
+laptop_line() {
+  local capacity
+  capacity=$(read_file "$BATTERY/capacity")
+  printf 'Laptop: %s%%, %s\n' "${capacity:-unknown}" "$(battery_time_left)"
+}
+
+bluetooth_batteries() {
+  local mac name battery mac_upper mac_dir supply cap
+
+  bluetoothctl devices Connected 2>/dev/null | while read -r _ mac name; do
+    [ -n "${mac:-}" ] || continue
+    battery=$(bluetoothctl info "$mac" 2>/dev/null | awk -F'[()]' '/Battery Percentage:/ { print $2; exit }')
+
+    if [ -z "$battery" ]; then
+      mac_upper=${mac^^}
+      mac_dir=${mac_upper//:/_}
+      for supply in /sys/class/power_supply/*; do
+        [ -e "$supply" ] || continue
+        case "$(basename "$supply")" in
+          *"$mac_dir"*|*"$mac_upper"*) ;;
+          *) continue ;;
+        esac
+        [ -r "$supply/capacity" ] || continue
+        cap=$(cat "$supply/capacity" 2>/dev/null) || continue
+        [ -n "$cap" ] && battery=$cap && break
+      done
+    fi
+
+    [ -n "$battery" ] && printf '%s: %s%%\n' "$name" "$battery"
+  done
+}
+
+airpods_battery() {
+  command -v podctl >/dev/null 2>&1 || return 0
+  podctl battery 2>/dev/null || true
+}
+
+battery_lines() {
+  local bt airpods
+  laptop_line
+
+  bt=$(bluetooth_batteries)
+  [ -n "$bt" ] && printf '%s\n' "$bt"
+
+  airpods=$(airpods_battery)
+  [ -n "$airpods" ] && printf '%s\n' "$airpods"
+}
+
+case "${1:-menu}" in
+  --lines)
+    battery_lines
+    ;;
+  *)
+    battery_lines | menu_select "Battery" 8 >/dev/null || true
+    ;;
+esac

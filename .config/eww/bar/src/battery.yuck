@@ -1,0 +1,35 @@
+(defpoll battery_data :interval "2s"
+  :initial '{"icon":"󰁹","percent":100,"status":"Unknown","time":"--:--"}'
+  "bash ~/.config/eww/bar/scripts/battery.sh")
+
+(defwidget widget_battery []
+  (box :class "battery-container ${
+       battery_data.status == 'AC' ? 'ac' :
+       battery_data.status == 'Charging' ? 'charging' :
+       battery_data.percent < 11 ? 'critical' :
+       battery_data.percent < 26 ? 'low' :
+       battery_data.percent < 41 ? 'warning-low' :
+       battery_data.percent < 61 ? 'warning-high' :
+       battery_data.percent < 81 ? 'good' :
+       battery_data.percent < 91 ? 'high' :
+       'full'
+       }"
+
+       :orientation "horizontal"
+       :space-evenly false
+
+       :tooltip "${battery_data.percent}% • ${
+       battery_data.status == 'Charging'
+       ? 'Charging'
+       : battery_data.status == 'Full'
+       ? 'Full'
+       : battery_data.time
+       }"
+
+       (label :class "battery-icon"
+              :text "${battery_data.icon}")
+
+       (label :class "battery-percent"
+              :text "${battery_data.percent}%")
+       )
+  )

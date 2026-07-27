@@ -1,0 +1,40 @@
+@import "../../theme/tokens.scss";
+
+.calendar-container {
+  background: $glass;
+  border-radius: $rad;
+  padding: 14px;
+
+  .calendar {
+    background-color: $base;
+    color: $text;
+    padding: 6px 8px;
+    border-radius: $rad;
+
+    border: none;
+    outline: none;
+
+    font-family: "Inter";
+    font-size: $large;
+
+    .button {
+      color: $sapphire;
+    }
+
+    :selected {
+      color: $peach;
+    }
+
+    :indeterminate {
+      color: rgba($overlay2, 0.3);
+    }
+
+    .highlight {
+      color: $peach;
+    }
+
+    .header {
+      color: $text;
+    }
+  }
+}

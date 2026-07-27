@@ -1,0 +1,62 @@
+(deflisten todo_data
+  :initial '{"line1":"", "line2":"", "line3":""}'
+  "~/.config/eww/dashboard/scripts/todo_listen.sh")
+
+(defwidget widget_todo []
+  (box :class "todo-card"
+       :orientation "vertical"
+       :space-evenly false
+       :spacing 16
+       :halign "center"
+       :width 300
+
+       (box :class "todo-header"
+            :orientation "horizontal"
+            :space-evenly false
+            :spacing 12
+            :halign "center"
+
+            (label :class "todo-icon"
+                   :text "󰏫")
+            (label :class "todo-title"
+                   :text "Today's Notes"))
+
+       ;; Content
+       (box :class "todo-content"
+            :orientation "vertical"
+            :space-evenly false
+            :spacing 10
+            :hexpand true
+
+            ;; Line 1
+            (box :space-evenly false
+                 :spacing 8
+                 :visible {todo_data.line1 != ""}
+
+                 (label :class "icon-one"
+                        :text "•"
+                        :halign "start")
+                 (label :text "${todo_data.line1}"))
+
+            ;; Line 2
+            (box :space-evenly false
+                 :spacing 8
+                 :visible {todo_data.line2 != ""}
+
+                 (label :class "icon-two"
+                        :text "•"
+                        :halign "start")
+                 (label :text "${todo_data.line2}"))
+
+            ;; Line 3
+            (box :space-evenly false
+                 :spacing 8
+                 :visible {todo_data.line3 != ""}
+
+                 (label :class "icon-three"
+                        :text "•"
+                        :halign "start")
+                 (label :text "${todo_data.line3}"))
+            )
+       )
+  )

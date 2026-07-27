@@ -1,0 +1,35 @@
+(include "./dashboard/src/calendar.yuck")
+(include "./dashboard/src/timeinfo.yuck")
+(include "./dashboard/src/sysinfo.yuck")
+(include "./dashboard/src/todo.yuck")
+(include "./dashboard/src/weather.yuck")
+(include "./dashboard/src/weather_forecast.yuck")
+
+(defwidget dashboard_layout []
+  (box :class "dashboard-bg"
+       :orientation "horizontal"
+       :space-evenly false
+       :spacing 8
+       (widget_sysinfo)
+
+       (box :orientation "vertical"
+            :space-evenly false
+            :spacing 8
+
+            (box :orientation "horizontal"
+                 :space-evenly false
+                 :spacing 8
+                 (widget_timeinfo)
+                 (widget_weather)
+                 (widget_todo)
+                 )
+
+            (box :orientation "horizontal"
+                 :space-evenly false
+                 :spacing 8
+                 (widget_forecast)
+                 (widget_calendar)
+                 )
+            )
+       )
+  )

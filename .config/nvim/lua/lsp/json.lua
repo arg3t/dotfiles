@@ -10,6 +10,6 @@ M.lsp = {
   },
 }
 
-M.mason = { "jsonls" }
+-- servers provided by Nix (nix/modules/dev.nix)
 
 return M

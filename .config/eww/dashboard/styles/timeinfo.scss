@@ -1,0 +1,50 @@
+@import "../../theme/tokens.scss";
+
+.timeinfo-card {
+  background: $glass;
+  border-radius: $rad;
+  padding: 14px;
+
+  .os-section {
+    background-color: $base;
+    border-radius: $rad;
+    padding: 12px 14px;
+
+    .os-age-icon {
+      font-size: 2.9rem;
+      color: $yellow;
+      margin-left: 12px;
+    }
+
+    .os-age-number {
+      font-size: 22px;
+      font-weight: bold;
+      color: $sky;
+      margin-right: 28px;
+    }
+
+    .os-age-label {
+      color: rgba($subtext1, 0.6);
+      font-size: 16px;
+      margin-left: 18px;
+    }
+  }
+
+  .uptime-section {
+    background-color: $base;
+    border-radius: $rad;
+    padding: 12px;
+
+    .uptime-hours {
+      font-size: 23px;
+      font-weight: bold;
+      color: $lavender;
+    }
+
+    .uptime-minutes {
+      font-size: 12px;
+      font-weight: bold;
+      color: rgba($subtext1, 0.6);
+    }
+  }
+}

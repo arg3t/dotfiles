@@ -1,0 +1,107 @@
+@import "../../theme/tokens.scss";
+
+.forecast-container {
+  background: $glass;
+  border-radius: $rad;
+  padding: 14px;
+
+  .forecast-card {
+    background: $base;
+    border-radius: $rad;
+    padding: 10px 19px;
+    min-width: 90px;
+
+    .forecast-icon {
+      font-size: 28px;
+      color: $sky;
+      margin: 0 4px 0 0;
+    }
+
+    .forecast-temp {
+      font-size: $small;
+      font-weight: bold;
+      color: rgba($subtext1, 0.6);
+    }
+
+    .forecast-day {
+      font-size: $small;
+      color: $text;
+    }
+  }
+
+  .forecast-chart {
+    background: $base;
+    border-radius: $rad;
+    padding: 12px;
+
+    .forecast-chart-title {
+      font-size: $small;
+      color: $lavender;
+      margin-bottom: 8px;
+    }
+
+    .forecast-chart-temp {
+      font-size: $small;
+      color: $peach;
+    }
+
+    .forecast-bar {
+      margin-right: 22px;
+
+      trough {
+        background: $trough;
+        border-radius: $rad;
+        min-width: 8px;
+      }
+
+      progress {
+        background: $peach;
+        border-radius: $rad;
+        min-width: 8px;
+      }
+    }
+
+    .forecast-chart-day {
+      font-size: $small;
+      color: rgba($subtext1, 0.6);
+    }
+  }
+
+  .forecast-sun {
+    background: $base;
+    border-radius: $rad;
+    padding: 12px 16px;
+    min-width: 150px;
+
+    .forecast-sun-title {
+      font-size: $small;
+      color: $lavender;
+    }
+
+    .forecast-sun-icon {
+      font-size: 34px;
+      margin-left: 12px;
+      margin-top: -4px;
+
+      &.sunrise-icon {
+        color: $rosewater;
+      }
+
+      &.sunset-icon {
+        color: rgba($mauve, 0.9);
+      }
+    }
+
+    .forecast-sun-label {
+      font-size: $small;
+      color: $text;
+    }
+
+    .forecast-sun-time {
+      font-size: $large;
+      font-weight: bold;
+      margin-top: 6px;
+      color: rgba($subtext1, 0.6);
+    }
+  }
+}

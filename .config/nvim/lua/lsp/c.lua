@@ -11,6 +11,6 @@ M.lsp = {
   asm_lsp = {}
 }
 
-M.mason = { "clangd", "cmake", "asm_lsp" }
+-- servers provided by Nix (nix/modules/dev.nix)
 
 return M

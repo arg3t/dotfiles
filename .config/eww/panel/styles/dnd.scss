@@ -1,0 +1,57 @@
+@import "../../theme/tokens.scss";
+
+.dnd-btn {
+  box-shadow: none;
+  background-color: transparent;
+  background-image: none;
+
+  .dnd-box {
+    min-width: 42px;
+    min-height: 42px;
+    border-radius: 99px;
+    transition: background-color 0.15s ease;
+
+    .dnd-icon {
+      font-size: 22px;
+      margin-left: -6px;
+    }
+  }
+
+  &.dnd-on {
+    .dnd-box {
+      background-image: linear-gradient(to right, $red, $maroon);
+
+      .dnd-icon {
+        color: rgba($mantle, 0.95);
+      }
+    }
+
+    &:hover {
+      .dnd-box {
+        background-color: $maroon;
+      }
+    }
+  }
+
+  &.dnd-off {
+    .dnd-box {
+      background-color: rgba($subtext1, 0.3);
+
+      .dnd-icon {
+        color: $lavender;
+      }
+    }
+
+    &:hover {
+      .dnd-box {
+        background-color: rgba($surface1, 0.6);
+      }
+    }
+  }
+
+  .label {
+    font-size: 13px;
+    font-weight: bold;
+    color: $text;
+  }
+}

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Load dmenu config
 # shellcheck source=/dev/null
@@ -7,6 +7,7 @@
 # Menu items
 items="logout
 suspend
+hibernate
 reboot
 poweroff"
 
@@ -18,13 +19,16 @@ case $selection in
     hyprctl dispatch exit
 		;;
 	suspend)
-		systemctl suspend || loginctl hibernate
+		systemctl suspend
+		;;
+	hibernate)
+		systemctl hibernate
 		;;
 	reboot)
-		sudo reboot
+		systemctl reboot
 		;;
 	halt|poweroff|shutdown)
-		sudo shutdown -h now
+		systemctl poweroff
 		;;
 esac
 

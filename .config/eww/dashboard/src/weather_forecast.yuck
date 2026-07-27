@@ -1,0 +1,102 @@
+(defwidget widget_forecast []
+  (box :class "forecast-container"
+       :orientation "vertical"
+       :space-evenly false
+       :spacing 12
+       :width 563
+       :height 311
+
+       (box :class "forecast-cards"
+            :orientation "horizontal"
+            :space-evenly true
+            :spacing 6
+            (for day in {weather.forecast}
+                 (box :class "forecast-card"
+                      :orientation "vertical"
+                      :halign "center"
+                      :space-evenly false
+                      :spacing 4
+                      (label :class "forecast-icon"
+                             :text {day.icon})
+                      (label :class "forecast-temp"
+                             :text "${day.temp}°C")
+                      (label :class "forecast-day"
+                             :text {day.desc})
+                      )
+                 )
+            )
+       ;; forecast_temp
+       (box :orientation "horizontal"
+            :space-evenly false
+            :spacing 12
+
+            (box :class "forecast-chart"
+                 :orientation "vertical"
+                 :space-evenly false
+                 :hexpand true
+                 (label :class "forecast-chart-title"
+                        :halign "start"
+                        :text "  Forecast Weather")
+
+                 (box :orientation "horizontal"
+                      :space-evenly true
+                      :valign "end"
+                      (for day in {weather.forecast}
+                           (box :orientation "vertical"
+                                :halign "center"
+                                :space-evenly false
+                                :spacing 4
+                                (label :class "forecast-chart-temp"
+                                       :text "${day.temp}°C")
+
+                                (progress :class "forecast-bar"
+                                          :orientation "vertical"
+                                          :flipped true
+                                          :value {(day.temp - 15) / (36 - 15) * 100}
+                                          :height 80)
+
+                                (label :class "forecast-chart-day"
+                                       :text {day.day})
+                                )
+                           )
+                      )
+                 )
+
+            (box :class "forecast-sun"
+                 :orientation "vertical"
+                 :space-evenly false
+                 :spacing 18
+                 :valign "fill"
+                 :halign "end"
+                 (label :class "forecast-sun-title"
+                        :text "Sunrise and Sunset")
+
+                 (box :orientation "horizontal"
+                      :space-evenly false
+                      :spacing 40
+                      (label :class "forecast-sun-icon sunrise-icon"
+                             :text "")
+                      (box :orientation "vertical"
+                           :space-evenly false
+                           (label :class "forecast-sun-label"
+                                  :text "Sunrise"
+                                  :halign "start")
+                           (label :class "forecast-sun-time"
+                                  :text {weather.sunrise})))
+
+                 (box :orientation "horizontal"
+                      :space-evenly false
+                      :spacing 40
+                      (label :class "forecast-sun-icon sunset-icon"
+                             :text "")
+                      (box :orientation "vertical"
+                           :space-evenly false
+                           (label :class "forecast-sun-label"
+                                  :text "Sunset"
+                                  :halign "start")
+                           (label :class "forecast-sun-time"
+                                  :text {weather.sunset})))
+                 )
+            )
+       )
+)

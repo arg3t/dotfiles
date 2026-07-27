@@ -1,0 +1,43 @@
+(defvar bluetooth_list "[]")
+
+(defwidget bluetooth_popup []
+  (box :orientation "vertical"
+       :class "bluetooth-dropdown"
+       :space-evenly false
+       (box :orientation "horizontal"
+            :class "popup-header"
+            :space-evenly false
+            (label :class "popup-title"
+                   :hexpand true
+                   :text "Bluetooth Devices")
+            (button :class "close-btn"
+                    :onclick "eww close bluetooth_popup"
+                    (label :text "󰅖")))
+
+       (scroll :vscroll true
+               :hscroll false
+               :vexpand true
+
+         (box :class "entry-card"
+              :orientation "vertical"
+              :space-evenly false
+              :spacing 4
+              (for device in bluetooth_list
+                   (button :class "bluetooth-entry ${device.connected ? 'is-connected' : ''}"
+                           :onclick "bash ~/.config/eww/corner/scripts/connect_bluetooth.sh '${device.name}' &"
+                           (box :orientation "horizontal"
+                                :space-evenly false
+                                :spacing 18
+                                (label :class "bluetooth-icon"
+                                       :text {device.icon})
+                                (label :class "bluetooth-name"
+                                       :hexpand true
+                                       :xalign 0
+                                       :text {device.name})
+                           )
+                   )
+              )
+         )
+      )
+  )
+)

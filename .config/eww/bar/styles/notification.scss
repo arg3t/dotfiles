@@ -1,0 +1,51 @@
+@import "../../theme/tokens.scss";
+
+.notif-box {
+  margin-left: -10px;
+
+  button {
+    background: transparent;
+    box-shadow: none;
+
+    &:hover,
+    &:active {
+      background: transparent;
+      box-shadow: none;
+    }
+  }
+
+  label {
+    font-size: 13px;
+  }
+
+  &.empty {
+    label {
+      color: rgba($text, 0.3);
+    }
+
+    button:hover label {
+      color: $subtext1;
+    }
+  }
+
+  &.has-notif {
+    label {
+      color: $yellow;
+    }
+
+    button:hover label {
+      color: $teal;
+    }
+  }
+
+  &.dnd {
+    label {
+      color: $maroon;
+      opacity: 0.5;
+    }
+
+    button:hover label {
+      color: $text;
+    }
+  }
+}

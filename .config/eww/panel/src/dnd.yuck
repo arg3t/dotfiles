@@ -1,0 +1,33 @@
+(defwidget widget_dnd []
+  (eventbox :cursor "pointer"
+            (button :class "dnd-btn ${notif_state.class == 'dnd' ? 'dnd-on' : 'dnd-off'}"
+                    :onclick "bash ~/.config/eww/panel/scripts/dnd.sh toggle && eww update notif_state=\"$(bash ~/.config/eww/bar/scripts/notification_status.sh)\" &"
+
+                    (box :orientation "horizontal"
+                         :space-evenly false
+                         :spacing 16
+                         :valign "center"
+                         :hexpand true
+
+                         (box :class "dnd-box"
+                              :valign "center"
+                              :halign "center"
+                              (label :class "dnd-icon"
+                                     :valign "center"
+                                     :halign "center"
+                                     :text {notif_state.class == 'dnd' ? "󰂛" : "󰂟"}))
+
+                         (box :orientation "vertical"
+                              :space-evenly false
+                              :spacing 0
+                              :valign "center"
+                              :hexpand true
+                              (label :class "label"
+                                     :text "Do Not"
+                                     :halign "start")
+                              (label :class "label"
+                                     :text "Disturb"
+                                     :halign "start")))
+                    )
+            )
+  )

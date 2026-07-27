@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Application launcher script - dmenu replacement
 
 # Launch wofi with dmenu-style interface

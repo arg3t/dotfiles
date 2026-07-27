@@ -1,0 +1,42 @@
+(defpoll weather :interval "60m"
+  :initial '{"location":"","temp":"0","desc":"Unknown","type":"day","humidity":"0","wind":"0","icon":"","icon_class":"weather-icon unknown","forecast":[],"sunrise":"--:--","sunset":"--:--"}'
+  :run-while open_dashboard
+  "python3 ~/.config/eww/dashboard/scripts/weather.py")
+
+(defwidget widget_weather []
+  (box :class "weather-container"
+       :orientation "vertical"
+       :space-evenly false
+       (box :class "weather-card"
+            :orientation "vertical"
+            :space-evenly false
+
+            (box :orientation "horizontal"
+                 :space-evenly false
+                 :width 380
+                 (label :class {weather.icon_class}
+                        :text {weather.icon})
+
+                 (box :orientation "vertical"
+                      :space-evenly false
+                      :hexpand true
+                      :halign "end"
+                      :valign "center"
+                      (label :class "weather-temp"
+                             :text "${weather.temp}°C")
+                      (label :class "win-hum"
+                             :halign "center"
+                             :text "${weather.humidity}% | ${weather.wind} km/h"))
+                 )
+
+            (box :class "loc-desc"
+                 :orientation "vertical"
+                 :halign "center"
+                 :spacing 6
+                 (label :class "weather-loc"
+                        :text {weather.location})
+                 (label :class "weather-desc"
+                        :text "${weather.desc}"))
+            )
+       )
+  )

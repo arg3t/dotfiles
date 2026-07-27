@@ -36,6 +36,6 @@ M.lsp = {
   }
 }
 
-M.mason = { "lua_ls" }
+-- servers provided by Nix (nix/modules/dev.nix)
 
 return M

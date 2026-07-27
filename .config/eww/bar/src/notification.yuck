@@ -1,0 +1,16 @@
+(defpoll notif_state :interval "2s"
+  :initial '{"icon": "󰂚", "class": "empty", "count": 0}'
+  "~/.config/eww/bar/scripts/notification_status.sh")
+
+(defwidget widget_notification []
+  (eventbox :cursor "pointer"
+    (box :class "notif-box ${notif_state.class}"
+         :hexpand false
+         :space-evenly false
+         :tooltip "${notif_state.count} Notifications"
+         (button :onclick "makoctl restore"
+                 :onrightclick "makoctl dismiss --all"
+                 (label :text {notif_state.icon}))
+    )
+  )
+)

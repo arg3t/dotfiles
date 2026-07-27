@@ -1,0 +1,41 @@
+(defwidget launcher-btn [icon cmd]
+  (eventbox :cursor "pointer"
+            (button :class "launcher-btn"
+                    :style "background-image: url('${icon}');"
+                    :onclick "${cmd}"))
+  )
+
+(defvar hover_launcher false)
+
+(defwidget widget_launcher []
+  (eventbox :onhover "eww update hover_launcher=true"
+            :onhoverlost "eww update hover_launcher=false"
+
+            (box :orientation "vertical"
+                 (revealer :transition "slideup"
+                           :reveal hover_launcher
+                           :duration "250ms"
+
+                           (box :class "launcher-card"
+                                :orientation "horizontal"
+                                :spacing 2
+                                (launcher-btn :icon "${EWW_CONFIG_DIR}/assets/apps/kitty.png"
+                                              :cmd "kitty -d $HOME &")
+                                (launcher-btn :icon "${EWW_CONFIG_DIR}/assets/apps/code.png"
+                                              :cmd "code &")
+                                (launcher-btn :icon "${EWW_CONFIG_DIR}/assets/apps/nvim.png"
+                                              :cmd "kitty -e nvim $HOME &")
+                                (launcher-btn :icon "${EWW_CONFIG_DIR}/assets/apps/obsidian.png"
+                                              :cmd "obsidian &")
+                                (launcher-btn :icon "${EWW_CONFIG_DIR}/assets/apps/onlyoffice.png"
+                                              :cmd "onlyoffice-desktopeditors &")
+                                (launcher-btn :icon "${EWW_CONFIG_DIR}/assets/apps/thunar.png"
+                                              :cmd "thunar $HOME &")
+                                (launcher-btn :icon "${EWW_CONFIG_DIR}/assets/apps/spotify.png"
+                                              :cmd "spotify-launcher &")
+                                (launcher-btn :icon "${EWW_CONFIG_DIR}/assets/apps/firefox.png"
+                                              :cmd "firefox &")))
+
+                 )
+            )
+  )

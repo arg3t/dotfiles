@@ -1,0 +1,68 @@
+@import "../../theme/tokens.scss";
+
+.daemon-card {
+  background-color: transparent;
+
+  button {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .left-action {
+    padding: 12px 14px;
+
+    .daemon-icon {
+      font-size: 25px;
+      margin-right: 8px;
+      transition: color 0.2s ease;
+    }
+  }
+
+  &.power-saver {
+    .daemon-icon {
+      color: $green;
+    }
+
+    .left-action:hover {
+      .daemon-icon {
+        color: rgba($green, 0.7);
+      }
+    }
+  }
+
+  &.balanced {
+    .daemon-icon {
+      color: $blue;
+    }
+
+    .left-action:hover {
+      .daemon-icon {
+        color: rgba($blue, 0.7);
+      }
+    }
+  }
+
+  &.performance {
+    .daemon-icon {
+      color: $red;
+    }
+
+    .left-action:hover {
+      .daemon-icon {
+        color: rgba($red, 0.7);
+      }
+    }
+  }
+}
+
+.title {
+  font-weight: bold;
+  font-size: $normal;
+  color: $text;
+}
+
+.mode {
+  font-size: $small;
+  color: $overlay2;
+}

@@ -1,0 +1,46 @@
+(deflisten bluetooth_data
+  :initial '{"status": "disconnected", "device": "Off", "icon": "󰂲"}'
+  "~/.config/eww/panel/scripts/bluetooth.sh")
+
+(defwidget widget_bluetooth []
+  (box :class "bt-card ${bluetooth_data.status == 'disconnected' ? 'is-off' :
+       bluetooth_data.status == 'not-connected' ? 'is-not-connected' : 'is-on'}"
+
+       :orientation "horizontal"
+       :space-evenly false
+
+       (eventbox :cursor "pointer" :hexpand true
+                 (button :class "left-action"
+                         :onclick "~/.config/eww/panel/scripts/bluetooth.sh toggle &"
+                         (box :orientation "horizontal"
+                              :space-evenly false
+                              :spacing 8
+                              :valign "center"
+
+                              (label :class "bt-icon"
+                                     :text {bluetooth_data.icon})
+
+                              (box :orientation "vertical"
+                                   :space-evenly false
+                                   :spacing 2
+                                   :valign "center"
+                                   (label :class "bt-title"
+                                          :text "Bluetooth")
+                                   (label :class "bt-device"
+                                          :text {bluetooth_data.device}
+                                          :halign "start"
+                                          :wrap false
+                                          :limit-width 18)))
+                         )
+                 )
+
+       (label :class "sep" :text "|")
+
+       (eventbox :cursor "pointer"
+                 (button :class "right-action"
+                         :onclick "~/.config/eww/corner/scripts/toggle_popup.sh bluetooth &"
+                         (label :class "arrow"
+                                :text "󰅂"))
+                 )
+       )
+  )

@@ -1,0 +1,40 @@
+@import "../../theme/tokens.scss";
+
+.network-container {
+  .network-icon {
+    font-size: 13px;
+    margin: 0 4px 0 2px;
+
+    transition: all 0.15s ease;
+  }
+
+  &.wired {
+    .network-icon {
+      color: $green;
+    }
+  }
+
+  &.is-on {
+    .network-icon {
+      color: $blue;
+    }
+  }
+
+  &.wifi-ok {
+    .network-icon {
+      color: $peach;
+    }
+  }
+
+  &.wifi-low {
+    .network-icon {
+      color: $red;
+    }
+  }
+
+  &.is-off {
+    .network-icon {
+      color: rgba($text, 0.30);
+    }
+  }
+}

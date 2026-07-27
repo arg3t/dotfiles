@@ -1,0 +1,45 @@
+(defwidget widget_quicktoggle []
+  (box :class "qt-container"
+       :orientation "horizontal"
+       :space-evenly true
+       :spacing 16
+
+       ;; --- Screenshot ---
+       (eventbox :cursor "pointer"
+                 (button :class "qt-card screenshot"
+                         :onclick "eww close window_panel && sleep 0.4 && ~/.config/hypr/scripts/screenshot.sh &"
+                         (box :orientation "vertical"
+                              :space-evenly false
+                              :spacing 4
+                              :valign "center"
+                              (label :class "qt-card-icon"
+                                     :text "󱣵")
+                              (box :orientation "vertical"
+                                   :space-evenly false
+                                   (label :class "qt-card-label"
+                                          :text "Screen")
+                                   (label :class "qt-card-label subtitel"
+                                          :text "shot")))
+                         )
+                 )
+
+       ;; --- Screen Record ---
+       (eventbox :cursor "pointer"
+                 (button :class "qt-card record"
+                         :onclick "eww close window_panel && sleep 0.4 && ~/.config/hypr/scripts/record.sh &"
+                         (box :orientation "vertical"
+                              :space-evenly false
+                              :spacing 4
+                              :valign "center"
+                              (label :class "qt-card-icon"
+                                     :text "󰞡")
+                              (box :orientation "vertical"
+                                   :space-evenly false
+                                   (label :class "qt-card-label"
+                                          :text "Screen")
+                                   (label :class "qt-card-label subtitel"
+                                          :text "Record")))
+                         )
+                 )
+       )
+  )

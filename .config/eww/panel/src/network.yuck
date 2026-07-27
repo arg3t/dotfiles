@@ -1,0 +1,46 @@
+(defvar wifi_list "[]")
+
+(deflisten network_data
+  :initial '{"status": "disconnected", "ssid": "Off", "signal": 0, "icon": "󰤮"}'
+  "~/.config/eww/panel/scripts/network.sh")
+
+(defwidget widget_wifi []
+  (box :class "wifi-card ${network_data.status == 'disconnected' ? 'is-off' :
+       network_data.status == 'not-connected' ? 'is-not-connected' : 'is-on'}"
+       :orientation "horizontal"
+       :space-evenly false
+
+       (eventbox :cursor "pointer"
+                 :hexpand true
+                 (button :class "left-action"
+                         :onclick "nmcli radio wifi ${network_data.ssid == 'Off' ? 'on' : 'off'} &"
+                         (box :orientation "horizontal"
+                              :space-evenly false
+                              :spacing 14
+                              :valign "center"
+
+                              (label :class "wifi-icon"
+                                     :text {network_data.icon})
+
+                              (box :orientation "vertical"
+                                   :space-evenly false
+                                   :spacing 2
+                                   :valign "center"
+                                   (label :class "wifi-title"
+                                          :text "Wi-Fi")
+                                   (label :class "wifi-ssid"
+                                          :text {network_data.ssid}))
+                              )
+                         )
+                 )
+
+       (label :class "sep" :text "|")
+
+       (eventbox :cursor "pointer"
+                 (button :class "right-action"
+                         :onclick "~/.config/eww/corner/scripts/toggle_popup.sh wifi &"
+                         (label :class "arrow"
+                                :text "󰅂"))
+                 )
+       )
+  )

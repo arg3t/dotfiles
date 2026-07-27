@@ -1,0 +1,30 @@
+@import "../theme/tokens.scss";
+
+.panel-wrapper {
+  background: transparent;
+}
+
+.panel-close-area {
+  background: transparent;
+  min-height: 20px;
+}
+
+.panel-card {
+  background-color: $glass;
+  border-radius: $rad;
+  padding: 14px;
+  min-width: 3px;
+
+  .left-box {
+    background-color: $base;
+    padding: 14px;
+    border-radius: $rad;
+  }
+
+  .dnd-card,
+  .sub-right-box {
+    background-color: $base;
+    padding: 20px 16px;
+    border-radius: $rad;
+  }
+}

@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+
+set -u
+script_path=$(readlink -f -- "${BASH_SOURCE[0]}")
+script_dir=$(dirname -- "$script_path")
+repo_root=$(cd -- "$script_dir/../../.." && pwd)
+
+
+blue='#81a1c1'
+icon_bt=''
+
+
+connected_devices() {
+  bluetoothctl devices Connected 2>/dev/null | while read -r _ mac name; do
+    [ -n "${mac:-}" ] || continue
+    printf '%s\t%s\n' "$mac" "$name"
+  done
+}
+
+battery_from_info() {
+  bluetoothctl info "$1" 2>/dev/null | awk -F'[()]' '/Battery Percentage:/ { print $2; exit }'
+}
+
+battery_from_sysfs() {
+  local mac_upper mac_dir supply cap
+  mac_upper=${1^^}
+  mac_dir=${mac_upper//:/_}
+  for supply in /sys/class/power_supply/*; do
+    [ -e "$supply" ] || continue
+    case "$(basename "$supply")" in
+      *"$mac_dir"*|*"$mac_upper"*) ;;
+      *) continue ;;
+    esac
+    [ -r "$supply/capacity" ] || continue
+    cap=$(cat "$supply/capacity" 2>/dev/null) || continue
+    [ -n "$cap" ] && printf '%s\n' "$cap" && return 0
+  done
+}
+
+battery_for() {
+  battery_from_info "$1" || battery_from_sysfs "$1" || true
+}
+
+summary_text() {
+  local first=1 line mac name battery label out=''
+  while IFS=$'\t' read -r mac name; do
+    battery=$(battery_for "$mac")
+    label="$name"
+    [ ${#label} -gt 12 ] && label="${label:0:12}…"
+    if [ -n "$battery" ]; then
+      line="$label $battery%"
+    else
+      line="$label"
+    fi
+    if [ "$first" -eq 1 ]; then
+      out="$line"
+      first=0
+    else
+      out="$out · $line"
+    fi
+  done < <(connected_devices)
+
+  printf '%s' "$out"
+}
+
+tooltip_text() {
+  local mac name battery any=0
+  while IFS=$'\t' read -r mac name; do
+    any=1
+    battery=$(battery_for "$mac")
+    if [ -n "$battery" ]; then
+      printf '%s  %s%%\n' "$name" "$battery"
+    else
+      printf '%s  battery n/a\n' "$name"
+    fi
+  done < <(connected_devices)
+
+  [ "$any" -eq 1 ] || printf 'No Bluetooth devices connected\n'
+}
+
+
+case "${1:-bluetooth-json}" in
+  bluetooth-json)
+    summary=$(summary_text)
+    if [ -n "$summary" ]; then
+      text="<span color=\"$blue\">$icon_bt</span> $summary"
+    else
+      text="<span color=\"$blue\">$icon_bt</span>"
+    fi
+    tooltip=$(tooltip_text)
+    jq -cn --arg text "$text" --arg tooltip "$tooltip" '{text:$text, tooltip:$tooltip}'
+    ;;
+  list)
+    tooltip_text
+    ;;
+  battery-menu)
+    exec "$repo_root/.local/bin/dmenu-battery"
+    ;;
+  power-menu)
+    exec "$repo_root/.local/bin/dmenu-power"
+    ;;
+  podctl-menu)
+    exec "$repo_root/.local/bin/dmenu-podctl"
+    ;;
+  *)
+    exec dmenu-bluetooth "$@"
+    ;;
+esac

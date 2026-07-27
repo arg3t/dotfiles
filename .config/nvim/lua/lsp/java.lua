@@ -4,8 +4,6 @@ M.lsp = {
   jdtls = {}
 }
 
-M.mason = {
-  "jdtls"
-}
+-- servers provided by Nix (nix/modules/dev.nix)
 
 return M

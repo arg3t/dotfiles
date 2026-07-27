@@ -38,7 +38,7 @@ M.lsp = {
   }
 }
 
-M.mason = { "pyright", "ruff" }
+-- servers provided by Nix (nix/modules/dev.nix)
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),

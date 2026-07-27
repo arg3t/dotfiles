@@ -1,4 +1,5 @@
-export BEMENU_OPTS="--prompt 'Select an option' \
+export BEMENU_OPTS="--ignorecase \
+--prompt 'Select an option' \
 --line-height 25 \
 --fn 'CaskaydiaCove Nerd Font 10' \
 --tb '#ACA3EB' \

@@ -1,0 +1,62 @@
+(defpoll timeinfo :interval "60s"
+  :initial '{"days": 0, "hours": "0 hours", "minutes": "0 minutes"}'
+  "bash ~/.config/eww/dashboard/scripts/timeinfo.sh")
+
+(defwidget widget_timeinfo []
+  (box :class "timeinfo-card"
+       :orientation "vertical"
+       :space-evenly true
+       :spacing 8
+       :width 225
+       :halign "fill"
+       :valign "fill"
+
+       (box :class "os-section"
+            :orientation "horizontal"
+            :hexpand true
+            :vexpand true
+            :halign "fill"
+            :valign "fill"
+            (box :orientation "horizontal"
+                 :space-evenly false
+                 :spacing 12
+                 :halign "center"
+                 :valign "center"
+                 (label :class "os-age-icon"
+                        :text " ")
+                 (box :orientation "vertical"
+                      :space-evenly false
+                      :spacing 2
+                      :valign "center"
+                      (label :class "os-age-number"
+                             :halign "start"
+                             :text "${timeinfo.days}")
+                      (label :class "os-age-label"
+                             :halign "start"
+                             :text "Days")
+                      )
+                 )
+            )
+
+       (box :class "uptime-section"
+            :orientation "horizontal"
+            :space-evenly false
+            :hexpand true
+            :vexpand true
+            :halign "fill"
+            :valign "fill"
+            (box :orientation "vertical"
+                 :space-evenly false
+                 :hexpand true
+                 :halign "center"
+                 :valign "center"
+                 (label :class "uptime-hours"
+                        :halign "center"
+                        :text {timeinfo.hours})
+                 (label :class "uptime-minutes"
+                        :halign "center"
+                        :text {timeinfo.minutes})
+                 )
+            )
+       )
+  )

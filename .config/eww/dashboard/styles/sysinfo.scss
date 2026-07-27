@@ -1,0 +1,50 @@
+@import "../../theme/tokens.scss";
+
+.sys-container {
+  background: $glass;
+  border-radius: $rad;
+  padding: 14px;
+
+  .sysinfo-card {
+    background: $base;
+    border-radius: $rad;
+    padding: 12px;
+
+    .sysinfo-icon {
+      font-size: 35px;
+      margin-right: 5px;
+    }
+
+    .sysinfo-cpu {
+      background: rgba($blue, 0.15);
+      color: $blue;
+    }
+
+    .sysinfo-ram {
+      background: rgba($mauve, 0.15);
+      color: $mauve;
+    }
+
+    .sysinfo-disk {
+      background: rgba($teal, 0.15);
+      color: $teal;
+      font-size: 34px;
+
+      .sysinfo-icon-disk {
+        margin-right: 2px;
+      }
+    }
+
+    .sysinfo-temp {
+      background: rgba($red, 0.15);
+      color: $red;
+      font-size: 35px;
+    }
+
+    .sysinfo-stat {
+      font-size: 16px;
+      font-weight: bold;
+      color: $text;
+    }
+  }
+}

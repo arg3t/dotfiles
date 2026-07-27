@@ -11,12 +11,10 @@ getargs() {
 }
 
 start_screensaver() {
-  xset s off -dpms
   notify-send -r 51 -a "󰒲 System" "Screensaver on"
-  hypridle
+  hypridle >/dev/null 2>&1 &
 }
 end_screensaver() {
-  xset s off +dpms
   notify-send -r 51 -a "󰒳 System" "Screensaver off"
   pkill hypridle
 }
@@ -34,7 +32,7 @@ main() {
   [[ "$start" ]] && start_screensaver;
   [[ "$end" ]] && end_screensaver;
   [[ "$toggle" ]] && toggle_screensaver;
-  /bin/kill -SIGRTMIN+10 $(pgrep waybar)
+  kill -SIGRTMIN+10 $(pgrep waybar)
 }
 
 main "$@"

@@ -1,0 +1,88 @@
+@import "../../theme/tokens.scss";
+
+.web-card {
+  background-color: $glass;
+  padding: 8px;
+  border-radius: 0 $rad $rad 0;
+
+  .web-btn {
+    background-color: $base;
+    border-radius: $rad;
+
+    min-width: 40px;
+    min-height: 45px;
+    transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    .web-icon {
+      font-size: 30px;
+    }
+  }
+
+  .arch-btn {
+    .arch-icon {
+      color: $sapphire;
+      margin-right: 4px;
+    }
+
+    &:hover {
+      background-color: rgba($sapphire, 0.2);
+    }
+  }
+
+  .github-btn {
+    .github-icon {
+      color: $mauve;
+      margin-right: 4px;
+      font-size: 35px;
+    }
+
+    &:hover {
+      background-color: rgba($mauve, 0.2);
+
+    }
+  }
+
+  .instagram-btn {
+    .instagram-icon {
+      color: $pink;
+      margin-right: 5px;
+    }
+
+    &:hover {
+      background-color: rgba($pink, 0.2);
+    }
+  }
+
+  .whatsapp-btn {
+    .whatsapp-icon {
+      color: $green;
+      margin-right: 6px;
+    }
+
+    &:hover {
+      background-color: rgba($green, 0.2);
+    }
+  }
+
+  .gmail-btn {
+    .gmail-icon {
+      color: $red;
+      margin-right: 6px;
+    }
+
+    &:hover {
+      background-color: rgba($red, 0.2);
+    }
+  }
+
+  .inc-btn {
+    .inc-icon {
+      color: $text;
+      margin-right: 6px;
+    }
+
+    &:hover {
+      background-color: rgba($text, 0.2);
+    }
+  }
+}

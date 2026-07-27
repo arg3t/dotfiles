@@ -1,7 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-source ~/.config/config.env
+set -u
 
+BATTERY=${BATTERY:-/sys/class/power_supply/BAT0}
+AC=${AC:-/sys/class/power_supply/AC}
+
+tag_color='#ebcb8b'
 ramp10=󰁺
 ramp20=󰁻
 ramp30=󰁼
@@ -13,49 +17,75 @@ ramp80=󰂁
 ramp90=󰂂
 ramp100=󰁹
 ac_bat=󰂄
-ac=ﮣ
 
-if ! [ "$BATTERY" = "" ] ; then
-    export bat=$(cat $BATTERY/capacity)
-    export status=$(cat $BATTERY/status)
-    export plugged=$(cat /sys/class/power_supply/AC/online)
-    tleft=$(acpi -b | tail -n 1 | sed -r 's/.* ([0-9]{2}:[0-9]{2}).*/\1/g')
-    if [ -f "$XDG_CACHE_HOME/battery_tleft" ] && [ ! $(echo "$tleft" | grep "Full")]; then
-        stats="$tleft"
-    else
-        stats="$bat%"
-    fi
-    if [[ $plugged == "1" ]]; then
-        echo "^c#ebcb8b^$ac_bat^d^ $stats"
-    elif [[ $bat -lt 10 ]]; then
-        echo "^c#ebcb8b^$ramp10^d^ $stats"
-    elif [[ $bat -lt 20 ]]; then
-        echo "^c#ebcb8b^$ramp20^d^ $stats"
-    elif [[ $bat -lt "30" ]]; then
-        echo "^c#ebcb8b^$ramp30^d^ $stats"
-    elif [[ $bat -lt "40" ]]; then
-        echo "^c#ebcb8b^$ramp40^d^ $stats"
-    elif [[ $bat -lt "50" ]]; then
-        echo "^c#ebcb8b^$ramp50^d^ $stats"
-    elif [[ $bat -lt "60" ]]; then
-        echo "^c#ebcb8b^$ramp60^d^ $stats"
-    elif [[ $bat -lt "70" ]]; then
-        echo "^c#ebcb8b^$ramp70^d^ $stats"
-    elif [[ $bat -lt "80" ]]; then
-        echo "^c#ebcb8b^$ramp80^d^ $stats"
-    elif [[ $bat -lt "90" ]]; then
-        echo "^c#ebcb8b^$ramp90^d^ $stats"
-    elif [[ $bat -le "100" ]]; then
-        echo "^c#ebcb8b^$ramp100^d^ $stats"
-    fi
+read_file() {
+  local path=$1
+  [ -r "$path" ] && cat "$path" || printf ''
+}
+
+format_duration() {
+  local total_minutes=$1
+  local hours minutes
+  hours=$((total_minutes / 60))
+  minutes=$((total_minutes % 60))
+  printf '%dh%02dm' "$hours" "$minutes"
+}
+
+time_left() {
+  local status energy_now power_now minutes
+  status=$(read_file "$BATTERY/status")
+  energy_now=$(read_file "$BATTERY/energy_now")
+  power_now=$(read_file "$BATTERY/power_now")
+
+  if [ "$status" != 'Discharging' ]; then
+    printf ''
+    return 0
+  fi
+
+  if [ -z "$energy_now" ] || [ -z "$power_now" ] || [ "$power_now" -le 0 ] 2>/dev/null; then
+    printf ''
+    return 0
+  fi
+
+  minutes=$((energy_now * 60 / power_now))
+  format_duration "$minutes"
+}
+
+battery_icon() {
+  local plugged=$1
+  local percent=$2
+
+  if [ "$plugged" = '1' ]; then
+    printf '%s' "$ac_bat"
+  elif [ "$percent" -lt 10 ]; then
+    printf '%s' "$ramp10"
+  elif [ "$percent" -lt 20 ]; then
+    printf '%s' "$ramp20"
+  elif [ "$percent" -lt 30 ]; then
+    printf '%s' "$ramp30"
+  elif [ "$percent" -lt 40 ]; then
+    printf '%s' "$ramp40"
+  elif [ "$percent" -lt 50 ]; then
+    printf '%s' "$ramp50"
+  elif [ "$percent" -lt 60 ]; then
+    printf '%s' "$ramp60"
+  elif [ "$percent" -lt 70 ]; then
+    printf '%s' "$ramp70"
+  elif [ "$percent" -lt 80 ]; then
+    printf '%s' "$ramp80"
+  elif [ "$percent" -lt 90 ]; then
+    printf '%s' "$ramp90"
+  else
+    printf '%s' "$ramp100"
+  fi
+}
+
+if [ -d "$BATTERY" ]; then
+  bat=$(read_file "$BATTERY/capacity")
+  plugged=$(read_file "$AC/online")
+  icon=$(battery_icon "${plugged:-0}" "${bat:-0}")
+
+  stats="$bat%"
+
+  printf '<span color="%s">%s</span> %s\n' "$tag_color" "$icon" "$stats"
 fi
-
-case $BLOCK_BUTTON in
-	1)
-    if [ -f "$XDG_CACHE_HOME/battery_tleft" ]; then
-        rm "$XDG_CACHE_HOME/battery_tleft"
-    else
-        touch "$XDG_CACHE_HOME/battery_tleft"
-    fi
-      ;;
-esac

@@ -1,0 +1,77 @@
+@import "../../theme/tokens.scss";
+
+.wifi-dropdown {
+  background-color: $base;
+  padding: 16px;
+  border-radius: $rad;
+
+  .popup-header {
+    margin-bottom: 12px;
+
+    .popup-title {
+      font-size: $larger;
+      font-weight: bold;
+      color: $text;
+    }
+
+    .close-btn {
+      min-width: 14px;
+      min-height: 20px;
+      border-radius: 999px;
+      color: rgba($text, 0.30);
+
+      background: transparent;
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: $red;
+      }
+    }
+  }
+
+  .entry-card {
+    background-color: $mantle;
+    border-radius: $rad;
+  }
+
+  .wifi-entry {
+    padding: 10px 12px;
+    border-radius: $rad;
+    background: transparent;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: $trough;
+    }
+
+    &:active {
+      background: $mantle;
+    }
+
+    .wifi-icon {
+      font-size: 24px;
+      min-width: 26px;
+      color: $sapphire;
+    }
+
+    .wifi-name {
+      font-size: $normal;
+      font-family: "Inter";
+      color: $text;
+    }
+
+    .wifi-lock {
+      font-size: $large;
+      color: rgba($subtext1, 0.3);
+      margin-right: 6px;
+    }
+  }
+}
+
+.vertical.right.overlay-indicator {
+  min-width: 0px;
+  min-height: 0px;
+  padding: 0px;
+  margin: 0px;
+  opacity: 0;
+}

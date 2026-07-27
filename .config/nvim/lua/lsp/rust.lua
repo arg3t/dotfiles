@@ -15,6 +15,6 @@ M.lsp = {
   }
 }
 
-M.mason = { "rust_analyzer" }
+-- servers provided by Nix (nix/modules/dev.nix)
 
 return M
