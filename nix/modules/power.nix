@@ -39,6 +39,21 @@ in
       };
     };
 
+    # Allow interactive power-profile switching (dmenu-powerprofile,
+    # dmenu-battery, dmenu-toolkit) to run `tlp <profile>` without a
+    # password prompt. tlp writes root-owned sysfs, so it needs root.
+    security.sudo.extraRules = [
+      {
+        users = [ "yeet" ];
+        commands = [
+          {
+            command = "${pkgs.tlp}/bin/tlp";
+            options = [ "NOPASSWD" ];
+          }
+        ];
+      }
+    ];
+
     fileSystems."/swap" = {
       device = "/dev/mapper/krypt";
       fsType = "btrfs";

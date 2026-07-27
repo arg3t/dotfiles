@@ -103,6 +103,10 @@ case "${1:-menu}" in
     battery_lines
     ;;
   *)
-    battery_lines | menu_select "Battery" 8 >/dev/null || true
+    action='⚡ Change power profile'
+    selection=$( { battery_lines; printf '%s\n' "$action"; } | menu_select "Battery" 8 ) || exit 0
+    if [ "$selection" = "$action" ]; then
+      exec dmenu-powerprofile
+    fi
     ;;
 esac
