@@ -10,6 +10,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
@@ -46,14 +47,20 @@
     let
       linuxSystem = "x86_64-linux";
       darwinSystem = "aarch64-darwin";
+
+      unstable-overlay = final: _prev: {
+        unstable = import inputs.nixpkgs-unstable {
+          inherit (final) system;
+          config.allowUnfree = true;
+        };
+        flameshot = final.unstable.flameshot;
+      };
     in
     {
-      # Custom packages: nix build .#oh-my-pi
       packages.${linuxSystem} = import ./pkgs {
         pkgs = nixpkgs.legacyPackages.${linuxSystem};
       };
 
-      # Overlay exposing them as pkgs.our.*
       overlays.default = final: prev: {
         our = import ./pkgs { pkgs = final; };
       };
@@ -71,6 +78,7 @@
           {
             nixpkgs.overlays = [
               self.overlays.default
+              unstable-overlay
               inputs.mac-style-plymouth.overlays.default
             ];
           }

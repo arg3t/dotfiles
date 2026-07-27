@@ -1,5 +1,25 @@
 { pkgs, ... }:
 
+let
+  # flameshot is X11-native; under Hyprland it has no native Wayland grab
+  # path, so the GrimAdapter only fires when $XDG_CURRENT_DESKTOP matches a
+  # wlroots-style string. Wrap every flameshot binary with that env (and
+  # QT_QPA_PLATFORM=wayland so the Qt UI uses the Wayland plugin) so any
+  # launch path — keybind, dmenu, autostart — picks up the right
+  # environment without per-invocation env hacks.
+  flameshot-wrapped = pkgs.symlinkJoin {
+    name = "flameshot-${pkgs.flameshot.version}";
+    paths = [ pkgs.flameshot ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/flameshot \
+        --set XDG_CURRENT_DESKTOP sway \
+        --set QT_QPA_PLATFORM wayland \
+        --set QT_AUTO_SCREEN_SCALE_FACTOR 0 \
+        --set QT_SCREEN_SCALE_FACTORS 1
+    '';
+  };
+in
 {
   programs.hyprland.enable = true;
 
@@ -46,7 +66,7 @@
     nemo
     glib
     lf
-    flameshot
+    flameshot-wrapped
     zathura
     syshud
     satty
@@ -70,6 +90,9 @@
 
     home.file.".config/hypr-own".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hypr/default";
+
+    xdg.configFile."flameshot/flameshot.ini".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/flameshot/flameshot.ini";
 
     xdg.configFile."mako/config".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/mako/config";
