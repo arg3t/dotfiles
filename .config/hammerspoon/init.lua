@@ -1,11 +1,3 @@
--- Hammerspoon configuration for macOS.
---
--- Provides the two pieces of the Hyprland workflow that macOS lacks:
---   1. Numbered desktops, including "move this window to desktop N".
---   2. A hotkey for kitty's built-in Quake-style quick access terminal.
---
--- Everything else (tiling, launching, clipboard) is left to macOS and SuperCmd.
-
 local mod = { "alt" }
 local modShift = { "alt", "shift" }
 
@@ -13,7 +5,6 @@ local workspaceCount = 9
 
 hs.window.animationDuration = 0
 
--- Ordered list of ordinary (non-fullscreen) desktops on the focused screen.
 local function userSpaces()
   local spaces = hs.spaces.spacesForScreen(hs.screen.mainScreen())
   if not spaces then
@@ -39,12 +30,9 @@ local function gotoWorkspace(index)
     return
   end
 
-  -- Fast path: macOS's own ctrl+<n> shortcut switches instantly and without a
-  -- Mission Control animation.
   hs.eventtap.keyStroke({ "ctrl" }, tostring(index), 0)
 
-  -- That shortcut is off by default in System Settings. If nothing moved, fall
-  -- back to the API, which works unconditionally but flashes Mission Control.
+  -- Falls back to the API when the native ctrl+<n> shortcut is disabled.
   hs.timer.doAfter(0.25, function()
     if hs.spaces.focusedSpace() ~= target then
       hs.spaces.gotoSpace(target)
@@ -86,12 +74,6 @@ for index = 1, workspaceCount do
   end)
 end
 
--- Quick access terminal ------------------------------------------------------
---
--- kitty ships a Quake-style panel since 0.42. Running the kitten toggles it, so
--- there is no window bookkeeping to do here. Geometry lives in
--- ~/.config/kitty/quick-access-terminal.conf.
-
 local function kittenPath()
   local candidates = {
     os.getenv("HOME") .. "/.nix-profile/bin/kitten",
@@ -115,8 +97,6 @@ hs.hotkey.bind(mod, "s", function()
   end
   hs.task.new(kitten, nil, { "quick-access-terminal" }):start()
 end)
-
--- Diagnostics ----------------------------------------------------------------
 
 hs.hotkey.bind(modShift, "i", function()
   local spaces = userSpaces()

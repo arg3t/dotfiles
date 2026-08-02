@@ -26,14 +26,11 @@
 
   fonts.packages = [ pkgs.nerd-fonts.caskaydia-cove ];
 
-  # nix-darwin takes ownership of /etc/nix/nix.conf after the initial
-  # migration, so keep the flake features enabled in the generated file.
   nix.settings = {
     experimental-features = [
       "nix-command"
       "flakes"
     ];
-    # Without this the flake's own nixConfig is refused as "untrusted".
     trusted-users = [
       "root"
       "yigit.colakoglu"
@@ -43,17 +40,12 @@
   home-manager.users."yigit.colakoglu" = { config, ... }: {
     home.sessionVariables.TERMINAL = lib.mkForce "kitty";
 
-    # Hammerspoon reads ~/.hammerspoon/init.lua; keep it editable in place.
     home.file.".hammerspoon/init.lua".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hammerspoon/init.lua";
 
-    # kitty's Quake panel reads its geometry from a sibling of kitty.conf.
     xdg.configFile."kitty/quick-access-terminal.conf".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/kitty/quick-access-terminal.conf";
 
-    # Launch via `open` so macOS treats it as a normal GUI app; running the
-    # Mach-O directly starts it outside the login session, where its hotkeys
-    # and Accessibility grant do not apply.
     launchd.agents.hammerspoon = {
       enable = true;
       config = {
@@ -78,12 +70,9 @@
       settings = {
         background_opacity = "1.0";
 
-        # Native title bar: without a tiling WM these are ordinary macOS
-        # windows that need traffic lights and a drag handle.
         hide_window_decorations = "no";
         macos_quit_when_last_window_closed = "yes";
 
-        # AeroSpace used to tile for us; kitty now does its own splitting.
         enabled_layouts = "splits,stack";
 
         background = "#1e1e2e";
@@ -119,7 +108,6 @@
         "alt+shift+j" = "change_font_size all -1.0";
         "shift+enter" = "send_text all \\x1b\\x0d";
 
-        # Splits, replacing the window management AeroSpace used to provide.
         "cmd+d" = "launch --location=vsplit --cwd=current";
         "cmd+shift+d" = "launch --location=hsplit --cwd=current";
         "cmd+shift+f" = "toggle_layout stack";
@@ -133,7 +121,6 @@
 
   system.defaults = {
     NSGlobalDomain = {
-      # Move a window by holding ctrl+cmd anywhere inside it.
       NSWindowShouldDragOnGesture = true;
     };
     dock = {
@@ -142,19 +129,13 @@
       autohide-time-modifier = 0.15;
       expose-group-apps = true;
       launchanim = false;
-      # Keep desktop numbering stable so ctrl+<n> always means the same desktop.
       mru-spaces = false;
       show-recents = false;
     };
     WindowManager = {
-      # Stage Manager fights with Spaces; native edge tiling stays enabled.
       GloballyEnabled = false;
       EnableStandardClickToShowDesktop = false;
     };
-    # NOTE: `universalaccess` (Reduce Motion) is deliberately not managed here.
-    # That domain is SIP-protected and `defaults write` fails during activation
-    # unless the whole terminal is granted Full Disk Access. Toggle it by hand:
-    # System Settings -> Accessibility -> Display -> Reduce motion.
   };
 
   users.users."yigit.colakoglu" = {

@@ -107,11 +107,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785710202,
-        "narHash": "sha256-qCVe3QdfqD7jsoWgPpjWw6itvuunIa6/aSnb+NbP/yU=",
+        "lastModified": 1785710913,
+        "narHash": "sha256-PvrQsZ9aUfE0fCtSHkWEcFhPeiRS3RhfPMhPYrGrvyg=",
         "owner": "arg3t",
         "repo": "omp-gateway-bar",
-        "rev": "0d2d638cb669388db5e78c64945f1a92c19f7a6f",
+        "rev": "da56ad85a3b4453b3478dc4c499ee56943251c8e",
         "type": "github"
       },
       "original": {

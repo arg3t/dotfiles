@@ -4,8 +4,6 @@ let
   userConfig = {
     programs.firefox = {
       enable = true;
-      # nixpkgs' Firefox package is Linux-only. On Darwin, manage the native
-      # Firefox installation's profile and policies without installing it.
       package = if pkgs.stdenv.isDarwin then null else pkgs.firefox;
 
       policies = {
