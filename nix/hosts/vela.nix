@@ -47,15 +47,23 @@
     home.file.".hammerspoon/init.lua".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hammerspoon/init.lua";
 
+    # kitty's Quake panel reads its geometry from a sibling of kitty.conf.
+    xdg.configFile."kitty/quick-access-terminal.conf".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/kitty/quick-access-terminal.conf";
+
+    # Launch via `open` so macOS treats it as a normal GUI app; running the
+    # Mach-O directly starts it outside the login session, where its hotkeys
+    # and Accessibility grant do not apply.
     launchd.agents.hammerspoon = {
       enable = true;
       config = {
         Label = "org.hammerspoon.Hammerspoon";
         ProgramArguments = [
-          "${pkgs.our.hammerspoon}/Applications/Hammerspoon.app/Contents/MacOS/Hammerspoon"
+          "/usr/bin/open"
+          "-a"
+          "${pkgs.our.hammerspoon}/Applications/Hammerspoon.app"
         ];
         RunAtLoad = true;
-        KeepAlive = true;
         ProcessType = "Interactive";
       };
     };

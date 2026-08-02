@@ -2,7 +2,7 @@
 --
 -- Provides the two pieces of the Hyprland workflow that macOS lacks:
 --   1. Numbered desktops, including "move this window to desktop N".
---   2. A Quake-style drop-down scratch terminal.
+--   2. A hotkey for kitty's built-in Quake-style quick access terminal.
 --
 -- Everything else (tiling, launching, clipboard) is left to macOS and SuperCmd.
 
@@ -10,22 +10,12 @@ local mod = { "alt" }
 local modShift = { "alt", "shift" }
 
 local workspaceCount = 9
-local scratchTitle = "scratchterm"
-local scratchHeightFraction = 0.45
 
 hs.window.animationDuration = 0
 
--- macOS itself switches desktops via ctrl+<number>, which is instant and has no
--- Mission Control animation. Synthesising that keystroke is far smoother than
--- hs.spaces.gotoSpace, which has to open Mission Control to work.
-local function gotoWorkspace(index)
-  hs.eventtap.keyStroke({ "ctrl" }, tostring(index), 0)
-end
-
--- Ordered list of ordinary (non-fullscreen) spaces on the focused screen.
+-- Ordered list of ordinary (non-fullscreen) desktops on the focused screen.
 local function userSpaces()
-  local screen = hs.screen.mainScreen()
-  local spaces = hs.spaces.spacesForScreen(screen)
+  local spaces = hs.spaces.spacesForScreen(hs.screen.mainScreen())
   if not spaces then
     return {}
   end
@@ -39,16 +29,38 @@ local function userSpaces()
   return result
 end
 
-local function moveWindowToWorkspace(index, follow)
+local function gotoWorkspace(index)
+  local target = userSpaces()[index]
+  if not target then
+    hs.alert.show("No desktop " .. index .. " — add it in Mission Control")
+    return
+  end
+  if hs.spaces.focusedSpace() == target then
+    return
+  end
+
+  -- Fast path: macOS's own ctrl+<n> shortcut switches instantly and without a
+  -- Mission Control animation.
+  hs.eventtap.keyStroke({ "ctrl" }, tostring(index), 0)
+
+  -- That shortcut is off by default in System Settings. If nothing moved, fall
+  -- back to the API, which works unconditionally but flashes Mission Control.
+  hs.timer.doAfter(0.25, function()
+    if hs.spaces.focusedSpace() ~= target then
+      hs.spaces.gotoSpace(target)
+    end
+  end)
+end
+
+local function moveWindowToWorkspace(index)
   local win = hs.window.focusedWindow()
   if not win then
     return
   end
 
-  local spaces = userSpaces()
-  local target = spaces[index]
+  local target = userSpaces()[index]
   if not target then
-    hs.alert.show("No desktop " .. index)
+    hs.alert.show("No desktop " .. index .. " — add it in Mission Control")
     return
   end
 
@@ -58,12 +70,10 @@ local function moveWindowToWorkspace(index, follow)
     return
   end
 
-  if follow then
-    gotoWorkspace(index)
-    hs.timer.doAfter(0.2, function()
-      win:focus()
-    end)
-  end
+  gotoWorkspace(index)
+  hs.timer.doAfter(0.4, function()
+    win:focus()
+  end)
 end
 
 for index = 1, workspaceCount do
@@ -72,91 +82,54 @@ for index = 1, workspaceCount do
     gotoWorkspace(index)
   end)
   hs.hotkey.bind(modShift, key, function()
-    moveWindowToWorkspace(index, true)
+    moveWindowToWorkspace(index)
   end)
 end
 
--- Quake-style scratch terminal -----------------------------------------------
+-- Quick access terminal ------------------------------------------------------
 --
--- A single kitty instance identified by its window title. It is pulled onto
--- whichever desktop is currently active, so it behaves like Hyprland's special
--- workspace rather than living on one fixed desktop.
+-- kitty ships a Quake-style panel since 0.42. Running the kitten toggles it, so
+-- there is no window bookkeeping to do here. Geometry lives in
+-- ~/.config/kitty/quick-access-terminal.conf.
 
-local kittyBin = os.getenv("HOME") .. "/.nix-profile/bin/kitty"
-
-local function scratchWindow()
-  for _, win in ipairs(hs.window.allWindows()) do
-    if win:title() == scratchTitle then
-      return win
+local function kittenPath()
+  local candidates = {
+    os.getenv("HOME") .. "/.nix-profile/bin/kitten",
+    "/run/current-system/sw/bin/kitten",
+    "/etc/profiles/per-user/" .. (os.getenv("USER") or "") .. "/bin/kitten",
+    "/opt/homebrew/bin/kitten",
+  }
+  for _, path in ipairs(candidates) do
+    if hs.fs.attributes(path) then
+      return path
     end
   end
   return nil
 end
 
-local function positionScratch(win)
-  local frame = win:screen():frame()
-  win:setFrame({
-    x = frame.x,
-    y = frame.y,
-    w = frame.w,
-    h = frame.h * scratchHeightFraction,
-  })
-end
-
-local function spawnScratch()
-  hs.task
-    .new(kittyBin, nil, {
-      "--single-instance",
-      "--instance-group",
-      "scratch",
-      "--title",
-      scratchTitle,
-    })
-    :start()
-
-  -- kitty needs a moment before its window exists.
-  hs.timer.waitUntil(scratchWindow, function()
-    local win = scratchWindow()
-    positionScratch(win)
-    win:focus()
-  end, 0.1)
-end
-
-local function toggleScratch()
-  local win = scratchWindow()
-
-  if not win then
-    spawnScratch()
+hs.hotkey.bind(mod, "s", function()
+  local kitten = kittenPath()
+  if not kitten then
+    hs.alert.show("kitten not found on PATH")
     return
   end
+  hs.task.new(kitten, nil, { "quick-access-terminal" }):start()
+end)
 
-  local focused = hs.window.focusedWindow()
-  if focused and focused:id() == win:id() then
-    win:application():hide()
-    return
-  end
+-- Diagnostics ----------------------------------------------------------------
 
-  local currentSpace = hs.spaces.focusedSpace()
-  local windowSpaces = hs.spaces.windowSpaces(win) or {}
-  local onCurrentSpace = false
-  for _, spaceID in ipairs(windowSpaces) do
-    if spaceID == currentSpace then
-      onCurrentSpace = true
+hs.hotkey.bind(modShift, "i", function()
+  local spaces = userSpaces()
+  local current = hs.spaces.focusedSpace()
+  local index = "?"
+  for i, spaceID in ipairs(spaces) do
+    if spaceID == current then
+      index = tostring(i)
     end
   end
+  hs.alert.show(("desktop %s of %d"):format(index, #spaces))
+end)
 
-  if not onCurrentSpace then
-    hs.spaces.moveWindowToSpace(win, currentSpace)
-  end
-
-  win:application():unhide()
-  positionScratch(win)
-  win:focus()
-end
-
-hs.hotkey.bind(mod, "s", toggleScratch)
-
--- Reload configuration on demand and whenever this file changes.
 hs.hotkey.bind(modShift, "r", hs.reload)
 
 configWatcher = hs.pathwatcher.new(hs.configdir, function(files)
