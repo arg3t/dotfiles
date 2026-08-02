@@ -102,6 +102,17 @@ let
 
       '';
     };
+
+    programs.tmux = {
+      enable = true;
+      plugins = [
+        {
+          plugin = pkgs.tmuxPlugins.catppuccin;
+          extraConfig = "set -g @catppuccin_flavor 'mocha'";
+        }
+      ];
+      extraConfig = builtins.readFile ../../.config/tmux/tmux.conf;
+    };
   };
 in
 if standaloneHome then userConfig else { home-manager.users.${username} = userConfig; }

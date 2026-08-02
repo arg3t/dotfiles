@@ -27,10 +27,17 @@
 
   # nix-darwin takes ownership of /etc/nix/nix.conf after the initial
   # migration, so keep the flake features enabled in the generated file.
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    # Without this the flake's own nixConfig is refused as "untrusted".
+    trusted-users = [
+      "root"
+      "yigit.colakoglu"
+    ];
+  };
 
   home-manager.users."yigit.colakoglu" = { config, ... }: {
     home.sessionVariables.TERMINAL = lib.mkForce "kitty";
