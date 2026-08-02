@@ -86,19 +86,50 @@ local function moveWindowToWorkspace(index)
   local frame = win:frame()
   local origin = hs.mouse.absolutePosition()
   local grab = { x = frame.x + frame.w / 2, y = frame.y + 8 }
-  local events = hs.eventtap.event
+  local ev = hs.eventtap.event
+  local released = false
+
+  local function release()
+    if released then
+      return
+    end
+    released = true
+
+    ev.newMouseEvent(ev.types.leftMouseUp, { x = grab.x, y = grab.y + 12 }):post()
+    hs.mouse.absolutePosition(origin)
+
+    -- Only chase the window if it actually travelled; focusing a window that
+    -- stayed behind would drag us straight back to the desktop we left.
+    hs.timer.doAfter(0.1, function()
+      for _, spaceID in ipairs(hs.spaces.windowSpaces(win) or {}) do
+        if spaceID == target then
+          win:focus()
+          return
+        end
+      end
+    end)
+  end
 
   win:focus()
-  events.newMouseEvent(events.types.leftMouseDown, grab):post()
-  hs.timer.usleep(60000)
-  events.newMouseEvent(events.types.leftMouseDragged, { x = grab.x, y = grab.y + 2 }):post()
+  ev.newMouseEvent(ev.types.leftMouseDown, grab):post()
 
-  gotoWorkspace(index)
+  -- A single 2px nudge is below the drag threshold, and usleep would block the
+  -- run loop before the events could be delivered.
+  hs.timer.doAfter(0.05, function()
+    ev.newMouseEvent(ev.types.leftMouseDragged, { x = grab.x, y = grab.y + 6 }):post()
+    ev.newMouseEvent(ev.types.leftMouseDragged, { x = grab.x, y = grab.y + 12 }):post()
 
-  hs.timer.doAfter(0.9, function()
-    events.newMouseEvent(events.types.leftMouseUp, { x = grab.x, y = grab.y + 2 }):post()
-    hs.mouse.absolutePosition(origin)
-    win:focus()
+    gotoWorkspace(index)
+
+    -- Switching can take several ctrl+arrow steps, so hold the drag until we
+    -- arrive rather than guessing a duration.
+    local timeout = hs.timer.doAfter(3, release)
+    hs.timer.waitUntil(function()
+      return hs.spaces.focusedSpace() == target
+    end, function()
+      timeout:stop()
+      hs.timer.doAfter(0.25, release)
+    end, 0.05)
   end)
 end
 
@@ -243,7 +274,7 @@ clipboardRemap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(e
 end)
 clipboardRemap:start()
 
--- Menu bar indicator: filled dot for the active desktop, hollow for the rest.
+-- Menu bar indicator: the current desktop as D1, D2, ...
 desktopIndicator = hs.menubar.new(true, "hammerspoonDesktops")
 
 local function refreshIndicator()
@@ -254,11 +285,7 @@ local function refreshIndicator()
   local spaces = userSpaces()
   local current = indexOf(spaces, hs.spaces.focusedSpace())
 
-  local dots = {}
-  for i = 1, #spaces do
-    table.insert(dots, i == current and "●" or "○")
-  end
-  desktopIndicator:setTitle(table.concat(dots))
+  desktopIndicator:setTitle("D" .. (current or "?"))
 
   local menu = {}
   for i = 1, #spaces do
