@@ -243,12 +243,48 @@ clipboardRemap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(e
 end)
 clipboardRemap:start()
 
+-- Menu bar indicator: filled dot for the active desktop, hollow for the rest.
+desktopIndicator = hs.menubar.new(true, "hammerspoonDesktops")
+
+local function refreshIndicator()
+  if not desktopIndicator then
+    return
+  end
+
+  local spaces = userSpaces()
+  local current = indexOf(spaces, hs.spaces.focusedSpace())
+
+  local dots = {}
+  for i = 1, #spaces do
+    table.insert(dots, i == current and "●" or "○")
+  end
+  desktopIndicator:setTitle(table.concat(dots))
+
+  local menu = {}
+  for i = 1, #spaces do
+    table.insert(menu, {
+      title = "Desktop " .. i,
+      checked = i == current,
+      fn = function()
+        gotoWorkspace(i)
+      end,
+    })
+  end
+  desktopIndicator:setMenu(menu)
+end
+
 -- Each macOS space keeps its own desktop picture and System Events can only
 -- reach the visible one, so re-apply the current wallpaper on every switch.
 spaceWatcher = hs.spaces.watcher.new(function()
   run("set-darwin-background", { "--reapply" })
+  refreshIndicator()
 end)
 spaceWatcher:start()
+
+screenWatcher = hs.screen.watcher.new(refreshIndicator)
+screenWatcher:start()
+
+refreshIndicator()
 
 hs.hotkey.bind(modShift, "i", function()
   local spaces = userSpaces()
