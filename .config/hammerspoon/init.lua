@@ -114,12 +114,22 @@ end
 
 -- Snapping. screen:frame() is the usable area, so these stop short of the menu
 -- bar and Dock instead of going native fullscreen.
+local noSnapApps = {
+  ["SuperCmd"] = true,
+}
+
 local function snap(shape)
   return function()
     local win = hs.window.focusedWindow()
     if not win then
       return
     end
+
+    local app = win:application()
+    if app and noSnapApps[app:name()] then
+      return
+    end
+
     local f = win:screen():frame()
     win:setFrame(shape(f))
   end
@@ -144,6 +154,13 @@ end))
 hs.hotkey.bind(mod, "down", snap(function(f)
   return { x = f.x, y = f.y + f.h / 2, w = f.w, h = f.h / 2 }
 end))
+
+hs.hotkey.bind(mod, "q", function()
+  local win = hs.window.focusedWindow()
+  if win then
+    win:close()
+  end
+end)
 
 local function binPath(name)
   local candidates = {
