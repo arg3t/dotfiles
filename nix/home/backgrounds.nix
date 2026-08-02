@@ -70,6 +70,30 @@ let
       set -eu
 
       backgrounds="$HOME/.local/backgrounds"
+      state="$HOME/.local/state/backgrounds-sync/current"
+
+      apply() {
+        /usr/bin/osascript - "$1" <<'APPLESCRIPT'
+      on run argv
+        tell application "System Events"
+          repeat with desktopItem in desktops
+            set picture of desktopItem to item 1 of argv
+          end repeat
+        end tell
+      end run
+      APPLESCRIPT
+      }
+
+      # System Events only reaches the space that is currently visible on each
+      # display, so Hammerspoon re-applies the same image on every space change.
+      if [ "''${1:-}" = "--reapply" ]; then
+        [ -f "$state" ] || exit 0
+        wallpaper=$(cat "$state")
+        [ -f "$wallpaper" ] || exit 0
+        apply "$wallpaper"
+        exit 0
+      fi
+
       hour=$(date +%H)
 
       if [ "$hour" -lt 6 ] || [ "$hour" -ge 19 ]; then
@@ -88,15 +112,9 @@ let
         | sort | shuf -n 1)
       [ -n "$wallpaper" ] || exit 0
 
-      /usr/bin/osascript - "$wallpaper" <<'APPLESCRIPT'
-      on run argv
-        tell application "System Events"
-          repeat with desktopItem in desktops
-            set picture of desktopItem to item 1 of argv
-          end repeat
-        end tell
-      end run
-      APPLESCRIPT
+      mkdir -p "$(dirname "$state")"
+      printf '%s\n' "$wallpaper" > "$state"
+      apply "$wallpaper"
     '';
   };
 

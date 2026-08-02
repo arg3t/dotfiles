@@ -19,6 +19,7 @@
   environment.systemPackages = with pkgs; [
     our.supercmd
     our.hammerspoon
+    our.thunderbird
     inputs.omp-gateway-bar.packages.${pkgs.system}.default
     zed-editor
     vscodium

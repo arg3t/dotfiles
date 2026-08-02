@@ -5,4 +5,5 @@
   podctl = pkgs.callPackage ./podctl/package.nix { };
   hammerspoon = pkgs.callPackage ./hammerspoon/package.nix { };
   supercmd = pkgs.callPackage ./supercmd/package.nix { };
+  thunderbird = pkgs.callPackage ./thunderbird/package.nix { };
 }

@@ -112,6 +112,39 @@ for index = 1, workspaceCount do
   end)
 end
 
+-- Snapping. screen:frame() is the usable area, so these stop short of the menu
+-- bar and Dock instead of going native fullscreen.
+local function snap(shape)
+  return function()
+    local win = hs.window.focusedWindow()
+    if not win then
+      return
+    end
+    local f = win:screen():frame()
+    win:setFrame(shape(f))
+  end
+end
+
+hs.hotkey.bind(mod, "f", snap(function(f)
+  return f
+end))
+
+hs.hotkey.bind(mod, "left", snap(function(f)
+  return { x = f.x, y = f.y, w = f.w / 2, h = f.h }
+end))
+
+hs.hotkey.bind(mod, "right", snap(function(f)
+  return { x = f.x + f.w / 2, y = f.y, w = f.w / 2, h = f.h }
+end))
+
+hs.hotkey.bind(mod, "up", snap(function(f)
+  return { x = f.x, y = f.y, w = f.w, h = f.h / 2 }
+end))
+
+hs.hotkey.bind(mod, "down", snap(function(f)
+  return { x = f.x, y = f.y + f.h / 2, w = f.w, h = f.h / 2 }
+end))
+
 local function binPath(name)
   local candidates = {
     os.getenv("HOME") .. "/.nix-profile/bin/" .. name,
@@ -192,6 +225,13 @@ clipboardRemap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(e
   }
 end)
 clipboardRemap:start()
+
+-- Each macOS space keeps its own desktop picture and System Events can only
+-- reach the visible one, so re-apply the current wallpaper on every switch.
+spaceWatcher = hs.spaces.watcher.new(function()
+  run("set-darwin-background", { "--reapply" })
+end)
+spaceWatcher:start()
 
 hs.hotkey.bind(modShift, "i", function()
   local spaces = userSpaces()
