@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   username ? "yeet",
   standaloneHome ? false,
   ...
@@ -59,7 +60,47 @@ let
     '';
   };
 
-  userConfig = {
+  setDarwinBackground = pkgs.writeShellApplication {
+    name = "set-darwin-background";
+    runtimeInputs = with pkgs; [
+      coreutils
+      findutils
+    ];
+    text = ''
+      set -eu
+
+      backgrounds="$HOME/.local/backgrounds"
+      hour=$(date +%H)
+
+      if [ "$hour" -lt 6 ] || [ "$hour" -ge 19 ]; then
+        period=evening
+      elif [ "$hour" -ge 12 ]; then
+        period=afternoon
+      else
+        period=morning
+      fi
+
+      period_dir="$backgrounds/$period"
+      [ -d "$period_dir" ] || exit 0
+
+      wallpaper=$(find "$period_dir" -type f \
+        \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.heic' -o -iname '*.webp' \) \
+        | sort | shuf -n 1)
+      [ -n "$wallpaper" ] || exit 0
+
+      /usr/bin/osascript - "$wallpaper" <<'APPLESCRIPT'
+      on run argv
+        tell application "System Events"
+          repeat with desktopItem in desktops
+            set picture of desktopItem to item 1 of argv
+          end repeat
+        end tell
+      end run
+      APPLESCRIPT
+    '';
+  };
+
+  linuxConfig = {
     systemd.user.services.sync-backgrounds = {
       Unit = {
         Description = "Sync wallpapers from Seafile";
@@ -83,5 +124,40 @@ let
       Install.WantedBy = [ "timers.target" ];
     };
   };
+
+  darwinConfig = {
+    home.packages = [
+      syncBackgrounds
+      setDarwinBackground
+    ];
+
+    launchd.agents.sync-backgrounds = {
+      enable = true;
+      config = {
+        Label = "org.yigit.sync-backgrounds";
+        ProgramArguments = [ "${syncBackgrounds}/bin/sync-backgrounds" ];
+        RunAtLoad = true;
+        StartInterval = 21600;
+        ProcessType = "Background";
+        StandardOutPath = "/tmp/sync-backgrounds.log";
+        StandardErrorPath = "/tmp/sync-backgrounds.error.log";
+      };
+    };
+
+    launchd.agents.rotate-background = {
+      enable = true;
+      config = {
+        Label = "org.yigit.rotate-background";
+        ProgramArguments = [ "${setDarwinBackground}/bin/set-darwin-background" ];
+        RunAtLoad = true;
+        StartInterval = 600;
+        ProcessType = "Background";
+        StandardOutPath = "/tmp/rotate-background.log";
+        StandardErrorPath = "/tmp/rotate-background.error.log";
+      };
+    };
+  };
+
+  userConfig = if pkgs.stdenv.isDarwin then darwinConfig else linuxConfig;
 in
 if standaloneHome then userConfig else { home-manager.users.${username} = userConfig; }

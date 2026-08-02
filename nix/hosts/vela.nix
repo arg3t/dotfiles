@@ -13,15 +13,18 @@
     ../home/packages-dev.nix
     ../home/packages-nix.nix
     ../home/packages-editor.nix
+    ../home/backgrounds.nix
   ];
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "raycast" ];
 
   environment.systemPackages = with pkgs; [
-    raycast
+    our.raycast
     zed-editor
     vscodium
   ];
+
+  fonts.packages = [ pkgs.nerd-fonts.caskaydia-cove ];
 
   # nix-darwin takes ownership of /etc/nix/nix.conf after the initial
   # migration, so keep the flake features enabled in the generated file.
