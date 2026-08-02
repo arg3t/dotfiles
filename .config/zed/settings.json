@@ -7,6 +7,18 @@
 // custom settings, run the `zed: Open Default Settings` command
 // from the command palette
 {
+  "auto_install_extensions": {
+    "catppuccin": true,
+    "nix": true,
+    "toml": true,
+    "dockerfile": true,
+    "make": true,
+    "just": true,
+    "lua": true,
+    "terraform": true,
+    "typst": true,
+    "git-firefly": true
+  },
   "show_edit_predictions": true,
   "show_completions_on_input": true,
   "features": {

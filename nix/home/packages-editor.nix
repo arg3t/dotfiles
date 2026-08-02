@@ -37,6 +37,13 @@ let
 
     xdg.configFile."nvim".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/nvim";
+
+    xdg.configFile."zed/settings.json".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/zed/settings.json";
+    xdg.configFile."zed/keymap.json".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/zed/keymap.json";
+    xdg.configFile."zed/themes".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/zed/themes";
   };
 in
 if standaloneHome then
