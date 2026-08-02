@@ -1,7 +1,7 @@
 local mod = { "alt" }
 local modShift = { "alt", "shift" }
 
-local workspaceCount = 9
+local workspaceCount = 10
 
 hs.window.animationDuration = 0
 
@@ -17,6 +17,25 @@ local function userSpaces()
     end
   end
   return result
+end
+
+-- Mission Control has no scripted "set desktop count", so the only way to add
+-- one is to press the + button through the accessibility API. Keeping
+-- Mission Control open until the last add keeps it to a single visual flash.
+local function ensureWorkspaces()
+  local missing = workspaceCount - #userSpaces()
+  if missing <= 0 then
+    return
+  end
+
+  for i = 1, missing do
+    local ok, err = hs.spaces.addSpaceToScreen(hs.screen.mainScreen(), i == missing)
+    if not ok then
+      hs.spaces.closeMissionControl()
+      hs.alert.show("Could not add desktop: " .. tostring(err))
+      return
+    end
+  end
 end
 
 local function indexOf(list, value)
@@ -59,7 +78,11 @@ local function gotoWorkspace(index)
     return
   end
 
-  hs.eventtap.keyStroke({ "ctrl" }, tostring(index), 0)
+  -- Mission Control only offers direct shortcuts for desktops 1-9; the tenth
+  -- has to be walked to.
+  if index <= 9 then
+    hs.eventtap.keyStroke({ "ctrl" }, tostring(index), 0)
+  end
   hs.timer.doAfter(0.15, function()
     stepToward(target, #screenSpaces())
   end)
@@ -134,7 +157,7 @@ local function moveWindowToWorkspace(index)
 end
 
 for index = 1, workspaceCount do
-  local key = tostring(index)
+  local key = index == 10 and "0" or tostring(index)
   hs.hotkey.bind(mod, key, function()
     gotoWorkspace(index)
   end)
@@ -239,8 +262,9 @@ hs.hotkey.bind(mod, "return", function()
   end)
 end)
 
--- Ctrl+C/V/X behave like they do everywhere that is not macOS, except in
--- terminals, where ctrl+c must stay SIGINT. Terminals use ctrl+shift+c/v.
+-- Ctrl+C/V/X/W behave like they do everywhere that is not macOS, except in
+-- terminals, where ctrl+c must stay SIGINT and ctrl+w deletes a word.
+-- Terminals use ctrl+shift+c/v.
 local terminalApps = {
   ["kitty"] = true,
   ["Terminal"] = true,
@@ -249,16 +273,16 @@ local terminalApps = {
   ["Alacritty"] = true,
 }
 
-local clipboardKeys = { c = true, v = true, x = true }
+local remapKeys = { c = true, v = true, x = true, w = true }
 
-clipboardRemap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
+ctrlRemap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
   local flags = event:getFlags()
   if not flags.ctrl or flags.cmd or flags.alt or flags.shift or flags.fn then
     return false
   end
 
   local key = hs.keycodes.map[event:getKeyCode()]
-  if not clipboardKeys[key] then
+  if not remapKeys[key] then
     return false
   end
 
@@ -272,7 +296,7 @@ clipboardRemap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(e
     hs.eventtap.event.newKeyEvent({ "cmd" }, key, false),
   }
 end)
-clipboardRemap:start()
+ctrlRemap:start()
 
 -- Menu bar indicator: the current desktop as D1, D2, ...
 desktopIndicator = hs.menubar.new(true, "hammerspoonDesktops")
@@ -311,6 +335,7 @@ spaceWatcher:start()
 screenWatcher = hs.screen.watcher.new(refreshIndicator)
 screenWatcher:start()
 
+ensureWorkspaces()
 refreshIndicator()
 
 hs.hotkey.bind(modShift, "i", function()
