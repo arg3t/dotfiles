@@ -107,7 +107,7 @@
         ]
       },
       "locked": {
-        "lastModified": 1785711081,
+        "lastModified": 1785711058,
         "narHash": "sha256-j3dAXhnVZ+c3ZAvvgSzTKP/neOeySwmYBcKQH44dItU=",
         "owner": "arg3t",
         "repo": "omp-gateway-bar",

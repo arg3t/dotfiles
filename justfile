@@ -18,6 +18,10 @@ check:
 # Alias for check
 test: check
 
+# Update the pinned OMP Gateway Bar input
+update:
+    nix flake update omp-gateway-bar --flake ./nix
+
 # Format Nix files
 fmt:
     nixfmt nix/**/*.nix
