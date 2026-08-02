@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, inputs, ... }:
 
 {
   imports = [
@@ -19,6 +19,7 @@
   environment.systemPackages = with pkgs; [
     our.supercmd
     our.hammerspoon
+    inputs.omp-gateway-bar.packages.${pkgs.system}.default
     zed-editor
     vscodium
   ];

@@ -33,6 +33,11 @@
       url = "github:SergioRibera/s4rchiso-plymouth-theme";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    omp-gateway-bar = {
+      url = "github:arg3t/omp-gateway-bar";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
