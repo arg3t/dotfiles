@@ -16,9 +16,9 @@
     ../home/backgrounds.nix
   ];
 
-
   environment.systemPackages = with pkgs; [
-    our.maccy
+    our.supercmd
+    our.hammerspoon
     zed-editor
     vscodium
   ];
@@ -32,17 +32,24 @@
     "flakes"
   ];
 
-  home-manager.users."yigit.colakoglu" = {
+  home-manager.users."yigit.colakoglu" = { config, ... }: {
     home.sessionVariables.TERMINAL = lib.mkForce "kitty";
 
-    # Maccy's native defaults: start at login and use its standard
-    # Shift-Command-C clipboard-history shortcut.
-    targets.darwin.defaults."org.p0deje.Maccy" = {
-      launchAtLogin = true;
-      enabled = true;
-      hotKey = "⇧⌘C";
-      pasteByDefault = true;
-      removeFormattingByDefault = false;
+    # Hammerspoon reads ~/.hammerspoon/init.lua; keep it editable in place.
+    home.file.".hammerspoon/init.lua".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hammerspoon/init.lua";
+
+    launchd.agents.hammerspoon = {
+      enable = true;
+      config = {
+        Label = "org.hammerspoon.Hammerspoon";
+        ProgramArguments = [
+          "${pkgs.our.hammerspoon}/Applications/Hammerspoon.app/Contents/MacOS/Hammerspoon"
+        ];
+        RunAtLoad = true;
+        KeepAlive = true;
+        ProcessType = "Interactive";
+      };
     };
 
     programs.alacritty.enable = lib.mkForce false;
@@ -92,98 +99,9 @@
     };
   };
 
-  services.aerospace = {
-    enable = true;
-    settings = {
-      config-version = 2;
-      automatically-unhide-macos-hidden-apps = true;
-      default-root-container-layout = "tiles";
-      default-root-container-orientation = "auto";
-      accordion-padding = 30;
-      persistent-workspaces = map toString (lib.range 1 10) ++ [ "S" ];
-
-      gaps = {
-        inner.horizontal = 5;
-        inner.vertical = 5;
-        outer.left = 5;
-        outer.bottom = 5;
-        outer.top = 5;
-        outer.right = 5;
-      };
-
-      mode.main.binding = {
-        alt-enter = "exec-and-forget open -na Kitty";
-        alt-d = "exec-and-forget open -a Spotlight";
-        alt-q = "close";
-        alt-f = "fullscreen";
-        alt-shift-space = "layout floating tiling";
-
-        alt-h = "focus left";
-        alt-j = "focus down";
-        alt-k = "focus up";
-        alt-l = "focus right";
-        alt-shift-h = "move left";
-        alt-shift-j = "move down";
-        alt-shift-k = "move up";
-        alt-shift-l = "move right";
-
-        alt-comma = "focus-monitor --wrap-around left";
-        alt-period = "focus-monitor --wrap-around right";
-        alt-shift-comma = "move-node-to-monitor --wrap-around left";
-        alt-shift-period = "move-node-to-monitor --wrap-around right";
-
-        alt-r = "mode resize";
-        alt-s = "summon-workspace S";
-        alt-tab = "workspace-back-and-forth";
-
-        alt-1 = "workspace 1";
-        alt-2 = "workspace 2";
-        alt-3 = "workspace 3";
-        alt-4 = "workspace 4";
-        alt-5 = "workspace 5";
-        alt-6 = "workspace 6";
-        alt-7 = "workspace 7";
-        alt-8 = "workspace 8";
-        alt-9 = "workspace 9";
-        alt-0 = "workspace 10";
-
-        alt-shift-1 = "move-node-to-workspace 1";
-        alt-shift-2 = "move-node-to-workspace 2";
-        alt-shift-3 = "move-node-to-workspace 3";
-        alt-shift-4 = "move-node-to-workspace 4";
-        alt-shift-5 = "move-node-to-workspace 5";
-        alt-shift-6 = "move-node-to-workspace 6";
-        alt-shift-7 = "move-node-to-workspace 7";
-        alt-shift-8 = "move-node-to-workspace 8";
-        alt-shift-9 = "move-node-to-workspace 9";
-        alt-shift-0 = "move-node-to-workspace 10";
-        alt-shift-s = "move-node-to-workspace S";
-      };
-
-      mode.resize.binding = {
-        h = "resize width -50";
-        j = "resize height +50";
-        k = "resize height -50";
-        l = "resize width +50";
-        enter = "mode main";
-        esc = "mode main";
-      };
-
-      on-window-detected = [
-        { "if".app-id = "net.kovidgoyal.kitty"; run = "move-node-to-workspace 1"; }
-        { "if".app-id = "org.mozilla.firefox"; run = "move-node-to-workspace 2"; }
-        { "if".app-id = "dev.zed.Zed"; run = "move-node-to-workspace 3"; }
-        { "if".app-id = "com.vscodium"; run = "move-node-to-workspace 3"; }
-        { "if".app-id = "com.apple.finder"; run = "layout floating"; }
-        { "if".app-id = "com.apple.systempreferences"; run = "layout floating"; }
-        { "if".app-id = "org.p0deje.Maccy"; run = "layout floating"; }
-      ];
-    };
-  };
-
   system.defaults = {
     NSGlobalDomain = {
-      NSAutomaticWindowAnimationsEnabled = false;
+      # Move a window by holding ctrl+cmd anywhere inside it.
       NSWindowShouldDragOnGesture = true;
     };
     dock = {
@@ -192,15 +110,18 @@
       autohide-time-modifier = 0.15;
       expose-group-apps = true;
       launchanim = false;
+      # Keep desktop numbering stable so ctrl+<n> always means the same desktop.
       mru-spaces = false;
       show-recents = false;
     };
     WindowManager = {
-      EnableStandardClickToShowDesktop = false;
-      EnableTilingByEdgeDrag = false;
-      EnableTilingOptionAccelerator = false;
-      EnableTopTilingByEdgeDrag = false;
+      # Stage Manager fights with Spaces; native edge tiling stays enabled.
       GloballyEnabled = false;
+      EnableStandardClickToShowDesktop = false;
+    };
+    universalaccess = {
+      # Makes switching desktops near-instant instead of a slow slide.
+      reduceMotion = true;
     };
   };
 
