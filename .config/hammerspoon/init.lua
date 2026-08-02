@@ -74,12 +74,12 @@ for index = 1, workspaceCount do
   end)
 end
 
-local function kittenPath()
+local function binPath(name)
   local candidates = {
-    os.getenv("HOME") .. "/.nix-profile/bin/kitten",
-    "/run/current-system/sw/bin/kitten",
-    "/etc/profiles/per-user/" .. (os.getenv("USER") or "") .. "/bin/kitten",
-    "/opt/homebrew/bin/kitten",
+    os.getenv("HOME") .. "/.nix-profile/bin/" .. name,
+    "/run/current-system/sw/bin/" .. name,
+    "/etc/profiles/per-user/" .. (os.getenv("USER") or "") .. "/bin/" .. name,
+    "/opt/homebrew/bin/" .. name,
   }
   for _, path in ipairs(candidates) do
     if hs.fs.attributes(path) then
@@ -89,13 +89,27 @@ local function kittenPath()
   return nil
 end
 
-hs.hotkey.bind(mod, "s", function()
-  local kitten = kittenPath()
-  if not kitten then
-    hs.alert.show("kitten not found on PATH")
+local function run(name, args)
+  local bin = binPath(name)
+  if not bin then
+    hs.alert.show(name .. " not found")
     return
   end
-  hs.task.new(kitten, nil, { "quick-access-terminal" }):start()
+  hs.task.new(bin, nil, args):start()
+end
+
+hs.hotkey.bind(mod, "s", function()
+  run("kitten", { "quick-access-terminal" })
+end)
+
+hs.hotkey.bind(mod, "return", function()
+  run("kitty", { "--single-instance" })
+  hs.timer.doAfter(0.3, function()
+    local app = hs.application.get("kitty")
+    if app then
+      app:activate()
+    end
+  end)
 end)
 
 hs.hotkey.bind(modShift, "i", function()
