@@ -4,6 +4,10 @@ set dotenv-load := false
 # `nh os` drives NixOS. Detect it once instead of per recipe.
 nh_target := if os() == "macos" { "darwin" } else { "os" }
 
+# nh defaults to the machine's hostname when picking a configuration. The Linux
+# boxes are named after their attribute, but the Mac is not, so name it here.
+nh_host := if os() == "macos" { "--hostname vela" } else { "" }
+
 # Show available recipes
 default:
     @just --list
@@ -29,7 +33,7 @@ build:
 
 # Switch to the nix-darwin (macOS) or NixOS configuration for this machine
 switch:
-    nh {{ nh_target }} switch ./nix
+    nh {{ nh_target }} switch {{ nh_host }} ./nix
 
 # Build the NixOS configuration for next boot (NixOS only)
 boot:
