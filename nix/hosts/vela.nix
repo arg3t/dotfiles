@@ -68,7 +68,14 @@
       };
       settings = {
         background_opacity = "1.0";
-        hide_window_decorations = "yes";
+
+        # Native title bar: without a tiling WM these are ordinary macOS
+        # windows that need traffic lights and a drag handle.
+        hide_window_decorations = "no";
+        macos_quit_when_last_window_closed = "yes";
+
+        # AeroSpace used to tile for us; kitty now does its own splitting.
+        enabled_layouts = "splits,stack";
 
         background = "#1e1e2e";
         foreground = "#cdd6f4";
@@ -102,6 +109,15 @@
         "alt+shift+k" = "change_font_size all +1.0";
         "alt+shift+j" = "change_font_size all -1.0";
         "shift+enter" = "send_text all \\x1b\\x0d";
+
+        # Splits, replacing the window management AeroSpace used to provide.
+        "cmd+d" = "launch --location=vsplit --cwd=current";
+        "cmd+shift+d" = "launch --location=hsplit --cwd=current";
+        "cmd+shift+f" = "toggle_layout stack";
+        "ctrl+cmd+h" = "neighboring_window left";
+        "ctrl+cmd+j" = "neighboring_window down";
+        "ctrl+cmd+k" = "neighboring_window up";
+        "ctrl+cmd+l" = "neighboring_window right";
       };
     };
   };
