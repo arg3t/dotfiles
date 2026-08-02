@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   username ? "yeet",
   standaloneHome ? false,
@@ -45,6 +46,7 @@ let
       delta
       rustup-without-rust-analyzer
       clang-driver-only
+    ] ++ lib.optionals pkgs.stdenv.isLinux [
       mold
     ];
   };

@@ -35,7 +35,7 @@ export KEYTIMEOUT=5
 # Sudo Prompt (from the old .profile)
 export SUDO_PROMPT="$(printf '\033[38;5;141m\xef\x80\xa3\033[0m Shall you pass?') "
 
-# Wayland clipboard integration for yank/paste widgets
+# Clipboard integration for yank/paste widgets
 function clip-wrap-widgets() {
     local copy_or_paste=$1
     shift
@@ -45,13 +45,21 @@ function clip-wrap-widgets() {
             eval "
             function _clip-wrapped-$widget() {
                 zle .$widget
-                wl-copy <<<\$CUTBUFFER
+                if [[ \$OSTYPE == darwin* ]]; then
+                    print -rn -- \$CUTBUFFER | pbcopy
+                else
+                    wl-copy <<<\$CUTBUFFER
+                fi
             }
             "
         else
             eval "
             function _clip-wrapped-$widget() {
-                CUTBUFFER=\$(wl-paste)
+                if [[ \$OSTYPE == darwin* ]]; then
+                    CUTBUFFER=\$(pbpaste)
+                else
+                    CUTBUFFER=\$(wl-paste)
+                fi
                 zle .$widget
             }
             "

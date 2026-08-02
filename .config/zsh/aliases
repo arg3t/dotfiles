@@ -1,9 +1,13 @@
 #!/usr/bin/zsh
 
 alias feh="feh --scale-down --auto-zoom --no-fehbg"
-alias open=xdg-open
+if [[ "$OSTYPE" == darwin* ]]; then
+  alias clip="pbcopy"
+else
+  alias open="xdg-open"
+  alias clip="wl-copy"
+fi
 alias rm="rm -i"
-alias clip="wl-copy"
 alias g="git "
 alias tmux="tmux"
 alias t="tmux"

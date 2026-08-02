@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   config,
   username ? "yeet",
@@ -28,9 +29,10 @@ let
       tinymist # typst
       nil # nix
       tree-sitter
-      gcc
       ripgrep
       fd
+    ] ++ lib.optionals pkgs.stdenv.isLinux [
+      gcc
     ];
 
     xdg.configFile."nvim".source =

@@ -7,7 +7,7 @@
 }:
 
 let
-  userConfig = { config, ... }: {
+  userConfig = { config, lib, ... }: {
     # Manages XDG base dirs declaratively (XDG_CONFIG_HOME, XDG_DATA_HOME,
     # XDG_CACHE_HOME) instead of exporting them in .profile.
     xdg.enable = true;
@@ -16,19 +16,22 @@ let
       EDITOR = "nvim";
       BROWSER = "firefox";
       TERMINAL = "alacritty";
-      OPENER = "xdg-open";
 
       BAT_THEME = "Catppuccin Mocha";
-      ELECTRON_OZONE_PLATFORM_HINT = "auto";
 
       # Keep tool homes out of ~. Note: no session variable may reference
       # another session variable, so these are spelled out.
       CARGO_HOME = "$HOME/.local/share/cargo";
       GOPATH = "$HOME/.local/share/go";
       GNUPGHOME = "$HOME/.local/share/gnupg";
-
+    } // lib.optionalAttrs pkgs.stdenv.isLinux {
+      OPENER = "xdg-open";
+      ELECTRON_OZONE_PLATFORM_HINT = "auto";
       SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/gcr/ssh";
       MPV_IPC = "$XDG_RUNTIME_DIR/mpv.socket";
+    } // lib.optionalAttrs pkgs.stdenv.isDarwin {
+      OPENER = "open";
+      MPV_IPC = "$TMPDIR/mpv.socket";
     };
 
     home.sessionPath = [
@@ -49,7 +52,7 @@ let
       fi
     '';
 
-    xdg.mimeApps = {
+    xdg.mimeApps = lib.mkIf pkgs.stdenv.isLinux {
       enable = true;
       defaultApplications = {
         "x-scheme-handler/jetbrains" = "jetbrains-toolbox.desktop";
@@ -169,10 +172,13 @@ let
       };
     };
 
-    xdg.dataFile."applications/mimeapps.list".force = true;
+    xdg.dataFile."applications/mimeapps.list" = lib.mkIf pkgs.stdenv.isLinux {
+      force = true;
+    };
 
-    xdg.configFile."pavucontrol.ini".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/pavucontrol.ini";
+    xdg.configFile."pavucontrol.ini" = lib.mkIf pkgs.stdenv.isLinux {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/pavucontrol.ini";
+    };
 
     xdg.configFile."fontconfig/fonts.conf".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/fontconfig/fonts.conf";

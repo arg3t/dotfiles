@@ -31,7 +31,7 @@ let
 
              { key = "K", mods = "Alt|Shift", action = "IncreaseFontSize" },
              { key = "J", mods = "Alt|Shift", action = "DecreaseFontSize" },
-             { key = "Return", mods = "Shift", chars = "\u001b\r" },
+             { key = "Return", mods = "Shift", chars = "\\u001b\\r" },
           ]
 
         [colors.primary]
@@ -101,17 +101,6 @@ let
         color = "#f5e0dc"
 
       '';
-    };
-
-    programs.tmux = {
-      enable = true;
-      plugins = [
-        {
-          plugin = pkgs.tmuxPlugins.catppuccin;
-          extraConfig = "set -g @catppuccin_flavor 'mocha'";
-        }
-      ];
-      extraConfig = builtins.readFile ../../.config/tmux/tmux.conf;
     };
   };
 in

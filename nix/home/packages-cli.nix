@@ -1,4 +1,4 @@
-{ pkgs, username ? "yeet", standaloneHome ? false, ... }:
+{ pkgs, lib, username ? "yeet", standaloneHome ? false, ... }:
 
 let
   userConfig = {
@@ -21,11 +21,11 @@ let
       file
       fastfetch
       magic-wormhole
-      (python3.withPackages (ps: with ps; [
-        pygobject3
-        pydbus
-        requests
-      ]))
+      (python3.withPackages (ps: with ps; [ requests ]
+        ++ lib.optionals pkgs.stdenv.isLinux [
+          pygobject3
+          pydbus
+        ]))
     ];
   };
 in
