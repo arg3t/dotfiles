@@ -84,7 +84,6 @@
     enable = true;
     settings = {
       config-version = 2;
-      auto-reload-config = true;
       automatically-unhide-macos-hidden-apps = true;
       default-root-container-layout = "tiles";
       default-root-container-orientation = "auto";
