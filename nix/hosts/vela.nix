@@ -126,10 +126,10 @@
       GloballyEnabled = false;
       EnableStandardClickToShowDesktop = false;
     };
-    universalaccess = {
-      # Makes switching desktops near-instant instead of a slow slide.
-      reduceMotion = true;
-    };
+    # NOTE: `universalaccess` (Reduce Motion) is deliberately not managed here.
+    # That domain is SIP-protected and `defaults write` fails during activation
+    # unless the whole terminal is granted Full Disk Access. Toggle it by hand:
+    # System Settings -> Accessibility -> Display -> Reduce motion.
   };
 
   users.users."yigit.colakoglu" = {
