@@ -1,5 +1,9 @@
 set dotenv-load := false
 
+# `nh` speaks a different dialect per platform: `nh darwin` drives nix-darwin,
+# `nh os` drives NixOS. Detect it once instead of per recipe.
+nh_target := if os() == "macos" { "darwin" } else { "os" }
+
 # Show available recipes
 default:
     @just --list
@@ -23,17 +27,18 @@ fmt:
 build:
     nom build ./nix#oh-my-pi
 
-# Update flake inputs and check the result
-update:
-    nix flake update ./nix
-    nix flake check ./nix
-
-# Switch to the NixOS configuration for this machine
+# Switch to the nix-darwin (macOS) or NixOS configuration for this machine
 switch:
-    nh os switch ./nix
+    nh {{ nh_target }} switch ./nix
 
-# Build the NixOS configuration for next boot
+# Build the NixOS configuration for next boot (NixOS only)
 boot:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [ "{{ os() }}" = "macos" ]; then
+      echo "boot: nix-darwin has no boot generation; use 'just switch'" >&2
+      exit 1
+    fi
     nh os boot ./nix
 
 # Remove old Nix generations and garbage while keeping recent rollbacks

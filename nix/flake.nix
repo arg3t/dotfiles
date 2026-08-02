@@ -61,6 +61,10 @@
         pkgs = nixpkgs.legacyPackages.${linuxSystem};
       };
 
+      packages.${darwinSystem} = import ./pkgs {
+        pkgs = nixpkgs.legacyPackages.${darwinSystem};
+      };
+
       overlays.default = final: prev: {
         our = import ./pkgs { pkgs = final; };
       };
