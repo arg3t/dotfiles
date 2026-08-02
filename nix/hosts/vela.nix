@@ -16,10 +16,9 @@
     ../home/backgrounds.nix
   ];
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "raycast" ];
 
   environment.systemPackages = with pkgs; [
-    our.raycast
+    our.maccy
     zed-editor
     vscodium
   ];
@@ -35,6 +34,16 @@
 
   home-manager.users."yigit.colakoglu" = {
     home.sessionVariables.TERMINAL = lib.mkForce "kitty";
+
+    # Maccy's native defaults: start at login and use its standard
+    # Shift-Command-C clipboard-history shortcut.
+    targets.darwin.defaults."org.p0deje.Maccy" = {
+      launchAtLogin = true;
+      enabled = true;
+      hotKey = "⇧⌘C";
+      pasteByDefault = true;
+      removeFormattingByDefault = false;
+    };
 
     programs.alacritty.enable = lib.mkForce false;
     programs.kitty = {
@@ -104,7 +113,7 @@
 
       mode.main.binding = {
         alt-enter = "exec-and-forget open -na Kitty";
-        alt-d = "exec-and-forget open -a Raycast";
+        alt-d = "exec-and-forget open -a Spotlight";
         alt-q = "close";
         alt-f = "fullscreen";
         alt-shift-space = "layout floating tiling";
@@ -167,7 +176,7 @@
         { "if".app-id = "com.vscodium"; run = "move-node-to-workspace 3"; }
         { "if".app-id = "com.apple.finder"; run = "layout floating"; }
         { "if".app-id = "com.apple.systempreferences"; run = "layout floating"; }
-        { "if".app-id = "com.raycast.macos"; run = "layout floating"; }
+        { "if".app-id = "org.p0deje.Maccy"; run = "layout floating"; }
       ];
     };
   };
