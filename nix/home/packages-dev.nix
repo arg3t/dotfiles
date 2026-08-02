@@ -44,6 +44,9 @@ let
       attic-client
       lazygit
       delta
+      # gopls (packages-editor.nix) is useless without the toolchain itself,
+      # and GOPATH/$GOPATH/bin are already wired up in env.nix.
+      go
       rustup-without-rust-analyzer
       clang-driver-only
     ] ++ lib.optionals pkgs.stdenv.isLinux [
