@@ -73,6 +73,10 @@
         hide_window_decorations = "no";
         macos_quit_when_last_window_closed = "yes";
 
+        remember_window_size = "no";
+        initial_window_width = "120c";
+        initial_window_height = "34c";
+
         enabled_layouts = "splits,stack";
 
         background = "#1e1e2e";
@@ -107,6 +111,10 @@
         "alt+shift+k" = "change_font_size all +1.0";
         "alt+shift+j" = "change_font_size all -1.0";
         "shift+enter" = "send_text all \\x1b\\x0d";
+
+        "ctrl+shift+c" = "copy_to_clipboard";
+        "ctrl+shift+v" = "paste_from_clipboard";
+        "ctrl+shift+x" = "copy_and_clear_or_interrupt";
 
         "cmd+d" = "launch --location=vsplit --cwd=current";
         "cmd+shift+d" = "launch --location=hsplit --cwd=current";

@@ -127,21 +127,29 @@ local function binPath(name)
   return nil
 end
 
+-- Tasks inherit Hammerspoon's own working directory (~/.hammerspoon), which is
+-- not where you want a shell to start.
 local function run(name, args)
   local bin = binPath(name)
   if not bin then
     hs.alert.show(name .. " not found")
     return
   end
-  hs.task.new(bin, nil, args):start()
+  local task = hs.task.new(bin, nil, args)
+  task:setWorkingDirectory(os.getenv("HOME"))
+  task:start()
 end
 
 hs.hotkey.bind(mod, "s", function()
   run("kitten", { "quick-access-terminal" })
 end)
 
+hs.hotkey.bind(mod, "c", function()
+  hs.application.launchOrFocus("SuperCmd")
+end)
+
 hs.hotkey.bind(mod, "return", function()
-  run("kitty", { "--single-instance" })
+  run("kitty", { "--single-instance", "--directory", os.getenv("HOME") })
   hs.timer.doAfter(0.3, function()
     local app = hs.application.get("kitty")
     if app then
@@ -149,6 +157,41 @@ hs.hotkey.bind(mod, "return", function()
     end
   end)
 end)
+
+-- Ctrl+C/V/X behave like they do everywhere that is not macOS, except in
+-- terminals, where ctrl+c must stay SIGINT. Terminals use ctrl+shift+c/v.
+local terminalApps = {
+  ["kitty"] = true,
+  ["Terminal"] = true,
+  ["iTerm2"] = true,
+  ["WezTerm"] = true,
+  ["Alacritty"] = true,
+}
+
+local clipboardKeys = { c = true, v = true, x = true }
+
+clipboardRemap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
+  local flags = event:getFlags()
+  if not flags.ctrl or flags.cmd or flags.alt or flags.shift or flags.fn then
+    return false
+  end
+
+  local key = hs.keycodes.map[event:getKeyCode()]
+  if not clipboardKeys[key] then
+    return false
+  end
+
+  local app = hs.application.frontmostApplication()
+  if app and terminalApps[app:name()] then
+    return false
+  end
+
+  return true, {
+    hs.eventtap.event.newKeyEvent({ "cmd" }, key, true),
+    hs.eventtap.event.newKeyEvent({ "cmd" }, key, false),
+  }
+end)
+clipboardRemap:start()
 
 hs.hotkey.bind(modShift, "i", function()
   local spaces = userSpaces()
