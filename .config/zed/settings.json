@@ -7,6 +7,11 @@
 // custom settings, run the `zed: Open Default Settings` command
 // from the command palette
 {
+  "agent_servers": {
+    "cursor": {
+      "type": "registry"
+    }
+  },
   "auto_install_extensions": {
     "catppuccin": true,
     "nix": true,
