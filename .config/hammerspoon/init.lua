@@ -5,19 +5,48 @@ local workspaceCount = 9
 
 hs.window.animationDuration = 0
 
-local function userSpaces()
-  local spaces = hs.spaces.spacesForScreen(hs.screen.mainScreen())
-  if not spaces then
-    return {}
-  end
+local function screenSpaces()
+  return hs.spaces.spacesForScreen(hs.screen.mainScreen()) or {}
+end
 
+local function userSpaces()
   local result = {}
-  for _, spaceID in ipairs(spaces) do
+  for _, spaceID in ipairs(screenSpaces()) do
     if hs.spaces.spaceType(spaceID) == "user" then
       table.insert(result, spaceID)
     end
   end
   return result
+end
+
+local function indexOf(list, value)
+  for i, item in ipairs(list) do
+    if item == value then
+      return i
+    end
+  end
+  return nil
+end
+
+-- ctrl+left/right are enabled by default, unlike ctrl+<number>, so walking one
+-- space at a time always works. Steps are chained rather than sent in a burst
+-- because macOS drops keystrokes that arrive mid-transition.
+local function stepToward(target, budget)
+  if budget <= 0 or hs.spaces.focusedSpace() == target then
+    return
+  end
+
+  local all = screenSpaces()
+  local from = indexOf(all, hs.spaces.focusedSpace())
+  local to = indexOf(all, target)
+  if not from or not to or from == to then
+    return
+  end
+
+  hs.eventtap.keyStroke({ "ctrl" }, to > from and "right" or "left", 0)
+  hs.timer.doAfter(0.12, function()
+    stepToward(target, budget - 1)
+  end)
 end
 
 local function gotoWorkspace(index)
@@ -31,15 +60,14 @@ local function gotoWorkspace(index)
   end
 
   hs.eventtap.keyStroke({ "ctrl" }, tostring(index), 0)
-
-  -- Falls back to the API when the native ctrl+<n> shortcut is disabled.
-  hs.timer.doAfter(0.25, function()
-    if hs.spaces.focusedSpace() ~= target then
-      hs.spaces.gotoSpace(target)
-    end
+  hs.timer.doAfter(0.15, function()
+    stepToward(target, #screenSpaces())
   end)
 end
 
+-- hs.spaces.moveWindowToSpace has been broken since macOS 15: it returns true
+-- and does nothing. Dragging the title bar while switching spaces is what a
+-- human would do, and it still works.
 local function moveWindowToWorkspace(index)
   local win = hs.window.focusedWindow()
   if not win then
@@ -51,15 +79,25 @@ local function moveWindowToWorkspace(index)
     hs.alert.show("No desktop " .. index .. " — add it in Mission Control")
     return
   end
-
-  local ok, err = hs.spaces.moveWindowToSpace(win, target)
-  if not ok then
-    hs.alert.show("Move failed: " .. tostring(err))
+  if hs.spaces.focusedSpace() == target then
     return
   end
 
+  local frame = win:frame()
+  local origin = hs.mouse.absolutePosition()
+  local grab = { x = frame.x + frame.w / 2, y = frame.y + 8 }
+  local events = hs.eventtap.event
+
+  win:focus()
+  events.newMouseEvent(events.types.leftMouseDown, grab):post()
+  hs.timer.usleep(60000)
+  events.newMouseEvent(events.types.leftMouseDragged, { x = grab.x, y = grab.y + 2 }):post()
+
   gotoWorkspace(index)
-  hs.timer.doAfter(0.4, function()
+
+  hs.timer.doAfter(0.9, function()
+    events.newMouseEvent(events.types.leftMouseUp, { x = grab.x, y = grab.y + 2 }):post()
+    hs.mouse.absolutePosition(origin)
     win:focus()
   end)
 end
@@ -115,13 +153,7 @@ end)
 hs.hotkey.bind(modShift, "i", function()
   local spaces = userSpaces()
   local current = hs.spaces.focusedSpace()
-  local index = "?"
-  for i, spaceID in ipairs(spaces) do
-    if spaceID == current then
-      index = tostring(i)
-    end
-  end
-  hs.alert.show(("desktop %s of %d"):format(index, #spaces))
+  hs.alert.show(("desktop %s of %d"):format(indexOf(spaces, current) or "?", #spaces))
 end)
 
 hs.hotkey.bind(modShift, "r", hs.reload)
