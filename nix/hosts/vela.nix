@@ -23,6 +23,13 @@
     vscodium
   ];
 
+  # nix-darwin takes ownership of /etc/nix/nix.conf after the initial
+  # migration, so keep the flake features enabled in the generated file.
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
   home-manager.users."yigit.colakoglu" = {
     home.sessionVariables.TERMINAL = lib.mkForce "kitty";
 
