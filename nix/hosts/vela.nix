@@ -23,7 +23,7 @@
     vscodium
   ];
 
-  home-manager.users.yeet = {
+  home-manager.users."yigit.colakoglu" = {
     home.sessionVariables.TERMINAL = lib.mkForce "kitty";
 
     programs.alacritty.enable = lib.mkForce false;
@@ -186,12 +186,12 @@
     };
   };
 
-  users.users.yeet = {
-    home = "/Users/yeet";
+  users.users."yigit.colakoglu" = {
+    home = "/Users/yigit.colakoglu";
     shell = pkgs.zsh;
   };
 
-  system.primaryUser = "yeet";
+  system.primaryUser = "yigit.colakoglu";
 
   programs.zsh.enable = true;
 

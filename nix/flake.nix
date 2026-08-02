@@ -121,8 +121,8 @@
         system = darwinSystem;
         specialArgs = {
           inherit inputs;
-          username = "yeet";
-          homeDirectory = "/Users/yeet";
+          username = "yigit.colakoglu";
+          homeDirectory = "/Users/yigit.colakoglu";
           standaloneHome = false;
         };
         modules = [
