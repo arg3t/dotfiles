@@ -265,15 +265,59 @@ end)
 -- Ctrl+C/V/X/W behave like they do everywhere that is not macOS, except in
 -- terminals, where ctrl+c must stay SIGINT and ctrl+w deletes a word.
 -- Terminals use ctrl+shift+c/v.
+-- Match terminals by bundle identifier, not display name: a kitty quake panel
+-- reports an unstable name (kitty / .kitty-wrapped / nothing) but always keeps
+-- the same bundle id, and a non-activating overlay may not be the frontmost app
+-- at all, so we also consult the focused window's owner.
+local terminalBundles = {
+  ["net.kovidgoyal.kitty"] = true,
+  ["net.kovidgoyal.kitty-quick-access"] = true,
+  ["com.apple.Terminal"] = true,
+  ["com.googlecode.iterm2"] = true,
+  ["com.github.wez.wezterm"] = true,
+  ["org.alacritty"] = true,
+}
+
 local terminalApps = {
   ["kitty"] = true,
+  ["kitty-quick-access"] = true,
+  [".kitty-wrapped"] = true,
   ["Terminal"] = true,
   ["iTerm2"] = true,
   ["WezTerm"] = true,
   ["Alacritty"] = true,
 }
 
-local remapKeys = { c = true, v = true, x = true, w = true }
+local function appIsTerminal(app)
+  if not app then
+    return false
+  end
+  local bundle = app.bundleID and app:bundleID()
+  if bundle and terminalBundles[bundle] then
+    return true
+  end
+  return terminalApps[app:name()] == true
+end
+
+local function isTerminalFocused()
+  if appIsTerminal(hs.application.frontmostApplication()) then
+    return true
+  end
+  local win = hs.window.focusedWindow()
+  return appIsTerminal(win and win:application())
+end
+
+-- Each entry maps a ctrl+<key> chord to the macOS modifier that produces the
+-- same intent: cmd for clipboard/select-all, alt for word-wise arrow motion.
+local remapKeys = {
+  c = "cmd",
+  v = "cmd",
+  x = "cmd",
+  w = "cmd",
+  a = "cmd",
+  left = "alt",
+  right = "alt",
+}
 
 ctrlRemap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
   local flags = event:getFlags()
@@ -282,21 +326,118 @@ ctrlRemap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
   end
 
   local key = hs.keycodes.map[event:getKeyCode()]
-  if not remapKeys[key] then
+  local target = remapKeys[key]
+  if not target then
     return false
   end
 
-  local app = hs.application.frontmostApplication()
-  if app and terminalApps[app:name()] then
+  if isTerminalFocused() then
     return false
   end
 
   return true, {
-    hs.eventtap.event.newKeyEvent({ "cmd" }, key, true),
-    hs.eventtap.event.newKeyEvent({ "cmd" }, key, false),
+    hs.eventtap.event.newKeyEvent({ target }, key, true),
+    hs.eventtap.event.newKeyEvent({ target }, key, false),
   }
 end)
 ctrlRemap:start()
+
+-- App-specific ctrl remaps. Unlike ctrlRemap above (which only fires when ctrl
+-- is the sole modifier and blanket-maps to cmd), these target one app at a time
+-- and can translate to arbitrary modifier combos, so ctrl+shift+p can become
+-- cmd+shift+p. Each entry: appName -> list of { from = {mods, key}, to = {mods, key} }.
+local appKeyRemaps = {
+  ["firefox"] = {
+    { from = { {}, "f" }, to = { { "cmd" }, "f" } },
+  },
+  ["Google Chrome"] = {
+    { from = { {}, "f" }, to = { { "cmd" }, "f" } },
+  },
+  ["Zed"] = {
+    { from = { {}, "p" }, to = { { "cmd" }, "p" } },
+    { from = { { "shift" }, "p" }, to = { { "cmd", "shift" }, "p" } },
+  },
+  ["Cursor"] = {
+    { from = { {}, "p" }, to = { { "cmd" }, "p" } },
+    { from = { { "shift" }, "p" }, to = { { "cmd", "shift" }, "p" } },
+  },
+}
+
+-- Firefox reports its app name as "firefox" via the running-application API even
+-- though the bundle is "Firefox"; match both to be safe.
+local appNameAliases = {
+  ["Firefox"] = "firefox",
+}
+
+local function modsMatch(flags, wanted)
+  local want = { ctrl = true }
+  for _, m in ipairs(wanted) do
+    want[m] = true
+  end
+  for _, m in ipairs({ "cmd", "alt", "shift", "fn" }) do
+    if (flags[m] and true or false) ~= (want[m] and true or false) then
+      return false
+    end
+  end
+  return flags.ctrl == true
+end
+
+appCtrlRemap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
+  local flags = event:getFlags()
+  if not flags.ctrl then
+    return false
+  end
+
+  local app = hs.application.frontmostApplication()
+  if not app then
+    return false
+  end
+  local name = app:name()
+  name = appNameAliases[name] or name
+
+  local rules = appKeyRemaps[name]
+  if not rules then
+    return false
+  end
+
+  local key = hs.keycodes.map[event:getKeyCode()]
+  for _, rule in ipairs(rules) do
+    if key == rule.from[2] and modsMatch(flags, rule.from[1]) then
+      return true, {
+        hs.eventtap.event.newKeyEvent(rule.to[1], rule.to[2], true),
+        hs.eventtap.event.newKeyEvent(rule.to[1], rule.to[2], false),
+      }
+    end
+  end
+
+  return false
+end)
+appCtrlRemap:start()
+
+-- Ctrl+click opens a link in a new tab in Firefox by translating the click to
+-- cmd+click (the macOS "background tab" chord). Only the ctrl modifier may be
+-- held, and only when Firefox is frontmost.
+local mouseTabApps = {
+  ["firefox"] = true,
+  ["Firefox"] = true,
+  ["Google Chrome"] = true,
+}
+
+ctrlClickRemap = hs.eventtap.new({ hs.eventtap.event.types.leftMouseDown }, function(event)
+  local flags = event:getFlags()
+  if not flags.ctrl or flags.cmd or flags.alt or flags.shift or flags.fn then
+    return false
+  end
+
+  local app = hs.application.frontmostApplication()
+  if not (app and mouseTabApps[app:name()]) then
+    return false
+  end
+
+  event:setFlags({ cmd = true })
+  return false
+end)
+ctrlClickRemap:start()
 
 -- Menu bar indicator: the current desktop as D1, D2, ...
 desktopIndicator = hs.menubar.new(true, "hammerspoonDesktops")
@@ -342,6 +483,21 @@ hs.hotkey.bind(modShift, "i", function()
   local spaces = userSpaces()
   local current = hs.spaces.focusedSpace()
   hs.alert.show(("desktop %s of %d"):format(indexOf(spaces, current) or "?", #spaces))
+end)
+
+hs.hotkey.bind(modShift, "d", function()
+  local app = hs.application.frontmostApplication()
+  local function describe(a)
+    if not a then return "?" end
+    local b = a.bundleID and a:bundleID() or "?"
+    return (a:name() or "?") .. " [" .. (b or "?") .. "]"
+  end
+  local win = hs.window.focusedWindow()
+  hs.alert.show(
+    "frontmost: " .. describe(app)
+    .. "  |  focused-win: " .. describe(win and win:application())
+    .. "  |  terminal? " .. tostring(isTerminalFocused())
+  )
 end)
 
 hs.hotkey.bind(modShift, "r", hs.reload)

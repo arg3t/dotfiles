@@ -31,6 +31,9 @@
 
   fonts.packages = [ pkgs.nerd-fonts.caskaydia-cove ];
 
+  nixpkgs.config.allowUnfreePredicate =
+    pkg: builtins.elem (lib.getName pkg) [ "claude-code" ];
+
   nix.settings = {
     experimental-features = [
       "nix-command"
@@ -43,6 +46,11 @@
   };
 
   home-manager.users."yigit.colakoglu" = { config, ... }: {
+    home.packages = with pkgs; [
+      codex
+      claude-code
+    ];
+
     home.sessionVariables.TERMINAL = lib.mkForce "kitty";
 
     home.file.".hammerspoon/init.lua".source =
@@ -121,9 +129,50 @@
         "ctrl+shift+v" = "paste_from_clipboard";
         "ctrl+shift+x" = "copy_and_clear_or_interrupt";
 
-        "cmd+d" = "launch --location=vsplit --cwd=current";
-        "cmd+shift+d" = "launch --location=hsplit --cwd=current";
-        "cmd+shift+f" = "toggle_layout stack";
+        # Cmd behaves as Alt/Meta in the terminal: Cmd+x -> ESC+x (\x1b<char>).
+        # Full cmd-as-alt; the former cmd+d/cmd+shift+d/cmd+shift+f splits are
+        # dropped in favor of this. Copy/paste stay on ctrl+shift+c/v above.
+        "cmd+a" = "send_text all \\x1ba";
+        "cmd+b" = "send_text all \\x1bb";
+        "cmd+c" = "send_text all \\x1bc";
+        "cmd+d" = "send_text all \\x1bd";
+        "cmd+e" = "send_text all \\x1be";
+        "cmd+f" = "send_text all \\x1bf";
+        "cmd+g" = "send_text all \\x1bg";
+        "cmd+h" = "send_text all \\x1bh";
+        "cmd+i" = "send_text all \\x1bi";
+        "cmd+j" = "send_text all \\x1bj";
+        "cmd+k" = "send_text all \\x1bk";
+        "cmd+l" = "send_text all \\x1bl";
+        "cmd+m" = "send_text all \\x1bm";
+        "cmd+n" = "send_text all \\x1bn";
+        "cmd+o" = "send_text all \\x1bo";
+        "cmd+p" = "send_text all \\x1bp";
+        "cmd+q" = "send_text all \\x1bq";
+        "cmd+r" = "send_text all \\x1br";
+        "cmd+s" = "send_text all \\x1bs";
+        "cmd+t" = "send_text all \\x1bt";
+        "cmd+u" = "send_text all \\x1bu";
+        "cmd+v" = "send_text all \\x1bv";
+        "cmd+w" = "send_text all \\x1bw";
+        "cmd+x" = "send_text all \\x1bx";
+        "cmd+y" = "send_text all \\x1by";
+        "cmd+z" = "send_text all \\x1bz";
+        "cmd+0" = "send_text all \\x1b0";
+        "cmd+1" = "send_text all \\x1b1";
+        "cmd+2" = "send_text all \\x1b2";
+        "cmd+3" = "send_text all \\x1b3";
+        "cmd+4" = "send_text all \\x1b4";
+        "cmd+5" = "send_text all \\x1b5";
+        "cmd+6" = "send_text all \\x1b6";
+        "cmd+7" = "send_text all \\x1b7";
+        "cmd+8" = "send_text all \\x1b8";
+        "cmd+9" = "send_text all \\x1b9";
+        "cmd+period" = "send_text all \\x1b.";
+        "cmd+comma" = "send_text all \\x1b,";
+        "cmd+slash" = "send_text all \\x1b/";
+        "cmd+minus" = "send_text all \\x1b-";
+        "cmd+backspace" = "send_text all \\x1b\\x7f";
         "ctrl+cmd+h" = "neighboring_window left";
         "ctrl+cmd+j" = "neighboring_window down";
         "ctrl+cmd+k" = "neighboring_window up";

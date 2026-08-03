@@ -32,6 +32,16 @@ let
     '';
   };
 
+  # bazelisk honors each repo's .bazelversion, but the nixpkgs package ships
+  # only `bin/bazelisk`. Add a `bazel` symlink so the usual `bazel ...` works.
+  bazelisk-with-bazel = pkgs.symlinkJoin {
+    name = "bazelisk-${pkgs.bazelisk.version}";
+    paths = [ pkgs.bazelisk ];
+    postBuild = ''
+      ln -s bazelisk $out/bin/bazel
+    '';
+  };
+
   userConfig = {
     home.packages = with pkgs; [
       awscli2
@@ -47,6 +57,19 @@ let
       go
       rustup-without-rust-analyzer
       clang-driver-only
+
+      # Language runtimes / package managers (cargo via rustup, go above).
+      nodejs
+      bun
+      uv # python env + package manager (python3 itself ships via packages-cli)
+
+      # C/C++ build tooling (compiler is clang-driver-only above; clangd is in
+      # packages-editor). mold linker is added on Linux below.
+      cmake
+      ninja
+      gnumake
+      pkg-config
+      bazelisk-with-bazel # bazel + bazelisk (build system)
     ] ++ lib.optionals pkgs.stdenv.isLinux [
       mold
     ];
