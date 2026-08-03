@@ -7,6 +7,18 @@
 }:
 
 let
+  # Filtered at download time rather than at display time, so `rsync --delete`
+  # also removes any copy synced before the exclusion existed.
+  excludedBackgrounds = lib.optionals pkgs.stdenv.isDarwin [ "think-different.png" ];
+
+  # Carries its own newline and indentation so that hosts with nothing to
+  # exclude generate exactly the script they did before.
+  excludeClause = lib.optionalString (excludedBackgrounds != [ ]) (
+    "\n      case \"$(basename \"$file_path\")\" in "
+    + lib.concatMapStringsSep "|" (name: "'${name}'") excludedBackgrounds
+    + ") continue ;; esac"
+  );
+
   syncBackgrounds = pkgs.writeShellApplication {
     name = "sync-backgrounds";
     runtimeInputs = with pkgs; [
@@ -40,7 +52,7 @@ let
             child_path=$(printf '%s\n' "$entry" | jq -r '.folder_path')
             fetch_dir "$child_path"
           else
-            file_path=$(printf '%s\n' "$entry" | jq -r '.file_path')
+            file_path=$(printf '%s\n' "$entry" | jq -r '.file_path')${excludeClause}
             rel_path=''${file_path#/}
             dest="$tmp/$rel_path"
             mkdir -p "$(dirname "$dest")"
@@ -86,12 +98,14 @@ let
 
       # System Events only reaches the space that is currently visible on each
       # display, so Hammerspoon re-applies the same image on every space change.
-      if [ "''${1:-}" = "--reapply" ]; then
-        [ -f "$state" ] || exit 0
+      if [ "''${1:-}" = "--reapply" ] && [ -f "$state" ]; then
         wallpaper=$(cat "$state")
-        [ -f "$wallpaper" ] || exit 0
-        apply "$wallpaper"
-        exit 0
+        # A wallpaper that has since been excluded or removed falls through to
+        # a fresh pick instead of leaving the stale image on screen.
+        if [ -f "$wallpaper" ]; then
+          apply "$wallpaper"
+          exit 0
+        fi
       fi
 
       hour=$(date +%H)
