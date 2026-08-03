@@ -4,7 +4,6 @@
   lib,
   username ? "yeet",
   standaloneHome ? false,
-  arca ? false,
   ...
 }:
 
@@ -41,7 +40,7 @@ let
           file = "powerlevel10k.zsh-theme";
         }
       ]
-      ++ lib.optional (!arca) {
+      ++ lib.optional (username != "yigit.colakoglu") {
         name = "fzf-tab";
         src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
         file = "fzf-tab.plugin.zsh";

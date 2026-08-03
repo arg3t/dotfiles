@@ -136,7 +136,6 @@
           username = "yigit.colakoglu";
           homeDirectory = "/home/yigit.colakoglu";
           standaloneHome = true;
-          arca = true;
         };
         modules = [ ./hosts/lyra.nix ];
       };
