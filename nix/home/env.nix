@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   username ? "yeet",
   standaloneHome ? false,
   ...
@@ -188,6 +189,6 @@ let
   };
 in
 if standaloneHome then
-  userConfig { inherit config; }
+  userConfig { inherit config lib; }
 else
   { home-manager.users.${username} = userConfig; }
