@@ -1,8 +1,5 @@
 set dotenv-load := false
 
-nh_target := if os() == "macos" { "darwin" } else { "os" }
-nh_host := if os() == "macos" { "--hostname vela" } else { "" }
-
 # Show available recipes
 default:
     @just --list
@@ -31,8 +28,13 @@ build:
     nom build ./nix#oh-my-pi
 
 # Switch to the nix-darwin (macOS) or NixOS configuration for this machine
-switch:
-    nh {{ nh_target }} switch {{ nh_host }} ./nix
+# Switch a NixOS or nix-darwin system configuration.
+switch target backend:
+    nh {{ backend }} switch --hostname {{ target }} ./nix
+
+# Switch a standalone Home Manager profile.
+home-switch profile:
+    home-manager switch --flake ./nix#{{ profile }}
 
 # Build the NixOS configuration for next boot (NixOS only)
 boot:

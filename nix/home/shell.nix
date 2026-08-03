@@ -4,6 +4,7 @@
   lib,
   username ? "yeet",
   standaloneHome ? false,
+  arca ? false,
   ...
 }:
 
@@ -39,11 +40,13 @@ let
           src = "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k";
           file = "powerlevel10k.zsh-theme";
         }
-        {
-          name = "fzf-tab";
-          src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
-          file = "fzf-tab.plugin.zsh";
-        }
+      ]
+      ++ lib.optional (!arca) {
+        name = "fzf-tab";
+        src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
+        file = "fzf-tab.plugin.zsh";
+      }
+      ++ [
         {
           name = "zsh-completions";
           src = "${pkgs.zsh-completions}/share/zsh/site-functions";
