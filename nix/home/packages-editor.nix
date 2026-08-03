@@ -31,8 +31,6 @@ let
       tree-sitter
       ripgrep
       fd
-    ] ++ lib.optionals pkgs.stdenv.isLinux [
-      gcc
     ];
 
     xdg.configFile."nvim".source =

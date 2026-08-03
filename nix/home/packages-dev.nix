@@ -63,15 +63,17 @@ let
       bun
       uv # python env + package manager (python3 itself ships via packages-cli)
 
-      # C/C++ build tooling (compiler is clang-driver-only above; clangd is in
-      # packages-editor). mold linker is added on Linux below.
+      # C/C++ toolchain. clang/clang++ come from clang-driver-only above;
+      # clangd + clang-tools and the cmake LSP live in packages-editor.
+      gcc
       cmake
       ninja
       gnumake
       pkg-config
+      lldb # LLVM debugger (works on macOS + Linux)
+      gdb # GNU debugger; on aarch64-darwin needs codesigning + arm64 support is limited
+      mold # fast ELF linker (Linux); on macOS it can't link Mach-O, kept for cross/ELF builds
       bazelisk-with-bazel # bazel + bazelisk (build system)
-    ] ++ lib.optionals pkgs.stdenv.isLinux [
-      mold
     ];
   };
 in
