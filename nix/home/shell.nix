@@ -40,7 +40,7 @@ let
           file = "powerlevel10k.zsh-theme";
         }
       ]
-      ++ lib.optional (username != "yigit.colakoglu") {
+      ++ lib.optional pkgs.stdenv.isDarwin {
         name = "fzf-tab";
         src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
         file = "fzf-tab.plugin.zsh";
