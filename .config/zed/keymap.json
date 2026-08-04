@@ -12,6 +12,11 @@
       "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
       "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
       "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
+      // same pane navigation on cmd (cmd-h/j/k/l shadow Hide/panel/chord/line-select)
+      "cmd-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "cmd-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "cmd-j": ["workspace::ActivatePaneInDirection", "Down"],
       "alt-c": "pane::CloseActiveItem",
       "alt-,": "pane::ActivatePrevItem",
       "alt-.": "pane::ActivateNextItem"

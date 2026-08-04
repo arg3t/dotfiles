@@ -55,6 +55,11 @@
 
     home.file.".hammerspoon/init.lua".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hammerspoon/init.lua";
+    home.file.".hammerspoon/config.lua".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hammerspoon/config.lua";
+
+    home.file.".hammerspoon/modules".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hammerspoon/modules";
 
     xdg.configFile."kitty/quick-access-terminal.conf".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/kitty/quick-access-terminal.conf";
@@ -117,12 +122,12 @@
         color15 = "#a6adc8";
       };
       keybindings = {
-        "alt+k" = "scroll_page_up";
-        "alt+j" = "scroll_page_down";
+        "cmd+k" = "scroll_page_up";
+        "cmd+j" = "scroll_page_down";
         "alt+u" = "scroll_page_up";
         "alt+d" = "scroll_page_down";
-        "alt+shift+k" = "change_font_size all +1.0";
-        "alt+shift+j" = "change_font_size all -1.0";
+        "cmd+shift+k" = "change_font_size all +1.0";
+        "cmd+shift+j" = "change_font_size all -1.0";
         "shift+enter" = "send_text all \\x1b\\x0d";
 
         "ctrl+shift+c" = "copy_to_clipboard";
@@ -130,8 +135,8 @@
         "ctrl+shift+x" = "copy_and_clear_or_interrupt";
 
         # Cmd behaves as Alt/Meta in the terminal: Cmd+x -> ESC+x (\x1b<char>).
-        # Full cmd-as-alt; the former cmd+d/cmd+shift+d/cmd+shift+f splits are
-        # dropped in favor of this. Copy/paste stay on ctrl+shift+c/v above.
+        # Exceptions: cmd+j/k and cmd+shift+j/k are scroll/resize (above), and
+        # copy/paste stay on ctrl+shift+c/v. Former cmd split binds were dropped.
         "cmd+a" = "send_text all \\x1ba";
         "cmd+b" = "send_text all \\x1bb";
         "cmd+c" = "send_text all \\x1bc";
@@ -141,8 +146,6 @@
         "cmd+g" = "send_text all \\x1bg";
         "cmd+h" = "send_text all \\x1bh";
         "cmd+i" = "send_text all \\x1bi";
-        "cmd+j" = "send_text all \\x1bj";
-        "cmd+k" = "send_text all \\x1bk";
         "cmd+l" = "send_text all \\x1bl";
         "cmd+m" = "send_text all \\x1bm";
         "cmd+n" = "send_text all \\x1bn";
@@ -184,6 +187,10 @@
   system.defaults = {
     NSGlobalDomain = {
       NSWindowShouldDragOnGesture = true;
+      # Fast key repeat matching Hyprland (repeat_delay = 180, repeat_rate = 40).
+      # Units are ~15ms; InitialKeyRepeat = 12 -> 180ms, KeyRepeat = 2 -> ~30ms/repeat.
+      InitialKeyRepeat = 12;
+      KeyRepeat = 2;
     };
     dock = {
       autohide = true;

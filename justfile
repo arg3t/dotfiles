@@ -27,9 +27,13 @@ fmt:
 build:
     nom build ./nix#oh-my-pi
 
-# Switch to the nix-darwin (macOS) or NixOS configuration for this machine
+# Auto-detected nh backend + this machine's system config (one full-system
+# config per OS). Pass args explicitly to override on exception machines.
+default_backend := if os() == "macos" { "darwin" } else { "os" }
+default_host    := if os() == "macos" { "vela" } else { "ursa" }
+
 # Switch a NixOS or nix-darwin system configuration.
-switch target backend:
+switch target=default_host backend=default_backend:
     nh {{ backend }} switch --hostname {{ target }} ./nix
 
 # Switch a standalone Home Manager profile.

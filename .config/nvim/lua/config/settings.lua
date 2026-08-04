@@ -32,6 +32,12 @@ vim.cmd('nohlsearch')
 vim.opt.scrolloff = 5
 vim.opt.sidescrolloff = 10
 
+-- Mouse support with natural (macOS-style) scroll direction.
+-- Wheel is enabled but inverted so nvim matches the terminal's natural scrolling.
+vim.opt.mouse = "a"
+vim.keymap.set({ "n", "v", "i" }, "<ScrollWheelUp>", "<ScrollWheelDown>", { remap = true })
+vim.keymap.set({ "n", "v", "i" }, "<ScrollWheelDown>", "<ScrollWheelUp>", { remap = true })
+
 vim.opt.shortmess:append("c")
 vim.opt.updatetime = 300
 
