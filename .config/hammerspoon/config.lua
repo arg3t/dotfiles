@@ -2,26 +2,6 @@ local M = {
   mod = { "alt" },
   modShift = { "alt", "shift" },
 
-  builtInWorkspaceCount = 4,
-  peripheralWorkspaceCount = 3,
-
-  desktopMapping = {
-    { key = "1", monitor = "peripheral", index = 1, space = 1 },
-    { key = "2", monitor = "peripheral", index = 2, space = 1 },
-    { key = "3", monitor = "builtin", space = 1 },
-    { key = "4", monitor = "peripheral", index = 1, space = 2 },
-    { key = "5", monitor = "peripheral", index = 1, space = 3 },
-    { key = "6", monitor = "peripheral", index = 2, space = 2 },
-    { key = "7", monitor = "peripheral", index = 2, space = 3 },
-    { key = "8", monitor = "builtin", space = 2 },
-    { key = "9", monitor = "builtin", space = 3 },
-    { key = "0", monitor = "builtin", space = 4 },
-  },
-
-  noSnapApps = {
-    ["SuperCmd"] = true,
-  },
-
   terminalBundles = {
     ["net.kovidgoyal.kitty"] = true,
     ["net.kovidgoyal.kitty-quick-access"] = true,
@@ -48,8 +28,8 @@ local M = {
     x = "cmd",
     w = "cmd",
     a = "cmd",
-    -- No left/right here: alt+arrow is PaperWM's focus hotkey (modules/tiling.lua),
-    -- so rewriting ctrl+arrow onto it moves window focus instead of the cursor.
+    -- No left/right here: alt+arrow is AeroSpace's focus hotkey, so rewriting
+    -- ctrl+arrow onto it would move window focus instead of the cursor.
     -- ctrl+arrow word motion is bound natively in Cursor and Zed instead.
     -- backspace: macOS spells delete-word-backward as alt+delete, so this is what
     -- makes ctrl+backspace delete a word in Cursor, Zed and the browsers alike.
@@ -77,8 +57,8 @@ local M = {
   -- alt/ctrl bindings are reachable with the mac modifier. Only the listed keys are
   -- rewritten; everything else keeps its macOS meaning (cmd+c/v/x/s/w/p/tab untouched).
   -- Shift is preserved: cmd+shift+, -> alt+shift+,
-  -- Do NOT map digits, c, s, x, f, q, return or arrows to "alt": `mod` (alt) owns
-  -- those globally for workspaces/tiling/apps, so they never reach the app anyway.
+  -- Do NOT map to "alt" the keys that alt owns globally: digits, arrows, f and q
+  -- go to AeroSpace, and s, x, return go to apps.lua, so they never reach the app.
   cmdRemapKeys = {
     ["Cursor"] = {
       [","] = "alt", -- prev tab (cmd+shift+, moves tab left)

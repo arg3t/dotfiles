@@ -29,6 +29,108 @@
     remapCapsLockToEscape = true;
   };
 
+  # AeroSpace owns all window layout and workspaces (replaces the old
+  # Hammerspoon snapping + spaces.lua). The module installs the package and
+  # manages the launchd agent; Hammerspoon keeps only the input remaps.
+  services.aerospace = {
+    enable = true;
+    settings = {
+      config-version = 2;
+
+      gaps = {
+        inner = { horizontal = 8; vertical = 8; };
+        outer = { top = 8; bottom = 8; left = 8; right = 8; };
+      };
+
+      # Match spaces.lua's pointer-follows-display behavior.
+      on-focused-monitor-changed = [ "move-mouse monitor-lazy-center" ];
+
+      # SuperCmd was excluded from snapping (noSnapApps); keep it floating.
+      on-window-detected = [
+        {
+          "if".app-name-regex-substring = "SuperCmd";
+          run = [ "layout floating" ];
+        }
+      ];
+
+      # Keep the ten fixed desktops alive even when empty, like the old
+      # desktopMapping. Names 1-0 mirror the previous number-key desktops.
+      persistent-workspaces = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" "0" ];
+
+      # Reproduce desktopMapping's monitor pinning:
+      #   built-in owns 3,8,9,0 | external-1 owns 1,4,5 | external-2 owns 2,6,7.
+      # Verify the external monitor numbers with `aerospace list-monitors`.
+      workspace-to-monitor-force-assignment = {
+        "3" = "built-in";
+        "8" = "built-in";
+        "9" = "built-in";
+        "0" = "built-in";
+        "1" = 1;
+        "4" = 1;
+        "5" = 1;
+        "2" = 2;
+        "6" = 2;
+        "7" = 2;
+      };
+
+      # Replaces status.lua's per-Space wallpaper reapply.
+      exec-on-workspace-change = [
+        "/bin/zsh"
+        "-lc"
+        "set-darwin-background --reapply"
+      ];
+
+      mode.main.binding = {
+        # Focus a neighbor (was snapping's alt+arrow half-snap).
+        alt-left = "focus left";
+        alt-right = "focus right";
+        alt-up = "focus up";
+        alt-down = "focus down";
+
+        # Reorder the focused window in the tiling tree.
+        alt-shift-left = "move left";
+        alt-shift-right = "move right";
+        alt-shift-up = "move up";
+        alt-shift-down = "move down";
+
+        # Resize, layout, fullscreen (alt+f keeps the old maximize feel), close.
+        alt-minus = "resize smart -50";
+        alt-equal = "resize smart +50";
+        alt-slash = "layout tiles horizontal vertical";
+        alt-comma = "layout accordion horizontal vertical";
+        alt-f = "fullscreen";
+        alt-q = "close";
+
+        # Switch desktop (was gotoWorkspace's Ctrl+N synth).
+        alt-1 = "workspace 1";
+        alt-2 = "workspace 2";
+        alt-3 = "workspace 3";
+        alt-4 = "workspace 4";
+        alt-5 = "workspace 5";
+        alt-6 = "workspace 6";
+        alt-7 = "workspace 7";
+        alt-8 = "workspace 8";
+        alt-9 = "workspace 9";
+        alt-0 = "workspace 0";
+
+        # Move the focused window to a desktop (was the drag synth).
+        alt-shift-1 = "move-node-to-workspace 1";
+        alt-shift-2 = "move-node-to-workspace 2";
+        alt-shift-3 = "move-node-to-workspace 3";
+        alt-shift-4 = "move-node-to-workspace 4";
+        alt-shift-5 = "move-node-to-workspace 5";
+        alt-shift-6 = "move-node-to-workspace 6";
+        alt-shift-7 = "move-node-to-workspace 7";
+        alt-shift-8 = "move-node-to-workspace 8";
+        alt-shift-9 = "move-node-to-workspace 9";
+        alt-shift-0 = "move-node-to-workspace 0";
+
+        # Last desktop (was alt+.).
+        alt-period = "workspace-back-and-forth";
+      };
+    };
+  };
+
   fonts.packages = [ pkgs.nerd-fonts.caskaydia-cove ];
 
   nixpkgs.config.allowUnfreePredicate =
@@ -60,10 +162,6 @@
 
     home.file.".hammerspoon/modules".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hammerspoon/modules";
-
-    # PaperWM.spoon is pinned in the nix store (pkgs/paperwm), not vendored in
-    # the repo, so link it straight into Hammerspoon's Spoons search path.
-    home.file.".hammerspoon/Spoons/PaperWM.spoon".source = pkgs.our.paperwm;
 
     xdg.configFile."kitty/quick-access-terminal.conf".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/kitty/quick-access-terminal.conf";
@@ -209,6 +307,10 @@
       mru-spaces = false;
       show-recents = false;
     };
+    # AeroSpace recommends disabling "Displays have separate Spaces" (spans-displays
+    # = true) for stable focus/perf, since it does not use macOS Spaces. Takes
+    # effect after logout.
+    spaces.spans-displays = true;
     WindowManager = {
       GloballyEnabled = false;
       EnableStandardClickToShowDesktop = false;
@@ -222,16 +324,7 @@
 
   system.primaryUser = "yigit.colakoglu";
 
-  # zsh: the system /etc/zshrc otherwise runs a full, UNCACHED compinit and a
-  # `prompt suse` theme on every interactive shell. Both are redundant: the
-  # Home Manager .zshrc already runs a cached `compinit -C` and p10k owns the
-  # prompt. Disabling them removes ~0.2s warm (much more cold) per shell.
-  programs.zsh = {
-    enable = true;
-    enableGlobalCompInit = false;
-    enableBashCompletion = false;
-    promptInit = "";
-  };
+  programs.zsh.enable = true;
 
   system.stateVersion = 6;
 }

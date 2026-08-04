@@ -123,7 +123,7 @@ let
     home.packages = with pkgs; [
       fortune
       cowsay
-      lolcat
+      our.lolcrab
     ];
 
     programs.starship.enable = false;

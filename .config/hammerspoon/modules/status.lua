@@ -1,29 +1,70 @@
 local config = require("config")
-local spaces = require("modules.spaces")
-local apps = require("modules.apps")
 local keyboard = require("modules.keyboard")
 
 local M = {}
 
 local desktopIndicator
 
+-- Resolve the aerospace CLI (installed by the services.aerospace module).
+local function aerospaceBin()
+  local candidates = {
+    "/run/current-system/sw/bin/aerospace",
+    "/etc/profiles/per-user/" .. (os.getenv("USER") or "") .. "/bin/aerospace",
+    (os.getenv("HOME") or "") .. "/.nix-profile/bin/aerospace",
+    "/opt/homebrew/bin/aerospace",
+  }
+  for _, path in ipairs(candidates) do
+    if hs.fs.attributes(path) then
+      return path
+    end
+  end
+  return nil
+end
+
+local function aerospace(args)
+  local bin = aerospaceBin()
+  if not bin then
+    return nil
+  end
+  return hs.execute(bin .. " " .. args)
+end
+
+local function focusedWorkspace()
+  local out = aerospace("list-workspaces --focused")
+  if not out then
+    return nil
+  end
+  return (out:gsub("%s+$", ""))
+end
+
+local function allWorkspaces()
+  local out = aerospace("list-workspaces --all") or ""
+  local result = {}
+  for line in out:gmatch("[^\n]+") do
+    local name = line:gsub("%s+$", "")
+    if #name > 0 then
+      table.insert(result, name)
+    end
+  end
+  return result
+end
+
 local function refreshIndicator()
   if not desktopIndicator then
     return
   end
 
-  local targets = spaces.targets()
-  local current = spaces.indexForSpace(targets, hs.spaces.focusedSpace())
-
+  local current = focusedWorkspace()
   desktopIndicator:setTitle("D" .. (current or "?"))
 
   local menu = {}
-  for _, target in ipairs(targets) do
+  for _, name in ipairs(allWorkspaces()) do
     table.insert(menu, {
-      title = "Desktop " .. target.aliasIndex .. " (Option+" .. target.key .. ")",
-      checked = target.aliasIndex == current,
+      title = "Workspace " .. name,
+      checked = name == current,
       fn = function()
-        spaces.gotoWorkspace(target.key)
+        aerospace("workspace " .. name)
+        refreshIndicator()
       end,
     })
   end
@@ -42,24 +83,13 @@ function M.start()
   desktopIndicator = hs.menubar.new(true, "hammerspoonDesktops")
   M.desktopIndicator = desktopIndicator
 
-  local spaceWatcher = hs.spaces.watcher.new(function()
-    apps.run("set-darwin-background", { "--reapply" })
-    refreshIndicator()
-  end)
-  spaceWatcher:start()
-  M.spaceWatcher = spaceWatcher
-
-  local screenWatcher = hs.screen.watcher.newWithActiveScreen(function(activeScreenChanged)
-    spaces.onScreenChange(activeScreenChanged)
-    refreshIndicator()
-  end)
-  screenWatcher:start()
-  M.screenWatcher = screenWatcher
+  -- AeroSpace does not push workspace changes into Hammerspoon, so poll the CLI
+  -- to keep the menubar indicator current.
+  local indicatorTimer = hs.timer.doEvery(1, refreshIndicator)
+  M.indicatorTimer = indicatorTimer
 
   hs.hotkey.bind(config.modShift, "i", function()
-    local targets = spaces.targets()
-    local current = spaces.indexForSpace(targets, hs.spaces.focusedSpace())
-    hs.alert.show(("desktop %s of %d"):format(current or "?", spaces.aliasCount(targets)))
+    hs.alert.show("workspace " .. (focusedWorkspace() or "?"))
   end)
 
   hs.hotkey.bind(config.modShift, "d", function()

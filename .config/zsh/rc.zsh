@@ -14,7 +14,7 @@ if [ -f "$XDG_CONFIG_HOME"/zsh/secret ]; then
 fi
 
 typeset -f _zt_mark >/dev/null && _zt_mark pre_greet
-fortune -a | cowsay | lolcat -f
+fortune -a | cowsay | lolcrab
 typeset -f _zt_mark >/dev/null && _zt_mark post_greet
 
 # powerlevel10k configuration (theme itself is loaded as an HM plugin)
