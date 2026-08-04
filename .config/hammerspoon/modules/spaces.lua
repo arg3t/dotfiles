@@ -235,36 +235,6 @@ local function windowIsOnSpace(win, spaceID)
   return false
 end
 
--- macOS "Switch to Desktop N" activates the Space but leaves keyboard focus on
--- the desktop, not a window. Focus the frontmost standard window that lives on
--- the target Space so typing lands there after a switch.
-local function focusFrontmostWindowOnSpace(target)
-  for _, win in ipairs(hs.window.orderedWindows()) do
-    if win:isStandard()
-        and win:screen():getUUID() == target.screen:getUUID()
-        and windowIsOnSpace(win, target.spaceID) then
-      win:focus()
-      return true
-    end
-  end
-  return false
-end
-
--- The Ctrl+N switch is async; poll until the target Space is active (bounded so
--- a superseded switch cannot leak timers), then focus its frontmost window.
-local function focusAfterSwitch(target, attempt)
-  attempt = attempt or 1
-  if hs.spaces.focusedSpace() ~= target.spaceID then
-    if attempt < 20 then
-      hs.timer.doAfter(0.05, function()
-        focusAfterSwitch(target, attempt + 1)
-      end)
-    end
-    return
-  end
-  focusFrontmostWindowOnSpace(target)
-end
-
 local function dragWindowToWorkspace(key, win, target)
   if win:screen():getUUID() ~= target.screen:getUUID() then
     win:moveToScreen(target.screen)
@@ -357,6 +327,56 @@ local function movePointerToScreen(screen)
     x = frame.x + frame.w / 2,
     y = frame.y + frame.h / 2,
   })
+end
+
+-- win:focus() over the AX API is unreliable right after a Space switch, so
+-- synthesize a real click just below the window's zoom button to focus it (the
+-- same grab point the drag path uses), then recenter the pointer on the display
+-- so the cursor does not linger on the title bar.
+local function clickToFocusWindow(win)
+  local zoomRect = win:zoomButtonRect()
+  local point
+  if zoomRect then
+    point = { x = zoomRect.x + zoomRect.w / 2, y = zoomRect.y + zoomRect.h + 6 }
+  else
+    local frame = win:frame()
+    point = { x = frame.x + frame.w / 2, y = frame.y + 8 }
+  end
+  local ev = hs.eventtap.event
+  hs.mouse.absolutePosition(point)
+  ev.newMouseEvent(ev.types.leftMouseDown, point):post()
+  ev.newMouseEvent(ev.types.leftMouseUp, point):post()
+  movePointerToScreen(win:screen())
+end
+
+-- macOS "Switch to Desktop N" activates the Space but leaves keyboard focus on
+-- the desktop, not a window. Click the frontmost standard window that lives on
+-- the target Space so typing lands there after a switch.
+local function focusFrontmostWindowOnSpace(target)
+  for _, win in ipairs(hs.window.orderedWindows()) do
+    if win:isStandard()
+        and win:screen():getUUID() == target.screen:getUUID()
+        and windowIsOnSpace(win, target.spaceID) then
+      clickToFocusWindow(win)
+      return true
+    end
+  end
+  return false
+end
+
+-- The Ctrl+N switch is async; poll until the target Space is active (bounded so
+-- a superseded switch cannot leak timers), then focus its frontmost window.
+local function focusAfterSwitch(target, attempt)
+  attempt = attempt or 1
+  if hs.spaces.focusedSpace() ~= target.spaceID then
+    if attempt < 20 then
+      hs.timer.doAfter(0.05, function()
+        focusAfterSwitch(target, attempt + 1)
+      end)
+    end
+    return
+  end
+  focusFrontmostWindowOnSpace(target)
 end
 
 -- macOS "Switch to Desktop N" (Ctrl+N) numbers desktops globally across all

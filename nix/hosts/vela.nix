@@ -88,6 +88,10 @@
       settings = {
         background_opacity = "1.0";
 
+        # Allow programs to read the clipboard via OSC 52 without a prompt
+        # (default is read-clipboard-ask), so ,p pasting over SSH works.
+        clipboard_control = "write-clipboard write-primary read-clipboard read-primary";
+
         hide_window_decorations = "no";
         macos_quit_when_last_window_closed = "yes";
 

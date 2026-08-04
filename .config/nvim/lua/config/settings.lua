@@ -80,3 +80,23 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
+
+-- When connected over SSH, route the system clipboard registers (+ and *)
+-- through OSC 52 escape sequences so ,y / ,p reach the *client* terminal's
+-- clipboard (kitty on the local machine) instead of a missing remote tool.
+-- Locally (no SSH), the default provider (pbcopy/pbpaste, wl-clipboard, ...)
+-- is left untouched.
+if vim.env.SSH_TTY ~= nil or vim.env.SSH_CONNECTION ~= nil then
+  local osc52 = require("vim.ui.clipboard.osc52")
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+      ["+"] = osc52.copy("+"),
+      ["*"] = osc52.copy("*"),
+    },
+    paste = {
+      ["+"] = osc52.paste("+"),
+      ["*"] = osc52.paste("*"),
+    },
+  }
+end
