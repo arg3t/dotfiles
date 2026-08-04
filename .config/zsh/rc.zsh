@@ -1,8 +1,3 @@
-# Keep the persistent user Nix profile available in interactive shells.
-if [ -d "$HOME/.nix-profile/bin" ]; then
-  export PATH="$HOME/.nix-profile/bin:$PATH"
-fi
-
 #!/bin/zsh
 ## __   _______ _____ _____
 ## \ \ / / ____| ____|_   _|
