@@ -38,7 +38,7 @@ switch target=default_host backend=default_backend:
 
 # Switch a standalone Home Manager profile.
 home-switch profile:
-    home-manager switch --flake ./nix#{{ profile }}
+    home-manager switch -b hm-backup --flake ./nix#{{ profile }}
 
 # Build the NixOS configuration for next boot (NixOS only)
 boot:
