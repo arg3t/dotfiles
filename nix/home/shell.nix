@@ -55,6 +55,9 @@ let
       # p10k instant prompt must run before anything that prints (mkOrder 500
       # puts it at the very top of .zshrc); personal config loads last.
       initContent = lib.mkMerge [
+        (lib.mkOrder 100 ''
+          [[ -r "''${XDG_CONFIG_HOME:-$HOME/.config}/zsh/secret" ]] && source "''${XDG_CONFIG_HOME:-$HOME/.config}/zsh/secret"
+        '')
         (lib.mkOrder 500 ''
           if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
             source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
