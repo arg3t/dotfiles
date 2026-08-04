@@ -12,8 +12,9 @@
       "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
       "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
       "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
-      // same pane navigation on cmd (cmd-h/j/k/l shadow Hide/panel/chord/line-select)
-      "cmd-h": ["workspace::ActivatePaneInDirection", "Left"],
+      // same pane navigation on cmd (cmd-j/k/l shadow panel/chord/line-select).
+      // cmd-h is absent on purpose: macOS claims it for Hide App, so
+      // hammerspoon/config.lua rewrites cmd-h -> ctrl-h in Zed instead.
       "cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
       "cmd-k": ["workspace::ActivatePaneInDirection", "Up"],
       "cmd-j": ["workspace::ActivatePaneInDirection", "Down"],
@@ -39,7 +40,12 @@
       "ctrl-shift-c": "editor::Copy", // vim default: return to normal mode
       "ctrl-shift-x": "editor::Cut", // vim default: decrement
       "ctrl-shift-v": "editor::Paste", // vim default: visual block mode
-      "ctrl-o": "workspace::Open" // vim default: go back
+      "ctrl-o": "workspace::Open", // vim default: go back
+      // ctrl+arrow = word motion (linux semantics). Not rewritten to alt+arrow in
+      // hammerspoon, because alt+arrow is snapping.lua's half-screen hotkey.
+      // ctrl-shift-arrow is left alone: macOS owns it for "move a space".
+      "ctrl-left": "editor::MoveToPreviousWordStart",
+      "ctrl-right": "editor::MoveToNextWordEnd"
     }
   }
 ]

@@ -40,7 +40,9 @@ function M.start()
 
   local ctrlRemap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
     local flags = event:getFlags()
-    if not flags.ctrl or flags.cmd or flags.alt or flags.shift or flags.fn then
+    -- fn is deliberately not rejected: macOS classes the arrow keys as function keys
+    -- and sets fn on their events, so testing it here would skip ctrl+left/right.
+    if not flags.ctrl or flags.cmd or flags.alt or flags.shift then
       return false
     end
 
@@ -50,9 +52,14 @@ function M.start()
       return false
     end
 
+    local mods = { target }
+    if flags.fn then
+      mods[#mods + 1] = "fn"
+    end
+
     return true, {
-      hs.eventtap.event.newKeyEvent({ target }, key, true),
-      hs.eventtap.event.newKeyEvent({ target }, key, false),
+      hs.eventtap.event.newKeyEvent(mods, key, true),
+      hs.eventtap.event.newKeyEvent(mods, key, false),
     }
   end)
   ctrlRemap:start()
@@ -89,9 +96,10 @@ function M.start()
   appCtrlRemap:start()
   M.appCtrlRemap = appCtrlRemap
 
-  local cmdAsAlt = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
+  local cmdRemap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
     local flags = event:getFlags()
-    if not flags.cmd or flags.ctrl or flags.alt or flags.fn then
+    -- fn is not rejected here either; see ctrlRemap above.
+    if not flags.cmd or flags.ctrl or flags.alt then
       return false
     end
 
@@ -100,45 +108,71 @@ function M.start()
       return false
     end
     local name = config.appNameAliases[app:name()] or app:name()
-    local keys = config.cmdAsAltKeys[name]
+    local keys = config.cmdRemapKeys[name]
     if not keys then
       return false
     end
 
     local key = hs.keycodes.map[event:getKeyCode()]
-    if not keys[key] then
+    local target = keys[key]
+    if not target then
       return false
     end
 
-    local mods = flags.shift and { "alt", "shift" } or { "alt" }
+    local mods = { target }
+    if flags.shift then
+      mods[#mods + 1] = "shift"
+    end
+    if flags.fn then
+      mods[#mods + 1] = "fn"
+    end
+
     return true, {
       hs.eventtap.event.newKeyEvent(mods, key, true),
       hs.eventtap.event.newKeyEvent(mods, key, false),
     }
   end)
-  cmdAsAlt:start()
-  M.cmdAsAlt = cmdAsAlt
+  cmdRemap:start()
+  M.cmdRemap = cmdRemap
 
-  local ctrlClickRemap = hs.eventtap.new({
+  local ctrlMouseRemap = hs.eventtap.new({
     hs.eventtap.event.types.leftMouseDown,
     hs.eventtap.event.types.leftMouseUp,
     hs.eventtap.event.types.leftMouseDragged,
+    hs.eventtap.event.types.scrollWheel,
   }, function(event)
     local flags = event:getFlags()
-    if not flags.ctrl or flags.cmd or flags.alt or flags.shift or flags.fn then
+    if not flags.ctrl or flags.cmd or flags.fn then
       return false
     end
 
     local app = hs.application.frontmostApplication()
-    if not (app and config.mouseTabApps[app:name()]) then
+    if not app then
+      return false
+    end
+    local scope = config.ctrlMouseAsCmdApps[config.appNameAliases[app:name()] or app:name()]
+    if not scope then
+      return false
+    end
+    if scope ~= "all" and event:getType() == hs.eventtap.event.types.scrollWheel then
       return false
     end
 
-    event:setFlags({ cmd = true })
+    -- Replace the flags rather than adding cmd: dropping ctrl is what stops AppKit
+    -- from turning a ctrl+click into a secondary click / context menu. alt and shift
+    -- ride along so ctrl+alt+click still maps to "open definition to the side".
+    local out = { cmd = true }
+    if flags.alt then
+      out.alt = true
+    end
+    if flags.shift then
+      out.shift = true
+    end
+    event:setFlags(out)
     return false
   end)
-  ctrlClickRemap:start()
-  M.ctrlClickRemap = ctrlClickRemap
+  ctrlMouseRemap:start()
+  M.ctrlMouseRemap = ctrlMouseRemap
 end
 
 function M.isTerminalFocused()

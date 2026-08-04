@@ -13,7 +13,9 @@ if [ -f "$XDG_CONFIG_HOME"/zsh/secret ]; then
   source "$XDG_CONFIG_HOME"/zsh/secret
 fi
 
+typeset -f _zt_mark >/dev/null && _zt_mark pre_greet
 fortune -a | cowsay | lolcat -f
+typeset -f _zt_mark >/dev/null && _zt_mark post_greet
 
 # powerlevel10k configuration (theme itself is loaded as an HM plugin)
 source ${ZDOTDIR}/p10k.zsh
@@ -146,4 +148,11 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 	function zle_application_mode_stop { echoti rmkx }
 	add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
 	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
+	# Disable any leftover terminal mouse reporting before each prompt.
+	# A TUI (nvim mouse=a, htop enable_mouse=1) that exits uncleanly can leave
+	# mouse mode on; the shell then echoes raw SGR sequences like "0;76;33M".
+	function _disable_mouse_report { printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l' }
+	add-zle-hook-widget -Uz zle-line-init _disable_mouse_report
 fi
+
+typeset -f _zt_mark >/dev/null && _zt_mark post_rc

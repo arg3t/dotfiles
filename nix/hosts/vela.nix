@@ -61,6 +61,10 @@
     home.file.".hammerspoon/modules".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hammerspoon/modules";
 
+    # PaperWM.spoon is pinned in the nix store (pkgs/paperwm), not vendored in
+    # the repo, so link it straight into Hammerspoon's Spoons search path.
+    home.file.".hammerspoon/Spoons/PaperWM.spoon".source = pkgs.our.paperwm;
+
     xdg.configFile."kitty/quick-access-terminal.conf".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/kitty/quick-access-terminal.conf";
 
@@ -218,7 +222,16 @@
 
   system.primaryUser = "yigit.colakoglu";
 
-  programs.zsh.enable = true;
+  # zsh: the system /etc/zshrc otherwise runs a full, UNCACHED compinit and a
+  # `prompt suse` theme on every interactive shell. Both are redundant: the
+  # Home Manager .zshrc already runs a cached `compinit -C` and p10k owns the
+  # prompt. Disabling them removes ~0.2s warm (much more cold) per shell.
+  programs.zsh = {
+    enable = true;
+    enableGlobalCompInit = false;
+    enableBashCompletion = false;
+    promptInit = "";
+  };
 
   system.stateVersion = 6;
 }

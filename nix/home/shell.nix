@@ -19,8 +19,10 @@ let
       # use the cached dump (-C) otherwise.
       completionInit = builtins.concatStringsSep "\n" [
         "fpath=(\"${config.xdg.configHome}/zsh/completions\" $fpath)"
+        "typeset -f _zt_mark >/dev/null && _zt_mark pre_compinit"
         "autoload -U compinit"
         "if [[ -n \"\${ZDOTDIR}/.zcompdump\"(#qN.mh-24) ]]; then compinit -C; else compinit; fi"
+        "typeset -f _zt_mark >/dev/null && _zt_mark post_compinit"
       ];
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
@@ -55,6 +57,30 @@ let
       # p10k instant prompt must run before anything that prints (mkOrder 500
       # puts it at the very top of .zshrc); personal config loads last.
       initContent = lib.mkMerge [
+        # startup profiling: per-segment checkpoints -> $XDG_CACHE_HOME/zsh-startup.log
+        (lib.mkOrder 490 ''
+          zmodload zsh/datetime 2>/dev/null
+          typeset -gA _ZT_MARKS
+          typeset -ga _ZT_ORDER
+          _zt_mark() { _ZT_MARKS[$1]=$EPOCHREALTIME; _ZT_ORDER+=($1); }
+          _zt_mark start
+          _zt_flush() {
+            autoload -Uz add-zsh-hook
+            add-zsh-hook -d precmd _zt_flush
+            _zt_mark first_prompt
+            local log="''${XDG_CACHE_HOME:-$HOME/.cache}/zsh-startup.log" line seg prev
+            line="$(strftime %Y-%m-%dT%H:%M:%S $EPOCHSECONDS)"
+            line+=" total=$(printf %.3f $(( _ZT_MARKS[first_prompt] - _ZT_MARKS[start] )))"
+            prev=$_ZT_MARKS[start]
+            for seg in $_ZT_ORDER; do
+              line+=" ''${seg}=$(printf %.3f $(( _ZT_MARKS[$seg] - prev )))"
+              prev=$_ZT_MARKS[$seg]
+            done
+            print -r -- "$line" >> "$log"
+          }
+          autoload -Uz add-zsh-hook
+          add-zsh-hook precmd _zt_flush
+        '')
         (lib.mkOrder 500 ''
           if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
             source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
