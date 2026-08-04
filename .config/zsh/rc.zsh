@@ -9,14 +9,14 @@
 ## Plugin management, compinit, history, fzf, direnv and zoxide are handled
 ## declaratively by nix/home/shell.nix. This file is everything personal.
 
+if [ -f "$XDG_CONFIG_HOME"/zsh/secret ]; then
+  source "$XDG_CONFIG_HOME"/zsh/secret
+fi
+
 fortune -a | cowsay | lolcat -f
 
 # powerlevel10k configuration (theme itself is loaded as an HM plugin)
 source ${ZDOTDIR}/p10k.zsh
-
-if [ -f "$XDG_CONFIG_HOME"/zsh/secret ]; then
-  source "$XDG_CONFIG_HOME"/zsh/secret
-fi
 
 setopt autocd
 
