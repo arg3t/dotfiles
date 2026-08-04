@@ -14,6 +14,10 @@ fortune -a | cowsay | lolcat -f
 # powerlevel10k configuration (theme itself is loaded as an HM plugin)
 source ${ZDOTDIR}/p10k.zsh
 
+if [ -f "$XDG_CONFIG_HOME"/zsh/secret ]; then
+  source "$XDG_CONFIG_HOME"/zsh/secret
+fi
+
 setopt autocd
 
 fpath=("$XDG_CONFIG_HOME"/zsh/completions $fpath)
@@ -24,9 +28,6 @@ if [ -f "$XDG_CONFIG_HOME"/zsh/local_aliases ]; then
   source "$XDG_CONFIG_HOME"/zsh/local_aliases
 fi
 
-if [ -f "$XDG_CONFIG_HOME"/zsh/secret ]; then
-  source "$XDG_CONFIG_HOME"/zsh/secret
-fi
 source "$XDG_CONFIG_HOME"/zsh/cmds
 
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=241,bold'
