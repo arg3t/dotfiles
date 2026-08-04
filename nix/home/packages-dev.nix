@@ -61,6 +61,7 @@ let
       # Language runtimes / package managers (cargo via rustup, go above).
       nodejs
       bun
+      pnpm
       uv # python env + package manager (python3 itself ships via packages-cli)
 
       # C/C++ toolchain. clang/clang++ come from clang-driver-only above;

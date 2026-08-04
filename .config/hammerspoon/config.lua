@@ -3,8 +3,7 @@ local M = {
   modShift = { "alt", "shift" },
 
   terminalBundles = {
-    ["net.kovidgoyal.kitty"] = true,
-    ["net.kovidgoyal.kitty-quick-access"] = true,
+    ["com.mitchellh.ghostty"] = true,
     ["com.apple.Terminal"] = true,
     ["com.googlecode.iterm2"] = true,
     ["com.github.wez.wezterm"] = true,
@@ -12,9 +11,8 @@ local M = {
   },
 
   terminalApps = {
-    ["kitty"] = true,
-    ["kitty-quick-access"] = true,
-    [".kitty-wrapped"] = true,
+    ["Ghostty"] = true,
+    ["ghostty"] = true,
     ["Terminal"] = true,
     ["iTerm2"] = true,
     ["WezTerm"] = true,
@@ -28,7 +26,7 @@ local M = {
     x = "cmd",
     w = "cmd",
     a = "cmd",
-    -- No left/right here: alt+arrow is AeroSpace's focus hotkey, so rewriting
+    -- No left/right here: alt+arrow is OmniWM's focus hotkey, so rewriting
     -- ctrl+arrow onto it would move window focus instead of the cursor.
     -- ctrl+arrow word motion is bound natively in Cursor and Zed instead.
     -- backspace: macOS spells delete-word-backward as alt+delete, so this is what
@@ -57,8 +55,8 @@ local M = {
   -- alt/ctrl bindings are reachable with the mac modifier. Only the listed keys are
   -- rewritten; everything else keeps its macOS meaning (cmd+c/v/x/s/w/p/tab untouched).
   -- Shift is preserved: cmd+shift+, -> alt+shift+,
-  -- Do NOT map to "alt" the keys that alt owns globally: digits, arrows, f and q
-  -- go to AeroSpace, and s, x, return go to apps.lua, so they never reach the app.
+  -- Do NOT map to "alt" the keys OmniWM owns globally (digits, arrows, return, and
+  -- its Option chords) or the app never sees them.
   cmdRemapKeys = {
     ["Cursor"] = {
       [","] = "alt", -- prev tab (cmd+shift+, moves tab left)
