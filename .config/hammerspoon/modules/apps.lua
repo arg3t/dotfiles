@@ -18,8 +18,8 @@ function M.start()
     end
   end)
 
-  -- Open a new Ghostty window. `-n` forces a new window even when Ghostty is
-  -- already running. The scratch/quake terminal is OmniWM's Option+S toggle.
+  -- Open a separate Ghostty application instance for an isolated terminal.
+  -- The scratch/quake terminal is OmniWM's Option+S toggle.
   hs.hotkey.bind(config.mod, "return", function()
     hs.task.new("/usr/bin/open", nil, { "-na", "Ghostty" }):start()
   end)

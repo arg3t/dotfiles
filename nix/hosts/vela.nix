@@ -15,6 +15,9 @@
     ../home/packages-editor.nix
     ../home/backgrounds.nix
   ];
+  # Home Manager owns the user completion setup. Avoid a duplicate system
+  # compinit in /etc/static/zshrc before the Home Manager .zshrc starts.
+  programs.zsh.enableCompletion = false;
 
   environment.systemPackages = with pkgs; [
     our.supercmd
