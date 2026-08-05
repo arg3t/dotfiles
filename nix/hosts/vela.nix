@@ -304,6 +304,9 @@
       # Units are ~15ms; InitialKeyRepeat = 12 -> 180ms, KeyRepeat = 2 -> ~30ms/repeat.
       InitialKeyRepeat = 12;
       KeyRepeat = 2;
+      # Hold-to-repeat instead of the accent picker. Native apps honor this;
+      # Electron apps (Cursor) need a per-app override below.
+      ApplePressAndHoldEnabled = false;
     };
     dock = {
       autohide = true;
@@ -332,6 +335,9 @@
       hotkeyKeyCode = 7;
       hotkeyModifiers = 2560;
     };
+    # Cursor is an Electron app: it reads its own bundle domain and overrides
+    # the global NSGlobalDomain, so hold-to-repeat needs this per-app entry.
+    CustomUserPreferences."com.todesktop.230313mzl4w4u92".ApplePressAndHoldEnabled = false;
   };
 
   users.users."yigit.colakoglu" = {
