@@ -268,6 +268,13 @@
             "x"
             "y"
             "z"
+          ]
+          # Digits need the physical `digit_N` trigger, not logical `cmd+N`:
+          # Ghostty ships default `cmd+digit_N=goto_tab:N` bindings that shadow
+          # the logical form, so `cmd+1` would switch tabs instead of sending
+          # ESC+1. The physical trigger overrides that default. See
+          # github.com/ghostty-org/ghostty/discussions/8541.
+          ++ map (d: "cmd+digit_${d}=text:\\x1b${d}") [
             "0"
             "1"
             "2"

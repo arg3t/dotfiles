@@ -82,23 +82,22 @@ local function line_diags(bufnr)
   return vim.diagnostic.get(bufnr, { lnum = lnum })
 end
 
-local function show_diags_or_hover(bufnr, prefer)
-  local diags = line_diags(bufnr)
-  if #diags > 0 then
-    vim.diagnostic.open_float(nil, float_opts)
-    return true
-  end
-
+local function show_hover(bufnr)
   if has_hover_capability(bufnr) then
-    if prefer == "noice" then
-      require("noice.lsp").hover()
-    else
-      vim.lsp.buf.hover()
-    end
+    require("noice.lsp").hover()
     return true
   end
-
   return false
+end
+
+local diagnostic_float
+local function toggle_diagnostics(bufnr)
+  if diagnostic_float and vim.api.nvim_win_is_valid(diagnostic_float) then
+    vim.api.nvim_win_close(diagnostic_float, true)
+    diagnostic_float = nil
+    return
+  end
+  diagnostic_float = vim.diagnostic.open_float(bufnr, float_opts)
 end
 
 local function toggle_inlay_hints()
@@ -156,18 +155,16 @@ local on_attach = function(client, bufnr)
   end
 end
 
-vim.api.nvim_create_autocmd("CursorHold", {
-  callback = function()
-    if vim.fn.mode() == "i" then return end
-    show_diags_or_hover(0, "noice")
-  end,
-})
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(event)
     vim.keymap.set("n", "K", function()
-      show_diags_or_hover(event.buf, "noice")
-    end, { buffer = event.buf, silent = true })
+      show_hover(event.buf)
+    end, { buffer = event.buf, silent = true, desc = "Show hover documentation" })
+
+    vim.keymap.set("n", "L", function()
+      toggle_diagnostics(event.buf)
+    end, { buffer = event.buf, silent = true, desc = "Toggle diagnostics" })
 
     vim.keymap.set("n", "<leader>hh", toggle_inlay_hints, { buffer = event.buf, desc = "Toggle inlay hints" })
   end,

@@ -37,9 +37,16 @@ local M = {
   appKeyRemaps = {
     ["firefox"] = {
       { from = { {}, "f" }, to = { { "cmd" }, "f" } },
+      { from = { { "ctrl" }, "-" }, to = { { "cmd" }, "-" } },
+      { from = { { "ctrl" }, "=" }, to = { { "cmd" }, "=" } },
     },
     ["Google Chrome"] = {
       { from = { {}, "f" }, to = { { "cmd" }, "f" } },
+      { from = { { "ctrl" }, "-" }, to = { { "cmd" }, "-" } },
+      { from = { { "ctrl" }, "=" }, to = { { "cmd" }, "=" } },
+    },
+    ["Slack"] = {
+      { from = { { "ctrl" }, "k" }, to = { { "cmd" }, "k" } },
     },
     ["Zed"] = {
       { from = { {}, "p" }, to = { { "cmd" }, "p" } },
