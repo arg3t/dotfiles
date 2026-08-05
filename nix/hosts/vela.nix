@@ -91,6 +91,23 @@
       };
     };
 
+    # macOS resets hidutil key remaps on reboot, and nix-darwin only reapplies
+    # remapCapsLockToEscape at activation. Reapply it at login so caps->escape
+    # survives reboots.
+    launchd.agents.capsLockToEscape = {
+      enable = true;
+      config = {
+        Label = "org.local.capslock-to-escape";
+        ProgramArguments = [
+          "/usr/bin/hidutil"
+          "property"
+          "--set"
+          ''{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x700000029}]}''
+        ];
+        RunAtLoad = true;
+      };
+    };
+
     # OmniWM owns window layout and workspaces. nix installs the signed bundle
     # and runs it under launchd; its settings.toml is the writable symlink above.
     launchd.agents.omniwm = {
@@ -248,6 +265,11 @@
   };
 
   system.primaryUser = "yigit.colakoglu";
+
+  security.pam.services.sudo_local = {
+    touchIdAuth = true;
+    reattach = true;
+  };
 
   programs.zsh.enable = true;
 
