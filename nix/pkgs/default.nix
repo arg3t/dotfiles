@@ -6,4 +6,5 @@
   hammerspoon = pkgs.callPackage ./hammerspoon/package.nix { };
   omniwm = pkgs.callPackage ./omniwm/package.nix { };
   supercmd = pkgs.callPackage ./supercmd/package.nix { };
+  lolcrab = pkgs.callPackage ./lolcrab/package.nix { };
 }

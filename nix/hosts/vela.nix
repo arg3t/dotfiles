@@ -62,6 +62,21 @@
     home.file.".hammerspoon/modules".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hammerspoon/modules";
 
+    # OmniWM atomic-rewrites and live-reloads ~/.config/omniwm/settings.toml, so
+    # a store symlink cannot manage it (OmniWM replaces the link with a real
+    # file). Seed it from the repo snapshot only when absent; OmniWM owns it
+    # after. Re-snapshot edits back with:
+    #   cp ~/.config/omniwm/settings.toml ~/.dots/.config/omniwm/settings.toml
+    home.activation.seedOmniwmSettings = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+      target="$HOME/.config/omniwm/settings.toml"
+      source="$HOME/.dots/.config/omniwm/settings.toml"
+      if [ ! -e "$target" ] && [ -e "$source" ]; then
+        run mkdir -p "$(dirname "$target")"
+        run cp "$source" "$target"
+        run chmod u+w "$target"
+      fi
+    '';
+
     launchd.agents.hammerspoon = {
       enable = true;
       config = {
@@ -76,9 +91,8 @@
       };
     };
 
-    # OmniWM owns window layout and workspaces. Its own settings.toml is left
-    # GUI-managed on purpose (OmniWM live-reloads and rewrites it), so nix only
-    # installs the signed bundle and runs it under launchd.
+    # OmniWM owns window layout and workspaces. nix installs the signed bundle
+    # and runs it under launchd; its settings.toml is the writable symlink above.
     launchd.agents.omniwm = {
       enable = true;
       config = {
@@ -131,11 +145,10 @@
         font-size = 10;
         background-opacity = 1;
         window-save-state = "never";
-        window-width = 120;
-        window-height = 34;
         clipboard-read = "allow";
         clipboard-write = "allow";
         quit-after-last-window-closed = true;
+        confirm-close-surface = false;
 
         keybind =
           # Scroll and font size, carried over from kitty.
