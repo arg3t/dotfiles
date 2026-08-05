@@ -26,7 +26,7 @@ maxTotalBytes = 67108864
 [dwindle]
 defaultSplitRatio = 1.0
 moveToRootStable = true
-singleWindowFit = "fill"
+singleWindowFit = "1880x1040"
 smartSplit = false
 splitWidthMultiplier = 1.0
 useGlobalGaps = true
@@ -40,13 +40,13 @@ moveCrossesMonitorAtEdge = false
 moveMouseToFocusedWindow = true
 
 [gaps]
-size = 5.0
+size = 0.0
 
 [gaps.outer]
-bottom = 5.0
-left = 5.0
-right = 5.0
-top = 5.0
+bottom = 10.0
+left = 10.0
+right = 10.0
+top = 10.0
 
 [general]
 animationsEnabled = false
@@ -133,7 +133,7 @@ mode = "custom"
 [statusBar]
 showAppNames = false
 showWorkspaceName = true
-useWorkspaceId = false
+useWorkspaceId = true
 
 [workspaceBar]
 backgroundOpacity = 0.1

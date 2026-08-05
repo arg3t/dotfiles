@@ -231,6 +231,8 @@
             "cmd+j=scroll_page_down"
             "alt+u=scroll_page_up"
             "alt+d=scroll_page_down"
+            "cmd+u=scroll_page_fractional:-1.5"
+            "cmd+d=scroll_page_fractional:1.5"
             "cmd+shift+k=increase_font_size:1"
             "cmd+shift+j=decrease_font_size:1"
             "shift+enter=text:\\x1b\\r"
@@ -241,13 +243,12 @@
             "ctrl+cmd+k=goto_split:up"
             "ctrl+cmd+l=goto_split:right"
           ]
-          # Cmd behaves as Alt/Meta: cmd+<key> sends ESC+<key>. cmd+j/k are
+          # Cmd behaves as Alt/Meta: cmd+<key> sends ESC+<key>. cmd+j/k/u/d are
           # excluded above (scroll), copy/paste stay on ctrl+shift.
           ++ map (c: "cmd+${c}=text:\\x1b${c}") [
             "a"
             "b"
             "c"
-            "d"
             "e"
             "f"
             "g"
@@ -262,7 +263,6 @@
             "r"
             "s"
             "t"
-            "u"
             "v"
             "w"
             "x"

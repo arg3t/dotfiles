@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 # Headless dev server profile: ara's CLI/dev environment without the desktop
 # modules. Drops firefox (GUI), backgrounds (wallpaper sync), and linux-theme
@@ -16,5 +16,12 @@
     ../home/packages-dev.nix
     ../home/packages-nix.nix
     ../home/packages-editor.nix
+  ];
+
+  # AI coding CLIs, matching vela. claude-code is unfree; the lyra/arca
+  # home configurations allow it in flake.nix.
+  home.packages = with pkgs; [
+    claude-code
+    codex
   ];
 }
