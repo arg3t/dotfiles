@@ -21,7 +21,7 @@ let
         "fpath=(\"${config.xdg.configHome}/zsh/completions\" $fpath)"
         "typeset -f _zt_mark >/dev/null && _zt_mark pre_compinit"
         "autoload -U compinit"
-        "if [[ -n \"\${ZDOTDIR}/.zcompdump\"(#qN.mh-24) ]]; then compinit -C; else compinit; fi"
+        "() { local d=( \"\${ZDOTDIR}/.zcompdump\"(N.mh-24) ); if (( \$#d )); then compinit -C; else compinit; fi }"
         "typeset -f _zt_mark >/dev/null && _zt_mark post_compinit"
       ];
       autosuggestion.enable = true;
@@ -93,11 +93,16 @@ let
     };
 
     # zoxide replaces rupa/z (same `z` command, maintained, nix-native).
-    programs.zoxide.enable = true;
+    # Native zsh hook disabled; re-added with startup marks in rc.zsh.
+    programs.zoxide = {
+      enable = true;
+      enableZshIntegration = false;
+    };
 
-    # fzf keybindings/completion wired by HM instead of hardcoded paths.
+    # fzf keybindings/completion; native hook disabled, re-added in rc.zsh.
     programs.fzf = {
       enable = true;
+      enableZshIntegration = false;
     };
 
     home.shellAliases = {
@@ -131,6 +136,8 @@ let
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
+      # Native zsh hook disabled; re-added with startup marks in rc.zsh.
+      enableZshIntegration = false;
     };
   };
 in

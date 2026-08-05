@@ -32,6 +32,26 @@
 
   fonts.packages = [ pkgs.nerd-fonts.caskaydia-cove ];
 
+  # Strict declarative Homebrew: anything not listed here gets uninstalled on
+  # activation. Dependencies of listed packages are kept automatically.
+  homebrew = {
+    enable = true;
+    onActivation = {
+      autoUpdate = false;
+      upgrade = false;
+      cleanup = "uninstall";
+    };
+    brews = [
+      "python@3.10"
+      "thrift"
+      "ykman"
+    ];
+    casks = [
+      "bettercapture"
+      "macshot"
+    ];
+  };
+
   nixpkgs.config.allowUnfreePredicate =
     pkg: builtins.elem (lib.getName pkg) [ "claude-code" ];
 
@@ -65,8 +85,8 @@
     # OmniWM atomic-rewrites and live-reloads ~/.config/omniwm/settings.toml, so
     # a store symlink cannot manage it (OmniWM replaces the link with a real
     # file). Seed it from the repo snapshot only when absent; OmniWM owns it
-    # after. Re-snapshot edits back with:
-    #   cp ~/.config/omniwm/settings.toml ~/.dots/.config/omniwm/settings.toml
+    # after. A git pre-commit hook (.githooks/pre-commit) snapshots the live
+    # file back into the repo on every commit; see dotsGitHooks below.
     home.activation.seedOmniwmSettings = config.lib.dag.entryAfter [ "writeBoundary" ] ''
       target="$HOME/.config/omniwm/settings.toml"
       source="$HOME/.dots/.config/omniwm/settings.toml"
@@ -74,6 +94,40 @@
         run mkdir -p "$(dirname "$target")"
         run cp "$source" "$target"
         run chmod u+w "$target"
+      fi
+    '';
+
+    # SuperCmd keeps hotkeys in the same settings.json it rewrites at runtime
+    # with recents, launch counts and frecency scores. A whole-file symlink
+    # would churn the repo on every launch, so the repo tracks only the keybind
+    # subset (.config/supercmd/keybinds.json) and this merges those keys into
+    # the live file. Quit SuperCmd before switching; a running instance can
+    # rewrite settings.json from memory and drop the merge.
+    home.activation.applySupercmdKeybinds = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+      live="$HOME/Library/Application Support/SuperCmd/settings.json"
+      source="$HOME/.dots/.config/supercmd/keybinds.json"
+      if [ -e "$source" ]; then
+        run mkdir -p "$(dirname "$live")"
+        [ -e "$live" ] || echo '{}' > "$live"
+        if ${pkgs.jq}/bin/jq -e . "$live" >/dev/null 2>&1; then
+          tmp="$live.hm-new"
+          run ${pkgs.jq}/bin/jq --slurpfile k "$source" \
+            'reduce ($k[0] | to_entries[]) as $e (.; .[$e.key] = $e.value)' \
+            "$live" > "$tmp"
+          run mv "$tmp" "$live"
+        else
+          echo "applySupercmdKeybinds: $live is not valid JSON; skipping" >&2
+        fi
+      fi
+    '';
+
+    # Point the ~/.dots repo at its tracked hooks so the pre-commit snapshot
+    # hook is active. Scoped to this repo; a global core.hooksPath would hijack
+    # every other repo.
+    home.activation.dotsGitHooks = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+      repo="$HOME/.dots"
+      if [ -d "$repo/.git" ]; then
+        run ${pkgs.git}/bin/git -C "$repo" config --local core.hooksPath .githooks
       fi
     '';
 
@@ -256,6 +310,17 @@
     WindowManager = {
       GloballyEnabled = false;
       EnableStandardClickToShowDesktop = false;
+    };
+    # macshot is sandboxed, so its prefs live in
+    # ~/Library/Containers/com.sw33tlie.macshot.macshot/Data/Library/Preferences.
+    # `defaults write` still reaches that container through cfprefsd, which is
+    # what CustomUserPreferences uses. Only the capture hotkey is declared here;
+    # the rest of the domain is runtime state that macshot owns.
+    # hotkeyKeyCode 7 = X, hotkeyModifiers 2560 = shift (512) + option (2048),
+    # i.e. Option+Shift+X.
+    CustomUserPreferences."com.sw33tlie.macshot.macshot" = {
+      hotkeyKeyCode = 7;
+      hotkeyModifiers = 2560;
     };
   };
 

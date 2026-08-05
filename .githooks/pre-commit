@@ -1,0 +1,20 @@
+#!/bin/sh
+# pre-commit: snapshot the live omniwm settings into the repo.
+#
+# omniwm owns and rewrites ~/.config/omniwm/settings.toml at runtime, so the
+# tracked copy drifts from what the WM actually runs. This captures the live
+# file at commit time and stages it, keeping the repo an accurate mirror.
+# No-op when the live file is absent (non-macOS hosts) or already in sync.
+set -eu
+
+live="$HOME/.config/omniwm/settings.toml"
+[ -f "$live" ] || exit 0
+
+root=$(git rev-parse --show-toplevel) || exit 0
+tracked="$root/.config/omniwm/settings.toml"
+
+if ! cmp -s "$live" "$tracked" 2>/dev/null; then
+    cp "$live" "$tracked"
+    git add -- "$tracked"
+    echo "pre-commit: snapshotted live omniwm settings into repo" >&2
+fi

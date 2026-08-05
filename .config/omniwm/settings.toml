@@ -40,16 +40,16 @@ moveCrossesMonitorAtEdge = false
 moveMouseToFocusedWindow = true
 
 [gaps]
-size = 8.0
+size = 5.0
 
 [gaps.outer]
-bottom = 0.0
-left = 0.0
-right = 0.0
-top = 0.0
+bottom = 5.0
+left = 5.0
+right = 5.0
+top = 5.0
 
 [general]
-animationsEnabled = true
+animationsEnabled = false
 defaultLayoutType = "dwindle"
 hotkeysEnabled = true
 ipcEnabled = true
@@ -66,7 +66,7 @@ scrollModifierKey = "optionShift"
 scrollSensitivity = 5.0
 trackpadScrollStyle = "snap"
 workspaceSwipeAxis = "vertical"
-workspaceSwipeEnabled = false
+workspaceSwipeEnabled = true
 workspaceSwipeFingerCount = 3
 
 [hiddenBar]
@@ -132,7 +132,7 @@ mode = "custom"
 
 [statusBar]
 showAppNames = false
-showWorkspaceName = false
+showWorkspaceName = true
 useWorkspaceId = false
 
 [workspaceBar]
@@ -301,6 +301,16 @@ bundleId = "com.eltima.cmd1.pro.mas"
 id = "69724515-252A-4F8B-97FB-ECEAE01EFF03"
 layout = "float"
 
+[[appRules]]
+assignToWorkspace = "8"
+bundleId = "com.apple.mail"
+id = "65EF5665-1A2C-4D33-8F28-554C8F5D2F70"
+
+[[appRules]]
+assignToWorkspace = "8"
+bundleId = "com.apple.iCal"
+id = "04DBD7D5-CEB5-43DA-87C7-459AE99992D5"
+
 [[hotkeys]]
 binding = "Option+1"
 id = "switchWorkspace.0"
@@ -374,7 +384,7 @@ binding = "Option+Shift+9"
 id = "moveToWorkspace.8"
 
 [[hotkeys]]
-binding = "Control+Option+Tab"
+binding = "Option+Shift+Tab"
 id = "workspaceBackAndForth"
 
 [[hotkeys]]
@@ -510,7 +520,7 @@ binding = "Option+Shift+K"
 id = "move.up"
 
 [[hotkeys]]
-binding = "Option+Shift+Right Arrow"
+binding = "Option+Shift+L"
 id = "move.right"
 
 [[hotkeys]]
@@ -874,7 +884,7 @@ binding = "Control+Option+M"
 id = "openMenuAnywhere"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Option+B"
 id = "toggleWorkspaceBarVisibility"
 
 [[hotkeys]]
@@ -886,7 +896,7 @@ binding = "Option+S"
 id = "toggleQuakeTerminal"
 
 [[hotkeys]]
-binding = "Option+Shift+L"
+binding = "Option+Command+L"
 id = "toggleWorkspaceLayout"
 
 [[hotkeys]]
@@ -894,7 +904,7 @@ binding = "Option+Shift+O"
 id = "toggleOverview"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Option+Shift+S"
 id = "toggleSystemStats"
 
 [[monitorRoutingOverrides]]
@@ -917,7 +927,7 @@ monitorName = "LF32TU87 (2)"
 
 [[workspaces]]
 id = "AD36F001-C57E-41A5-AC1D-DF5249D007F0"
-layoutType = "niri"
+layoutType = "dwindle"
 name = "1"
 
 [workspaces.monitorAssignment]

@@ -13,6 +13,18 @@ if [ -f "$XDG_CONFIG_HOME"/zsh/secret ]; then
   source "$XDG_CONFIG_HOME"/zsh/secret
 fi
 
+# zoxide/fzf/direnv shell hooks. Native HM integration is disabled in
+# shell.nix so each hook is timed individually into ~/.cache/zsh-startup.log.
+# The `plugins` mark closes the compinit -> autosuggestions/plugins window
+# (everything between post_compinit and here) that precedes rc.zsh.
+typeset -f _zt_mark >/dev/null && _zt_mark plugins
+eval "$(zoxide init zsh)"
+typeset -f _zt_mark >/dev/null && _zt_mark zoxide
+[[ $options[zle] = on ]] && source <(fzf --zsh)
+typeset -f _zt_mark >/dev/null && _zt_mark fzf
+eval "$(direnv hook zsh)"
+typeset -f _zt_mark >/dev/null && _zt_mark direnv
+
 typeset -f _zt_mark >/dev/null && _zt_mark pre_greet
 fortune -a | cowsay | lolcrab
 typeset -f _zt_mark >/dev/null && _zt_mark post_greet

@@ -1,0 +1,61 @@
+#!/bin/sh
+# tmux-url-open: open the URL under the mouse cursor in a tmux pane.
+#
+# tmux mouse mode owns the click, so tmux (not the terminal) handles it. Bound
+# from tmux.conf:
+#   bind -n C-MouseDown1Pane run-shell \
+#     "$HOME/.local/bin/tmux-url-open '#{pane_id}' #{mouse_x} #{mouse_y}"
+#
+# Ghostty forwards Ctrl+click to the app because Ctrl is an encodable mouse
+# modifier; this script gives tmux something to do with it. Cmd+click keeps
+# working via Ghostty's own handler (Super is not part of the mouse protocol).
+
+pane="$1"
+col="$2"
+row="$3"
+
+[ -n "$pane" ] && [ -n "$col" ] && [ -n "$row" ] || exit 0
+
+# Capture the visible pane, pick the clicked row, then choose the URL whose
+# span covers the clicked column. Fall back to the first URL on the line.
+# Columns are character offsets, which match display columns for ASCII URLs.
+url=$(tmux capture-pane -p -t "$pane" | awk -v col="$col" -v want="$((row + 1))" '
+    NR != want { next }
+    {
+        base = 0
+        s = $0
+        first = ""
+        chosen = ""
+        while (match(s, /(https?|ftp):\/\/[^ \t"`<>]+/)) {
+            u = substr(s, RSTART, RLENGTH)
+            start = base + RSTART - 1
+            end = start + RLENGTH
+            if (first == "") first = u
+            if (col >= start && col < end) { chosen = u; break }
+            base += RSTART + RLENGTH - 1
+            s = substr(s, RSTART + RLENGTH)
+        }
+        if (chosen == "") chosen = first
+        if (chosen != "") print chosen
+    }
+')
+
+[ -n "$url" ] || exit 0
+
+# Strip trailing sentence punctuation captured next to the URL.
+while :; do
+    case "$url" in
+        *[.,\;:!?\]]) url=${url%?} ;;
+        *) break ;;
+    esac
+done
+# Drop a dangling ) from wrapping text, but keep it for URLs that open their
+# own paren (e.g. /wiki/Foo_(film)).
+case "$url" in
+    *')') case "$url" in *'('*) ;; *) url=${url%?} ;; esac ;;
+esac
+
+case "$(uname)" in
+    Darwin) open "$url" ;;
+    *)      "${OPENER:-xdg-open}" "$url" ;;
+esac
