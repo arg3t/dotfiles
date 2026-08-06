@@ -12,6 +12,8 @@ let
     home.packages = with pkgs; [
       neovim
       our.oh-my-pi
+      our.codex
+      our.opencode
 
       bash-language-server # bashls
       clang-tools # clangd

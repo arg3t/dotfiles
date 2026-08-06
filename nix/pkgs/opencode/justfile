@@ -1,0 +1,24 @@
+set dotenv-load := false
+
+flake := "../.."
+pkg := "opencode"
+
+# Show available recipes
+default:
+    @just --list
+
+# Build the package with better Nix output
+build:
+    nom build "{{flake}}#{{pkg}}"
+
+# Run the built binary
+run *args:
+    nix run "{{flake}}#{{pkg}}" -- {{args}}
+
+# Bump to the latest release (or a pinned version), refreshing all hashes
+update version="":
+    ./update.sh {{version}}
+
+# Format this package's Nix files
+fmt:
+    nixfmt package.nix

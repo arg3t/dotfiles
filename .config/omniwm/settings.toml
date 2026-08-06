@@ -143,7 +143,7 @@ excludedBundleIDs = []
 height = 24.0
 hideEmptyWorkspaces = false
 notchActiveZoneWidth = 180.0
-notchMode = "off"
+notchMode = "moveBelowMenuBar"
 position = "overlappingMenuBar"
 reserveLayoutSpace = false
 revealHoldMilliseconds = 200.0
@@ -925,6 +925,12 @@ gridRow = 0
 monitorDisplayUUID = "CED39E91-ECF6-48A3-AE2F-41F000726499"
 monitorName = "LF32TU87 (2)"
 
+[[monitorRoutingOverrides]]
+gridColumn = 0
+gridRow = 0
+monitorDisplayUUID = "B4AD8A23-8134-4C22-A8E0-520E98A0B558"
+monitorName = "LF32TU87 (1)"
+
 [[workspaces]]
 id = "AD36F001-C57E-41A5-AC1D-DF5249D007F0"
 layoutType = "dwindle"
@@ -934,7 +940,7 @@ name = "1"
 type = "specificDisplay"
 
 [workspaces.monitorAssignment.output]
-displayUUID = "98B978BC-C7B1-4C5C-A996-10A58E31F2F9"
+displayUUID = "B4AD8A23-8134-4C22-A8E0-520E98A0B558"
 name = "LF32TU87 (1)"
 
 [[workspaces]]
@@ -970,7 +976,7 @@ name = "4"
 type = "specificDisplay"
 
 [workspaces.monitorAssignment.output]
-displayUUID = "98B978BC-C7B1-4C5C-A996-10A58E31F2F9"
+displayUUID = "B4AD8A23-8134-4C22-A8E0-520E98A0B558"
 name = "LF32TU87 (1)"
 
 [[workspaces]]
@@ -982,7 +988,7 @@ name = "5"
 type = "specificDisplay"
 
 [workspaces.monitorAssignment.output]
-displayUUID = "98B978BC-C7B1-4C5C-A996-10A58E31F2F9"
+displayUUID = "B4AD8A23-8134-4C22-A8E0-520E98A0B558"
 name = "LF32TU87 (1)"
 
 [[workspaces]]

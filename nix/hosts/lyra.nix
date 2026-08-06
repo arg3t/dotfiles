@@ -18,10 +18,9 @@
     ../home/packages-editor.nix
   ];
 
-  # AI coding CLIs, matching vela. claude-code is unfree; the lyra/arca
-  # home configurations allow it in flake.nix.
+  # claude-code is unfree; the lyra/arca home configurations allow it in
+  # flake.nix. codex/opencode/oh-my-pi come from packages-editor.nix.
   home.packages = with pkgs; [
     claude-code
-    codex
   ];
 }

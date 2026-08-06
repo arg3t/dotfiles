@@ -2,6 +2,8 @@
 
 {
   oh-my-pi = pkgs.callPackage ./oh-my-pi/package.nix { };
+  codex = pkgs.callPackage ./codex/package.nix { };
+  opencode = pkgs.callPackage ./opencode/package.nix { };
   podctl = pkgs.callPackage ./podctl/package.nix { };
   hammerspoon = pkgs.callPackage ./hammerspoon/package.nix { };
   omniwm = pkgs.callPackage ./omniwm/package.nix { };

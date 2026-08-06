@@ -71,7 +71,7 @@
 
   home-manager.users."yigit.colakoglu" = { config, ... }: {
     home.packages = with pkgs; [
-      codex
+      # codex/opencode/oh-my-pi come from packages-editor.nix (our.*, latest-pinned).
       claude-code
     ];
 
