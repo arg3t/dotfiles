@@ -16,4 +16,6 @@
     ../home/backgrounds.nix
     ../home/linux-theme.nix
   ];
+
+  home.sessionVariables.SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/gcr/ssh";
 }

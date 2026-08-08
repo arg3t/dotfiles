@@ -28,7 +28,6 @@ let
     } // lib.optionalAttrs pkgs.stdenv.isLinux {
       OPENER = "xdg-open";
       ELECTRON_OZONE_PLATFORM_HINT = "auto";
-      SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/gcr/ssh";
       MPV_IPC = "$XDG_RUNTIME_DIR/mpv.socket";
     } // lib.optionalAttrs pkgs.stdenv.isDarwin {
       OPENER = "open";

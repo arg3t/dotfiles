@@ -47,6 +47,7 @@
     session = "hyprland";
   };
 
+  home-manager.users.yeet.home.sessionVariables.SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/gcr/ssh";
   my.power.swapSize = 16 * 1024;
 
   system.stateVersion = "26.05";
