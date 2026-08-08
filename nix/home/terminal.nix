@@ -103,6 +103,8 @@ let
       '';
     };
 
+    home.packages = [ pkgs.alacritty.terminfo ];
+
     programs.tmux = {
       enable = true;
       plugins = [

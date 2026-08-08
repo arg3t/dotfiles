@@ -49,6 +49,7 @@ in
   environment.systemPackages = with pkgs; [
     kitty
     alacritty
+    alacritty.terminfo
     bemenu
     j4-dmenu-desktop
     cliphist
