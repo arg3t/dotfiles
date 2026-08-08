@@ -42,12 +42,17 @@ in
     # Allow interactive power-profile switching (dmenu-battery, invoked from
     # the waybar battery menu and dmenu-toolkit) to run `tlp <profile>`
     # without a password prompt. tlp writes root-owned sysfs, so it needs root.
+    #
+    # Use the /run/current-system/sw/bin/tlp symlink, not ${pkgs.tlp}/bin/tlp.
+    # sudo matches the literal command path without resolving symlinks, and a
+    # bare `tlp` resolves to the former; the store path changes hash per
+    # rebuild, so it never matches what the shell hands to sudo.
     security.sudo.extraRules = [
       {
         users = [ "yeet" ];
         commands = [
           {
-            command = "${pkgs.tlp}/bin/tlp";
+            command = "/run/current-system/sw/bin/tlp";
             options = [ "NOPASSWD" ];
           }
         ];
