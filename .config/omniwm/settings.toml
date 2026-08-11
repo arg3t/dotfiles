@@ -920,7 +920,7 @@ monitorDisplayUUID = "98B978BC-C7B1-4C5C-A996-10A58E31F2F9"
 monitorName = "LF32TU87 (1)"
 
 [[monitorRoutingOverrides]]
-gridColumn = 0
+gridColumn = 1
 gridRow = 0
 monitorDisplayUUID = "CED39E91-ECF6-48A3-AE2F-41F000726499"
 monitorName = "LF32TU87 (2)"
@@ -946,7 +946,7 @@ name = "1"
 type = "specificDisplay"
 
 [workspaces.monitorAssignment.output]
-displayUUID = "98B978BC-C7B1-4C5C-A996-10A58E31F2F9"
+displayUUID = "B4AD8A23-8134-4C22-A8E0-520E98A0B558"
 name = "LF32TU87 (1)"
 
 [[workspaces]]
@@ -958,8 +958,8 @@ name = "2"
 type = "specificDisplay"
 
 [workspaces.monitorAssignment.output]
-displayUUID = "EF0D65ED-821B-4E6B-944E-706AF9F6D628"
-name = "DELL P2419H"
+displayUUID = "CED39E91-ECF6-48A3-AE2F-41F000726499"
+name = "LF32TU87 (2)"
 
 [[workspaces]]
 id = "BEB842B5-E894-4791-9FD1-397C3CDD3538"
@@ -970,8 +970,8 @@ name = "3"
 type = "specificDisplay"
 
 [workspaces.monitorAssignment.output]
-displayUUID = "EF0D65ED-821B-4E6B-944E-706AF9F6D628"
-name = "DELL P2419H"
+displayUUID = "37D8832A-2D66-02CA-B9F7-8F30A301B230"
+name = "Built-in Retina Display"
 
 [[workspaces]]
 id = "248AA883-2261-4D45-943C-79C0E46A232B"
@@ -982,7 +982,7 @@ name = "4"
 type = "specificDisplay"
 
 [workspaces.monitorAssignment.output]
-displayUUID = "98B978BC-C7B1-4C5C-A996-10A58E31F2F9"
+displayUUID = "B4AD8A23-8134-4C22-A8E0-520E98A0B558"
 name = "LF32TU87 (1)"
 
 [[workspaces]]
@@ -994,7 +994,7 @@ name = "5"
 type = "specificDisplay"
 
 [workspaces.monitorAssignment.output]
-displayUUID = "98B978BC-C7B1-4C5C-A996-10A58E31F2F9"
+displayUUID = "B4AD8A23-8134-4C22-A8E0-520E98A0B558"
 name = "LF32TU87 (1)"
 
 [[workspaces]]
