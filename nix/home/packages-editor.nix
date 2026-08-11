@@ -14,6 +14,7 @@ let
       our.oh-my-pi
       our.codex
       our.opencode
+      our.herdr
       our.pi
 
       bash-language-server # bashls

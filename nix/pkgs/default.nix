@@ -2,6 +2,7 @@
 
 {
   oh-my-pi = pkgs.callPackage ./oh-my-pi/package.nix { };
+  codex = pkgs.callPackage ./codex/package.nix { };
   herdr = pkgs.callPackage ./herdr/package.nix { };
   opencode = pkgs.callPackage ./opencode/package.nix { };
   pi = pkgs.callPackage ./pi/package.nix { };
