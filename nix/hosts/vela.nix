@@ -48,6 +48,7 @@
       "python@3.10"
       "thrift"
       "ykman"
+      "mutagen-io/mutagen/mutagen"
     ];
     casks = [
       "bettercapture"
@@ -71,7 +72,7 @@
 
   home-manager.users."yigit.colakoglu" = { config, ... }: {
     home.packages = with pkgs; [
-      # codex/opencode/oh-my-pi come from packages-editor.nix (our.*, latest-pinned).
+      # codex/opencode/oh-my-pi/pi come from packages-editor.nix (our.*, latest-pinned).
       claude-code
     ];
 

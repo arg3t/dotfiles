@@ -4,6 +4,7 @@ local M = {
 
   terminalBundles = {
     ["com.mitchellh.ghostty"] = true,
+    ["com.barut.OmniWM"] = true,
     ["com.apple.Terminal"] = true,
     ["com.googlecode.iterm2"] = true,
     ["com.github.wez.wezterm"] = true,
@@ -36,12 +37,12 @@ local M = {
 
   appKeyRemaps = {
     ["firefox"] = {
-      { from = { {}, "f" }, to = { { "cmd" }, "f" } },
+      { from = { {}, "f" },         to = { { "cmd" }, "f" } },
       { from = { { "ctrl" }, "-" }, to = { { "cmd" }, "-" } },
       { from = { { "ctrl" }, "=" }, to = { { "cmd" }, "=" } },
     },
     ["Google Chrome"] = {
-      { from = { {}, "f" }, to = { { "cmd" }, "f" } },
+      { from = { {}, "f" },         to = { { "cmd" }, "f" } },
       { from = { { "ctrl" }, "-" }, to = { { "cmd" }, "-" } },
       { from = { { "ctrl" }, "=" }, to = { { "cmd" }, "=" } },
     },
@@ -49,11 +50,11 @@ local M = {
       { from = { { "ctrl" }, "k" }, to = { { "cmd" }, "k" } },
     },
     ["Zed"] = {
-      { from = { {}, "p" }, to = { { "cmd" }, "p" } },
+      { from = { {}, "p" },          to = { { "cmd" }, "p" } },
       { from = { { "shift" }, "p" }, to = { { "cmd", "shift" }, "p" } },
     },
     ["Cursor"] = {
-      { from = { {}, "p" }, to = { { "cmd" }, "p" } },
+      { from = { {}, "p" },          to = { { "cmd" }, "p" } },
       { from = { { "shift" }, "p" }, to = { { "cmd", "shift" }, "p" } },
     },
   },

@@ -14,6 +14,7 @@ let
       our.oh-my-pi
       our.codex
       our.opencode
+      our.pi
 
       bash-language-server # bashls
       clang-tools # clangd

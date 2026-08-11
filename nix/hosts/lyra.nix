@@ -19,7 +19,7 @@
   ];
 
   # claude-code is unfree; the lyra/arca home configurations allow it in
-  # flake.nix. codex/opencode/oh-my-pi come from packages-editor.nix.
+  # flake.nix. codex/opencode/oh-my-pi/pi come from packages-editor.nix.
   home.packages = with pkgs; [
     claude-code
   ];

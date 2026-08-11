@@ -15,9 +15,42 @@ check:
 # Alias for check
 test: check
 
-# Update the pinned OMP Gateway Bar input
-update:
-    nix flake update omp-gateway-bar --flake ./nix
+# Refresh pinned sources. With no TARGET, run every nix/pkgs/*/update.sh and
+# then update the pinned flake inputs. A named package TARGET refreshes only it.
+# TARGET is a package (e.g. codex), `inputs`, or empty to update everything.
+update target="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    pkgs_dir="{{ justfile_directory() }}/nix/pkgs"
+    update_pkg() {
+      echo "==> updating package: $1" >&2
+      ( cd "$pkgs_dir/$1" && ./update.sh )
+    }
+    update_inputs() {
+      echo "==> updating flake input: omp-gateway-bar" >&2
+      nix flake update omp-gateway-bar --flake ./nix
+    }
+    list_pkgs() {
+      for s in "$pkgs_dir"/*/update.sh; do basename "$(dirname "$s")"; done
+    }
+    case "{{ target }}" in
+      "")
+        while read -r pkg; do update_pkg "$pkg"; done < <(list_pkgs)
+        update_inputs
+        ;;
+      inputs)
+        update_inputs
+        ;;
+      *)
+        if [ -x "$pkgs_dir/{{ target }}/update.sh" ]; then
+          update_pkg "{{ target }}"
+        else
+          echo "update: unknown target '{{ target }}'" >&2
+          echo "targets: inputs $(list_pkgs | tr '\n' ' ')" >&2
+          exit 1
+        fi
+        ;;
+    esac
 
 # Format Nix files
 fmt:
