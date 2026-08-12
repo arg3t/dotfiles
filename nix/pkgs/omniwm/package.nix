@@ -8,13 +8,16 @@
   stdenvNoCC,
 }:
 
+let
+  sources = lib.importJSON ./sources.json;
+in
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "omniwm";
-  version = "0.5.9";
+  version = sources.version;
 
   src = fetchurl {
     url = "https://github.com/BarutSRB/OmniWM/releases/download/v${finalAttrs.version}/OmniWM-v${finalAttrs.version}.zip";
-    hash = "sha256-oaOCTpUQFQnrzlV2OSMsVwvaDcgefUTFFkKiRMB28nQ=";
+    hash = sources.hash;
   };
 
   dontUnpack = true;
@@ -33,6 +36,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
     runHook postInstall
   '';
+
+  passthru.updateScript = [ ./update.sh ];
 
   meta = {
     description = "macOS tiling window manager (Niri + Hyprland dwindle layouts)";

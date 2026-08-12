@@ -5,13 +5,16 @@
   unzip,
 }:
 
+let
+  sources = lib.importJSON ./sources.json;
+in
 stdenvNoCC.mkDerivation {
   pname = "supercmd";
-  version = "1.0.26";
+  version = sources.version;
 
   src = fetchurl {
-    url = "https://github.com/SuperCmdLabs/SuperCmd/releases/download/1.0.26/SuperCmd-1.0.26-arm64-mac.zip";
-    hash = "sha256-y0LPgltSV/V2OwGS8TN4gubIt0tHjDawdU2MqU5WW8s=";
+    url = "https://github.com/SuperCmdLabs/SuperCmd/releases/download/${sources.version}/SuperCmd-${sources.version}-arm64-mac.zip";
+    hash = sources.hash;
   };
 
   nativeBuildInputs = [ unzip ];
@@ -27,6 +30,8 @@ stdenvNoCC.mkDerivation {
     cp -R SuperCmd.app $out/Applications/
     runHook postInstall
   '';
+
+  passthru.updateScript = [ ./update.sh ];
 
   meta = {
     description = "Open-source macOS launcher with Raycast-compatible extensions and clipboard history";

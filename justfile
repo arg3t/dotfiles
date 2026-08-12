@@ -18,11 +18,24 @@ test: check
 # Refresh pinned sources. With no TARGET, run every nix/pkgs/*/update.sh and
 # then update the pinned flake inputs. A named package TARGET refreshes only it.
 # TARGET is a package (e.g. codex), `inputs`, or empty to update everything.
-update target="":
+# Pass SKIP="pkg1 pkg2" to skip packages: just update SKIP="omniwm pi"
+update target="" skip="":
     #!/usr/bin/env bash
     set -euo pipefail
     pkgs_dir="{{ justfile_directory() }}/nix/pkgs"
+
+    skip_str="{{ skip }}"
+
+    should_skip() {
+      local pkg="$1"
+      for s in $skip_str; do
+        [ "$s" = "$pkg" ] && return 0
+      done
+      return 1
+    }
+
     update_pkg() {
+      should_skip "$1" && { echo "==> skipping package: $1" >&2; return; }
       echo "==> updating package: $1" >&2
       ( cd "$pkgs_dir/$1" && ./update.sh )
     }
@@ -33,6 +46,7 @@ update target="":
     list_pkgs() {
       for s in "$pkgs_dir"/*/update.sh; do basename "$(dirname "$s")"; done
     }
+
     case "{{ target }}" in
       "")
         while read -r pkg; do update_pkg "$pkg"; done < <(list_pkgs)

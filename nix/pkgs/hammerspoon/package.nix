@@ -5,13 +5,16 @@
   unzip,
 }:
 
+let
+  sources = lib.importJSON ./sources.json;
+in
 stdenvNoCC.mkDerivation {
   pname = "hammerspoon";
-  version = "1.1.1";
+  version = sources.version;
 
   src = fetchurl {
-    url = "https://github.com/Hammerspoon/hammerspoon/releases/download/1.1.1/Hammerspoon-1.1.1.zip";
-    hash = "sha256-EbsckPr1Qn83x71P5+q5d0rkPh1csCDFswiNrDKEnvo=";
+    url = "https://github.com/Hammerspoon/hammerspoon/releases/download/${sources.version}/Hammerspoon-${sources.version}.zip";
+    hash = sources.hash;
   };
 
   nativeBuildInputs = [ unzip ];
@@ -27,6 +30,8 @@ stdenvNoCC.mkDerivation {
     cp -R Hammerspoon.app $out/Applications/
     runHook postInstall
   '';
+
+  passthru.updateScript = [ ./update.sh ];
 
   meta = {
     description = "Staggeringly powerful macOS desktop automation with Lua";

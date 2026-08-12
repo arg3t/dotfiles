@@ -4,17 +4,20 @@
   fetchFromGitHub,
 }:
 
+let
+  sources = lib.importJSON ./sources.json;
+in
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "podctl";
-  version = "0.1.1";
+  version = sources.version;
 
   src = fetchFromGitHub {
     owner = "Rockykln";
     repo = "podctl";
     rev = "v${finalAttrs.version}";
-    hash = "sha256-sEq3YtO5ED/5CxJ+IccQYs+rpQVaUXOIWTFErUGxDdc=";
+    hash = sources.hash;
   };
-  cargoHash = "sha256-SLOHB0/Rhgic4E8lM5rifW8qRdUwCKY03QBC+ylwxAY=";
+  cargoHash = sources.cargoHash;
 
   cargoBuildFlags = [
     "--bin"
@@ -27,6 +30,8 @@ rustPlatform.buildRustPackage (finalAttrs: {
     "podctl-popup"
   ];
   cargoTestFlags = finalAttrs.cargoBuildFlags;
+
+  passthru.updateScript = [ ./update.sh ];
 
   meta = {
     description = "Linux CLI to control AirPods — battery, listening mode, conversation awareness, bluetooth connect/disconnect";

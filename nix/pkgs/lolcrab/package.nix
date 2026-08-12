@@ -4,17 +4,22 @@
   fetchFromGitHub,
 }:
 
+let
+  sources = lib.importJSON ./sources.json;
+in
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "lolcrab";
-  version = "0.4.1";
+  version = sources.version;
 
   src = fetchFromGitHub {
     owner = "mazznoer";
     repo = "lolcrab";
     rev = "v${finalAttrs.version}";
-    hash = "sha256-AfdCK8Xi523o45Ft9aLZPt4dZDdNLsn04QFCUVdgS5A=";
+    hash = sources.hash;
   };
-  cargoHash = "sha256-xuHTh3Fo/6gNGrcPz7WArJ1nXQvWuHAopYBmVyCXUCU=";
+  cargoHash = sources.cargoHash;
+
+  passthru.updateScript = [ ./update.sh ];
 
   meta = {
     description = "Like lolcat but with noise and more colorful";
