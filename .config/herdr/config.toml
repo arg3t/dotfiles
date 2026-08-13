@@ -1,0 +1,84 @@
+# Herdr config — tmux-compatible keybinds
+# Mirrors .config/tmux/tmux.conf so muscle memory transfers.
+
+[keys]
+# Match tmux prefix (tmux.conf: unbind C-b; set-option -g prefix C-a)
+prefix = "ctrl+a"
+
+# Splits: | and - (tmux: bind | split-window -h; bind - split-window -v)
+split_vertical = ["prefix+|", "prefix+\\"]
+split_horizontal = "prefix+minus"
+
+# Copy mode on v (tmux: bind v copy-mode)
+copy_mode = "prefix+v"
+
+# Reload on prefix+r (tmux: bind r source-file ...)
+reload_config = "prefix+r"
+
+# Pane nav via prefix+h/j/k/l (herdr defaults, kept as-is)
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
+# Last pane on ctrl+\ (tmux: C-\ select-pane -l)
+last_pane = "ctrl+\\"
+
+# Move rename_tab off prefix+shift+t so sesh picker can use it
+rename_tab = "prefix+shift+,"
+
+# ---
+# Vim-aware pane navigation: ctrl+h/j/k/l with passthrough to vim.
+# Uses vendored vim-herdr-navigation plugin at
+# .config/herdr/plugins/vim-herdr-navigation/
+# ---
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "vim-herdr-navigation.left"
+description = "navigate left (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "vim-herdr-navigation.down"
+description = "navigate down (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "vim-herdr-navigation.up"
+description = "navigate up (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "vim-herdr-navigation.right"
+description = "navigate right (vim/herdr)"
+
+# ---
+# Command palette: fzf popup of every plugin action.
+# Uses vendored herdr-command-palette plugin at
+# .config/herdr/plugins/herdr-command-palette/
+# ---
+[[keys.command]]
+key = "prefix+p"
+type = "plugin_action"
+command = "jt.command-palette.open"
+description = "Command palette"
+
+# ---
+# Sesh: workspace picker and session manager.
+# Uses herdr-plugin-sesh from nix (our.herdr-plugin-sesh).
+# ---
+[[keys.command]]
+key = "prefix+shift+t"
+type = "plugin_action"
+command = "fullerzz.sesh.open-picker"
+description = "open Sesh picker"
+
+[[keys.command]]
+key = "prefix+shift+b"
+type = "plugin_action"
+command = "fullerzz.sesh.last"
+description = "switch to previous Sesh workspace"

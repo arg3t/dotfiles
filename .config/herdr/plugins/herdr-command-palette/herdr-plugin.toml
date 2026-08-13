@@ -1,0 +1,28 @@
+id = "jt.command-palette"
+name = "Command Palette (fzf)"
+version = "0.1.0"
+min_herdr_version = "0.7.0"
+description = "An fzf command palette for herdr: pops up a fuzzy-searchable list of every action exposed by every installed plugin (via `herdr plugin action list`) and invokes the one you pick. The picker runs in an overlay pane so fzf gets a real TTY; the origin workspace's cwd is forwarded so context-aware actions resolve the right repo."
+platforms = ["linux", "macos"]
+
+# The user-facing entry point. Herdr qualifies it globally as
+# `jt.command-palette.open`. Like every action, its command is run by the herdr
+# server WITHOUT a TTY, so it cannot run fzf itself — instead it opens the
+# `palette` overlay pane (below), which is where the interactive picker lives.
+# cwd defaults to the plugin root for actions, so the relative `open.sh` resolves.
+[[actions]]
+id = "open"
+title = "Command palette (all plugin actions)"
+contexts = ["workspace"]
+command = ["bash", "open.sh"]
+
+# The interactive popup. `overlay` placement = a temporary zoomed overlay over the
+# active pane, which is exactly the "command palette" feel we want. This pane DOES
+# get a TTY, so fzf works. The command is invoked with an absolute path via
+# $HERDR_PLUGIN_ROOT because open.sh opens this pane with `--cwd <origin repo>`,
+# which would otherwise break resolution of a relative script path.
+[[panes]]
+id = "palette"
+title = "Command palette"
+placement = "overlay"
+command = ["bash", "-c", "exec \"$HERDR_PLUGIN_ROOT/palette.sh\""]
