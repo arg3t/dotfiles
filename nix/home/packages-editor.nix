@@ -45,6 +45,9 @@ let
     xdg.configFile."herdr/config.toml".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/config.toml";
 
+    xdg.configFile."herdr/plugins/vim-herdr-navigation".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/plugins/vim-herdr-navigation";
+
     xdg.configFile."herdr/plugins/herdr-command-palette".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/plugins/herdr-command-palette";
 
