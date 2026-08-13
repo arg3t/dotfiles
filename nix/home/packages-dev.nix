@@ -7,10 +7,6 @@
 }:
 
 let
-  # rustup ships a `rust-analyzer` proxy that collides with the standalone
-  # rust-analyzer from packages-editor.nix. Use symlinkJoin to drop just that
-  # one binary from the prebuilt rustup package, so we keep the binary-cache
-  # hit (overrideAttrs would force a ~30min from-source rebuild + test suite).
   rustup-without-rust-analyzer = pkgs.symlinkJoin {
     name = "rustup-${pkgs.rustup.version}";
     paths = [ pkgs.rustup ];
@@ -19,11 +15,6 @@ let
     '';
   };
 
-  # .cargo/config.toml uses clang as the linker for Rust builds. The full
-  # llvmPackages.clang-unwrapped shares many binaries with the clang-tools
-  # package from packages-editor.nix (clang-apply-replacements, clang-doc, …),
-  # which buildEnv rejects as a conflict. Expose only the clang/clang++ driver
-  # binaries that the linker invocation actually needs.
   clang-driver-only = pkgs.symlinkJoin {
     name = "clang-driver-${pkgs.llvmPackages.clang-unwrapped.version}";
     paths = [ pkgs.llvmPackages.clang-unwrapped ];
@@ -32,8 +23,6 @@ let
     '';
   };
 
-  # bazelisk honors each repo's .bazelversion, but the nixpkgs package ships
-  # only `bin/bazelisk`. Add a `bazel` symlink so the usual `bazel ...` works.
   bazelisk-with-bazel = pkgs.symlinkJoin {
     name = "bazelisk-${pkgs.bazelisk.version}";
     paths = [ pkgs.bazelisk ];
@@ -54,27 +43,23 @@ let
       attic-client
       lazygit
       delta
+      watchman
       go
       rustup-without-rust-analyzer
       clang-driver-only
-
-      # Language runtimes / package managers (cargo via rustup, go above).
       nodejs
       bun
       pnpm
-      uv # python env + package manager (python3 itself ships via packages-cli)
-
-      # C/C++ toolchain. clang/clang++ come from clang-driver-only above;
-      # clangd + clang-tools and the cmake LSP live in packages-editor.
+      uv
       gcc
       cmake
       ninja
       gnumake
       pkg-config
-      lldb # LLVM debugger (works on macOS + Linux)
-      gdb # GNU debugger; on aarch64-darwin needs codesigning + arm64 support is limited
-      mold # fast ELF linker (Linux); on macOS it can't link Mach-O, kept for cross/ELF builds
-      bazelisk-with-bazel # bazel + bazelisk (build system)
+      lldb
+      gdb
+      mold
+      bazelisk-with-bazel
     ];
   };
 in

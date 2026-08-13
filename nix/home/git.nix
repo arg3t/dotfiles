@@ -1,12 +1,13 @@
 {
   config,
+  pkgs,
   username ? "yeet",
   standaloneHome ? false,
   ...
 }:
 
 let
-  userConfig = { config, ... }: {
+  userConfig = { config, pkgs, ... }: {
     programs.git = {
       enable = true;
       settings = {
@@ -18,9 +19,9 @@ let
         push.autoSetupRemote = true;
 
         core.pager = "delta --dark";
+        core.untrackedCache = true;
+        core.fsmonitor = pkgs.watchman + "/bin/watchman";
         interactive.diffFilter = "delta --color-only";
-        delta.navigate = true;
-        merge.conflictStyle = "zdiff3";
       };
     };
 
@@ -28,7 +29,8 @@ let
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/lazygit/config.yml";
   };
 in
+
 if standaloneHome then
-  userConfig { inherit config; }
+  userConfig { inherit config pkgs; }
 else
   { home-manager.users.${username} = userConfig; }
