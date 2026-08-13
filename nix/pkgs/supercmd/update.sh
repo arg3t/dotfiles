@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # Refresh supercmd to the latest GitHub release: fetch the newest tag, prefetch
-# the release zip, and rewrite sources.json (version + hash).
+# the release DMG, and rewrite sources.json (version + hash).
 #
 # Usage:
 #   ./update.sh                 # bump to the latest release
-#   ./update.sh 1.0.26          # pin an explicit version
+#   ./update.sh 1.0.5            # pin an explicit version
 #   nix run .#supercmd.updateScript
 set -euo pipefail
 
 owner="SuperCmdLabs"
-repo="SuperCmd"
+repo="SuperCmd-v2-releases"
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 sources_json="$here/sources.json"
@@ -30,9 +30,9 @@ if [ "$version" = "$current" ]; then
 fi
 echo "supercmd: $current -> $version" >&2
 
-url="https://github.com/$owner/$repo/releases/download/$version/SuperCmd-$version-arm64-mac.zip"
+url="https://github.com/$owner/$repo/releases/download/$version/SuperCmd.dmg"
 echo "  prefetch $url" >&2
-hash="$(nix store prefetch-file --json --name "SuperCmd-$version-arm64-mac.zip" "$url" | jq -r .hash)"
+hash="$(nix store prefetch-file --json --name "SuperCmd-$version.dmg" "$url" | jq -r .hash)"
 
 jq -n --arg version "$version" --arg hash "$hash" \
   '{version: $version, hash: $hash}' >"$sources_json"
