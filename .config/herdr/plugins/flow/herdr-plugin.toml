@@ -1,0 +1,54 @@
+id = "flow"
+name = "Flow"
+version = "0.1.0"
+min_herdr_version = "0.7.4"
+description = "Workflow phases, almanac linked references, and an MCP server for agent orchestration."
+platforms = ["linux", "macos"]
+
+# Keep the focused workspace's almanac token fresh on switches.
+[[events]]
+on = "workspace.focused"
+command = ["bun", "bin/action.ts", "almanac-sync"]
+
+[[events]]
+on = "worktree.opened"
+command = ["bun", "bin/action.ts", "almanac-sync"]
+
+[[actions]]
+id = "set-phase"
+title = "Set phase"
+contexts = ["workspace"]
+command = ["bun", "bin/action.ts", "set-phase"]
+
+[[actions]]
+id = "cycle-phase"
+title = "Cycle phase"
+contexts = ["workspace"]
+command = ["bun", "bin/action.ts", "cycle-phase"]
+
+[[actions]]
+id = "clear-phase"
+title = "Clear phase"
+contexts = ["workspace"]
+command = ["bun", "bin/action.ts", "clear-phase"]
+
+[[actions]]
+id = "almanac-attach"
+title = "Attach almanac reference"
+contexts = ["workspace"]
+command = ["bun", "bin/action.ts", "almanac-attach"]
+
+[[actions]]
+id = "almanac-search"
+title = "Search almanac"
+contexts = ["workspace"]
+command = ["bun", "bin/action.ts", "almanac-search"]
+
+# Interactive phase picker as a popup.
+[[panes]]
+id = "pick-phase"
+title = "Set phase"
+placement = "popup"
+width = "40%"
+height = "40%"
+command = ["bun", "bin/action.ts", "pick-phase"]

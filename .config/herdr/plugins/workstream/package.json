@@ -1,0 +1,10 @@
+{
+  "name": "herdr-plugin-workstream",
+  "version": "0.4.0",
+  "private": true,
+  "type": "module",
+  "description": "herdr plugin that shows the focused agent pane's branch PR status in the sidebar",
+  "scripts": {
+    "test": "bun test"
+  }
+}

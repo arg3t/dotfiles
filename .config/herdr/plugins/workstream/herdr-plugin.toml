@@ -1,0 +1,66 @@
+id = "workstream"
+name = "Workstream"
+version = "0.1.0"
+min_herdr_version = "0.7.4"
+description = "Workstream creation (Jira / PR / fast git-ns overlay worktrees) and pause-restore lifecycle."
+platforms = ["linux", "macos"]
+
+# Pickers need an interactive terminal, so they run as popup panes: fzf reads
+# the user's keys directly and the popup closes when the command exits.
+
+[[panes]]
+id = "from-pr"
+title = "New workstream from PR"
+placement = "popup"
+width = "70%"
+height = "50%"
+command = ["bun", "bin/action.ts", "from-pr"]
+
+[[panes]]
+id = "from-jira"
+title = "New workstream from Jira"
+placement = "popup"
+width = "60%"
+height = "30%"
+command = ["bun", "bin/action.ts", "from-jira"]
+
+[[panes]]
+id = "restore"
+title = "Restore paused workstream"
+placement = "popup"
+width = "60%"
+height = "40%"
+command = ["bun", "bin/action.ts", "restore"]
+
+# Actions for keybindings and CLI invocation. Bind them in config.toml with
+# [[keys.command]] type = "plugin_action".
+
+[[actions]]
+id = "from-pr"
+title = "New workstream from PR"
+contexts = ["workspace"]
+command = ["bun", "bin/action.ts", "from-pr"]
+
+[[actions]]
+id = "from-jira"
+title = "New workstream from Jira"
+contexts = ["workspace"]
+command = ["bun", "bin/action.ts", "from-jira"]
+
+[[actions]]
+id = "fast-create"
+title = "Fast worktree (git-ns overlay)"
+contexts = ["workspace"]
+command = ["bun", "bin/action.ts", "fast-create"]
+
+[[actions]]
+id = "pause"
+title = "Pause workspace (keep worktree)"
+contexts = ["workspace"]
+command = ["bun", "bin/action.ts", "pause"]
+
+[[actions]]
+id = "restore"
+title = "Restore paused workspace"
+contexts = ["workspace"]
+command = ["bun", "bin/action.ts", "restore"]

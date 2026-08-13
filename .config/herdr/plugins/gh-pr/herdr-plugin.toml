@@ -1,0 +1,36 @@
+id = "gh-pr"
+name = "GitHub PR Status"
+version = "0.1.0"
+min_herdr_version = "0.7.4"
+description = "Workspace-level GitHub PR status icon in the sidebar (review + CI rollup)."
+platforms = ["macos", "linux"]
+
+# Poll on a timer from a startup-spawned loop — herdr has no built-in
+# background poller, and PR/CI state changes without any local event.
+[[startup]]
+command = ["bun", "bin/poll-loop.ts"]
+
+# Refresh on workspace switches so the focused row is never stale.
+[[events]]
+on = "workspace.focused"
+command = ["bun", "bin/update-pr-status.ts"]
+
+[[events]]
+on = "worktree.opened"
+command = ["bun", "bin/update-pr-status.ts"]
+
+[[events]]
+on = "worktree.created"
+command = ["bun", "bin/update-pr-status.ts"]
+
+[[actions]]
+id = "refresh"
+title = "Refresh PR status"
+contexts = ["workspace"]
+command = ["bun", "bin/update-pr-status.ts"]
+
+[[actions]]
+id = "open-pr"
+title = "Open PR in browser"
+contexts = ["workspace"]
+command = ["bun", "bin/open-pr.ts"]
