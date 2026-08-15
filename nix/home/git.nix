@@ -20,7 +20,7 @@ let
 
         core.pager = "delta --dark";
         core.untrackedCache = true;
-        core.fsmonitor = pkgs.watchman + "/bin/watchman";
+        core.fsmonitor = true;
         interactive.diffFilter = "delta --color-only";
       };
     };

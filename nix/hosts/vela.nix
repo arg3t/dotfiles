@@ -173,7 +173,6 @@
       config = {
         Label = "org.nixos.omniwm";
         Program = "${pkgs.our.omniwm}/Applications/OmniWM.app/Contents/MacOS/OmniWM";
-        KeepAlive = true;
         RunAtLoad = true;
         StandardOutPath = "/tmp/omniwm.log";
         StandardErrorPath = "/tmp/omniwm.err.log";

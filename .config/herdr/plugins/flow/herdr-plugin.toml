@@ -15,12 +15,6 @@ on = "worktree.opened"
 command = ["bun", "bin/action.ts", "almanac-sync"]
 
 [[actions]]
-id = "set-phase"
-title = "Set phase"
-contexts = ["workspace"]
-command = ["bun", "bin/action.ts", "set-phase"]
-
-[[actions]]
 id = "cycle-phase"
 title = "Cycle phase"
 contexts = ["workspace"]
@@ -38,11 +32,30 @@ title = "Attach almanac reference"
 contexts = ["workspace"]
 command = ["bun", "bin/action.ts", "almanac-attach"]
 
+# almanac-search is interactive (fzf), so it opens a popup pane — same
+# no-TTY-on-actions pattern as the workstream plugin.
 [[actions]]
 id = "almanac-search"
 title = "Search almanac"
 contexts = ["workspace"]
-command = ["bun", "bin/action.ts", "almanac-search"]
+command = ["bash", "open-pane.sh", "almanac-search", "popup"]
+
+# set-phase as an action opens the interactive picker popup.
+[[actions]]
+id = "set-phase"
+title = "Set phase (picker)"
+contexts = ["workspace"]
+command = ["bash", "open-pane.sh", "pick-phase", "popup"]
+
+# --- Popup panes (have a TTY) ---
+
+[[panes]]
+id = "almanac-search"
+title = "Search almanac"
+placement = "popup"
+width = "60%"
+height = "40%"
+command = ["bash", "-c", "exec bun \"$HERDR_PLUGIN_ROOT/bin/almanac-search-picker.ts\""]
 
 # Interactive phase picker as a popup.
 [[panes]]
@@ -51,4 +64,4 @@ title = "Set phase"
 placement = "popup"
 width = "40%"
 height = "40%"
-command = ["bun", "bin/action.ts", "pick-phase"]
+command = ["bash", "-c", "exec bun \"$HERDR_PLUGIN_ROOT/bin/action.ts\" pick-phase"]

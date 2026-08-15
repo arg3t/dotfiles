@@ -1,12 +1,20 @@
 id = "workstream"
 name = "Workstream"
-version = "0.1.0"
+version = "0.2.0"
 min_herdr_version = "0.7.4"
 description = "Workstream creation (Jira / PR / fast git-ns overlay worktrees) and pause-restore lifecycle."
 platforms = ["linux", "macos"]
 
-# Pickers need an interactive terminal, so they run as popup panes: fzf reads
-# the user's keys directly and the popup closes when the command exits.
+# Architecture: keybound [[actions]] run on the herdr server WITHOUT a TTY,
+# so interactive pickers (fzf, prompts) cannot run there. Each action calls
+# open-pane.sh, which opens the matching [[panes]] entrypoint — those get a
+# real terminal. This mirrors the command-palette plugin's pattern.
+#
+# Pane commands use $HERDR_PLUGIN_ROOT for absolute script paths, because
+# open-pane.sh forwards the popup's cwd to the origin repo (so a relative
+# path would not resolve).
+
+# --- Popup panes (have a TTY; where the interactive UI actually runs) ---
 
 [[panes]]
 id = "from-pr"
@@ -14,7 +22,7 @@ title = "New workstream from PR"
 placement = "popup"
 width = "70%"
 height = "50%"
-command = ["bun", "bin/action.ts", "from-pr"]
+command = ["bash", "-c", "exec bun \"$HERDR_PLUGIN_ROOT/bin/action.ts\" from-pr"]
 
 [[panes]]
 id = "from-jira"
@@ -22,7 +30,7 @@ title = "New workstream from Jira"
 placement = "popup"
 width = "60%"
 height = "30%"
-command = ["bun", "bin/action.ts", "from-jira"]
+command = ["bash", "-c", "exec bun \"$HERDR_PLUGIN_ROOT/bin/action.ts\" from-jira"]
 
 [[panes]]
 id = "restore"
@@ -30,37 +38,46 @@ title = "Restore paused workstream"
 placement = "popup"
 width = "60%"
 height = "40%"
-command = ["bun", "bin/action.ts", "restore"]
+command = ["bash", "-c", "exec bun \"$HERDR_PLUGIN_ROOT/bin/action.ts\" restore"]
 
-# Actions for keybindings and CLI invocation. Bind them in config.toml with
-# [[keys.command]] type = "plugin_action".
+[[panes]]
+id = "fast-create"
+title = "Fast worktree (git-ns overlay)"
+placement = "popup"
+width = "60%"
+height = "20%"
+command = ["bash", "-c", "exec bun \"$HERDR_PLUGIN_ROOT/bin/fast-create-prompt.ts\""]
+
+# --- Actions (no TTY; open the popup panes above) ---
 
 [[actions]]
 id = "from-pr"
 title = "New workstream from PR"
 contexts = ["workspace"]
-command = ["bun", "bin/action.ts", "from-pr"]
+command = ["bash", "open-pane.sh", "from-pr", "popup"]
 
 [[actions]]
 id = "from-jira"
 title = "New workstream from Jira"
 contexts = ["workspace"]
-command = ["bun", "bin/action.ts", "from-jira"]
-
-[[actions]]
-id = "fast-create"
-title = "Fast worktree (git-ns overlay)"
-contexts = ["workspace"]
-command = ["bun", "bin/action.ts", "fast-create"]
-
-[[actions]]
-id = "pause"
-title = "Pause workspace (keep worktree)"
-contexts = ["workspace"]
-command = ["bun", "bin/action.ts", "pause"]
+command = ["bash", "open-pane.sh", "from-jira", "popup"]
 
 [[actions]]
 id = "restore"
 title = "Restore paused workspace"
 contexts = ["workspace"]
-command = ["bun", "bin/action.ts", "restore"]
+command = ["bash", "open-pane.sh", "restore", "popup"]
+
+[[actions]]
+id = "fast-create"
+title = "Fast worktree (git-ns overlay)"
+contexts = ["workspace"]
+command = ["bash", "open-pane.sh", "fast-create", "popup"]
+
+# pause is non-interactive (no picker): it snapshots + closes the focused
+# workspace directly, so it can run as a plain action without a popup.
+[[actions]]
+id = "pause"
+title = "Pause workspace (keep worktree)"
+contexts = ["workspace"]
+command = ["bun", "bin/action.ts", "pause"]

@@ -1,3 +1,4 @@
+onboarding = false
 # Herdr config — tmux-compatible keybinds
 # Mirrors .config/tmux/tmux.conf so muscle memory transfers.
 
@@ -82,3 +83,6 @@ key = "prefix+shift+b"
 type = "plugin_action"
 command = "fullerzz.sesh.last"
 description = "switch to previous Sesh workspace"
+
+[ui]
+show_agent_labels_on_pane_borders = false

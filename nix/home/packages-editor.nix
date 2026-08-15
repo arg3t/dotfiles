@@ -50,6 +50,14 @@ let
 
     xdg.configFile."herdr/plugins/herdr-command-palette".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/plugins/herdr-command-palette";
+    xdg.configFile."herdr/plugins/gh-pr".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/plugins/gh-pr";
+
+    xdg.configFile."herdr/plugins/workstream".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/plugins/workstream";
+
+    xdg.configFile."herdr/plugins/flow".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/plugins/flow";
 
     # Link vendored plugins into herdr and the sesh plugin from nix store.
     # Runs after config files are placed. Idempotent: re-linking is safe.
@@ -61,6 +69,12 @@ let
           "$HOME/.config/herdr/plugins/herdr-command-palette" 2>/dev/null || true
         run herdr plugin link \
           "${pkgs.our.herdr-plugin-sesh}/share/herdr-plugin-sesh" 2>/dev/null || true
+        run herdr plugin link \
+          "$HOME/.config/herdr/plugins/gh-pr" 2>/dev/null || true
+        run herdr plugin link \
+          "$HOME/.config/herdr/plugins/workstream" 2>/dev/null || true
+        run herdr plugin link \
+          "$HOME/.config/herdr/plugins/flow" 2>/dev/null || true
       fi
     '';
 
