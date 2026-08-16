@@ -9,9 +9,24 @@ let
   cfg = config.my.power;
 in
 {
-  options.my.power.swapSize = lib.mkOption {
-    type = lib.types.ints.positive;
-    description = "Swap file size in MiB.";
+  options.my.power = {
+    swapSize = lib.mkOption {
+      type = lib.types.ints.positive;
+      description = "Swap file size in MiB.";
+    };
+
+    hibernation = {
+      enable = lib.mkEnableOption "hibernation (suspend-to-disk) into the swap file";
+
+      resumeOffset = lib.mkOption {
+        type = lib.types.ints.positive;
+        description = ''
+          Physical offset of the swap file's first block, as reported by
+          `btrfs inspect-internal map-swapfile -r /swap/swapfile`.
+          Machine-specific; only used when `hibernation.enable` is set.
+        '';
+      };
+    };
   };
 
   config = {
@@ -75,8 +90,12 @@ in
       }
     ];
 
-    boot.resumeDevice = "/dev/mapper/krypt";
-    boot.kernelParams = [ "resume_offset=5621002" ];
+    boot.resumeDevice = lib.mkIf cfg.hibernation.enable "/dev/mapper/krypt";
+    boot.kernelParams =
+      if cfg.hibernation.enable then
+        [ "resume_offset=${toString cfg.hibernation.resumeOffset}" ]
+      else
+        [ "nohibernate" ];
 
     services.logind.settings.Login = {
       HandleLidSwitch = "suspend";

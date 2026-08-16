@@ -77,7 +77,7 @@ build:
 # Auto-detected nh backend + this machine's system config (one full-system
 # config per OS). Pass args explicitly to override on exception machines.
 default_backend := if os() == "macos" { "darwin" } else { "os" }
-default_host    := if os() == "macos" { "vela" } else { "ursa" }
+default_host    := if os() == "macos" { "vela" } else { `hostname` }
 
 # Switch a NixOS or nix-darwin system configuration.
 switch target=default_host backend=default_backend:

@@ -103,6 +103,30 @@
         ];
       };
 
+      nixosConfigurations.crux = nixpkgs.lib.nixosSystem {
+        system = linuxSystem;
+        specialArgs = {
+          inherit inputs;
+          username = "yeet";
+          homeDirectory = "/home/yeet";
+          standaloneHome = false;
+        };
+
+        modules = [
+          {
+            nixpkgs.overlays = [
+              self.overlays.default
+              unstable-overlay
+              inputs.mac-style-plymouth.overlays.default
+            ];
+          }
+          home-manager.nixosModules.home-manager
+          impermanence.nixosModules.impermanence
+          inputs.nix-index-database.nixosModules.nix-index
+          ./hosts/crux.nix
+        ];
+      };
+
       homeConfigurations.ara = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           system = linuxSystem;

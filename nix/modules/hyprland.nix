@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, lib, ... }:
 
 let
   # flameshot is X11-native; under Hyprland it has no native Wayland grab
@@ -19,9 +19,22 @@ let
         --set QT_SCREEN_SCALE_FACTORS 1
     '';
   };
+
+  profile = config.my.hyprland.profile;
 in
 {
-  programs.hyprland.enable = true;
+  options.my.hyprland.profile = lib.mkOption {
+    type = lib.types.str;
+    default = "default";
+    description = ''
+      Name of the per-host Hyprland profile directory under
+      .dots/.config/hypr/ that ~/.config/hypr-own points at. Selects
+      monitor layout, workspace pinning, and host-specific exec-once.
+    '';
+  };
+
+  config = {
+    programs.hyprland.enable = true;
 
   services.udisks2.enable = true;
   services.gvfs.enable = true;
@@ -90,7 +103,7 @@ in
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hypr";
 
     home.file.".config/hypr-own".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hypr/default";
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/hypr/${profile}";
 
     xdg.configFile."flameshot/flameshot.ini".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/flameshot/flameshot.ini";
@@ -150,5 +163,6 @@ in
       gtk.enable = true;
       hyprcursor.enable = true;
     };
+  };
   };
 }

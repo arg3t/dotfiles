@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ../hardware/ursa.nix
+    ../hardware/crux.nix
 
     ../modules/nix.nix
     ../modules/base.nix
@@ -16,8 +16,9 @@
 
     ../modules/apps.nix
     ../modules/graphics.nix
+    ../modules/nvidia.nix
     ../modules/power.nix
-    ../modules/plymouth.nix
+    # ../modules/plymouth.nix
 
     ../home/base.nix
     ../home/env.nix
@@ -30,7 +31,6 @@
     ../home/packages-dev.nix
     ../home/packages-nix.nix
     ../home/packages-editor.nix
-    ../home/omp.nix
     ../home/backgrounds.nix
     ../home/linux-theme.nix
   ];
@@ -40,7 +40,7 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "ursa";
+  networking.hostName = "crux";
 
   my.login = {
     autoLogin = true;
@@ -48,14 +48,11 @@
     session = "hyprland";
   };
 
-  my.hyprland.profile = "default";
+  my.hyprland.profile = "crux";
 
   home-manager.users.yeet.home.sessionVariables.SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/gcr/ssh";
   my.power.swapSize = 16 * 1024;
-  my.power.hibernation = {
-    enable = true;
-    resumeOffset = 5621002;
-  };
+  my.power.hibernation.enable = false;
 
   system.stateVersion = "26.05";
 }
