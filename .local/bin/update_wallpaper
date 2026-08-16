@@ -1,4 +1,7 @@
 #!/bin/sh
+# Pick a wallpaper folder by time of day and set it via awww (swww fork).
+# hyprpaper 0.8.x fails EGL device enumeration on this NVIDIA GPU, so awww
+# is the rendering daemon (see services.awww in nix/modules/hyprland.nix).
 
 hour=$(date +"%-H")
 
@@ -7,19 +10,14 @@ afternoon=12
 night=19
 
 if [ "$hour" -le "$morning" ]; then
-  if [ ! "$cached" = "night"  ]; then
-    hyprctl hyprpaper wallpaper ,"$(find ~/.local/backgrounds/evening -type f | sort -R | tail -1 )"
-  fi
+  folder=evening
 elif [ "$night" -le "$hour" ]; then
-  if [ ! "$cached" = "night"  ]; then
-    hyprctl hyprpaper wallpaper ,"$(find ~/.local/backgrounds/evening -type f | sort -R | tail -1 )"
-  fi
+  folder=evening
 elif [ "$afternoon" -le "$hour" ]; then
-  if [ ! "$cached" = "afternoon"  ]; then
-    hyprctl hyprpaper wallpaper ,"$(find ~/.local/backgrounds/afternoon -type f | sort -R | tail -1 )"
-  fi
+  folder=afternoon
 else
-  if [ ! "$cached" = "morning"  ]; then
-    hyprctl hyprpaper wallpaper ,"$(find ~/.local/backgrounds/morning -type f | sort -R | tail -1 )"
-  fi
+  folder=morning
 fi
+
+img=$(find "$HOME/.local/backgrounds/$folder" -type f | sort -R | tail -1)
+[ -n "$img" ] && exec awww img "$img"
