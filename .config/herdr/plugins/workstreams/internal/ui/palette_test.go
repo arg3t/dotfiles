@@ -4,8 +4,8 @@ import "testing"
 
 func TestNativePaletteItemsAreClearAndUnique(t *testing.T) {
 	items := nativePaletteItems()
-	if len(items) < 6 {
-		t.Fatalf("nativePaletteItems() returned %d items, want at least 6", len(items))
+	if len(items) < 5 {
+		t.Fatalf("nativePaletteItems() returned %d items, want at least 5", len(items))
 	}
 	seen := map[string]bool{}
 	for _, item := range items {

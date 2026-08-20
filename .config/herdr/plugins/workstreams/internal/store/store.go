@@ -14,11 +14,13 @@ import (
 const Version = 1
 
 type State struct {
-	Version     int                          `json:"version"`
-	References  map[string][]model.Reference `json:"references"`
-	Paused      map[string]model.Paused      `json:"paused"`
-	AutoLabels  map[string]string            `json:"auto_labels"`
-	TitleLocked map[string]bool              `json:"title_locked"`
+	Version        int                          `json:"version"`
+	References     map[string][]model.Reference `json:"references"`
+	Paused         map[string]model.Paused      `json:"paused"`
+	AutoLabels     map[string]string            `json:"auto_labels"`
+	TitleLocked    map[string]bool              `json:"title_locked"`
+	TabAutoLabels  map[string]string            `json:"tab_auto_labels"`
+	TabTitleLocked map[string]bool              `json:"tab_title_locked"`
 }
 
 type Store struct{ Path string }
@@ -32,7 +34,7 @@ func New(path string) Store {
 }
 
 func (s Store) Load() (State, error) {
-	state := State{Version: Version, References: map[string][]model.Reference{}, Paused: map[string]model.Paused{}, AutoLabels: map[string]string{}, TitleLocked: map[string]bool{}}
+	state := State{Version: Version, References: map[string][]model.Reference{}, Paused: map[string]model.Paused{}, AutoLabels: map[string]string{}, TitleLocked: map[string]bool{}, TabAutoLabels: map[string]string{}, TabTitleLocked: map[string]bool{}}
 	data, err := os.ReadFile(s.Path)
 	if os.IsNotExist(err) {
 		return state, nil
@@ -57,6 +59,12 @@ func (s Store) Load() (State, error) {
 	}
 	if state.TitleLocked == nil {
 		state.TitleLocked = map[string]bool{}
+	}
+	if state.TabAutoLabels == nil {
+		state.TabAutoLabels = map[string]string{}
+	}
+	if state.TabTitleLocked == nil {
+		state.TabTitleLocked = map[string]bool{}
 	}
 	return state, nil
 }

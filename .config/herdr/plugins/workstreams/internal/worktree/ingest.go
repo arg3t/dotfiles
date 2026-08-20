@@ -12,7 +12,7 @@ import (
 	"github.com/arg3t/dotfiles/herdr-workstreams/internal/store"
 )
 
-func Ingest(ctx context.Context, client herdr.Client, data store.Store, cwd, title, text string) error {
+func Ingest(ctx context.Context, client herdr.Client, data store.Store, cwd, title, text, tabID string) error {
 	workspace, err := workspaceForCWD(ctx, client, cwd)
 	if err != nil {
 		return err
@@ -25,14 +25,27 @@ func Ingest(ctx context.Context, client herdr.Client, data store.Store, cwd, tit
 		return err
 	}
 	key := store.WorkstreamKey(*workspace.Worktree)
-	if last := state.AutoLabels[key]; last != "" && workspace.Label != last {
-		state.TitleLocked[key] = true
-	}
-	if title != "" && !state.TitleLocked[key] && title != workspace.Label {
+	workspaceRenameAllowed, workspaceLocked := autoRenameAllowed(workspace.Label, state.AutoLabels[key], state.TitleLocked[key])
+	state.TitleLocked[key] = workspaceLocked
+	if title != "" && workspaceRenameAllowed && title != workspace.Label {
 		if err := client.Rename(ctx, workspace.ID, title); err != nil {
 			return err
 		}
 		state.AutoLabels[key] = title
+	}
+	if tabID != "" {
+		tab, tabErr := client.Tab(ctx, tabID)
+		if tabErr != nil {
+			return tabErr
+		}
+		tabRenameAllowed, tabLocked := autoRenameAllowed(tab.Label, state.TabAutoLabels[tabID], state.TabTitleLocked[tabID])
+		state.TabTitleLocked[tabID] = tabLocked
+		if title != "" && tabRenameAllowed && title != tab.Label {
+			if err := client.RenameTab(ctx, tabID, title); err != nil {
+				return err
+			}
+			state.TabAutoLabels[tabID] = title
+		}
 	}
 	for _, ref := range refs.Extract(text) {
 		state.AddReference(key, ref)
@@ -41,6 +54,13 @@ func Ingest(ctx context.Context, client herdr.Client, data store.Store, cwd, tit
 		return err
 	}
 	return client.Metadata(ctx, workspace.ID, "refs", referenceSummary(state.References[key]))
+}
+
+func autoRenameAllowed(current, lastAutomatic string, locked bool) (allowed, nowLocked bool) {
+	if lastAutomatic != "" && current != lastAutomatic {
+		locked = true
+	}
+	return !locked, locked
 }
 
 func workspaceForCWD(ctx context.Context, client herdr.Client, cwd string) (model.Workspace, error) {

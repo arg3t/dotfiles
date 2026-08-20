@@ -36,7 +36,7 @@ func (s Service) Create(ctx context.Context, source model.Workspace, branch stri
 	if overlayAvailable(ctx, root) {
 		path, err := overlayCreate(ctx, root, wt.RepoName, branch)
 		if err == nil {
-			workspace, openErr := s.Herdr.OpenWorktree(ctx, root, path, branch)
+			workspace, openErr := s.Herdr.AdoptWorktree(ctx, root, path, branch)
 			if openErr == nil {
 				return Created{Workspace: workspace, Mode: "overlay"}, nil
 			}

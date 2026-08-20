@@ -71,6 +71,7 @@ type Paused struct {
 
 type Workstream struct {
 	Workspace  Workspace
+	Tabs       []Tab
 	Refs       []Reference
 	AgentState AgentState
 	Paused     bool

@@ -93,10 +93,28 @@ let
             command = [ "./bin/herdr-workstreams" "plugin" "palette" ];
           }
           {
+            id = "create";
+            title = "Create workstream";
+            contexts = [ "workspace" "pane" ];
+            command = [ "./bin/herdr-workstreams" "plugin" "create" ];
+          }
+          {
             id = "pause";
-            title = "Pause focused workstream";
-            contexts = [ "workspace" ];
-            command = [ "./bin/herdr-workstreams" "pause-focused" ];
+            title = "Pause workstream";
+            contexts = [ "workspace" "pane" ];
+            command = [ "./bin/herdr-workstreams" "plugin" "pause" ];
+          }
+          {
+            id = "restore";
+            title = "Restore workstream";
+            contexts = [ "workspace" "pane" ];
+            command = [ "./bin/herdr-workstreams" "plugin" "restore" ];
+          }
+          {
+            id = "refs";
+            title = "Browse workstream references";
+            contexts = [ "workspace" "pane" ];
+            command = [ "./bin/herdr-workstreams" "plugin" "refs" ];
           }
         ];
         panes = [

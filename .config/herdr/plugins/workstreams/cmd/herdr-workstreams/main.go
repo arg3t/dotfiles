@@ -17,7 +17,7 @@ func main() {
 	client, state := herdr.New(), store.New(os.Getenv("HERDR_PLUGIN_STATE_DIR"))
 	args := os.Args[1:]
 	if len(args) == 0 {
-		fail("usage: herdr-workstreams overlay|palette|plugin <open|palette>|pause-focused")
+		fail("usage: herdr-workstreams overlay|palette|plugin <open|palette|create|pause|restore|refs>|pause-focused")
 	}
 	switch args[0] {
 	case "overlay":
@@ -30,7 +30,7 @@ func main() {
 		}
 	case "plugin":
 		if len(args) != 2 {
-			fail("usage: herdr-workstreams plugin <open|palette>")
+			fail("usage: herdr-workstreams plugin <open|palette|create|pause|restore|refs>")
 		}
 		var err error
 		switch args[1] {
@@ -38,8 +38,10 @@ func main() {
 			err = client.OpenPluginPane(ctx)
 		case "palette":
 			err = client.OpenPluginPalette(ctx)
+		case "create", "pause", "restore", "refs":
+			err = client.OpenPluginPaneMode(ctx, args[1])
 		default:
-			fail("usage: herdr-workstreams plugin <open|palette>")
+			fail("usage: herdr-workstreams plugin <open|palette|create|pause|restore|refs>")
 		}
 		if err != nil {
 			fail(err.Error())
@@ -64,10 +66,11 @@ func ingest(ctx context.Context, client herdr.Client, state store.Store, args []
 	cwd := flags.String("cwd", "", "OMP working directory")
 	title := flags.String("title", "", "OMP session title")
 	text := flags.String("text", "", "text to extract references from")
+	tabID := flags.String("tab-id", "", "owning Herdr tab")
 	if err := flags.Parse(args); err != nil || *cwd == "" {
-		fail("usage: herdr-workstreams ingest --cwd PATH [--title TITLE] [--text TEXT]")
+		fail("usage: herdr-workstreams ingest --cwd PATH [--title TITLE] [--text TEXT] [--tab-id ID]")
 	}
-	if err := worktree.Ingest(ctx, client, state, *cwd, *title, *text); err != nil {
+	if err := worktree.Ingest(ctx, client, state, *cwd, *title, *text, *tabID); err != nil {
 		fail(err.Error())
 	}
 }

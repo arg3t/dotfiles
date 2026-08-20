@@ -28,7 +28,6 @@ const (
 	nativeSplitRight   nativeAction = "split-right"
 	nativeSplitDown    nativeAction = "split-down"
 	nativeToggleZoom   nativeAction = "toggle-zoom"
-	nativeWorkstreams  nativeAction = "workstreams"
 )
 
 type paletteItem struct {
@@ -115,11 +114,31 @@ func (m palette) load() tea.Msg {
 		if action.PluginID == "workstreams" && action.ID == "palette" {
 			continue
 		}
-		item := newPaletteItem(palettePlugin, action.Title, "Run plugin action", action.PluginID, action.ID)
+		item := newPaletteItem(palettePlugin, action.Title, pluginActionDescription(action), action.PluginID, action.ID)
 		item.plugin = action
 		items = append(items, item)
 	}
 	return paletteLoaded{items: items}
+}
+
+func pluginActionDescription(action herdr.PluginAction) string {
+	if action.PluginID != "workstreams" {
+		return "Run plugin action"
+	}
+	switch action.ID {
+	case "open":
+		return "Open the workstream manager"
+	case "create":
+		return "Create a worktree-backed workspace"
+	case "pause":
+		return "Close a workstream while keeping its worktree"
+	case "restore":
+		return "Reopen a paused workstream"
+	case "refs":
+		return "Browse discovered Jira, PR, and URL references"
+	default:
+		return "Run Workstreams action"
+	}
 }
 
 func nativePaletteItems() []paletteItem {
@@ -129,7 +148,6 @@ func nativePaletteItems() []paletteItem {
 		newNativeItem(nativeSplitRight, "Split pane right", "Create a horizontal pane split"),
 		newNativeItem(nativeSplitDown, "Split pane down", "Create a vertical pane split"),
 		newNativeItem(nativeToggleZoom, "Toggle pane zoom", "Zoom or restore the current pane"),
-		newNativeItem(nativeWorkstreams, "Open Workstreams", "Manage worktrees, refs, and paused workstreams"),
 	}
 }
 
@@ -238,8 +256,6 @@ func (m palette) executeNative(action nativeAction) error {
 		return m.client.SplitCurrent(m.ctx, "down", m.cwd)
 	case nativeToggleZoom:
 		return m.client.ToggleCurrentZoom(m.ctx)
-	case nativeWorkstreams:
-		return m.client.OpenPluginPane(m.ctx)
 	default:
 		return fmt.Errorf("unknown native action %q", action)
 	}
@@ -269,5 +285,7 @@ func (m palette) View() tea.View {
 		output.WriteString("  " + strings.Repeat(" ", 11) + paletteMetaStyle.Render(item.description+" · "+item.context) + "\n")
 	}
 	output.WriteString("\n" + paletteMetaStyle.Render("↑/↓ select  ·  Enter run/open  ·  type to filter  ·  Esc close") + "\n")
-	return tea.NewView(output.String())
+	view := tea.NewView(output.String())
+	view.AltScreen = true
+	return view
 }

@@ -104,6 +104,20 @@ func (c Client) Tabs(ctx context.Context, workspaceID string) ([]model.Tab, erro
 	return result.Tabs, nil
 }
 
+func (c Client) Tab(ctx context.Context, id string) (model.Tab, error) {
+	var result struct {
+		Tab model.Tab `json:"tab"`
+	}
+	if err := c.run(ctx, &result, "tab", "get", id); err != nil {
+		return model.Tab{}, err
+	}
+	return result.Tab, nil
+}
+
+func (c Client) RenameTab(ctx context.Context, id, label string) error {
+	return c.run(ctx, nil, "tab", "rename", id, label)
+}
+
 func (c Client) Focus(ctx context.Context, id string) error {
 	return c.run(ctx, nil, "workspace", "focus", id)
 }
@@ -164,11 +178,19 @@ func (c Client) OpenWorktree(ctx context.Context, root, path, label string) (mod
 	return result.Workspace, err
 }
 
+func (c Client) AdoptWorktree(ctx context.Context, root, path, label string) (model.Workspace, error) {
+	var result struct {
+		Workspace model.Workspace `json:"workspace"`
+	}
+	err := c.run(ctx, &result, "worktree", "open", "--cwd", root, "--path", path, "--label", label, "--no-focus")
+	return result.Workspace, err
+}
+
 func (c Client) CreateWorktree(ctx context.Context, root, branch, label string) (model.Workspace, error) {
 	var result struct {
 		Workspace model.Workspace `json:"workspace"`
 	}
-	err := c.run(ctx, &result, "worktree", "create", "--cwd", root, "--branch", branch, "--label", label, "--focus")
+	err := c.run(ctx, &result, "worktree", "create", "--cwd", root, "--branch", branch, "--label", label, "--no-focus")
 	return result.Workspace, err
 }
 
@@ -177,5 +199,13 @@ func (c Client) OpenPluginPalette(ctx context.Context) error {
 }
 
 func (c Client) OpenPluginPane(ctx context.Context) error {
-	return c.run(ctx, nil, "plugin", "pane", "open", "--plugin", "workstreams", "--entrypoint", "overlay", "--placement", "overlay", "--focus")
+	return c.OpenPluginPaneMode(ctx, "")
+}
+
+func (c Client) OpenPluginPaneMode(ctx context.Context, mode string) error {
+	args := []string{"plugin", "pane", "open", "--plugin", "workstreams", "--entrypoint", "overlay", "--placement", "overlay", "--focus"}
+	if mode != "" {
+		args = append(args, "--env", "WORKSTREAMS_MODE="+mode)
+	}
+	return c.run(ctx, nil, args...)
 }

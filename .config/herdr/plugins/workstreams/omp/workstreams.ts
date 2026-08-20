@@ -34,7 +34,9 @@ export default function workstreamsMetadata(pi: ExtensionAPI): void {
 		if (typeof cwd !== "string" || cwd.length === 0) return;
 		if (title) lastTitle = title;
 		try {
-			const child = Bun.spawn(["herdr-workstreams", "ingest", "--cwd", cwd, "--title", title, "--text", content.slice(0, 32768)], { stdout: "ignore", stderr: "ignore" });
+			const args = ["herdr-workstreams", "ingest", "--cwd", cwd, "--title", title, "--text", content.slice(0, 32768)];
+			if (process.env.HERDR_TAB_ID) args.push("--tab-id", process.env.HERDR_TAB_ID);
+			const child = Bun.spawn(args, { stdout: "ignore", stderr: "ignore" });
 			await child.exited;
 		} catch {
 			// Outside Herdr, no workspace owns this OMP cwd. Metadata is optional.
