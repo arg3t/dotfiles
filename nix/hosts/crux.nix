@@ -18,7 +18,7 @@
     ../modules/graphics.nix
     ../modules/nvidia.nix
     ../modules/power.nix
-    # ../modules/plymouth.nix
+    ../modules/plymouth.nix
 
     ../home/base.nix
     ../home/env.nix
@@ -48,7 +48,6 @@
     session = "hyprland";
   };
 
-  # Desktop: Acer XB271HU (DP-3, 1440p@144) left of Samsung C27F390 (HDMI-A-1, 1080p@60).
   my.hyprland = {
     monitors = [
       "DP-3,2560x1440@144,0x0,1"
@@ -77,7 +76,7 @@
       "20, monitor:DP-3, persistent:true"
     ];
     exec = [ "uvx nvibrant 700 700 700 700 700 700 700 700" ];
-    battery = false; # desktop, no battery
+    battery = false;
   };
 
   home-manager.users.yeet.home.sessionVariables.SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/gcr/ssh";

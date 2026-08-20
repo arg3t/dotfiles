@@ -48,7 +48,6 @@
     session = "hyprland";
   };
 
-  # Laptop: single internal panel.
   my.hyprland.monitors = [ "eDP-1,1920x1080@60,0x0,1.25" ];
 
   home-manager.users.yeet.home.sessionVariables.SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/gcr/ssh";

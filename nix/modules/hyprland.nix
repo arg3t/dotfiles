@@ -3,7 +3,6 @@
 let
   cfg = config.my.hyprland;
 
-  # Catppuccin Mocha palette shared by Hyprland borders and hyprlock.
   colors = {
     surface0 = "rgba(49, 50, 68, 1.0)";
     lavender = "rgba(180, 190, 254, 1.0)";
@@ -14,12 +13,6 @@ let
     red = "rgba(243, 139, 168, 1.0)";
   };
 
-  # flameshot is X11-native; under Hyprland it has no native Wayland grab
-  # path, so the GrimAdapter only fires when $XDG_CURRENT_DESKTOP matches a
-  # wlroots-style string. Wrap every flameshot binary with that env (and
-  # QT_QPA_PLATFORM=wayland so the Qt UI uses the Wayland plugin) so any
-  # launch path — keybind, dmenu, autostart — picks up the right
-  # environment without per-invocation env hacks.
   flameshot-wrapped = pkgs.symlinkJoin {
     name = "flameshot-${pkgs.flameshot.version}";
     paths = [ pkgs.flameshot ];
@@ -255,8 +248,6 @@ in
     ];
 
     home-manager.users.yeet = { config, ... }: {
-      # Standalone assets: individual files, because the hypr/waybar dirs are
-      # no longer whole-dir symlinks now that HM generates the config files.
       xdg.configFile."hypr/profile.jpg".source = ../../.config/hypr/profile.jpg;
       xdg.configFile."waybar/scripts/bluetooth-devices" = {
         source = ../../.config/waybar/scripts/bluetooth-devices;
@@ -267,7 +258,6 @@ in
         executable = true;
       };
 
-      # Still managed as live symlinks (out of scope for nixification).
       xdg.configFile."flameshot/flameshot.ini".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/flameshot/flameshot.ini";
       xdg.configFile."wofi/config".source =
@@ -281,15 +271,9 @@ in
 
       wayland.windowManager.hyprland = {
         enable = true;
-        # Session/binary/portals come from the NixOS programs.hyprland module;
-        # HM only generates ~/.config/hypr/hyprland.conf.
         package = null;
         portalPackage = null;
-        # Starts hyprland-session.target -> graphical-session.target, which the
-        # waybar/hypridle/hyprpaper user services bind to.
         systemd.enable = true;
-        # stateVersion 26.05 defaults this to "lua"; the running Hyprland reads
-        # hyprland.conf, so keep the hyprlang generator.
         configType = "hyprlang";
         settings = {
           "$terminal" = "alacritty";
@@ -648,9 +632,6 @@ in
         };
       };
 
-      # hyprpaper 0.8.4 (hyprtoolkit) fails EGL device enumeration on this
-      # NVIDIA GPU (EGL_BAD_ALLOC -> "no target: no wp will be created"), so
-      # use awww (swww fork) which renders fine. update_wallpaper drives it.
       services.awww.enable = true;
 
       services.mako = {
@@ -740,7 +721,6 @@ in
         background: transparent;
     }
 
-
     window > box {
         margin: 5px;
         margin-bottom: 0px;
@@ -758,7 +738,6 @@ in
         padding: 3px;
         padding-right: 6px;
     }
-
 
     #workspaces button:hover {
       background-color: shade(@mauve, 0.4);
@@ -792,7 +771,6 @@ in
       margin: 5px 0px 5px 4px;
     }
 
-
     #custom-dnd {
       color: #88c0d0;
     }
@@ -807,7 +785,6 @@ in
         padding: 3px 5px;
         border: 0;
     }
-
 
     .date {
         background-color: #88c0d0;
