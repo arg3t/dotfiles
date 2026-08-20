@@ -87,20 +87,6 @@ switch target=default_host backend=default_backend:
 home-switch profile:
     home-manager switch -b hm-backup --flake ./nix#{{ profile }}
 
-# Link the dotfiles-owned OMP plugin.
-omp-link:
-    omp plugin link ~/.dots/.config/omp/plugins/personal
-
-# Rebuild and register dotfiles-owned Herdr plugins against a running server.
-herdr-sync:
-    go -C ~/.config/herdr/plugins/workstreams build -o bin/herdr-workstreams ./cmd/herdr-workstreams
-    herdr plugin unlink fullerzz.sesh || true
-    herdr plugin unlink jt.command-palette || true
-    herdr plugin unlink gh-pr || true
-    herdr plugin unlink workstream || true
-    herdr plugin unlink flow || true
-    herdr plugin link ~/.config/herdr/plugins/vim-herdr-navigation
-    herdr plugin link ~/.config/herdr/plugins/workstreams
 
 # Build the NixOS configuration for next boot (NixOS only)
 boot:

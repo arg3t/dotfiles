@@ -24,20 +24,30 @@ let
     home.file.".omp/agent/rules".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/omp/agent/rules";
 
-    # Herdr's stock integration owns agent-state reporting. This companion
-    # observes OMP titles and references, then delegates persistence to Go.
+    # OMP loads user extensions directly from this directory. Nix installs all
+    # three entry points, so no mutable plugin registry or live OMP process is
+    # required during activation.
+    home.file.".omp/agent/extensions/herdr-omp-agent-state.ts".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/omp/extensions/herdr-omp-agent-state.ts";
+
     home.file.".omp/agent/extensions/workstreams-metadata.ts".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/plugins/workstreams/omp/workstreams.ts";
 
+    home.file.".omp/agent/extensions/fork-in.ts".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/omp/plugins/personal/extensions/fork-in.ts";
 
-    # Link the dotfiles-owned OMP plugin. Its extensions include fork-in.
-    home.activation.linkOmpPlugins = config.lib.dag.entryAfter [ "writeBoundary" ] ''
-      if command -v omp >/dev/null 2>&1; then
-        run omp plugin link \
-          "$HOME/.dots/.config/omp/plugins/personal" 2>/dev/null || true
-        run omp plugin uninstall fork-in 2>/dev/null || true
-      fi
-    '';
+    # Keep OMP's package registry empty and declarative. Native extensions above
+    # replace the old `omp plugin link` state.
+    home.file.".omp/plugins/package.json".text = builtins.toJSON {
+      name = "omp-plugins";
+      private = true;
+      dependencies = { };
+    };
+
+    home.file.".omp/plugins/omp-plugins.lock.json".text = builtins.toJSON {
+      plugins = { };
+      settings = { };
+    };
   };
 in
 if standaloneHome then

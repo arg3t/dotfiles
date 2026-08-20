@@ -73,16 +73,20 @@ var (
 )
 
 func RunPalette(ctx context.Context, client herdr.Client) error {
-	cwd, err := os.Getwd()
-	if err != nil {
-		return err
+	cwd := os.Getenv("HERDR_WORKSPACE_CWD")
+	if cwd == "" {
+		var err error
+		cwd, err = os.Getwd()
+		if err != nil {
+			return err
+		}
 	}
 	input := textinput.New()
 	input.Prompt = "› "
 	input.Placeholder = "Search actions, workspaces, and tabs"
 	input.Focus()
-	_, err = tea.NewProgram(palette{ctx: ctx, client: client, cwd: cwd, input: input}).Run()
-	return err
+	_, programErr := tea.NewProgram(palette{ctx: ctx, client: client, cwd: cwd, input: input}).Run()
+	return programErr
 }
 
 func (m palette) Init() tea.Cmd { return m.load }

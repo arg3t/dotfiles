@@ -2,8 +2,6 @@
 // state. This extension only propagates OMP titles and discovered references.
 
 import type { ExtensionAPI } from "@oh-my-pi/pi-coding-agent";
-import { resolve } from "node:path";
-
 interface OmpContext {
 	hasUI?: boolean;
 	sessionManager?: {
@@ -36,8 +34,7 @@ export default function workstreamsMetadata(pi: ExtensionAPI): void {
 		if (typeof cwd !== "string" || cwd.length === 0) return;
 		if (title) lastTitle = title;
 		try {
-			const binary = resolve(import.meta.dir, "../bin/herdr-workstreams");
-			const child = Bun.spawn([binary, "ingest", "--cwd", cwd, "--title", title, "--text", content.slice(0, 32768)], { stdout: "ignore", stderr: "ignore" });
+			const child = Bun.spawn(["herdr-workstreams", "ingest", "--cwd", cwd, "--title", title, "--text", content.slice(0, 32768)], { stdout: "ignore", stderr: "ignore" });
 			await child.exited;
 		} catch {
 			// Outside Herdr, no workspace owns this OMP cwd. Metadata is optional.

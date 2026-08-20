@@ -5,6 +5,7 @@
   codex = pkgs.callPackage ./codex/package.nix { };
   herdr = pkgs.callPackage ./herdr/package.nix { };
   herdr-plugin-sesh = pkgs.callPackage ./herdr-plugin-sesh/package.nix { };
+  herdr-workstreams = pkgs.callPackage ./herdr-workstreams/package.nix { };
   opencode = pkgs.callPackage ./opencode/package.nix { };
   pi = pkgs.callPackage ./pi/package.nix { };
   podctl = pkgs.callPackage ./podctl/package.nix { };
