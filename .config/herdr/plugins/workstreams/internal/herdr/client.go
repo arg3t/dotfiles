@@ -29,6 +29,9 @@ type envelope[T any] struct {
 
 func (c Client) run(ctx context.Context, dst any, args ...string) error {
 	out, err := exec.CommandContext(ctx, c.Binary, args...).CombinedOutput()
+	if err == nil && len(strings.TrimSpace(string(out))) == 0 {
+		return nil
+	}
 	var response envelope[json.RawMessage]
 	if decodeErr := json.Unmarshal(out, &response); decodeErr != nil {
 		return fmt.Errorf("herdr %s: %w; output: %s", strings.Join(args, " "), decodeErr, strings.TrimSpace(string(out)))
@@ -163,6 +166,9 @@ func (c Client) Rename(ctx context.Context, id, label string) error {
 }
 
 func (c Client) Metadata(ctx context.Context, id, name, value string) error {
+	if value == "" {
+		return c.run(ctx, nil, "workspace", "report-metadata", id, "--source", "workstreams", "--clear-token", name)
+	}
 	return c.run(ctx, nil, "workspace", "report-metadata", id, "--source", "workstreams", "--token", name+"="+value)
 }
 
