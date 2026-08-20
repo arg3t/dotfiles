@@ -15,9 +15,9 @@ let
       our.codex
       our.opencode
       our.herdr
-      our.herdr-plugin-sesh
       our.pi
       jq # vim-herdr-navigation: detect vim in focused pane
+      go # build local Herdr plugins on each platform
 
       bash-language-server # bashls
       clang-tools # clangd
@@ -51,20 +51,21 @@ let
     xdg.configFile."herdr/plugins/workstreams".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/plugins/workstreams";
 
-    # Link active Herdr plugins. Workstreams replaces the older workstream,
-    # flow, gh-pr, and fzf command-palette plugins.
+    # Link active Herdr plugins when a server is available. Herdr owns its
+    # plugin registry through the live socket, so an SSH home-switch without a
+    # running server cannot register actions; `just herdr-sync` does it later.
     home.activation.linkHerdrPlugins = config.lib.dag.entryAfter [ "writeBoundary" ] ''
-      if command -v herdr >/dev/null 2>&1; then
-        run herdr plugin link \
-          "$HOME/.config/herdr/plugins/vim-herdr-navigation" 2>/dev/null || true
-        run herdr plugin link \
-          "${pkgs.our.herdr-plugin-sesh}/share/herdr-plugin-sesh" 2>/dev/null || true
-        run herdr plugin unlink jt.command-palette 2>/dev/null || true
-        run herdr plugin unlink gh-pr 2>/dev/null || true
-        run herdr plugin unlink workstream 2>/dev/null || true
-        run herdr plugin unlink flow 2>/dev/null || true
-        run herdr plugin link \
-          "$HOME/.config/herdr/plugins/workstreams" 2>/dev/null || true
+      if HOME="${config.home.homeDirectory}" herdr plugin list >/dev/null 2>&1; then
+        run env HOME="${config.home.homeDirectory}" herdr plugin unlink fullerzz.sesh 2>/dev/null || true
+        run env HOME="${config.home.homeDirectory}" herdr plugin unlink jt.command-palette 2>/dev/null || true
+        run env HOME="${config.home.homeDirectory}" herdr plugin unlink gh-pr 2>/dev/null || true
+        run env HOME="${config.home.homeDirectory}" herdr plugin unlink workstream 2>/dev/null || true
+        run env HOME="${config.home.homeDirectory}" herdr plugin unlink flow 2>/dev/null || true
+        run ${pkgs.go}/bin/go -C "${config.home.homeDirectory}/.config/herdr/plugins/workstreams" build -o bin/herdr-workstreams ./cmd/herdr-workstreams
+        run env HOME="${config.home.homeDirectory}" herdr plugin link "${config.home.homeDirectory}/.config/herdr/plugins/vim-herdr-navigation"
+        run env HOME="${config.home.homeDirectory}" herdr plugin link "${config.home.homeDirectory}/.config/herdr/plugins/workstreams"
+      else
+        echo "Herdr is not running; start it, then run 'just herdr-sync' from ~/.dots" >&2
       fi
     '';
 

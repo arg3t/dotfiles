@@ -15,6 +15,12 @@ contexts = ["workspace", "pane"]
 command = ["./bin/herdr-workstreams", "plugin", "open"]
 
 [[actions]]
+id = "palette"
+title = "Open Herdr palette"
+contexts = ["workspace", "pane"]
+command = ["./bin/herdr-workstreams", "plugin", "palette"]
+
+[[actions]]
 id = "pause"
 title = "Pause focused workstream"
 contexts = ["workspace"]
@@ -25,3 +31,9 @@ id = "overlay"
 title = "Workstreams"
 placement = "overlay"
 command = ["./bin/herdr-workstreams", "overlay"]
+
+[[panes]]
+id = "palette"
+title = "Herdr palette"
+placement = "overlay"
+command = ["./bin/herdr-workstreams", "palette"]

@@ -17,18 +17,31 @@ func main() {
 	client, state := herdr.New(), store.New(os.Getenv("HERDR_PLUGIN_STATE_DIR"))
 	args := os.Args[1:]
 	if len(args) == 0 {
-		fail("usage: herdr-workstreams overlay|plugin open|pause-focused")
+		fail("usage: herdr-workstreams overlay|palette|plugin <open|palette>|pause-focused")
 	}
 	switch args[0] {
 	case "overlay":
 		if err := ui.Run(ctx, client, state); err != nil {
 			fail(err.Error())
 		}
-	case "plugin":
-		if len(args) != 2 || args[1] != "open" {
-			fail("usage: herdr-workstreams plugin open")
+	case "palette":
+		if err := ui.RunPalette(ctx, client); err != nil {
+			fail(err.Error())
 		}
-		if err := client.OpenPluginPane(ctx); err != nil {
+	case "plugin":
+		if len(args) != 2 {
+			fail("usage: herdr-workstreams plugin <open|palette>")
+		}
+		var err error
+		switch args[1] {
+		case "open":
+			err = client.OpenPluginPane(ctx)
+		case "palette":
+			err = client.OpenPluginPalette(ctx)
+		default:
+			fail("usage: herdr-workstreams plugin <open|palette>")
+		}
+		if err != nil {
 			fail(err.Error())
 		}
 	case "pause-focused":

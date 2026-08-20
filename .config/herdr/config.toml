@@ -64,21 +64,12 @@ type = "plugin_action"
 command = "workstreams.open"
 description = "Open workstreams"
 
-# ---
-# Sesh: workspace picker and session manager.
-# Uses herdr-plugin-sesh from nix (our.herdr-plugin-sesh).
-# ---
+# Unified Herdr palette: native actions, plugin actions, workspaces, and tabs.
 [[keys.command]]
-key = "prefix+shift+t"
+key = "prefix+p"
 type = "plugin_action"
-command = "fullerzz.sesh.open-picker"
-description = "open Sesh picker"
-
-[[keys.command]]
-key = "prefix+shift+b"
-type = "plugin_action"
-command = "fullerzz.sesh.last"
-description = "switch to previous Sesh workspace"
+command = "workstreams.palette"
+description = "Open Herdr palette"
 
 [ui]
 show_agent_labels_on_pane_borders = true

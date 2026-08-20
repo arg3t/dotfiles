@@ -10,6 +10,12 @@ import (
 	"github.com/arg3t/dotfiles/herdr-workstreams/internal/model"
 )
 
+type PluginAction struct {
+	ID       string `json:"action_id"`
+	PluginID string `json:"plugin_id"`
+	Title    string `json:"title"`
+}
+
 type Client struct{ Binary string }
 
 func New() Client { return Client{Binary: "herdr"} }
@@ -101,6 +107,40 @@ func (c Client) Tabs(ctx context.Context, workspaceID string) ([]model.Tab, erro
 func (c Client) Focus(ctx context.Context, id string) error {
 	return c.run(ctx, nil, "workspace", "focus", id)
 }
+
+func (c Client) FocusTab(ctx context.Context, id string) error {
+	return c.run(ctx, nil, "tab", "focus", id)
+}
+
+func (c Client) PluginActions(ctx context.Context) ([]PluginAction, error) {
+	var result struct {
+		Actions []PluginAction `json:"actions"`
+	}
+	if err := c.run(ctx, &result, "plugin", "action", "list"); err != nil {
+		return nil, err
+	}
+	return result.Actions, nil
+}
+
+func (c Client) InvokePluginAction(ctx context.Context, action PluginAction) error {
+	return c.run(ctx, nil, "plugin", "action", "invoke", action.ID, "--plugin", action.PluginID)
+}
+
+func (c Client) CreateWorkspace(ctx context.Context, cwd string) error {
+	return c.run(ctx, nil, "workspace", "create", "--cwd", cwd, "--focus")
+}
+
+func (c Client) CreateTabAt(ctx context.Context, workspaceID, cwd string) error {
+	return c.run(ctx, nil, "tab", "create", "--workspace", workspaceID, "--cwd", cwd, "--focus")
+}
+
+func (c Client) SplitCurrent(ctx context.Context, direction, cwd string) error {
+	return c.run(ctx, nil, "pane", "split", "--current", "--direction", direction, "--cwd", cwd, "--focus")
+}
+
+func (c Client) ToggleCurrentZoom(ctx context.Context) error {
+	return c.run(ctx, nil, "pane", "zoom", "--current", "--toggle")
+}
 func (c Client) Close(ctx context.Context, id string) error {
 	return c.run(ctx, nil, "workspace", "close", id)
 }
@@ -130,6 +170,10 @@ func (c Client) CreateWorktree(ctx context.Context, root, branch, label string) 
 	}
 	err := c.run(ctx, &result, "worktree", "create", "--cwd", root, "--branch", branch, "--label", label, "--focus")
 	return result.Workspace, err
+}
+
+func (c Client) OpenPluginPalette(ctx context.Context) error {
+	return c.run(ctx, nil, "plugin", "pane", "open", "--plugin", "workstreams", "--entrypoint", "palette", "--placement", "overlay", "--focus")
 }
 
 func (c Client) OpenPluginPane(ctx context.Context) error {
