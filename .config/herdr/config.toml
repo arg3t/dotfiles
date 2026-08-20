@@ -57,16 +57,12 @@ type = "plugin_action"
 command = "vim-herdr-navigation.right"
 description = "navigate right (vim/herdr)"
 
-# ---
-# Command palette: fzf popup of every plugin action.
-# Uses vendored herdr-command-palette plugin at
-# .config/herdr/plugins/herdr-command-palette/
-# ---
+# Workstreams: Bubble Tea overlay for worktree lifecycle, OMP state, and refs.
 [[keys.command]]
-key = "prefix+p"
+key = "prefix+shift+g"
 type = "plugin_action"
-command = "jt.command-palette.open"
-description = "Command palette"
+command = "workstreams.open"
+description = "Open workstreams"
 
 # ---
 # Sesh: workspace picker and session manager.
@@ -85,4 +81,4 @@ command = "fullerzz.sesh.last"
 description = "switch to previous Sesh workspace"
 
 [ui]
-show_agent_labels_on_pane_borders = false
+show_agent_labels_on_pane_borders = true

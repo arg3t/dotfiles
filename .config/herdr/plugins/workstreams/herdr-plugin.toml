@@ -1,0 +1,27 @@
+id = "workstreams"
+name = "Workstreams"
+version = "0.1.0"
+min_herdr_version = "0.8.0"
+description = "Task-oriented Herdr workstreams with a native overlay, worktree lifecycle, and OMP metadata."
+platforms = ["linux", "macos"]
+
+[[build]]
+command = ["go", "build", "-o", "bin/herdr-workstreams", "./cmd/herdr-workstreams"]
+
+[[actions]]
+id = "open"
+title = "Open Workstreams"
+contexts = ["workspace", "pane"]
+command = ["./bin/herdr-workstreams", "plugin", "open"]
+
+[[actions]]
+id = "pause"
+title = "Pause focused workstream"
+contexts = ["workspace"]
+command = ["./bin/herdr-workstreams", "pause-focused"]
+
+[[panes]]
+id = "overlay"
+title = "Workstreams"
+placement = "overlay"
+command = ["./bin/herdr-workstreams", "overlay"]

@@ -14,6 +14,7 @@
     ../home/packages-nix.nix
     ../home/packages-editor.nix
     ../home/backgrounds.nix
+    ../home/omp.nix
     ../home/linux-theme.nix
   ];
 

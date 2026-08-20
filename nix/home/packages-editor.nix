@@ -48,33 +48,23 @@ let
     xdg.configFile."herdr/plugins/vim-herdr-navigation".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/plugins/vim-herdr-navigation";
 
-    xdg.configFile."herdr/plugins/herdr-command-palette".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/plugins/herdr-command-palette";
-    xdg.configFile."herdr/plugins/gh-pr".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/plugins/gh-pr";
+    xdg.configFile."herdr/plugins/workstreams".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/plugins/workstreams";
 
-    xdg.configFile."herdr/plugins/workstream".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/plugins/workstream";
-
-    xdg.configFile."herdr/plugins/flow".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/plugins/flow";
-
-    # Link vendored plugins into herdr and the sesh plugin from nix store.
-    # Runs after config files are placed. Idempotent: re-linking is safe.
+    # Link active Herdr plugins. Workstreams replaces the older workstream,
+    # flow, gh-pr, and fzf command-palette plugins.
     home.activation.linkHerdrPlugins = config.lib.dag.entryAfter [ "writeBoundary" ] ''
       if command -v herdr >/dev/null 2>&1; then
         run herdr plugin link \
           "$HOME/.config/herdr/plugins/vim-herdr-navigation" 2>/dev/null || true
         run herdr plugin link \
-          "$HOME/.config/herdr/plugins/herdr-command-palette" 2>/dev/null || true
-        run herdr plugin link \
           "${pkgs.our.herdr-plugin-sesh}/share/herdr-plugin-sesh" 2>/dev/null || true
+        run herdr plugin unlink jt.command-palette 2>/dev/null || true
+        run herdr plugin unlink gh-pr 2>/dev/null || true
+        run herdr plugin unlink workstream 2>/dev/null || true
+        run herdr plugin unlink flow 2>/dev/null || true
         run herdr plugin link \
-          "$HOME/.config/herdr/plugins/gh-pr" 2>/dev/null || true
-        run herdr plugin link \
-          "$HOME/.config/herdr/plugins/workstream" 2>/dev/null || true
-        run herdr plugin link \
-          "$HOME/.config/herdr/plugins/flow" 2>/dev/null || true
+          "$HOME/.config/herdr/plugins/workstreams" 2>/dev/null || true
       fi
     '';
 

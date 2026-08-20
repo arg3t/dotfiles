@@ -978,8 +978,8 @@ name = "2"
 type = "specificDisplay"
 
 [workspaces.monitorAssignment.output]
-displayUUID = "CED39E91-ECF6-48A3-AE2F-41F000726499"
-name = "LF32TU87 (2)"
+displayUUID = "37D8832A-2D66-02CA-B9F7-8F30A301B230"
+name = "Built-in Retina Display"
 
 [[workspaces]]
 id = "BEB842B5-E894-4791-9FD1-397C3CDD3538"
@@ -990,8 +990,8 @@ name = "3"
 type = "specificDisplay"
 
 [workspaces.monitorAssignment.output]
-displayUUID = "37D8832A-2D66-02CA-B9F7-8F30A301B230"
-name = "Built-in Retina Display"
+displayUUID = "CED39E91-ECF6-48A3-AE2F-41F000726499"
+name = "LF32TU87 (2)"
 
 [[workspaces]]
 id = "248AA883-2261-4D45-943C-79C0E46A232B"

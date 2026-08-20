@@ -87,6 +87,12 @@ switch target=default_host backend=default_backend:
 home-switch profile:
     home-manager switch -b hm-backup --flake ./nix#{{ profile }}
 
+# Link OMP plugins from dotfiles and nix store into the OMP plugin registry.
+# Idempotent: re-running is safe. Home Manager also runs this on activation.
+omp-link:
+    omp plugin link ~/.dots/.config/omp/plugins/personal
+    omp plugin link "$(nix path-info ./nix#packages.{{ if os() == "macos" { "aarch64-darwin" } else { "x86_64-linux" } }}.fork-in)/share/fork-in"
+
 # Build the NixOS configuration for next boot (NixOS only)
 boot:
     #!/usr/bin/env bash

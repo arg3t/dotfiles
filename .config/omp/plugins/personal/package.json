@@ -1,0 +1,8 @@
+{
+  "name": "personal",
+  "version": "0.1.0",
+  "description": "Personal OMP plugin: skills, commands, rules, and extensions managed by dotfiles.",
+  "omp": {
+    "extensions": ["./extensions/fork-in.ts"]
+  }
+}

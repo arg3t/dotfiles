@@ -13,6 +13,7 @@
     ../home/packages-dev.nix
     ../home/packages-nix.nix
     ../home/packages-editor.nix
+    ../home/omp.nix
     ../home/backgrounds.nix
   ];
   # Home Manager owns the user completion setup. Avoid a duplicate system

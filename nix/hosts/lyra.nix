@@ -16,6 +16,7 @@
     ../home/packages-dev.nix
     ../home/packages-nix.nix
     ../home/packages-editor.nix
+    ../home/omp.nix
   ];
 
   # claude-code is unfree; the lyra/arca home configurations allow it in
