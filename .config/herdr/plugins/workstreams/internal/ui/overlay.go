@@ -41,6 +41,13 @@ type actionMsg struct {
 	err         error
 }
 
+type workstreamRow struct {
+	workstream int
+	tab        int
+}
+
+func (row workstreamRow) isTab() bool { return row.tab >= 0 }
+
 type Overlay struct {
 	ctx             context.Context
 	herdr           herdr.Client
@@ -54,6 +61,7 @@ type Overlay struct {
 	detailSelected  int
 	pendingSelectID string
 	input           textinput.Model
+	search          textinput.Model
 	spinner         spinner.Model
 	busy            bool
 	status          string
@@ -76,6 +84,10 @@ func Run(ctx context.Context, client herdr.Client, state store.Store) error {
 	input.Prompt = "Branch> "
 	input.Placeholder = "feature/short-name"
 	input.Focus()
+	search := textinput.New()
+	search.Prompt = "Search> "
+	search.Placeholder = "titles, tabs, branches, repositories, refs, state"
+	search.Blur()
 	progress := spinner.New(spinner.WithSpinner(spinner.MiniDot))
 	progress.Style = workstreamWorkingStyle
 	model := Overlay{
@@ -85,6 +97,7 @@ func Run(ctx context.Context, client herdr.Client, state store.Store) error {
 		service: worktree.Service{Herdr: client, Store: state},
 		mode:    initialWorkstreamMode(os.Getenv("WORKSTREAMS_MODE")),
 		input:   input,
+		search:  search,
 		spinner: progress,
 	}
 	_, err := tea.NewProgram(model).Run()
@@ -177,6 +190,31 @@ func (m Overlay) Update(message tea.Msg) (tea.Model, tea.Cmd) {
 		if m.mode == createMode {
 			return m.updateCreate(value)
 		}
+		if m.search.Focused() {
+			switch value.String() {
+			case "esc":
+				m.search.Blur()
+				return m, nil
+			case "up", "ctrl+k":
+				m.move(-1)
+				return m, nil
+			case "down", "ctrl+j":
+				m.move(1)
+				return m, nil
+			case "left":
+				m.jumpWorkstream(-1)
+				return m, nil
+			case "right":
+				m.jumpWorkstream(1)
+				return m, nil
+			case "enter":
+				return m.activateSelection()
+			}
+			var command tea.Cmd
+			m.search, command = m.search.Update(value)
+			m.clampSelectedRow()
+			return m, command
+		}
 		if value.String() == "q" || value.String() == "esc" {
 			if m.mode != listMode {
 				m.mode = listMode
@@ -186,10 +224,17 @@ func (m Overlay) Update(message tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		}
 		switch value.String() {
+		case "/":
+			m.search.Focus()
+			return m, m.search.Focus()
 		case "j", "down":
 			m.move(1)
 		case "k", "up":
 			m.move(-1)
+		case "left":
+			m.jumpWorkstream(-1)
+		case "right":
+			m.jumpWorkstream(1)
 		case "n":
 			m.mode = createMode
 			m.input.SetValue("")
@@ -280,9 +325,16 @@ func (m Overlay) activateSelection() (tea.Model, tea.Cmd) {
 	case refsMode:
 		return m, m.openReference
 	default:
-		item, ok := m.current()
+		row, ok := m.selectedRow()
 		if !ok {
 			return m, nil
+		}
+		item := m.items[row.workstream]
+		if row.isTab() {
+			tab := item.Tabs[row.tab]
+			return m, func() tea.Msg {
+				return actionMsg{message: "Focused tab " + tab.Label, err: m.herdr.FocusTab(m.ctx, tab.ID)}
+			}
 		}
 		return m, func() tea.Msg {
 			return actionMsg{message: "Focused " + item.Workspace.Label, err: m.herdr.Focus(m.ctx, item.Workspace.ID)}
@@ -291,25 +343,24 @@ func (m Overlay) activateSelection() (tea.Model, tea.Cmd) {
 }
 
 func (m *Overlay) selectPendingWorkspace() {
+	rows := m.workstreamRows()
 	if m.pendingSelectID != "" {
-		for index, item := range m.items {
-			if item.Workspace.ID == m.pendingSelectID {
+		for index, row := range rows {
+			if !row.isTab() && m.items[row.workstream].Workspace.ID == m.pendingSelectID {
 				m.selected = index
 				break
 			}
 		}
 		m.pendingSelectID = ""
 	} else if !m.initialized {
-		for index, item := range m.items {
-			if item.Workspace.Focused {
+		for index, row := range rows {
+			if !row.isTab() && m.items[row.workstream].Workspace.Focused {
 				m.selected = index
 				break
 			}
 		}
 	}
-	if m.selected >= len(m.items) {
-		m.selected = max(0, len(m.items)-1)
-	}
+	m.clampSelectedRow()
 }
 
 func (m *Overlay) move(delta int) {
@@ -323,7 +374,39 @@ func (m *Overlay) move(delta int) {
 		}
 		return
 	}
-	m.selected = moveIndex(m.selected, delta, len(m.items))
+	m.selected = moveIndex(m.selected, delta, len(m.workstreamRows()))
+}
+
+func (m *Overlay) jumpWorkstream(delta int) {
+	if m.mode == restoreMode || m.mode == createMode {
+		return
+	}
+	rows := m.workstreamRows()
+	if len(rows) == 0 {
+		return
+	}
+	current, ok := m.selectedRow()
+	if !ok {
+		return
+	}
+	filtered := m.filteredWorkstreams()
+	if len(filtered) == 0 {
+		return
+	}
+	position := 0
+	for index, workstreamIndex := range filtered {
+		if workstreamIndex == current.workstream {
+			position = index
+			break
+		}
+	}
+	target := (position + delta + len(filtered)) % len(filtered)
+	for index, row := range rows {
+		if !row.isTab() && row.workstream == filtered[target] {
+			m.selected = index
+			return
+		}
+	}
 }
 
 func moveIndex(index, delta, size int) int {
@@ -333,11 +416,63 @@ func moveIndex(index, delta, size int) int {
 	return (index + delta + size) % size
 }
 
+func (m *Overlay) clampSelectedRow() {
+	rows := m.workstreamRows()
+	if m.selected >= len(rows) {
+		m.selected = max(0, len(rows)-1)
+	}
+}
+
+func (m Overlay) selectedRow() (workstreamRow, bool) {
+	rows := m.workstreamRows()
+	if m.selected < 0 || m.selected >= len(rows) {
+		return workstreamRow{}, false
+	}
+	return rows[m.selected], true
+}
+
 func (m Overlay) current() (model.Workstream, bool) {
-	if len(m.items) == 0 || m.selected < 0 || m.selected >= len(m.items) {
+	row, ok := m.selectedRow()
+	if !ok || row.workstream < 0 || row.workstream >= len(m.items) {
 		return model.Workstream{}, false
 	}
-	return m.items[m.selected], true
+	return m.items[row.workstream], true
+}
+
+func (m Overlay) workstreamRows() []workstreamRow {
+	rows := make([]workstreamRow, 0)
+	for _, workstreamIndex := range m.filteredWorkstreams() {
+		rows = append(rows, workstreamRow{workstream: workstreamIndex, tab: -1})
+		for tabIndex := range m.items[workstreamIndex].Tabs {
+			rows = append(rows, workstreamRow{workstream: workstreamIndex, tab: tabIndex})
+		}
+	}
+	return rows
+}
+
+func (m Overlay) filteredWorkstreams() []int {
+	query := strings.ToLower(strings.TrimSpace(m.search.Value()))
+	indices := make([]int, 0, len(m.items))
+	for index, item := range m.items {
+		if query == "" || strings.Contains(workstreamSearchText(item), query) {
+			indices = append(indices, index)
+		}
+	}
+	return indices
+}
+
+func workstreamSearchText(item model.Workstream) string {
+	parts := []string{item.Workspace.Label, string(item.AgentState)}
+	if item.Workspace.Worktree != nil {
+		parts = append(parts, item.Workspace.Worktree.Branch, item.Workspace.Worktree.RepoName, item.Workspace.Worktree.RepoRoot, item.Workspace.Worktree.CheckoutPath)
+	}
+	for _, tab := range item.Tabs {
+		parts = append(parts, tab.Label)
+	}
+	for _, reference := range visibleReferences(item.Refs) {
+		parts = append(parts, string(reference.Kind), reference.ID, reference.URL)
+	}
+	return strings.ToLower(strings.Join(parts, " "))
 }
 
 func (m Overlay) reference() (model.Workstream, model.Reference, bool) {
@@ -397,6 +532,13 @@ func (m Overlay) View() tea.View {
 	var output strings.Builder
 	output.WriteString(workstreamTitleStyle.Render("Workstreams") + "\n")
 	output.WriteString(workstreamMutedStyle.Render("One worktree-backed workspace is one workstream. Tabs are its execution surfaces.") + "\n\n")
+	if m.mode != createMode && m.mode != restoreMode {
+		output.WriteString(m.search.View() + "\n")
+		if !m.search.Focused() {
+			output.WriteString(workstreamMutedStyle.Render("Press / to search") + "\n")
+		}
+		output.WriteString("\n")
+	}
 	if m.status != "" {
 		style := workstreamTextStyle
 		if strings.Contains(strings.ToLower(m.status), "error") || strings.Contains(strings.ToLower(m.status), "failed") {
@@ -426,39 +568,50 @@ func (m Overlay) View() tea.View {
 }
 
 func (m Overlay) renderWorkstreams(output *strings.Builder) {
+	rows := m.workstreamRows()
 	if len(m.items) == 0 {
 		output.WriteString(workstreamMutedStyle.Render("No worktree-backed workspaces are open.") + "\n")
 		output.WriteString(workstreamMutedStyle.Render("Press n to create one from the focused repository.") + "\n")
 		return
 	}
-	for index, item := range m.items {
-		selected := index == m.selected
+	if len(rows) == 0 {
+		output.WriteString(workstreamMutedStyle.Render("No workstreams match the current search.") + "\n")
+		return
+	}
+	for rowIndex, row := range rows {
+		item := m.items[row.workstream]
+		selected := rowIndex == m.selected
 		cursor := "  "
-		label := workstreamTextStyle.Render(item.Workspace.Label)
 		if selected {
 			cursor = workstreamSelectStyle.Render("› ")
-			label = workstreamSelectStyle.Render(item.Workspace.Label)
 		}
-		state := renderAgentState(item.AgentState)
-		branch := ""
-		if item.Workspace.Worktree != nil {
-			branch = item.Workspace.Worktree.Branch
-		}
-		output.WriteString(cursor + state + "  " + label + "\n")
-		output.WriteString("    " + workstreamMutedStyle.Render(fmt.Sprintf("branch %s  ·  %d tabs  ·  %d refs", branch, len(item.Tabs), len(visibleReferences(item.Refs)))) + "\n")
-		if selected {
-			for tabIndex, tab := range item.Tabs {
-				connector := "├─"
-				if tabIndex == len(item.Tabs)-1 {
-					connector = "└─"
-				}
-				output.WriteString("    " + workstreamMutedStyle.Render(connector+" tab ") + workstreamTextStyle.Render(tab.Label) + "\n")
+		if !row.isTab() {
+			label := workstreamTextStyle.Render(item.Workspace.Label)
+			if selected {
+				label = workstreamSelectStyle.Render(item.Workspace.Label)
 			}
+			branch := ""
+			if item.Workspace.Worktree != nil {
+				branch = item.Workspace.Worktree.Branch
+			}
+			output.WriteString(cursor + renderAgentState(item.AgentState) + "  " + label + "\n")
+			output.WriteString("    " + workstreamMutedStyle.Render(fmt.Sprintf("branch %s  ·  %d tabs  ·  %d refs", branch, len(item.Tabs), len(visibleReferences(item.Refs)))) + "\n")
+			continue
 		}
+		tab := item.Tabs[row.tab]
+		connector := "├─"
+		if row.tab == len(item.Tabs)-1 {
+			connector = "└─"
+		}
+		label := workstreamTextStyle.Render(tab.Label)
+		if selected {
+			label = workstreamSelectStyle.Render(tab.Label)
+		}
+		output.WriteString(cursor + "  " + workstreamMutedStyle.Render(connector+" TAB ") + label + "\n")
 	}
-	help := "↑/↓ select  ·  Enter focus  ·  n create  ·  p pause  ·  r restore  ·  f refs  ·  Esc close"
+	help := "↑/↓ row  ·  ←/→ workstream  ·  Enter focus  ·  / search  ·  n create  ·  p pause  ·  r restore  ·  f refs  ·  Esc close"
 	if m.mode == pauseMode {
-		help = "↑/↓ select  ·  Enter pause  ·  Esc back"
+		help = "↑/↓ row  ·  ←/→ workstream  ·  Enter pause  ·  / search  ·  Esc back"
 	}
 	output.WriteString("\n" + workstreamMutedStyle.Render(help) + "\n")
 }
