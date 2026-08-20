@@ -8,7 +8,7 @@ buildGoModule {
   version = "0.1.0";
 
   src = ../../../.config/herdr/plugins/workstreams;
-  vendorHash = "sha256-XdU5VP+UlX5tb0jRK0H7xKI3/2V/ZwYVLjo/fqErSGI=";
+  vendorHash = null;
 
   subPackages = [ "cmd/herdr-workstreams" ];
 
