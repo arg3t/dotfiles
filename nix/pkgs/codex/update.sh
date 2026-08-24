@@ -12,11 +12,12 @@ owner="openai"
 repo="codex"
 
 # codex tags are `rust-v<version>`; asset target triples per Nix system.
-declare -A suffixes=(
-  [x86_64-linux]=x86_64-unknown-linux-musl
-  [aarch64-linux]=aarch64-unknown-linux-musl
-  [x86_64-darwin]=x86_64-apple-darwin
-  [aarch64-darwin]=aarch64-apple-darwin
+# Do not use Bash associative arrays, because the macOS system Bash does not support them.
+platforms=(
+  "x86_64-linux x86_64-unknown-linux-musl"
+  "aarch64-linux aarch64-unknown-linux-musl"
+  "x86_64-darwin x86_64-apple-darwin"
+  "aarch64-darwin aarch64-apple-darwin"
 )
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -40,8 +41,8 @@ fi
 echo "codex: $current -> $version" >&2
 
 hashes="{}"
-for system in "${!suffixes[@]}"; do
-  suffix="${suffixes[$system]}"
+for platform in "${platforms[@]}"; do
+  read -r system suffix <<<"$platform"
   url="https://github.com/$owner/$repo/releases/download/rust-v$version/codex-$suffix.tar.gz"
   echo "  prefetch $system ($suffix)" >&2
   hash="$(nix store prefetch-file --json --name "codex-$suffix.tar.gz" "$url" | jq -r .hash)"

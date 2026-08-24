@@ -12,11 +12,12 @@ owner="earendil-works"
 repo="pi"
 
 # pi tags are `v<version>`; asset suffixes per Nix system.
-declare -A suffixes=(
-  [x86_64-linux]=linux-x64
-  [aarch64-linux]=linux-arm64
-  [x86_64-darwin]=darwin-x64
-  [aarch64-darwin]=darwin-arm64
+# Do not use Bash associative arrays, because the macOS system Bash does not support them.
+platforms=(
+  "x86_64-linux linux-x64"
+  "aarch64-linux linux-arm64"
+  "x86_64-darwin darwin-x64"
+  "aarch64-darwin darwin-arm64"
 )
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -39,8 +40,8 @@ fi
 echo "pi: $current -> $version" >&2
 
 hashes="{}"
-for system in "${!suffixes[@]}"; do
-  suffix="${suffixes[$system]}"
+for platform in "${platforms[@]}"; do
+  read -r system suffix <<<"$platform"
   url="https://github.com/$owner/$repo/releases/download/v$version/pi-$suffix.tar.gz"
   echo "  prefetch $system ($suffix)" >&2
   hash="$(nix store prefetch-file --json --name "pi-$suffix.tar.gz" "$url" | jq -r .hash)"

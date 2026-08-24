@@ -12,11 +12,12 @@ owner="sst"
 repo="opencode"
 
 # opencode tags are `v<version>`. Linux assets are .tar.gz, macOS assets .zip.
-declare -A suffixes=(
-  [x86_64-linux]=linux-x64
-  [aarch64-linux]=linux-arm64
-  [x86_64-darwin]=darwin-x64
-  [aarch64-darwin]=darwin-arm64
+# Do not use Bash associative arrays, because the macOS system Bash does not support them.
+platforms=(
+  "x86_64-linux linux-x64"
+  "aarch64-linux linux-arm64"
+  "x86_64-darwin darwin-x64"
+  "aarch64-darwin darwin-arm64"
 )
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -39,8 +40,8 @@ fi
 echo "opencode: $current -> $version" >&2
 
 hashes="{}"
-for system in "${!suffixes[@]}"; do
-  suffix="${suffixes[$system]}"
+for platform in "${platforms[@]}"; do
+  read -r system suffix <<<"$platform"
   case "$system" in
     *darwin) ext=zip ;;
     *) ext=tar.gz ;;

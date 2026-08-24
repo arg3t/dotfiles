@@ -11,12 +11,13 @@ set -euo pipefail
 owner="can1357"
 repo="oh-my-pi"
 
-# Nix system -> release asset suffix.
-declare -A suffixes=(
-  [x86_64-linux]=linux-x64
-  [aarch64-linux]=linux-arm64
-  [x86_64-darwin]=darwin-x64
-  [aarch64-darwin]=darwin-arm64
+# Release system and asset suffix pairs. Do not use Bash associative arrays,
+# because the macOS system Bash does not support them.
+platforms=(
+  "x86_64-linux linux-x64"
+  "aarch64-linux linux-arm64"
+  "x86_64-darwin darwin-x64"
+  "aarch64-darwin darwin-arm64"
 )
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -39,8 +40,8 @@ fi
 echo "oh-my-pi: $current -> $version" >&2
 
 hashes="{}"
-for system in "${!suffixes[@]}"; do
-  suffix="${suffixes[$system]}"
+for platform in "${platforms[@]}"; do
+  read -r system suffix <<<"$platform"
   url="https://github.com/$owner/$repo/releases/download/v$version/omp-$suffix"
   echo "  prefetch $system ($suffix)" >&2
   hash="$(nix store prefetch-file --json --name "omp-$suffix" "$url" | jq -r .hash)"

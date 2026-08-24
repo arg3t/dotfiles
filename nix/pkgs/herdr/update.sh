@@ -11,12 +11,13 @@ set -euo pipefail
 owner="herdrdev"
 repo="herdr"
 
-# Nix system -> release asset suffix.
-declare -A suffixes=(
-  [x86_64-linux]=linux-x86_64
-  [aarch64-linux]=linux-aarch64
-  [x86_64-darwin]=macos-x86_64
-  [aarch64-darwin]=macos-aarch64
+# Nix system and release asset suffix pairs.
+# Do not use Bash associative arrays, because the macOS system Bash does not support them.
+platforms=(
+  "x86_64-linux linux-x86_64"
+  "aarch64-linux linux-aarch64"
+  "x86_64-darwin macos-x86_64"
+  "aarch64-darwin macos-aarch64"
 )
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -39,8 +40,8 @@ fi
 echo "herdr: $current -> $version" >&2
 
 hashes="{}"
-for system in "${!suffixes[@]}"; do
-  suffix="${suffixes[$system]}"
+for platform in "${platforms[@]}"; do
+  read -r system suffix <<<"$platform"
   url="https://github.com/$owner/$repo/releases/download/v$version/herdr-$suffix"
   echo "  prefetch $system ($suffix)" >&2
   hash="$(nix store prefetch-file --json --name "herdr-$suffix" "$url" | jq -r .hash)"
