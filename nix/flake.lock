@@ -100,26 +100,6 @@
         "type": "github"
       }
     },
-    "omp-gateway-bar": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1785711058,
-        "narHash": "sha256-j3dAXhnVZ+c3ZAvvgSzTKP/neOeySwmYBcKQH44dItU=",
-        "owner": "arg3t",
-        "repo": "omp-gateway-bar",
-        "rev": "1abd44a4df10d4f1695fd46700ed838a24a65acf",
-        "type": "github"
-      },
-      "original": {
-        "owner": "arg3t",
-        "repo": "omp-gateway-bar",
-        "type": "github"
-      }
-    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -209,6 +189,43 @@
         "type": "github"
       }
     },
+    "omp-gateway-bar": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785711058,
+        "narHash": "sha256-j3dAXhnVZ+c3ZAvvgSzTKP/neOeySwmYBcKQH44dItU=",
+        "owner": "arg3t",
+        "repo": "omp-gateway-bar",
+        "rev": "1abd44a4df10d4f1695fd46700ed838a24a65acf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "arg3t",
+        "repo": "omp-gateway-bar",
+        "type": "github"
+      }
+    },
+    "ponytail": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786137205,
+        "narHash": "sha256-8cYggVltBAlZ/Zj4pl1bOu7mQdZFXCmDGW4RSpvRA+w=",
+        "owner": "DietrichGebert",
+        "repo": "ponytail",
+        "rev": "0a4dd63ad4541f4f655c4108a295916f3c1d8fda",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DietrichGebert",
+        "ref": "v4.9.0",
+        "repo": "ponytail",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
@@ -218,7 +235,8 @@
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "omp-gateway-bar": "omp-gateway-bar"
+        "omp-gateway-bar": "omp-gateway-bar",
+        "ponytail": "ponytail"
       }
     },
     "systems": {

@@ -38,6 +38,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    ponytail = {
+      url = "github:DietrichGebert/ponytail/v4.9.0";
+      flake = false;
+    };
+
   };
 
   outputs =
@@ -116,8 +121,7 @@
         pkgs = import nixpkgs {
           system = linuxSystem;
           overlays = [ self.overlays.default ];
-          config.allowUnfreePredicate =
-            pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "claude-code" ];
+          config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "claude-code" ];
         };
         extraSpecialArgs = {
           inherit inputs;
@@ -132,8 +136,7 @@
         pkgs = import nixpkgs {
           system = linuxSystem;
           overlays = [ self.overlays.default ];
-          config.allowUnfreePredicate =
-            pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "claude-code" ];
+          config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "claude-code" ];
         };
         extraSpecialArgs = {
           inherit inputs;
