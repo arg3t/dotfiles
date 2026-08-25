@@ -624,11 +624,10 @@ in
               on-timeout = "hyprctl dispatch dpms off";
               on-resume = "hyprctl dispatch dpms on && brightnessctl -r";
             }
-            {
+          ] ++ lib.optional cfg.battery {
               timeout = 1800;
               on-timeout = "systemctl suspend";
-            }
-          ];
+            };
         };
       };
 

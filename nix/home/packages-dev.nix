@@ -60,7 +60,6 @@ let
       gdb
       mold
       bazelisk-with-bazel
-      llvmPackages.libclang
     ];
   };
 in
