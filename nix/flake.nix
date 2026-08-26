@@ -42,6 +42,10 @@
       url = "github:DietrichGebert/ponytail/v4.9.0";
       flake = false;
     };
+    asd-ste100 = {
+      url = "github:danyuchn/asd-ste100-skill";
+      flake = false;
+    };
 
   };
 

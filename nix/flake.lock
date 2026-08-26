@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "asd-ste100": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786619017,
+        "narHash": "sha256-tO4P8Ou8Lupdb3MY5LTWsBXU3IIJ4orj8rhzy/QM6BE=",
+        "owner": "danyuchn",
+        "repo": "asd-ste100-skill",
+        "rev": "d5ce157870cf9c41efd1d6e836706a2be3c7b9da",
+        "type": "github"
+      },
+      "original": {
+        "owner": "danyuchn",
+        "repo": "asd-ste100-skill",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -228,6 +244,7 @@
     },
     "root": {
       "inputs": {
+        "asd-ste100": "asd-ste100",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "mac-style-plymouth": "mac-style-plymouth",

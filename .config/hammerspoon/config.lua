@@ -42,9 +42,22 @@ local M = {
       { from = { { "ctrl" }, "=" }, to = { { "cmd" }, "=" } },
     },
     ["Google Chrome"] = {
+      -- Keep Ctrl+1..9 unchanged; every other entry mirrors Chrome's Linux shortcut.
       { from = { {}, "f" },         to = { { "cmd" }, "f" } },
       { from = { { "ctrl" }, "-" }, to = { { "cmd" }, "-" } },
       { from = { { "ctrl" }, "=" }, to = { { "cmd" }, "=" } },
+      { from = { {}, "0" },         to = { { "cmd" }, "0" } },
+      { from = { {}, "l" },         to = { { "cmd" }, "l" } },
+      { from = { {}, "r" },         to = { { "cmd" }, "r" } },
+      { from = { { "shift" }, "r" }, to = { { "cmd", "shift" }, "r" } },
+      { from = { {}, "t" },         to = { { "cmd" }, "t" } },
+      { from = { { "shift" }, "t" }, to = { { "cmd", "shift" }, "t" } },
+      { from = { {}, "tab" },       to = { { "cmd", "alt" }, "right" } },
+      { from = { { "shift" }, "tab" }, to = { { "cmd", "alt" }, "left" } },
+      { from = { {}, "d" },         to = { { "cmd" }, "d" } },
+      { from = { {}, "h" },         to = { { "cmd" }, "y" } },
+      { from = { {}, "j" },         to = { { "cmd", "shift" }, "j" } },
+      { from = { { "shift" }, "n" }, to = { { "cmd", "shift" }, "n" } },
     },
     ["Slack"] = {
       { from = { { "ctrl" }, "k" }, to = { { "cmd" }, "k" } },

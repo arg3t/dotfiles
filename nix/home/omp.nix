@@ -10,6 +10,7 @@
 
 let
   ponytail = inputs.ponytail;
+  asdSte100 = inputs.asd-ste100;
   userConfig = { config, ... }: {
     # OMP user-level config files. These are discovery-only files that OMP
     # never writes to, so out-of-store symlinks are safe: edits in the dotfiles
@@ -49,6 +50,7 @@ let
     home.file.".omp/agent/skills/ponytail-debt".source = "${ponytail}/skills/ponytail-debt";
     home.file.".omp/agent/skills/ponytail-gain".source = "${ponytail}/skills/ponytail-gain";
     home.file.".omp/agent/skills/ponytail-help".source = "${ponytail}/skills/ponytail-help";
+    home.file.".omp/agent/skills/asd-ste100".source = asdSte100;
 
     # Keep OMP's package registry empty and declarative. Native extensions above
     # replace the old `omp plugin link` state.
