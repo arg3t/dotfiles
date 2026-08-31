@@ -14,3 +14,4 @@ rustflags = [
 
 [env]
 CXXFLAGS = "-include cstdint"
+LIBCLANG_PATH = { value = "../../.nix-profile/lib", relative = true, force = true }

@@ -16,8 +16,8 @@ let
   };
 
   clang-driver-only = pkgs.symlinkJoin {
-    name = "clang-driver-${pkgs.llvmPackages.clang-unwrapped.version}";
-    paths = [ pkgs.llvmPackages.clang-unwrapped ];
+    name = "clang-driver-${pkgs.llvmPackages.clang.version}";
+    paths = [ pkgs.llvmPackages.clang pkgs.llvmPackages.libclang.lib ];
     postBuild = ''
       find $out/bin -maxdepth 1 -type l ! -name 'clang' ! -name 'clang++' ! -name 'clang-[0-9]*' -delete
     '';

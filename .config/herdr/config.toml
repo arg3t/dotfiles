@@ -73,3 +73,6 @@ description = "Open Herdr palette"
 
 [ui]
 show_agent_labels_on_pane_borders = true
+
+[ui.toast]
+delivery = "system"

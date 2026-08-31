@@ -25,7 +25,6 @@ let
       CARGO_HOME = "$HOME/.local/share/cargo";
       GOPATH = "$HOME/.local/share/go";
       GNUPGHOME = "$HOME/.local/share/gnupg";
-      LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
     } // lib.optionalAttrs pkgs.stdenv.isLinux {
       OPENER = "xdg-open";
       ELECTRON_OZONE_PLATFORM_HINT = "auto";
@@ -40,6 +39,9 @@ let
       "$HOME/.local/share/cargo/bin"
       "$HOME/.local/share/go/bin"
     ];
+
+    xdg.dataFile."cargo/config.toml".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.cargo/config.toml";
 
     # Script-facing config; status-bar scripts `source ~/.config/config.env`.
     # Machine-local secrets go in ~/.config/config.env.local (untracked).
