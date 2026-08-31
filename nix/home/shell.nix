@@ -8,6 +8,7 @@
 }:
 
 let
+
   userConfig = { config, lib, ... }: {
     programs.zsh = {
       enable = true;

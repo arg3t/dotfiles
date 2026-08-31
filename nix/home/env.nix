@@ -25,6 +25,7 @@ let
       CARGO_HOME = "$HOME/.local/share/cargo";
       GOPATH = "$HOME/.local/share/go";
       GNUPGHOME = "$HOME/.local/share/gnupg";
+      LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
     } // lib.optionalAttrs pkgs.stdenv.isLinux {
       OPENER = "xdg-open";
       ELECTRON_OZONE_PLATFORM_HINT = "auto";

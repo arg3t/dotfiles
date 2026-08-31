@@ -81,11 +81,35 @@ default_host    := if os() == "macos" { "vela" } else { `hostname` }
 
 # Switch a NixOS or nix-darwin system configuration.
 switch target=default_host backend=default_backend:
+    #!/usr/bin/env bash
+    set -euo pipefail
     nh {{ backend }} switch --hostname {{ target }} ./nix
+    alias_file="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/local_aliases"
+    mkdir -p "$(dirname "$alias_file")"
+    temp_file="$(mktemp "${alias_file}.XXXXXX")"
+    if [[ -f "$alias_file" ]]; then
+      while IFS= read -r line || [[ -n "$line" ]]; do
+        [[ $line == alias\ jsw=* ]] || printf '%s\n' "$line"
+      done < "$alias_file" > "$temp_file"
+    fi
+    printf 'alias jsw=%q\n' "cd $PWD; just switch {{ target }} {{ backend }}" >> "$temp_file"
+    mv "$temp_file" "$alias_file"
 
 # Switch a standalone Home Manager profile.
 home-switch profile:
+    #!/usr/bin/env bash
+    set -euo pipefail
     home-manager switch -b hm-backup --flake ./nix#{{ profile }}
+    alias_file="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/local_aliases"
+    mkdir -p "$(dirname "$alias_file")"
+    temp_file="$(mktemp "${alias_file}.XXXXXX")"
+    if [[ -f "$alias_file" ]]; then
+      while IFS= read -r line || [[ -n "$line" ]]; do
+        [[ $line == alias\ jsw=* ]] || printf '%s\n' "$line"
+      done < "$alias_file" > "$temp_file"
+    fi
+    printf 'alias jsw=%q\n' "cd $PWD; just home-switch profile={{ profile }}" >> "$temp_file"
+    mv "$temp_file" "$alias_file"
 
 
 # Build the NixOS configuration for next boot (NixOS only)
