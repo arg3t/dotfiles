@@ -13,7 +13,6 @@
 
   services.blueman.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    our.podctl
-  ];
+#  environment.systemPackages = with pkgs; [
+#  ];
 }

@@ -459,7 +459,6 @@ in
           exec-once = [
             "systemctl --user start hyprpolkitagent"
             "syshud -p \"top right\" -l audio_in,audio_out,backlight"
-            "podctld"
             "xfce4-power-manager"
             "mako"
             "wl-paste --type text --watch cliphist store"
