@@ -24,6 +24,7 @@
     our.supercmd
     our.hammerspoon
     our.omniwm
+    our.sony-connect
     inputs.omp-gateway-bar.packages.${pkgs.system}.default
     zed-editor
     vscodium
@@ -144,6 +145,20 @@
           "/usr/bin/open"
           "-a"
           "${pkgs.our.hammerspoon}/Applications/Hammerspoon.app"
+        ];
+        RunAtLoad = true;
+        ProcessType = "Interactive";
+      };
+    };
+
+    launchd.agents.sonyConnect = {
+      enable = true;
+      config = {
+        Label = "org.nixos.sony-connect";
+        ProgramArguments = [
+          "/usr/bin/open"
+          "-a"
+          "${pkgs.our.sony-connect}/Applications/SonyConnect.app"
         ];
         RunAtLoad = true;
         ProcessType = "Interactive";
