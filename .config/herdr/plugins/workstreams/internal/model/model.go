@@ -32,10 +32,13 @@ type Tab struct {
 }
 
 type Pane struct {
-	ID          string     `json:"pane_id"`
-	WorkspaceID string     `json:"workspace_id"`
-	TabID       string     `json:"tab_id"`
-	AgentState  AgentState `json:"agent_status"`
+	ID            string     `json:"pane_id"`
+	WorkspaceID   string     `json:"workspace_id"`
+	TabID         string     `json:"tab_id"`
+	CWD           string     `json:"cwd"`
+	ForegroundCWD string     `json:"foreground_cwd"`
+	Focused       bool       `json:"focused"`
+	AgentState    AgentState `json:"agent_status"`
 }
 
 type ReferenceKind string

@@ -24,17 +24,21 @@ type Created struct {
 	Mode      string
 }
 
-func (s Service) Create(ctx context.Context, source model.Workspace, branch string) (Created, error) {
-	if source.Worktree == nil || source.Worktree.RepoRoot == "" {
-		return Created{}, fmt.Errorf("workspace %q has no worktree", source.Label)
+func (s Service) Create(ctx context.Context, cwd, branch string) (Created, error) {
+	if cwd == "" {
+		return Created{}, fmt.Errorf("no working directory available")
+	}
+	root, err := repositoryRoot(ctx, cwd)
+	if err != nil {
+		return Created{}, err
 	}
 	branch = slug(branch)
 	if branch == "" {
 		return Created{}, fmt.Errorf("branch name is empty")
 	}
-	root, wt := source.Worktree.RepoRoot, *source.Worktree
+	repo := filepath.Base(root)
 	if overlayAvailable(ctx, root) {
-		path, err := overlayCreate(ctx, root, wt.RepoName, branch)
+		path, err := overlayCreate(ctx, root, repo, branch)
 		if err == nil {
 			workspace, openErr := s.Herdr.AdoptWorktree(ctx, root, path, branch)
 			if openErr == nil {
@@ -48,6 +52,17 @@ func (s Service) Create(ctx context.Context, source model.Workspace, branch stri
 		return Created{}, err
 	}
 	return Created{Workspace: workspace, Mode: "git"}, nil
+}
+
+func repositoryRoot(ctx context.Context, cwd string) (string, error) {
+	commonDir, err := command(ctx, cwd, "git", "rev-parse", "--path-format=absolute", "--git-common-dir")
+	if err != nil {
+		return "", fmt.Errorf("%s is not inside a Git repository: %s", cwd, commonDir)
+	}
+	// commonDir points at the main repo's .git even from inside a linked
+	// worktree, so this also redirects worktree creation back to the repo
+	// the worktree was branched from.
+	return filepath.Dir(commonDir), nil
 }
 
 func (s Service) Pause(ctx context.Context, workspace model.Workspace) error {

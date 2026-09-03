@@ -60,6 +60,7 @@ type Overlay struct {
 	initialized     bool
 	detailSelected  int
 	pendingSelectID string
+	cwd             string
 	input           textinput.Model
 	search          textinput.Model
 	spinner         spinner.Model
@@ -80,6 +81,10 @@ var (
 )
 
 func Run(ctx context.Context, client herdr.Client, state store.Store) error {
+	cwd := os.Getenv("HERDR_WORKSPACE_CWD")
+	if cwd == "" {
+		cwd, _ = os.Getwd()
+	}
 	input := textinput.New()
 	input.Prompt = "Branch> "
 	input.Placeholder = "feature/short-name"
@@ -96,6 +101,7 @@ func Run(ctx context.Context, client herdr.Client, state store.Store) error {
 		store:   state,
 		service: worktree.Service{Herdr: client, Store: state},
 		mode:    initialWorkstreamMode(os.Getenv("WORKSTREAMS_MODE")),
+		cwd:     cwd,
 		input:   input,
 		search:  search,
 		spinner: progress,
@@ -279,11 +285,7 @@ func (m Overlay) updateCreate(key tea.KeyPressMsg) (tea.Model, tea.Cmd) {
 		m.busy = true
 		m.status = "Creating workstream " + branch + "…"
 		return m, tea.Batch(m.spinner.Tick, func() tea.Msg {
-			source, err := m.herdr.Focused(m.ctx)
-			if err != nil {
-				return actionMsg{err: err}
-			}
-			created, err := m.service.Create(m.ctx, source, branch)
+			created, err := m.service.Create(m.ctx, m.cwd, branch)
 			if err != nil {
 				return actionMsg{err: err}
 			}
