@@ -65,13 +65,13 @@ buildGoModule {
     id = "overlay"
     title = "Workstreams"
     placement = "overlay"
-    command = ["./bin/herdr-workstreams", "overlay"]
+    command = ["bash", "-c", "exec \"$HERDR_PLUGIN_ROOT/bin/herdr-workstreams\" overlay"]
 
     [[panes]]
     id = "palette"
     title = "Herdr palette"
     placement = "overlay"
-    command = ["./bin/herdr-workstreams", "palette"]
+    command = ["bash", "-c", "exec \"$HERDR_PLUGIN_ROOT/bin/herdr-workstreams\" palette"]
     EOF
   '';
 

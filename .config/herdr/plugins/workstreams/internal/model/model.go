@@ -19,6 +19,7 @@ type Worktree struct {
 
 type Workspace struct {
 	ID       string            `json:"workspace_id"`
+	Number   int               `json:"number"`
 	Label    string            `json:"label"`
 	Focused  bool              `json:"focused"`
 	Worktree *Worktree         `json:"worktree,omitempty"`

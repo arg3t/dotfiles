@@ -108,7 +108,7 @@ home-switch profile:
         [[ $line == alias\ jsw=* ]] || printf '%s\n' "$line"
       done < "$alias_file" > "$temp_file"
     fi
-    printf 'alias jsw=%q\n' "cd $PWD; just home-switch profile={{ profile }}" >> "$temp_file"
+    printf 'alias jsw=%q\n' "cd $PWD; just home-switch {{ profile }}" >> "$temp_file"
     mv "$temp_file" "$alias_file"
 
 

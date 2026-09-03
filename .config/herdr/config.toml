@@ -6,6 +6,7 @@ onboarding = false
 # Match tmux prefix (tmux.conf: unbind C-b; set-option -g prefix C-a)
 prefix = "ctrl+a"
 
+
 # Splits: | and - (tmux: bind | split-window -h; bind - split-window -v)
 split_vertical = ["prefix+|", "prefix+\\"]
 split_horizontal = "prefix+minus"
@@ -25,8 +26,12 @@ focus_pane_right = "prefix+l"
 # Last pane on ctrl+\ (tmux: C-\ select-pane -l)
 last_pane = "ctrl+\\"
 
-# Move rename_tab off prefix+shift+t so sesh picker can use it
-rename_tab = "prefix+shift+,"
+# Rename the current tab with prefix+shift+r.
+rename_tab = "prefix+shift+r"
+rename_pane = ""
+
+# Switch visible sidebar workspaces with prefix+shift+1 through prefix+shift+9.
+switch_workspace = "prefix+shift+1..9"
 
 # ---
 # Vim-aware pane navigation: ctrl+h/j/k/l with passthrough to vim.
@@ -59,20 +64,23 @@ description = "navigate right (vim/herdr)"
 
 # Workstreams: Bubble Tea overlay for worktree lifecycle, OMP state, and refs.
 [[keys.command]]
-key = "prefix+shift+g"
+key = "prefix+p"
 type = "plugin_action"
 command = "workstreams.open"
 description = "Open workstreams"
 
 # Unified Herdr palette: native actions, plugin actions, workspaces, and tabs.
 [[keys.command]]
-key = "prefix+p"
+key = "prefix+shift+p"
 type = "plugin_action"
 command = "workstreams.palette"
 description = "Open Herdr palette"
 
 [ui]
 show_agent_labels_on_pane_borders = true
+
+[ui.sidebar.spaces]
+rows = [["state_icon", "$workstream_number", "$workstream_id", "workspace"], ["branch", "git_status"]]
 
 [ui.toast]
 delivery = "system"

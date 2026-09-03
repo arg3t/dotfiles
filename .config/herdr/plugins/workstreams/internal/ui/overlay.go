@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"strconv"
 	"strings"
 
 	"charm.land/bubbles/v2/spinner"
@@ -140,6 +141,17 @@ func (m Overlay) load() tea.Msg {
 	for _, workspace := range workspaces {
 		if workspace.Worktree == nil {
 			continue
+		}
+		if workspace.Tokens["workstream_id"] != workspace.ID {
+			if err := m.herdr.Metadata(m.ctx, workspace.ID, "workstream_id", workspace.ID); err != nil {
+				return loadedMsg{err: err}
+			}
+		}
+		workstreamNumber := strconv.Itoa(workspace.Number)
+		if workspace.Tokens["workstream_number"] != workstreamNumber {
+			if err := m.herdr.Metadata(m.ctx, workspace.ID, "workstream_number", workstreamNumber); err != nil {
+				return loadedMsg{err: err}
+			}
 		}
 		panes, paneErr := m.herdr.Panes(m.ctx, workspace.ID)
 		if paneErr != nil {

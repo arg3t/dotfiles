@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
 	"os/exec"
 	"strings"
 
@@ -25,6 +26,33 @@ type envelope[T any] struct {
 	Error  *struct {
 		Message string `json:"message"`
 	} `json:"error"`
+}
+
+func pluginCWD(contextJSON, fallback string) string {
+	var context struct {
+		FocusedPaneCWD string `json:"focused_pane_cwd"`
+		WorkspaceCWD   string `json:"workspace_cwd"`
+	}
+	if json.Unmarshal([]byte(contextJSON), &context) == nil {
+		if context.FocusedPaneCWD != "" {
+			return context.FocusedPaneCWD
+		}
+		if context.WorkspaceCWD != "" {
+			return context.WorkspaceCWD
+		}
+	}
+	return fallback
+}
+
+func appendCWD(args []string, cwd string) []string {
+	if info, err := os.Stat(cwd); err == nil && info.IsDir() {
+		return append(args, "--cwd", cwd)
+	}
+	return args
+}
+
+func appendPluginCWD(args []string) []string {
+	return appendCWD(args, pluginCWD(os.Getenv("HERDR_PLUGIN_CONTEXT_JSON"), os.Getenv("HERDR_WORKSPACE_CWD")))
 }
 
 func (c Client) run(ctx context.Context, dst any, args ...string) error {
@@ -212,6 +240,11 @@ func (c Client) OpenPluginPaneMode(ctx context.Context, mode string) error {
 	args := []string{"plugin", "pane", "open", "--plugin", "workstreams", "--entrypoint", "overlay", "--placement", "overlay", "--focus"}
 	if mode != "" {
 		args = append(args, "--env", "WORKSTREAMS_MODE="+mode)
+	}
+	if workspace, err := c.Focused(ctx); err == nil && workspace.Worktree != nil {
+		args = appendCWD(args, workspace.Worktree.CheckoutPath)
+	} else {
+		args = appendPluginCWD(args)
 	}
 	return c.run(ctx, nil, args...)
 }
