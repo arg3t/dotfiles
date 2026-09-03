@@ -6,4 +6,3 @@ repo="${DOTS_DIR:-$HOME/.dots}"
 
 git -C "$repo" fetch -- "$host:~/.dots" main
 git -C "$repo" merge --no-edit FETCH_HEAD
-git -C "$repo" push github-emu:arg3t/dotfiles.git HEAD:main
