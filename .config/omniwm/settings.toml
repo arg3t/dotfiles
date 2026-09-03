@@ -230,6 +230,7 @@ minHeight = 500.0
 minWidth = 800.0
 
 [[appRules]]
+assignToWorkspace = "1"
 bundleId = "com.mitchellh.ghostty"
 id = "7876C9EF-437E-4D4F-9C27-B1B02F4AABCE"
 minHeight = 48.0
@@ -246,11 +247,6 @@ bundleId = "com.apple.MobileSMS"
 id = "552FB77D-BF0E-4737-90A6-B5BC6986C579"
 minHeight = 320.0
 minWidth = 660.0
-
-[[appRules]]
-assignToWorkspace = "1"
-bundleId = "com.mitchellh.ghostty"
-id = "06E378E8-6728-4953-A835-B64AF69E44AA"
 
 [[appRules]]
 assignToWorkspace = "2"

@@ -36,7 +36,7 @@ switch_workspace = "prefix+shift+1..9"
 # ---
 # Vim-aware pane navigation: ctrl+h/j/k/l with passthrough to vim.
 # Uses vendored vim-herdr-navigation plugin at
-# .config/herdr/plugins/vim-herdr-navigation/
+# .config/herdr/plugins/vim-herdr-navigation/herdr/
 # ---
 [[keys.command]]
 key = "ctrl+h"
@@ -83,4 +83,8 @@ show_agent_labels_on_pane_borders = true
 rows = [["state_icon", "$workstream_number", "$workstream_id", "workspace"], ["branch", "git_status"]]
 
 [ui.toast]
-delivery = "system"
+delivery = "herdr"
+delay_seconds = 1
+
+[ui.toast.herdr]
+position = "top-right"

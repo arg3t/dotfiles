@@ -30,6 +30,11 @@
           "paths": [
             "/home/yigit.colakoglu/universe/./"
           ]
+        },
+        {
+          "paths": [
+            "~/.herdr/worktrees/runtime/batch_writer_array_struct_map/./"
+          ]
         }
       ]
     },
