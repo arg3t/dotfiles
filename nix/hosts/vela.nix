@@ -55,6 +55,7 @@
     casks = [
       "bettercapture"
       "macshot"
+      "hiddenbar"
     ];
   };
 
