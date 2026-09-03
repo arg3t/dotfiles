@@ -8,7 +8,7 @@
 #   nix run .#omniwm.updateScript
 set -euo pipefail
 
-owner="BarutSRB"
+owner="arg3t"
 repo="OmniWM"
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

@@ -16,7 +16,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   version = sources.version;
 
   src = fetchurl {
-    url = "https://github.com/BarutSRB/OmniWM/releases/download/v${finalAttrs.version}/OmniWM-v${finalAttrs.version}.zip";
+    url = "https://github.com/arg3t/OmniWM/releases/download/v${finalAttrs.version}/OmniWM-v${finalAttrs.version}.zip";
     hash = sources.hash;
   };
 
