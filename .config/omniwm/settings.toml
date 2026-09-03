@@ -1119,7 +1119,7 @@ name = "LF32TU87 (1)"
 
 [[workspaces]]
 id = "454CECD4-5E9D-4ED1-95D7-979D48817F5F"
-layoutType = "dwindle"
+layoutType = "stack"
 name = "2"
 
 [workspaces.monitorAssignment]
@@ -1131,7 +1131,7 @@ name = "Built-in Retina Display"
 
 [[workspaces]]
 id = "BEB842B5-E894-4791-9FD1-397C3CDD3538"
-layoutType = "dwindle"
+layoutType = "stack"
 name = "3"
 
 [workspaces.monitorAssignment]
@@ -1143,7 +1143,7 @@ name = "LF32TU87 (2)"
 
 [[workspaces]]
 id = "248AA883-2261-4D45-943C-79C0E46A232B"
-layoutType = "dwindle"
+layoutType = "stack"
 name = "4"
 
 [workspaces.monitorAssignment]
@@ -1155,7 +1155,7 @@ name = "LF32TU87 (1)"
 
 [[workspaces]]
 id = "8B8C45D6-CE9E-41D9-BD50-BE4989D5E3DE"
-layoutType = "dwindle"
+layoutType = "stack"
 name = "5"
 
 [workspaces.monitorAssignment]
@@ -1168,7 +1168,7 @@ name = "LF32TU87 (1)"
 [[workspaces]]
 displayName = "6"
 id = "5953F2BF-A378-4266-91B2-287174C4FA4D"
-layoutType = "dwindle"
+layoutType = "stack"
 name = "6"
 
 [workspaces.monitorAssignment]
@@ -1181,7 +1181,7 @@ name = "LF32TU87 (2)"
 [[workspaces]]
 displayName = "7"
 id = "A7D5E104-6985-4516-8ED5-07F144F2A33D"
-layoutType = "dwindle"
+layoutType = "stack"
 name = "7"
 
 [workspaces.monitorAssignment]
@@ -1193,7 +1193,7 @@ name = "LF32TU87 (2)"
 
 [[workspaces]]
 id = "61C51E6C-57BE-4E95-81C5-BFD920762790"
-layoutType = "dwindle"
+layoutType = "stack"
 name = "8"
 
 [workspaces.monitorAssignment]
@@ -1205,7 +1205,7 @@ name = "Built-in Retina Display"
 
 [[workspaces]]
 id = "283ACA3A-86BE-4541-ABE9-29B186B0DFE4"
-layoutType = "dwindle"
+layoutType = "stack"
 name = "9"
 
 [workspaces.monitorAssignment]
@@ -1217,7 +1217,7 @@ name = "Built-in Retina Display"
 
 [[workspaces]]
 id = "BB57085F-16EF-4630-9DCC-DBA8C22DB8C6"
-layoutType = "dwindle"
+layoutType = "stack"
 name = "10"
 
 [workspaces.monitorAssignment]
