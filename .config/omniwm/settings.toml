@@ -10,7 +10,7 @@ mode = "dark"
 
 [borders]
 enabled = true
-width = 1.0
+width = 3.0
 
 [borders.color]
 alpha = 1.0

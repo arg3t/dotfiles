@@ -39,6 +39,9 @@ let
     home.file.".omp/agent/extensions/fork-in.ts".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/omp/plugins/personal/extensions/fork-in.ts";
 
+    home.file.".omp/agent/extensions/handoff-remote.ts".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/omp/plugins/personal/extensions/handoff-remote.ts";
+
     home.file.".omp/agent/extensions/ponytail.js".source = "${ponytail}/pi-extension/index.js";
 
     # Ponytail's Pi extension registers its slash commands and injects its mode
