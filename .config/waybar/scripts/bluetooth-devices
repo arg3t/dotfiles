@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
 set -u
-script_path=$(readlink -f -- "${BASH_SOURCE[0]}")
-script_dir=$(dirname -- "$script_path")
-repo_root=$(cd -- "$script_dir/../../.." && pwd)
 
 
 blue='#81a1c1'
@@ -94,13 +91,13 @@ case "${1:-bluetooth-json}" in
     tooltip_text
     ;;
   battery-menu)
-    exec "$repo_root/.local/bin/dmenu-battery"
+    exec "$HOME/.local/bin/dmenu-battery"
     ;;
   power-menu)
-    exec "$repo_root/.local/bin/dmenu-power"
+    exec "$HOME/.local/bin/dmenu-power"
     ;;
   podctl-menu)
-    exec "$repo_root/.local/bin/dmenu-podctl"
+    exec "$HOME/.local/bin/dmenu-podctl"
     ;;
   *)
     exec dmenu-bluetooth "$@"

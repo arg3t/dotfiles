@@ -53,6 +53,24 @@
           ]
         }
       ]
+    },
+    {
+      "host": "100.125.103.116",
+      "username": "yeet",
+      "args": [],
+      "projects": []
+    },
+    {
+      "host": "100.106.26.1",
+      "username": "yeet",
+      "args": [],
+      "projects": [
+        {
+          "paths": [
+            "/home/yeet/alkonos-staging"
+          ]
+        }
+      ]
     }
   ],
   "agent_servers": {
