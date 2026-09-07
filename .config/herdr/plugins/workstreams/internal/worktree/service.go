@@ -141,7 +141,14 @@ func overlayCreate(ctx context.Context, root, repo, branch string) (string, erro
 			return "", fmt.Errorf("git-ns setup: %s", output)
 		}
 	}
-	if output, err := command(ctx, root, "git", "ns", "worktree", "create", "--base", base, target); err != nil {
+	snapshot, err := command(ctx, base, "git", "rev-parse", "HEAD")
+	if err != nil {
+		return "", fmt.Errorf("git rev-parse HEAD: %s", snapshot)
+	}
+	if output, err := command(ctx, root, "git", "ns", "worktree", "snapshot", "create", "--base", base, "--commit", snapshot); err != nil {
+		return "", fmt.Errorf("git-ns snapshot create: %s", output)
+	}
+	if output, err := command(ctx, root, "git", "ns", "worktree", "create", "--base", base, "--snapshot", snapshot, target); err != nil {
 		return "", fmt.Errorf("git-ns create: %s", output)
 	}
 	if _, err := command(ctx, target, "git", "checkout", "-b", branch); err != nil {
