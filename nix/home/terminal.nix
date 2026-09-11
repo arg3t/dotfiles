@@ -104,6 +104,7 @@ let
     };
 
     home.packages = [ pkgs.alacritty.terminfo ];
+    home.sessionVariables.TERMINFO_DIRS = "${pkgs.alacritty.terminfo}/share/terminfo";
 
     programs.tmux = {
       enable = true;
