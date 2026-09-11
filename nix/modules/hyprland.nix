@@ -249,6 +249,8 @@ in
 
     home-manager.users.yeet = { config, ... }: {
       xdg.configFile."hypr/profile.jpg".source = ../../.config/hypr/profile.jpg;
+      # Recover cleanly if an interrupted activation leaves an older managed link.
+      xdg.configFile."hypr/hyprland.conf".force = true;
       xdg.configFile."waybar/scripts/bluetooth-devices" = {
         source = ../../.config/waybar/scripts/bluetooth-devices;
         executable = true;
