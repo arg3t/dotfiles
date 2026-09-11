@@ -55,6 +55,30 @@ func appendPluginCWD(args []string) []string {
 	return appendCWD(args, pluginCWD(os.Getenv("HERDR_PLUGIN_CONTEXT_JSON"), os.Getenv("HERDR_WORKSPACE_CWD")))
 }
 
+func isGitRepository(ctx context.Context, cwd string) bool {
+	return cwd != "" && exec.CommandContext(ctx, "git", "-C", cwd, "rev-parse", "--is-inside-work-tree").Run() == nil
+}
+
+func (c Client) pluginPaneCWD(ctx context.Context) string {
+	workspace, err := c.Focused(ctx)
+	if err == nil {
+		if workspace.Worktree != nil && isGitRepository(ctx, workspace.Worktree.CheckoutPath) {
+			return workspace.Worktree.CheckoutPath
+		}
+		if panes, err := c.Panes(ctx, workspace.ID); err == nil {
+			for _, pane := range panes {
+				if isGitRepository(ctx, pane.ForegroundCWD) {
+					return pane.ForegroundCWD
+				}
+				if pane.CWD != pane.ForegroundCWD && isGitRepository(ctx, pane.CWD) {
+					return pane.CWD
+				}
+			}
+		}
+	}
+	return pluginCWD(os.Getenv("HERDR_PLUGIN_CONTEXT_JSON"), os.Getenv("HERDR_WORKSPACE_CWD"))
+}
+
 func (c Client) run(ctx context.Context, dst any, args ...string) error {
 	out, err := exec.CommandContext(ctx, c.Binary, args...).CombinedOutput()
 	if err == nil && len(strings.TrimSpace(string(out))) == 0 {
@@ -241,10 +265,5 @@ func (c Client) OpenPluginPaneMode(ctx context.Context, mode string) error {
 	if mode != "" {
 		args = append(args, "--env", "WORKSTREAMS_MODE="+mode)
 	}
-	if workspace, err := c.Focused(ctx); err == nil && workspace.Worktree != nil {
-		args = appendCWD(args, workspace.Worktree.CheckoutPath)
-	} else {
-		args = appendPluginCWD(args)
-	}
-	return c.run(ctx, nil, args...)
+	return c.run(ctx, nil, appendCWD(args, c.pluginPaneCWD(ctx))...)
 }
