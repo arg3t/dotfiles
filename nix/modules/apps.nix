@@ -20,6 +20,7 @@ in
     spotify
     signal-desktop
     telegram-desktop
+    zoom-us
     wireguard-tools
   ];
 

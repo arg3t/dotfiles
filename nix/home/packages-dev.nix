@@ -60,6 +60,9 @@ let
       gdb
       mold
       bazelisk-with-bazel
+      flamegraph
+    ] ++ lib.optionals pkgs.stdenv.isLinux [
+      perf
     ];
   };
 in
