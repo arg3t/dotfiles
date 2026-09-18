@@ -93,7 +93,7 @@ async function forkInHerdr(ctx: CommandContext): Promise<void> {
 	const paneID = property(rootPane, "pane_id");
 	const sourceIndex = tabRows.findIndex(tab => property(tab, "tab_id") === tabID);
 	if (sourceIndex >= 0) await moveTab(newTabID, sourceIndex + 1);
-	const started = await herdr(["agent", "start", `fork-${workspaceID}-${label}`.replace(/[^a-z0-9_-]/gi, "").slice(0, 32), "--kind", "omp", "--pane", paneID, "--", ...ompOverlays(), "--fork", resolve(session)]);
+	const started = await herdr(["agent", "start", `fork-${workspaceID}-${label}`.replace(/[^a-z0-9_-]/gi, "").toLowerCase().slice(0, 32), "--kind", "omp", "--pane", paneID, "--", ...ompOverlays(), "--fork", resolve(session)]);
 	const agent = object(started.agent);
 	const agentSession = "agent_session" in agent && agent.agent_session && typeof agent.agent_session === "object" ? agent.agent_session : undefined;
 	const path = agentSession && "value" in agentSession && typeof agentSession.value === "string" ? agentSession.value : undefined;
