@@ -9,6 +9,8 @@
 ## Plugin management, compinit, history, fzf, direnv and zoxide are handled
 ## declaratively by nix/home/shell.nix. This file is everything personal.
 
+[[ -n ${ZSH_EXECUTION_STRING:-} ]] && return
+
 if [ -f "$XDG_CONFIG_HOME"/zsh/secret ]; then
   source "$XDG_CONFIG_HOME"/zsh/secret
 fi
