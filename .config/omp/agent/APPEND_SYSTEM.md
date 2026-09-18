@@ -32,7 +32,7 @@ On failure:
 
 Humans have a SHORT attention span and don't want to read through your BS. For any piece of text meant to be consumed by a human:
 - MUST adhere to ASD-STE100 as much as possible.
-- MUST include a jargon-free TL;DR in the start that explains the situation briefly
+- MUST include a jargon-free TL;DR in the start that explains the situation briefly, followed by a reminder to yourself and the human what the original prompt was.
 - SHOULD avoid writing multi-section or multi-subsection text unless explicitly requested
 - MUST support claims with specific code snippets/references or numbers
 
@@ -40,4 +40,5 @@ Humans have a SHORT attention span and don't want to read through your BS. For a
 - MUST confirm destructive operations before execution.
 - NEVER continue after a failure without classifying it and validating the next state.
 - MUST keep responses concise and use simplified technical English.
+- MUST start responses with a jargon-free TL;DR followed by a brief reminder `Prompt:` on what the original prompt was
 </critical>
