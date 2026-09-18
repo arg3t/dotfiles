@@ -4,5 +4,22 @@ set -euo pipefail
 host="${1:?Usage: dots-sync <host>}"
 repo="${DOTS_DIR:-$HOME/.dots}"
 
+patch="$(mktemp)"
+trap 'rm -f "$patch"' EXIT
+
+ssh "$host" "cd ~/.dots && git diff --binary HEAD && git ls-files --others --exclude-standard -z | xargs -0 -n 1 sh -c 'git diff --no-index --binary /dev/null -- \"\$1\" || true' sh" > "$patch"
+
+if [ -n "$(git -C "$repo" status --porcelain)" ]; then
+  git -C "$repo" stash push --include-untracked --message dots-sync-autostash
+  restore_stash=1
+else
+  restore_stash=0
+fi
+
 git -C "$repo" fetch -- "$host:~/.dots" main
 git -C "$repo" merge --no-edit FETCH_HEAD
+git -C "$repo" apply --3way --allow-empty "$patch"
+
+if [ "$restore_stash" -eq 1 ]; then
+  git -C "$repo" stash pop
+fi
