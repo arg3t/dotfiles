@@ -194,6 +194,11 @@ func (m palette) Update(message tea.Msg) (tea.Model, tea.Cmd) {
 			return m, nil
 		}
 		return m, tea.Quit
+	case tea.PasteMsg:
+		var command tea.Cmd
+		m.input, command = m.input.Update(value)
+		m.filter()
+		return m, command
 	case tea.KeyPressMsg:
 		switch value.String() {
 		case "esc", "ctrl+c":

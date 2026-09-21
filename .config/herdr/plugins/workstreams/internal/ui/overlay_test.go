@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"charm.land/bubbles/v2/textinput"
+	tea "charm.land/bubbletea/v2"
 	"github.com/arg3t/dotfiles/herdr-workstreams/internal/model"
 )
 
@@ -33,6 +34,29 @@ func TestPaletteUsesAlternateScreen(t *testing.T) {
 	view := (palette{}).View()
 	if !view.AltScreen {
 		t.Fatal("palette must use the alternate screen to avoid duplicate input rendering")
+	}
+}
+
+func TestOverlayAcceptsTerminalPasteInSearchAndCreate(t *testing.T) {
+	search := textinput.New()
+	search.Focus()
+	create := textinput.New()
+	create.Focus()
+	cases := []struct {
+		name    string
+		overlay Overlay
+		value   func(Overlay) string
+	}{
+		{"search", Overlay{search: search}, func(m Overlay) string { return m.search.Value() }},
+		{"create", Overlay{mode: createMode, input: create}, func(m Overlay) string { return m.input.Value() }},
+	}
+	for _, test := range cases {
+		t.Run(test.name, func(t *testing.T) {
+			updated, _ := test.overlay.Update(tea.PasteMsg{Content: "feature/paste"})
+			if got := test.value(updated.(Overlay)); got != "feature/paste" {
+				t.Fatalf("pasted value = %q, want %q", got, "feature/paste")
+			}
+		})
 	}
 }
 

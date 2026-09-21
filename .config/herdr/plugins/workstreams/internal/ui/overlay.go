@@ -201,6 +201,21 @@ func (m Overlay) Update(message tea.Msg) (tea.Model, tea.Cmd) {
 		m.pendingSelectID = value.workspaceID
 		m.mode = listMode
 		return m, m.load
+	case tea.PasteMsg:
+		if m.busy {
+			return m, nil
+		}
+		if m.mode == createMode {
+			var command tea.Cmd
+			m.input, command = m.input.Update(value)
+			return m, command
+		}
+		if m.search.Focused() {
+			var command tea.Cmd
+			m.search, command = m.search.Update(value)
+			m.clampSelectedRow()
+			return m, command
+		}
 	case tea.KeyPressMsg:
 		if m.busy {
 			return m, nil

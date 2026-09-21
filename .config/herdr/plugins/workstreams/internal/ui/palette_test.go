@@ -1,6 +1,11 @@
 package ui
 
-import "testing"
+import (
+	"testing"
+
+	"charm.land/bubbles/v2/textinput"
+	tea "charm.land/bubbletea/v2"
+)
 
 func TestNativePaletteItemsAreClearAndUnique(t *testing.T) {
 	items := nativePaletteItems()
@@ -19,6 +24,15 @@ func TestNativePaletteItemsAreClearAndUnique(t *testing.T) {
 			t.Fatalf("duplicate native action id %q", item.id)
 		}
 		seen[item.id] = true
+	}
+}
+
+func TestPaletteAcceptsTerminalPaste(t *testing.T) {
+	input := textinput.New()
+	input.Focus()
+	updated, _ := (palette{input: input}).Update(tea.PasteMsg{Content: "worktree"})
+	if got := updated.(palette).input.Value(); got != "worktree" {
+		t.Fatalf("pasted value = %q, want %q", got, "worktree")
 	}
 }
 
