@@ -3,6 +3,7 @@
   stdenv,
   fetchurl,
   autoPatchelfHook,
+  libxcb,
 }:
 
 let
@@ -42,10 +43,10 @@ stdenv.mkDerivation (finalAttrs: {
   sourceRoot = "pi";
   dontStrip = true;
 
-  # The launcher and the bundled *.node native modules only need glibc +
-  # libgcc_s on Linux (no X11/Wayland); autoPatchelfHook rewrites them all.
+  # The launcher and bundled native modules need glibc, libgcc_s, and libxcb
+  # on Linux. autoPatchelfHook rewrites them all.
   nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [ autoPatchelfHook ];
-  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ stdenv.cc.cc.lib ];
+  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ stdenv.cc.cc.lib libxcb ];
 
   installPhase = ''
     runHook preInstall
