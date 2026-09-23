@@ -86,7 +86,7 @@ alias v="nvim"
 # alias eduvpn="sudo openvpn ~/Documents/eduVPN.ovpn"
 
 alias sshlogin="ssh -o IdentitiesOnly=yes"
-alias sshh="herdr --remote arca.ssh"
+alias sshh="herdr --remote"
 alias scplogin="scp -o IdentitiesOnly=yes"
 alias pastebin="curl -F 'sprunge=<-' http://sprunge.us"
 
