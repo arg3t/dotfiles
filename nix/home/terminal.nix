@@ -1,11 +1,14 @@
 {
   pkgs,
+  lib,
   username ? "yeet",
   standaloneHome ? false,
   ...
 }:
 
 let
+  terminfoPackages = [ pkgs.alacritty.terminfo ]
+    ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.ghostty.terminfo ];
   userConfig = {
     programs.alacritty = {
       enable = true;
@@ -103,8 +106,10 @@ let
       '';
     };
 
-    home.packages = [ pkgs.alacritty.terminfo ];
-    home.sessionVariables.TERMINFO_DIRS = "${pkgs.alacritty.terminfo}/share/terminfo";
+    home.packages = terminfoPackages;
+    home.sessionVariables.TERMINFO_DIRS = builtins.concatStringsSep ":" (
+      map (pkg: "${pkg}/share/terminfo") terminfoPackages
+    );
 
     programs.tmux = {
       enable = true;
