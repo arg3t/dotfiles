@@ -9,7 +9,6 @@
 ## Plugin management, compinit, history, fzf, direnv and zoxide are handled
 ## declaratively by nix/home/shell.nix. This file is everything personal.
 
-[[ -n ${ZSH_EXECUTION_STRING:-} ]] && return
 
 if [ -f "$XDG_CONFIG_HOME"/zsh/secret ]; then
   source "$XDG_CONFIG_HOME"/zsh/secret
@@ -28,7 +27,7 @@ eval "$(direnv hook zsh)"
 typeset -f _zt_mark >/dev/null && _zt_mark direnv
 
 typeset -f _zt_mark >/dev/null && _zt_mark pre_greet
-fortune -a | cowsay | lolcrab
+[[ -z ${ZSH_EXECUTION_STRING:-} ]] && fortune -a | cowsay | lolcrab
 typeset -f _zt_mark >/dev/null && _zt_mark post_greet
 
 # powerlevel10k configuration (theme itself is loaded as an HM plugin)

@@ -25,11 +25,11 @@ let
       CARGO_HOME = "$HOME/.local/share/cargo";
       GOPATH = "$HOME/.local/share/go";
       GNUPGHOME = "$HOME/.local/share/gnupg";
-    } // lib.optionalAttrs pkgs.stdenv.isLinux {
+    } // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
       OPENER = "xdg-open";
       ELECTRON_OZONE_PLATFORM_HINT = "auto";
       MPV_IPC = "$XDG_RUNTIME_DIR/mpv.socket";
-    } // lib.optionalAttrs pkgs.stdenv.isDarwin {
+    } // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
       OPENER = "open";
       MPV_IPC = "$TMPDIR/mpv.socket";
     };
@@ -55,7 +55,7 @@ let
       fi
     '';
 
-    xdg.mimeApps = lib.mkIf pkgs.stdenv.isLinux {
+    xdg.mimeApps = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
       enable = true;
       defaultApplications = {
         "x-scheme-handler/jetbrains" = "jetbrains-toolbox.desktop";
@@ -175,11 +175,11 @@ let
       };
     };
 
-    xdg.dataFile."applications/mimeapps.list" = lib.mkIf pkgs.stdenv.isLinux {
+    xdg.dataFile."applications/mimeapps.list" = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
       force = true;
     };
 
-    xdg.configFile."pavucontrol.ini" = lib.mkIf pkgs.stdenv.isLinux {
+    xdg.configFile."pavucontrol.ini" = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/pavucontrol.ini";
     };
 

@@ -4,7 +4,7 @@ let
   userConfig = {
     programs.firefox = {
       enable = true;
-      package = if pkgs.stdenv.isDarwin then null else pkgs.firefox;
+      package = if pkgs.stdenv.hostPlatform.isDarwin then null else pkgs.firefox;
 
       policies = {
         # Bitwarden handles passwords; kill the built-in manager.

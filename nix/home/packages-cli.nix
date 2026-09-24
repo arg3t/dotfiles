@@ -22,7 +22,7 @@ let
       fastfetch
       magic-wormhole
       (python3.withPackages (ps: with ps; [ requests ]
-        ++ lib.optionals pkgs.stdenv.isLinux [
+        ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
           pygobject3
           pydbus
         ]))

@@ -8,7 +8,7 @@
 
 let
   terminfoPackages = [ pkgs.alacritty.terminfo ]
-    ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.ghostty.terminfo ];
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.ghostty.terminfo ];
   userConfig = {
     programs.alacritty = {
       enable = true;

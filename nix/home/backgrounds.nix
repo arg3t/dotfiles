@@ -9,7 +9,7 @@
 let
   # Filtered at download time rather than at display time, so `rsync --delete`
   # also removes any copy synced before the exclusion existed.
-  excludedBackgrounds = lib.optionals pkgs.stdenv.isDarwin [ "think-different.png" ];
+  excludedBackgrounds = lib.optionals pkgs.stdenv.hostPlatform.isDarwin [ "think-different.png" ];
 
   # Carries its own newline and indentation so that hosts with nothing to
   # exclude generate exactly the script they did before.
@@ -190,6 +190,6 @@ let
     };
   };
 
-  userConfig = if pkgs.stdenv.isDarwin then darwinConfig else linuxConfig;
+  userConfig = if pkgs.stdenv.hostPlatform.isDarwin then darwinConfig else linuxConfig;
 in
 if standaloneHome then userConfig else { home-manager.users.${username} = userConfig; }

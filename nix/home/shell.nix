@@ -43,7 +43,7 @@ let
           file = "powerlevel10k.zsh-theme";
         }
       ]
-      ++ lib.optional pkgs.stdenv.isDarwin {
+      ++ lib.optional pkgs.stdenv.hostPlatform.isDarwin {
         name = "fzf-tab";
         src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
         file = "fzf-tab.plugin.zsh";

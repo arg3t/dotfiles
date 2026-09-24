@@ -61,7 +61,7 @@ let
       mold
       bazelisk-with-bazel
       flamegraph
-    ] ++ lib.optionals pkgs.stdenv.isLinux [
+    ] ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       perf
     ];
   };
