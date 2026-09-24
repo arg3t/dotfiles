@@ -83,7 +83,7 @@ show_agent_labels_on_pane_borders = true
 rows = [["state_icon", "$workstream_number", "$workstream_id", "workspace"], ["branch", "git_status"]]
 
 [ui.toast]
-delivery = "herdr"
+delivery = "system"
 delay_seconds = 1
 
 [ui.toast.herdr]
