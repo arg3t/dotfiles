@@ -245,6 +245,7 @@ in
       wl-gammarelay-rs
       bc
       pass
+      stalonetray
     ];
 
     home-manager.users.yeet = { config, ... }: {
@@ -293,6 +294,10 @@ in
             "XDG_SESSION_TYPE,wayland"
             "XDG_SESSION_DESKTOP,Hyprland"
           ];
+
+          # XWayland apps (Zoom, etc.) can't do fractional scaling: without this
+          # Hyprland renders them at 1x and bitmap-upscales -> blurry/pixelated.
+          xwayland.force_zero_scaling = true;
 
           general = {
             gaps_in = 5;
