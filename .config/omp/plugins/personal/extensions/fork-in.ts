@@ -34,7 +34,7 @@ function object(value: unknown): Record<string, unknown> {
 async function herdr(args: readonly string[]): Promise<Record<string, unknown>> {
 	const parsed: unknown = JSON.parse(await run("herdr", args));
 	const envelope = object(parsed);
-	if ("error" in envelope && envelope.error) throw new Error(`fork-in: ${String(envelope.error)}`);
+	if ("error" in envelope && envelope.error) throw new Error(`fork-in: ${typeof envelope.error === "string" ? envelope.error : JSON.stringify(envelope.error)}`);
 	return object(envelope.result);
 }
 
@@ -54,6 +54,22 @@ async function moveTab(tabID: string, insertIndex: number): Promise<void> {
 	socket.on("data", chunk => { buffer += String(chunk); if (!buffer.includes("\n")) return; socket.end(); completion.resolve(); });
 	socket.on("error", completion.reject);
 	await completion.promise;
+}
+
+// A freshly created pane needs time to reach its interactive shell prompt; herdr
+// agent start rejects the pane until then with agent_pane_busy.
+async function startAgentWhenShellReady(args: readonly string[]): Promise<Record<string, unknown>> {
+	const deadline = Date.now() + 15000;
+	for (;;) {
+		try {
+			return await herdr(args);
+		} catch (error) {
+			if (Date.now() >= deadline || !String(error).includes("agent_pane_busy")) throw error;
+			const delay = Promise.withResolvers<void>();
+			setTimeout(delay.resolve, 250);
+			await delay.promise;
+		}
+	}
 }
 
 function forkLabel(label: string, labels: readonly string[]): string {
@@ -93,7 +109,7 @@ async function forkInHerdr(ctx: CommandContext): Promise<void> {
 	const paneID = property(rootPane, "pane_id");
 	const sourceIndex = tabRows.findIndex(tab => property(tab, "tab_id") === tabID);
 	if (sourceIndex >= 0) await moveTab(newTabID, sourceIndex + 1);
-	const started = await herdr(["agent", "start", `fork-${workspaceID}-${label}`.replace(/[^a-z0-9_-]/gi, "").toLowerCase().slice(0, 32), "--kind", "omp", "--pane", paneID, "--", ...ompOverlays(), "--fork", resolve(session)]);
+	const started = await startAgentWhenShellReady(["agent", "start", `fork-${workspaceID}-${label}`.replace(/[^a-z0-9_-]/gi, "").toLowerCase().slice(0, 32), "--kind", "omp", "--pane", paneID, "--", ...ompOverlays(), "--fork", resolve(session)]);
 	const agent = object(started.agent);
 	const agentSession = "agent_session" in agent && agent.agent_session && typeof agent.agent_session === "object" ? agent.agent_session : undefined;
 	const path = agentSession && "value" in agentSession && typeof agentSession.value === "string" ? agentSession.value : undefined;

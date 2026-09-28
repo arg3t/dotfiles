@@ -52,28 +52,19 @@
     monitors = [
       "DP-3,2560x1440@144,0x0,1"
       "HDMI-A-1,1920x1080@60,2560x0,1"
+      "eDP-1,preferred,0x1440,1"
     ];
     workspaces = [
-      "1, monitor:HDMI-A-1, persistent:true"
-      "2, monitor:HDMI-A-1, persistent:true"
+      "1, monitor:DP-3, persistent:true"
+      "4, monitor:DP-3, persistent:true"
+      "5, monitor:DP-3, persistent:true"
       "3, monitor:HDMI-A-1, persistent:true"
-      "4, monitor:HDMI-A-1, persistent:true"
-      "5, monitor:HDMI-A-1, persistent:true"
       "6, monitor:HDMI-A-1, persistent:true"
       "7, monitor:HDMI-A-1, persistent:true"
-      "8, monitor:HDMI-A-1, persistent:true"
-      "9, monitor:HDMI-A-1, persistent:true"
-      "10, monitor:HDMI-A-1, persistent:true"
-      "11, monitor:DP-3, persistent:true"
-      "12, monitor:DP-3, persistent:true"
-      "13, monitor:DP-3, persistent:true"
-      "14, monitor:DP-3, persistent:true"
-      "15, monitor:DP-3, persistent:true"
-      "16, monitor:DP-3, persistent:true"
-      "17, monitor:DP-3, persistent:true"
-      "18, monitor:DP-3, persistent:true"
-      "19, monitor:DP-3, persistent:true"
-      "20, monitor:DP-3, persistent:true"
+      "2, monitor:eDP-1, persistent:true"
+      "8, monitor:eDP-1, persistent:true"
+      "9, monitor:eDP-1, persistent:true"
+      "10, monitor:eDP-1, persistent:true"
     ];
     exec = [ "uvx nvibrant 700 700 700 700 700 700 700 700" ];
     battery = false;

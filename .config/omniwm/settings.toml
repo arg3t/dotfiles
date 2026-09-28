@@ -7,6 +7,7 @@ schemaVersion = 3
 
 [appearance]
 mode = "dark"
+tabRailAppIcons = false
 
 [borders]
 enabled = true
@@ -66,10 +67,17 @@ fingerCount = 3
 invertDirection = true
 mouseMoveModifierKey = "option"
 mouseResizeModifierKey = "option"
+overviewGestureEnabled = false
+overviewGestureFingerCount = 4
 scrollEnabled = true
 scrollModifierKey = "optionShift"
 scrollSensitivity = 5.0
 trackpadScrollStyle = "snap"
+windowGestureSensitivity = 1.0
+windowMoveEnabled = false
+windowMoveFingerCount = 4
+windowResizeEnabled = false
+windowResizeFingerCount = 3
 workspaceSwipeAxis = "vertical"
 workspaceSwipeEnabled = true
 workspaceSwipeFingerCount = 3
@@ -78,6 +86,20 @@ workspaceSwipeFingerCount = 3
 enabled = true
 hiddenBundleIDs = []
 rehideIntervalSeconds = 5.0
+
+[monitors]
+
+[[monitors.ranking]]
+displayUUID = "A698C737-6B05-48BE-B1B7-D5FF9F14FC21"
+name = "DELL U3225QE (1)"
+
+[[monitors.ranking]]
+displayUUID = "F9534B65-5047-4F53-9CE7-9BC7C9C24655"
+name = "DELL U3225QE (2)"
+
+[[monitors.ranking]]
+displayUUID = "37D8832A-2D66-02CA-B9F7-8F30A301B230"
+name = "Built-in Retina Display"
 
 [mouseWarp]
 constrainToArrangement = false
@@ -94,6 +116,9 @@ singleWindowFit = "fill"
 visibleContainerCount = 2
 
 [overview]
+invertScrollDirection = false
+matchFocusBorder = true
+mouseScrollSpeed = 1.0
 zoom = 1.0
 
 [overview.backdrop]
@@ -170,6 +195,27 @@ gridRow = 0
 monitorDisplayUUID = "EF0D65ED-821B-4E6B-944E-706AF9F6D628"
 monitorName = "DELL P2419H"
 
+[[routing.arrangements]]
+id = "3A865A39-D5F4-4B63-979C-EED7DB10A767"
+
+[[routing.arrangements.monitors]]
+gridColumn = 0
+gridRow = 1
+monitorDisplayUUID = "37D8832A-2D66-02CA-B9F7-8F30A301B230"
+monitorName = "Built-in Retina Display"
+
+[[routing.arrangements.monitors]]
+gridColumn = 0
+gridRow = 0
+monitorDisplayUUID = "A698C737-6B05-48BE-B1B7-D5FF9F14FC21"
+monitorName = "DELL U3225QE (1)"
+
+[[routing.arrangements.monitors]]
+gridColumn = 1
+gridRow = 0
+monitorDisplayUUID = "F9534B65-5047-4F53-9CE7-9BC7C9C24655"
+monitorName = "DELL U3225QE (2)"
+
 [scratchpads]
 
 [scratchpads.labels]
@@ -193,9 +239,13 @@ position = "overlappingMenuBar"
 reserveLayoutSpace = false
 revealHoldMilliseconds = 200.0
 revealModifier = "off"
+showAccentHighlights = true
 showFloatingWindows = false
+showItemBackgrounds = true
 showLabels = true
+solidBlackBackground = false
 systemStatsButton = true
+transparentBackground = false
 windowLevel = "popup"
 xOffset = 0.0
 yOffset = 0.0
@@ -1110,11 +1160,7 @@ layoutType = "stack"
 name = "1"
 
 [workspaces.monitorAssignment]
-type = "specificDisplay"
-
-[workspaces.monitorAssignment.output]
-displayUUID = "B4AD8A23-8134-4C22-A8E0-520E98A0B558"
-name = "LF32TU87 (1)"
+type = "main"
 
 [[workspaces]]
 id = "454CECD4-5E9D-4ED1-95D7-979D48817F5F"
@@ -1122,11 +1168,7 @@ layoutType = "stack"
 name = "2"
 
 [workspaces.monitorAssignment]
-type = "specificDisplay"
-
-[workspaces.monitorAssignment.output]
-displayUUID = "37D8832A-2D66-02CA-B9F7-8F30A301B230"
-name = "Built-in Retina Display"
+type = "tertiary"
 
 [[workspaces]]
 id = "BEB842B5-E894-4791-9FD1-397C3CDD3538"
@@ -1134,11 +1176,7 @@ layoutType = "stack"
 name = "3"
 
 [workspaces.monitorAssignment]
-type = "specificDisplay"
-
-[workspaces.monitorAssignment.output]
-displayUUID = "CED39E91-ECF6-48A3-AE2F-41F000726499"
-name = "LF32TU87 (2)"
+type = "secondary"
 
 [[workspaces]]
 id = "248AA883-2261-4D45-943C-79C0E46A232B"
@@ -1146,11 +1184,7 @@ layoutType = "stack"
 name = "4"
 
 [workspaces.monitorAssignment]
-type = "specificDisplay"
-
-[workspaces.monitorAssignment.output]
-displayUUID = "B4AD8A23-8134-4C22-A8E0-520E98A0B558"
-name = "LF32TU87 (1)"
+type = "main"
 
 [[workspaces]]
 id = "8B8C45D6-CE9E-41D9-BD50-BE4989D5E3DE"
@@ -1158,11 +1192,7 @@ layoutType = "stack"
 name = "5"
 
 [workspaces.monitorAssignment]
-type = "specificDisplay"
-
-[workspaces.monitorAssignment.output]
-displayUUID = "B4AD8A23-8134-4C22-A8E0-520E98A0B558"
-name = "LF32TU87 (1)"
+type = "main"
 
 [[workspaces]]
 displayName = "6"
@@ -1171,11 +1201,7 @@ layoutType = "stack"
 name = "6"
 
 [workspaces.monitorAssignment]
-type = "specificDisplay"
-
-[workspaces.monitorAssignment.output]
-displayUUID = "CED39E91-ECF6-48A3-AE2F-41F000726499"
-name = "LF32TU87 (2)"
+type = "secondary"
 
 [[workspaces]]
 displayName = "7"
@@ -1184,11 +1210,7 @@ layoutType = "stack"
 name = "7"
 
 [workspaces.monitorAssignment]
-type = "specificDisplay"
-
-[workspaces.monitorAssignment.output]
-displayUUID = "CED39E91-ECF6-48A3-AE2F-41F000726499"
-name = "LF32TU87 (2)"
+type = "secondary"
 
 [[workspaces]]
 id = "61C51E6C-57BE-4E95-81C5-BFD920762790"
@@ -1196,11 +1218,7 @@ layoutType = "stack"
 name = "8"
 
 [workspaces.monitorAssignment]
-type = "specificDisplay"
-
-[workspaces.monitorAssignment.output]
-displayUUID = "37D8832A-2D66-02CA-B9F7-8F30A301B230"
-name = "Built-in Retina Display"
+type = "tertiary"
 
 [[workspaces]]
 id = "283ACA3A-86BE-4541-ABE9-29B186B0DFE4"
@@ -1208,11 +1226,7 @@ layoutType = "stack"
 name = "9"
 
 [workspaces.monitorAssignment]
-type = "specificDisplay"
-
-[workspaces.monitorAssignment.output]
-displayUUID = "37D8832A-2D66-02CA-B9F7-8F30A301B230"
-name = "Built-in Retina Display"
+type = "tertiary"
 
 [[workspaces]]
 id = "BB57085F-16EF-4630-9DCC-DBA8C22DB8C6"
@@ -1220,8 +1234,4 @@ layoutType = "stack"
 name = "10"
 
 [workspaces.monitorAssignment]
-type = "specificDisplay"
-
-[workspaces.monitorAssignment.output]
-displayUUID = "37D8832A-2D66-02CA-B9F7-8F30A301B230"
-name = "Built-in Retina Display"
+type = "tertiary"
