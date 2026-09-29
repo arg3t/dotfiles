@@ -38,7 +38,7 @@ let
       "$HOME/.local/bin"
       "$HOME/.local/share/cargo/bin"
       "$HOME/.local/share/go/bin"
-    ];
+    ] ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [ "/opt/homebrew/bin" ];
 
     xdg.dataFile."cargo/config.toml".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.cargo/config.toml";

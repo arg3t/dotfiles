@@ -21,6 +21,7 @@ red = 0.7956449389457703
 
 [clipboard]
 historyEnabled = false
+ignoredTypes = []
 maxItemBytes = 8388608
 maxItems = 200
 maxTotalBytes = 67108864
@@ -116,6 +117,7 @@ singleWindowFit = "fill"
 visibleContainerCount = 2
 
 [overview]
+enabled = true
 invertScrollDirection = false
 matchFocusBorder = true
 mouseScrollSpeed = 1.0
@@ -233,6 +235,7 @@ excludedBundleIDs = []
 height = 24.0
 hideEmptyWorkspaces = false
 hideInNativeFullscreen = false
+hoverPreviewsEnabled = true
 notchActiveZoneWidth = 180.0
 notchMode = "moveBelowMenuBar"
 position = "overlappingMenuBar"
@@ -1168,7 +1171,7 @@ layoutType = "stack"
 name = "2"
 
 [workspaces.monitorAssignment]
-type = "tertiary"
+type = "secondary"
 
 [[workspaces]]
 id = "BEB842B5-E894-4791-9FD1-397C3CDD3538"
@@ -1184,7 +1187,7 @@ layoutType = "stack"
 name = "4"
 
 [workspaces.monitorAssignment]
-type = "main"
+type = "tertiary"
 
 [[workspaces]]
 id = "8B8C45D6-CE9E-41D9-BD50-BE4989D5E3DE"
@@ -1201,7 +1204,7 @@ layoutType = "stack"
 name = "6"
 
 [workspaces.monitorAssignment]
-type = "secondary"
+type = "tertiary"
 
 [[workspaces]]
 displayName = "7"
@@ -1210,7 +1213,7 @@ layoutType = "stack"
 name = "7"
 
 [workspaces.monitorAssignment]
-type = "secondary"
+type = "tertiary"
 
 [[workspaces]]
 id = "61C51E6C-57BE-4E95-81C5-BFD920762790"
@@ -1226,7 +1229,7 @@ layoutType = "stack"
 name = "9"
 
 [workspaces.monitorAssignment]
-type = "tertiary"
+type = "secondary"
 
 [[workspaces]]
 id = "BB57085F-16EF-4630-9DCC-DBA8C22DB8C6"
@@ -1234,4 +1237,4 @@ layoutType = "stack"
 name = "10"
 
 [workspaces.monitorAssignment]
-type = "tertiary"
+type = "secondary"
