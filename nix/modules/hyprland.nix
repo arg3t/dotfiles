@@ -53,11 +53,7 @@ let
         "clock#date"
       ],
       "hyprland/workspaces": {
-        "format": "{icon}",
-        "format-icons": {
-          "empty": "",
-          "default": ""
-        },
+        "format": "{name}",
         "persistent-workspaces": {
           "*": 10
         },
@@ -422,13 +418,13 @@ in
             "match:class ^(scratchterm)$, float on, size monitor_w*0.575 monitor_h*0.625, center on"
             "match:class ^(scratchfile)$, float on, size monitor_w*0.575 monitor_h*0.625, workspace special:scratchfile"
             "match:class ^(Alacritty)$, workspace m~0 silent"
-            "match:class ^(Brave-browser)$, workspace m~2 silent"
-            "match:class ^(firefox)$, workspace m~2 silent"
-            "match:class ^(Firefox)$, workspace m~2 silent"
-            "match:class ^(chromium)$, workspace m~2 silent"
-            "match:class ^(Chromium)$, workspace m~2 silent"
-            "match:class ^(tabbed-surf)$, workspace m~2 silent"
-            "match:class ^(Tor Browser)$, workspace m~2 silent"
+            "match:class ^(Brave-browser)$, workspace 2 silent"
+            "match:class ^(firefox)$, workspace 2 silent"
+            "match:class ^(Firefox)$, workspace 2 silent"
+            "match:class ^(chromium)$, workspace 2 silent"
+            "match:class ^(Chromium)$, workspace 2 silent"
+            "match:class ^(tabbed-surf)$, workspace 2 silent"
+            "match:class ^(Tor Browser)$, workspace 2 silent"
             "match:class ^(discord)$, workspace 9 silent"
             "match:class ^(Mattermost)$, workspace 9 silent"
             "match:class ^(Signal)$, workspace 9 silent"
@@ -676,6 +672,10 @@ in
         systemd.enable = true;
         settings.mainBar = waybarSettings // lib.optionalAttrs (!cfg.battery) {
           modules-right = builtins.filter (m: m != "custom/battery") waybarSettings.modules-right;
+        } // lib.optionalAttrs (cfg.workspaces != [ ]) {
+          # `"*": N` gives monitor k workspaces k*N+1..k*N+N, which ignores the
+          # host's workspace rules; let the `persistent:true` rules drive waybar.
+          "hyprland/workspaces" = removeAttrs waybarSettings."hyprland/workspaces" [ "persistent-workspaces" ];
         };
         style = ''
     @define-color rosewater #f5e0dc;
@@ -743,6 +743,10 @@ in
       box-shadow: none;
       text-shadow: none;
       transition: background-color 0.1s;
+    }
+
+    #workspaces button.empty {
+        color: @overlay0;
     }
 
     #workspaces button.active {

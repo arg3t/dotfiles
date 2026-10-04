@@ -3,6 +3,20 @@
 {
   time.timeZone = "Europe/Amsterdam";
 
+  # The CMOS cell is dead, so the RTC gives a wrong time after resume from
+  # hibernate or suspend. The kernel copies that wrong time into the system
+  # clock. Restart timesyncd to step the clock back to NTP time.
+  # ponytail: restart is enough; use chrony if sub-second accuracy matters.
+  systemd.services.resync-clock-after-resume = {
+    description = "Resync the system clock after resume";
+    wantedBy = [ "post-resume.target" ];
+    after = [ "post-resume.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "/run/current-system/systemd/bin/systemctl try-restart systemd-timesyncd.service";
+    };
+  };
+
   i18n.defaultLocale = "en_US.UTF-8";
 
   console = {

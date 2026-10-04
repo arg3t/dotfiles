@@ -41,6 +41,19 @@ in
     };
   };
 
+  # Run prebuilt generic-Linux binaries (e.g. ~/Downloads/tern/tern).
+  # ponytail: libs cover tern; add more when another binary reports a missing .so.
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc.lib
+      wayland
+      libxkbcommon
+      libGL
+      vulkan-loader
+    ];
+  };
+
   services.tailscale.enable = true;
 
   networking.wg-quick.interfaces.moonrise = {
