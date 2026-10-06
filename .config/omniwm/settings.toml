@@ -99,6 +99,14 @@ displayUUID = "F9534B65-5047-4F53-9CE7-9BC7C9C24655"
 name = "DELL U3225QE (2)"
 
 [[monitors.ranking]]
+displayUUID = "99E72E44-153E-4E03-A6C9-737D15396313"
+name = "DELL U2724DE (1)"
+
+[[monitors.ranking]]
+displayUUID = "F9C47764-34FF-4615-86FD-5B9835A03DEF"
+name = "DELL U2724DE (2)"
+
+[[monitors.ranking]]
 displayUUID = "37D8832A-2D66-02CA-B9F7-8F30A301B230"
 name = "Built-in Retina Display"
 
@@ -217,6 +225,27 @@ gridColumn = 1
 gridRow = 0
 monitorDisplayUUID = "F9534B65-5047-4F53-9CE7-9BC7C9C24655"
 monitorName = "DELL U3225QE (2)"
+
+[[routing.arrangements]]
+id = "3271427A-2A31-49BE-BFE1-AEDC3238DA7F"
+
+[[routing.arrangements.monitors]]
+gridColumn = 0
+gridRow = 1
+monitorDisplayUUID = "37D8832A-2D66-02CA-B9F7-8F30A301B230"
+monitorName = "Built-in Retina Display"
+
+[[routing.arrangements.monitors]]
+gridColumn = 1
+gridRow = 0
+monitorDisplayUUID = "F9C47764-34FF-4615-86FD-5B9835A03DEF"
+monitorName = "DELL U2724DE (2)"
+
+[[routing.arrangements.monitors]]
+gridColumn = 0
+gridRow = 0
+monitorDisplayUUID = "99E72E44-153E-4E03-A6C9-737D15396313"
+monitorName = "DELL U2724DE (1)"
 
 [scratchpads]
 

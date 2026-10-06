@@ -84,7 +84,7 @@ end
 
 local function show_hover(bufnr)
   if has_hover_capability(bufnr) then
-    require("noice.lsp").hover()
+    if vim.g.neotern then vim.lsp.buf.hover() else require("noice.lsp").hover() end
     return true
   end
   return false

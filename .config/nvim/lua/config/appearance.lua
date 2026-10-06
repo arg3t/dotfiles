@@ -1,7 +1,7 @@
 -- Appearance Settings
 
--- Set command-line height
-vim.opt.cmdheight = 2
+-- Set command-line height (neotern shows messages as toasts, so it needs no rows)
+vim.opt.cmdheight = vim.g.neotern and 0 or 2
 
 -- Tab and indent settings
 vim.opt.expandtab = true

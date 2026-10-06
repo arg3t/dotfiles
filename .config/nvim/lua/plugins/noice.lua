@@ -1,5 +1,7 @@
 local M = { "folke/noice.nvim" }
 M.event = "VeryLazy"
+-- neotern draws the cmdline and popup menu itself; noice refuses to run with ext_* UIs.
+M.cond = not vim.g.neotern
 M.opts = {
   presets = {
     bottom_search = true,
