@@ -42,6 +42,7 @@ let
       opentofu
       attic-client
       lazygit
+      jujutsu
       delta
       watchman
       go

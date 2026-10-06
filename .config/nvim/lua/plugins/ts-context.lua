@@ -2,6 +2,9 @@ local M = { "nvim-treesitter/nvim-treesitter-context" }
 M.dependencies = {
   "nvim-treesitter/nvim-treesitter",
 }
+-- neotern draws the breadcrumbs of the cursor's scope itself, and the context float would show as
+-- a card over the first text row.
+M.cond = not vim.g.neotern
 M.config = function()
   require 'treesitter-context'.setup {
     enable = true,          -- Enable this plugin (Can be enabled/disabled later via commands)
