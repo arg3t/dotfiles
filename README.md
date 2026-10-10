@@ -36,6 +36,42 @@ either installs those files directly or uses them as the source for generated
 configuration. In particular, `.config/tmux/tmux.conf` is the single source for
 the custom tmux configuration.
 
+On macOS, `.config/hammerspoon/config.lua` treats Tern as a terminal so its Ctrl
+keys reach Tern unchanged. Tern keeps its Ctrl-A prefix and per-key Cmd bindings
+in `~/Library/Application Support/Tern/settings.json`, outside this repository.
+Hammerspoon also routes macOS-owned Cmd shortcuts through Tern's focused-view
+bindings so terminal Meta keys do not replace file-editor shortcuts.
+
+Ctrl-A 1 through Ctrl-A 9 select tabs 1 through 9, and Ctrl-A 0 selects tab 10.
+These bindings replace the tmux preset's zero-based tab shortcuts.
+
+Ctrl-A W opens Tern's session picker, and Ctrl-A Shift-N creates a plain
+session. Ctrl-A P opens Workstreams on the selected host. Use `/` to search
+branches, paths, repositories, and references. Use `n` to create a worktree
+and open its session. Ctrl-A Shift-W opens the creation form directly. The
+plugin keeps a created worktree if session creation fails. Reuse the same
+branch to retry the session.
+
+Ctrl-A Shift-Z opens pause confirmation, and Ctrl-A Shift-F shows references
+for the focused worktree. In the manager, use `p` to pause, `r` to list paused
+sessions, and `f` to browse references. Pause saves tab names and directories,
+then closes the session and stops its programs. Restore reopens those tabs
+but does not resume programs or rebuild split layouts. The worktree stays on
+disk. Pin or dismiss a reference with Space or `x`.
+
+The plugin source is `.config/tern/plugins/workstreams/`. Copy it to each host,
+then run `tern plugin link ~/.dots/.config/tern/plugins/workstreams` there.
+The host needs Git. The plugin uses `git-ns` snapshots when available and
+normal `git worktree add` otherwise. It writes worktrees to
+`HERDR_WORKTREES_DIR` or `~/.herdr/worktrees`.
+
+Home Manager links the OMP extension in that plugin to
+`~/.omp/agent/extensions/tern-workstreams.ts`. New OMP sessions in Tern
+capture Jira IDs, GitHub pull requests, and URLs. The extension writes the
+references to the selected host's plugin data; the manager imports them when
+it opens or refreshes. Run `bun .config/tern/plugins/workstreams/omp/workstreams.ts`
+to check the reference parser.
+
 ## Prerequisites
 
 - Nix with the `nix-command` and `flakes` features enabled.

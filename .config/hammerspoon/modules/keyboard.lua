@@ -112,6 +112,9 @@ function M.start()
     if not keys then
       return false
     end
+    if name == "Tern" and flags.shift then
+      return false
+    end
 
     local key = hs.keycodes.map[event:getKeyCode()]
     local target = keys[key]
@@ -119,7 +122,7 @@ function M.start()
       return false
     end
 
-    local mods = { target }
+    local mods = type(target) == "table" and { table.unpack(target) } or { target }
     if flags.shift then
       mods[#mods + 1] = "shift"
     end

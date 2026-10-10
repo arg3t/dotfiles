@@ -36,6 +36,10 @@ let
     home.file.".omp/agent/extensions/workstreams-metadata.ts".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/herdr/plugins/workstreams/omp/workstreams.ts";
 
+    home.file.".omp/agent/extensions/tern-workstreams.ts".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/tern/plugins/workstreams/omp/workstreams.ts";
+    home.file.".omp/agent/extensions/tern-workstreams.ts".force = true;
+
     home.file.".omp/agent/extensions/fork-in.ts".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/omp/plugins/personal/extensions/fork-in.ts";
 

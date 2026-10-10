@@ -1,0 +1,13 @@
+schema = 1
+id = "workstreams"
+name = "Workstreams"
+version = "0.1.0"
+description = "Manage Git worktrees and Tern sessions on the selected host."
+icon = "branch"
+host = "host-manager.luau"
+window = "window-manager.luau"
+
+[[blocks]]
+id = "manager"
+title = "Workstreams"
+palette = false

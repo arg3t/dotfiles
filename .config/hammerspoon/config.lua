@@ -4,6 +4,7 @@ local M = {
 
   terminalBundles = {
     ["com.mitchellh.ghostty"] = true,
+    ["so.stencil.tern"] = true,
     ["com.barut.OmniWM"] = true,
     ["com.apple.Terminal"] = true,
     ["com.googlecode.iterm2"] = true,
@@ -72,13 +73,23 @@ local M = {
     },
   },
 
-  -- Inside these apps cmd is delivered as another modifier, so the app's existing
-  -- alt/ctrl bindings are reachable with the mac modifier. Only the listed keys are
-  -- rewritten; everything else keeps its macOS meaning (cmd+c/v/x/s/w/p/tab untouched).
-  -- Shift is preserved: cmd+shift+, -> alt+shift+,
-  -- Do NOT map to "alt" the keys OmniWM owns globally (digits, arrows, return, and
-  -- its Option chords) or the app never sees them.
+  -- Cursor and Zed remap selected Cmd keys onto existing Alt/Ctrl bindings.
+  -- Other Cmd shortcuts stay native in those editors; Shift is preserved.
+  -- Do not map to Option keys that OmniWM owns globally.
   cmdRemapKeys = {
+    -- macOS handles these keys before Tern's keymap. Use unused chords so Tern
+    -- can choose terminal bytes or text editing based on the focused view.
+    ["Tern"] = {
+      a = { "ctrl", "alt", "shift" },
+      c = { "ctrl", "alt", "shift" },
+      -- ponytail: Cmd+H/M skip Hide/Minimize in file views; add focus-aware routing if needed.
+      h = { "ctrl", "alt", "shift" },
+      m = { "ctrl", "alt", "shift" },
+      v = { "ctrl", "alt", "shift" },
+      x = { "ctrl", "alt", "shift" },
+      q = { "ctrl", "alt", "shift" },
+      [","] = { "ctrl", "alt", "shift" },
+    },
     ["Cursor"] = {
       [","] = "alt", -- prev tab (cmd+shift+, moves tab left)
       ["."] = "alt", -- next tab (cmd+shift+. moves tab right)
