@@ -87,8 +87,9 @@ local function alive(state)
 	return false
 end
 
-local function bootstrap(state)
+local function bootstrap(state, done)
 	if state.loading or state.cwd == "" then
+		if done then done() end
 		return
 	end
 	state.loading = true
@@ -102,6 +103,7 @@ local function bootstrap(state)
 					or (result.stderr:gsub("%s+$", ""))
 				if state.message == "" then state.message = "Could not discover Git worktrees; press R to retry." end
 				state.cx:render()
+				if done then done() end
 				return
 			end
 			local base = tern.getenv("HERDR_WORKTREES_DIR")
@@ -113,6 +115,7 @@ local function bootstrap(state)
 			if base:sub(1, 1) ~= "/" then
 				state.message = "HERDR_WORKTREES_DIR must be an absolute path."
 				state.cx:render()
+				if done then done() end
 				return
 			end
 			local blocks = {}
@@ -126,6 +129,7 @@ local function bootstrap(state)
 			if not root then
 				state.message = "Git returned no worktrees; press R to retry."
 				state.cx:render()
+				if done then done() end
 				return
 			end
 			local known = {}
@@ -162,10 +166,12 @@ local function bootstrap(state)
 				state.message = ""
 			end
 			state.cx:render()
+			if done then done() end
 		end)
 	if not ok then
 		state.loading = false
 		state.message = "Could not start Git discovery: " .. tostring(err)
+		if done then done() end
 	end
 end
 
@@ -298,6 +304,99 @@ local function selected(state)
 	return nil
 end
 
+local function publish_picker(state)
+	if not alive(state) then return end
+	local items, seen = {}, {}
+	for _, row in ipairs(rows(state)) do
+		local item = row.item
+		if item then
+			local terms = {}
+			for _, ref in ipairs(ref_list(item.path)) do
+				if type(ref) == "table" and not ref.dismissed and type(ref.kind) == "string" and type(ref.id) == "string" then
+					terms[#terms + 1] = ref.kind .. ":" .. ref.id .. " " .. tostring(ref.url or "")
+				end
+			end
+			items[#items + 1] = { branch = item.branch, path = item.path, repo = item.repo_root,
+				paused = row.record ~= nil, search = table.concat(terms, " ") }
+			seen[item.path] = true
+		end
+	end
+	for path, record in pairs(state.paused) do
+		if not seen[path] and valid_path(path) and valid_record(record, path) then
+			items[#items + 1] = { branch = record.name, path = path, paused = true }
+		end
+	end
+	table.sort(items, function(a, b) return a.branch < b.branch or (a.branch == b.branch and a.path < b.path) end)
+	link(state.cx, "picker", { items = items, warning = state.ref_error or (state.message ~= "" and state.message or nil) })
+end
+
+local function handle_rpc(state, req)
+	local kind = type(req.kind) == "string" and req.kind or "invalid"
+	local function err(msg) return { kind = kind, error = msg } end
+	local function rpc_known(path)
+		if not valid_path(path) then return false end
+		for _, item in ipairs(state.worktrees) do
+			if type(item) == "table" and item.path == path then return true end
+		end
+		return state.paused[path] ~= nil
+	end
+	if kind == "refs" then
+		if state.ref_error then return err(state.ref_error) end
+		if not rpc_known(req.path) then return err("unknown worktree or paused path") end
+		local items, list_err = ref_list(req.path)
+		if list_err then return err("could not load references: " .. list_err) end
+		return { kind = kind, path = req.path, refs = items }
+	elseif kind == "pin" or kind == "dismiss" then
+		if not rpc_known(req.path) then return err("unknown worktree or paused path") end
+		if type(req.refkey) ~= "string" or req.refkey == "" then return err("missing refkey") end
+		local action = if kind == "pin" then refs.pin else refs.dismiss
+		local ok, result = pcall(action, req.path, req.refkey)
+		if not ok then return err("could not update reference: " .. tostring(result)) end
+		if not result then return err("reference changed; refresh and retry") end
+		return { kind = kind, path = req.path }
+	elseif kind == "pause" then
+		if not valid_path(req.path) then return err("invalid path") end
+		local item = worktree(state, req.path)
+		if not item then return err("unknown worktree") end
+		if item.branch ~= req.branch then return err("branch mismatch") end
+		if not valid_record(req.record, req.path) then return err("invalid record") end
+		if req.record.name ~= req.branch then return err("record name does not match branch") end
+		if type(req.session_id) ~= "number" then return err("session_id must be numeric") end
+		if state.paused[req.path] ~= nil then return err("paused snapshot already exists") end
+		local stored, save_err = pcall(function()
+			local paused = tern.kv.get("paused_workstreams") or {}
+			if type(paused) ~= "table" then error("invalid paused records") end
+			if paused[req.path] ~= nil then error("paused snapshot already exists") end
+			paused[req.path] = req.record
+			tern.kv.set("paused_workstreams", paused)
+		end)
+		if not stored then return err("could not save: " .. tostring(save_err)) end
+		return { kind = kind, path = req.path, session_id = req.session_id }
+	elseif kind == "restore" then
+		if not valid_path(req.path) then return err("invalid path") end
+		local record = state.paused[req.path]
+		if not valid_record(record, req.path) then return err("no valid paused snapshot") end
+		return { kind = kind, path = req.path, record = record }
+	elseif kind == "restored" then
+		if not valid_path(req.path) then return err("invalid path") end
+		if not valid_record(req.record, req.path) then return err("invalid restored record") end
+		if not valid_record(state.paused[req.path], req.path) then return err("no paused snapshot to confirm") end
+		local stored, save_err = pcall(function()
+			local paused = tern.kv.get("paused_workstreams") or {}
+			if type(paused) ~= "table" then error("invalid paused records") end
+			if paused[req.path] == nil then error("missing") end
+			if tern.json.encode(paused[req.path]) ~= tern.json.encode(req.record) then error("paused snapshot changed; preserved") end
+			paused[req.path] = nil
+			tern.kv.set("paused_workstreams", paused)
+		end)
+		if not stored then return err("could not delete: " .. tostring(save_err)) end
+		return { kind = kind, path = req.path }
+	else
+		return { kind = "invalid", error = "unknown or missing kind" }
+	end
+end
+
+
 local function move(state, delta)
 	local list = rows(state)
 	if #list == 0 then return end
@@ -335,7 +434,8 @@ end
 return {
 	init = function(cx, args, saved)
 		local cwd = args[1] or cx.cwd or ""
-		local mode = if args[2] == "create" or args[2] == "pause" or args[2] == "restore" or args[2] == "refs" then args[2] else "list"
+		local mode = if args[2] == "create" or args[2] == "pause" or args[2] == "restore"
+			or args[2] == "refs" or args[2] == "picker" or args[2] == "rpc" then args[2] else "list"
 		local sessions = {}
 		if type(args[3]) == "string" then
 			local ok, data = pcall(tern.json.decode, args[3])
@@ -366,6 +466,9 @@ return {
 				state.query = ""
 			end
 		end
+		local prompted = saved == nil and mode == "create" and type(args[4]) == "string" and args[4] ~= ""
+		local restoring = saved == nil and mode == "restore" and valid_path(args[4])
+		if prompted then state.branch = args[4] end
 		running[cx.pane] = state
 		local host = tern.getenv("HOSTNAME")
 		state.host = host and host ~= "" and host or "selected host"
@@ -391,8 +494,29 @@ return {
 				state.message = "Select a workstream and press f for references."
 			end
 		end
-		if cwd == "" then state.message = "Focus a terminal in a Git repository first."
+		if state.mode == "rpc" then
+			local req = { kind = "invalid" }
+			if type(args[3]) == "string" then
+				local ok, decoded = pcall(tern.json.decode, args[3])
+				if ok and type(decoded) == "table" then req = decoded end
+			end
+		link(cx, "reply", if ready then handle_rpc(state, req)
+			else { kind = type(req.kind) == "string" and req.kind or "invalid", error = state.message })
+		elseif state.mode == "picker" then
+			if not ready then link(cx, "picker", { error = state.message })
+			else
+				if cwd == "" then state.message = "" end
+				bootstrap(state, function() publish_picker(state) end)
+			end
+		elseif cwd == "" then state.message = "Focus a terminal in a Git repository first."
 		elseif ready then bootstrap(state) end
+		if prompted and state.mode == "create" then create(state) end
+		if restoring then
+			if ready and valid_record(state.paused[args[4]], args[4]) then
+				state.cursor = args[4]
+				enter(state)
+			else state.message = "Paused workstream changed; select it again." end
+		end
 		if state.mode == "create" or state.mode == "search" then cx:frame({ { "focus", "main.input" } }) end
 		return state
 	end,
@@ -400,6 +524,7 @@ return {
 		return "Workstreams · " .. state.mode
 	end,
 	view = function(state, cx)
+		if state.mode == "picker" or state.mode == "rpc" then return { main = ui.text("Loading…") } end
 		local children = { ui.text({ ui.span("Workstreams  ", "strong"), ui.span(state.host, "muted") }),
 			ui.text({ ui.span("cwd  ", "muted"), ui.span(state.cwd ~= "" and state.cwd or "(none)", "path") }) }
 		local bridge = ui.text("")
@@ -583,13 +708,20 @@ return {
 				state.message = "Could not save snapshot; session remains open: " .. tostring(err)
 			end
 		elseif ev.act == "restore_complete" then
-			local path = ev.value
-			if not valid_path(path) then state.message = "Invalid restore acknowledgement."; return end
+			local decoded, payload = pcall(tern.json.decode, ev.value)
+			if not decoded or type(payload) ~= "table" or not valid_path(payload.path)
+				or not valid_record(payload.record, payload.path) then
+				state.message = "Invalid restore acknowledgement."
+				return
+			end
 			local stored, err = pcall(function()
 				local paused = tern.kv.get("paused_workstreams") or {}
 				if type(paused) ~= "table" then error("invalid paused records") end
-				if paused[path] == nil then return end
-				paused[path] = nil
+				if not valid_record(paused[payload.path], payload.path)
+					or tern.json.encode(paused[payload.path]) ~= tern.json.encode(payload.record) then
+					error("paused snapshot changed; preserved")
+				end
+				paused[payload.path] = nil
 				tern.kv.set("paused_workstreams", paused)
 				state.paused = paused
 			end)

@@ -23,5 +23,6 @@
   # flake.nix. codex/opencode/oh-my-pi/pi come from packages-editor.nix.
   home.packages = with pkgs; [
     claude-code
+    acli
   ];
 }
