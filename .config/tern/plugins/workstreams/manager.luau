@@ -317,13 +317,14 @@ local function publish_picker(state)
 				end
 			end
 			items[#items + 1] = { branch = item.branch, path = item.path, repo = item.repo_root,
-				paused = row.record ~= nil, search = table.concat(terms, " ") }
+				paused = row.record ~= nil, paused_name = row.record and row.record.name or nil,
+				search = table.concat(terms, " ") }
 			seen[item.path] = true
 		end
 	end
 	for path, record in pairs(state.paused) do
 		if not seen[path] and valid_path(path) and valid_record(record, path) then
-			items[#items + 1] = { branch = record.name, path = path, paused = true }
+			items[#items + 1] = { branch = record.name, path = path, paused = true, paused_name = record.name }
 		end
 	end
 	table.sort(items, function(a, b) return a.branch < b.branch or (a.branch == b.branch and a.path < b.path) end)
@@ -360,7 +361,9 @@ local function handle_rpc(state, req)
 		if not item then return err("unknown worktree") end
 		if item.branch ~= req.branch then return err("branch mismatch") end
 		if not valid_record(req.record, req.path) then return err("invalid record") end
-		if req.record.name ~= req.branch then return err("record name does not match branch") end
+		if type(req.session_name) ~= "string" or req.session_name == "" or req.record.name ~= req.session_name then
+			return err("record name does not match session")
+		end
 		if type(req.session_id) ~= "number" then return err("session_id must be numeric") end
 		if state.paused[req.path] ~= nil then return err("paused snapshot already exists") end
 		local stored, save_err = pcall(function()

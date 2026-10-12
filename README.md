@@ -49,20 +49,22 @@ its programs without confirmation. Ctrl-A V finds text in scrollback.
 Ctrl-A Shift-P shows all commands.
 
 Ctrl-A W opens Tern's session picker, and Ctrl-A Shift-N creates a plain
-session. In Tern 0.7.1, Ctrl-A P lists the selected host's workstreams in a
-searchable picker over the focused pane, without leaving a split. Search
-matches branches, paths, and references. Enter opens the selected workstream
-or restores its paused session.
+session. In Tern 0.7.1, Ctrl-A P immediately lists the selected host's Tern
+sessions in a searchable picker over the focused pane. It opens no extra tab
+or split. Search matches session names; Enter switches to the chosen session.
+The plugin fetches branch and reference data only when an action needs it.
+Checkout-only branches do not appear as session rows.
 
 The picker also lists actions to create, pause, restore, and browse references.
+Restore lists saved sessions separately from active sessions.
 Ctrl-A Shift-W opens the branch prompt directly. Ctrl-A Shift-Z opens the pause
 picker, and Ctrl-A Shift-F opens references. Choose a reference to open, pin,
 unpin, or dismiss it. Pause saves tab names and directories, then closes the
 session and stops its programs. Restore reopens the tabs but not the programs
 or split layouts. The worktree stays on disk.
 
-Older Tern windows keep the host-backed manager and branch form. Mac Tern
-0.7.1 uses the picker even when the selected Arca host runs Tern 0.5. If
+Older Tern windows keep the host-backed manager and branch form. Tern 0.7.1
+and newer windows use the picker for connected remote hosts as well. If
 session creation fails, the plugin keeps the worktree; retry the same branch.
 
 The plugin source is `.config/tern/plugins/workstreams/`. Copy it to each host,

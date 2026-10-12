@@ -39,9 +39,14 @@ end
 
 local function open_picker(cx, mode)
 	if not cx.pick then open_manager(cx, mode or "list"); return end
-	request_host(cx, "picker", nil, function(data, cx, request)
-		show_workstreams(cx, data.items, mode or "list", request.host, request.cwd)
-	end)
+	if not mode or mode == "list" then
+		local _, cwd = focused_pane(cx)
+		show_workstreams(cx, {}, "list", cx.hosts:current().id, cwd)
+	else
+		request_host(cx, "picker", nil, function(data, cx, request)
+			show_workstreams(cx, data.items, mode, request.host, request.cwd)
+		end)
+	end
 end
 
 local function prompt_create(cx)
@@ -126,6 +131,23 @@ local function matching_session(cx, item, host)
 	return found
 end
 
+local function session_matches(cx, item, host)
+	if not valid_worktree(item) or type(item.session_id) ~= "number" or type(item.session_name) ~= "string" then return false end
+	local found = false
+	for _, session in ipairs(cx.sessions:list()) do
+		if session.id == item.session_id and session.host == host and session.name == item.session_name then
+			found = true
+			break
+		end
+	end
+	if not found then return false end
+	for _, tab in ipairs(cx.session:tabs()) do
+		if tab.session == item.session_id and type(tab.cwd) == "string"
+			and (tab.cwd == item.path or tab.cwd:sub(1, #item.path + 1) == item.path .. "/") then return true end
+	end
+	return false
+end
+
 local function close_form(cx, pane)
 	local ok, err = pcall(function() cx.layout:close(pane) end)
 	if not ok then
@@ -160,27 +182,27 @@ local show_refs
 
 local function pause_workstream(cx, item, host)
 	if not same_host(cx, host) then return end
-	local found, session = pcall(matching_session, cx, item, host)
-	if not found then cx:toast("error", "Could not choose a session to pause", tostring(session)); return end
-	if not session then cx:toast("error", "No active session belongs to this workstream"); return end
-	cx:pick({ placeholder = "Pause " .. item.branch .. "?", icon = "pause", action = "confirm", items = {
-		{ label = "Pause and close session", detail = "Running programs stop; restore reopens the tabs", confirm = true },
+	if not session_matches(cx, item, host) then
+		cx:toast("error", "No matching session belongs to this workstream")
+		return
+	end
+	local session = item.session_id
+	cx:pick({ placeholder = "Pause session " .. item.session_name .. "?", icon = "pause", action = "confirm", items = {
+		{ label = "Pause and close session", detail = "Branch " .. item.branch .. "; running programs stop", confirm = true },
 		{ label = "Cancel", confirm = false },
 	} }):next(function(choice, err, cx)
 		if err then cx:toast("error", "Could not confirm pause", tostring(err)); return end
 		if not choice or not choice.confirm or not same_host(cx, host) then return end
-		local unchanged, current = pcall(matching_session, cx, item, host)
-		if not unchanged or current ~= session then
+		if not session_matches(cx, item, host) then
 			cx:toast("error", "Session changed; open Workstreams again")
 			return
 		end
 		local captured, record = pcall(lifecycle.capture, cx, session, item.path)
 		if not captured then cx:toast("error", "Could not save session tabs", tostring(record)); return end
 		request_host(cx, "rpc", { kind = "pause", path = item.path, branch = item.branch,
-			record = record, session_id = session }, function(reply, cx)
+			session_name = item.session_name, record = record, session_id = session }, function(reply, cx)
 			if not same_host(cx, host) then return end
-			local unchanged, current = pcall(matching_session, cx, item, host)
-			if reply.path ~= item.path or reply.session_id ~= session or not unchanged or current ~= session then
+			if reply.path ~= item.path or reply.session_id ~= session or not session_matches(cx, item, host) then
 				cx:toast("error", "Snapshot saved, but the session changed and stayed open")
 				return
 			end
@@ -258,16 +280,16 @@ end
 show_workstreams = function(cx, raw, mode, host, cwd)
 	if not same_host(cx, host) then return end
 	if type(raw) ~= "table" then cx:toast("error", "Invalid host workstream list"); return end
-	local worktrees = {}
+	local worktrees, paused = {}, {}
 	for _, row in ipairs(raw) do
 		if valid_worktree(row) then
-			local session = lifecycle.find(cx, row.path, row.branch)
-			local status = row.paused and "paused" or session and "active" or "checkout"
-			local terms = type(row.search) == "string" and row.search or ""
-			worktrees[#worktrees + 1] = { label = row.branch .. "  [" .. status .. "]  " .. row.path .. "  " .. terms,
-				detail = type(row.repo) == "string" and row.repo:match("([^/]+)$") or "",
-				group = "Workstreams", icon = "branch", branch = row.branch, path = row.path,
-				paused = row.paused, session = session }
+			worktrees[#worktrees + 1] = row
+			if row.paused then
+				local name = type(row.paused_name) == "string" and row.paused_name or row.branch
+				local label = name .. (if name == row.branch then "" else "  · " .. row.branch) .. "  [paused]  " .. row.path
+				paused[#paused + 1] = { label = label, group = "Paused sessions", icon = "branch",
+					branch = row.branch, path = row.path, paused = true }
+			end
 		end
 	end
 	if mode == "refs" and type(cwd) == "string" then
@@ -279,11 +301,53 @@ show_workstreams = function(cx, raw, mode, host, cwd)
 		end
 		if focused then show_refs(cx, focused, host); return end
 	end
+	local tabs = {}
+	for _, tab in ipairs(cx.session:tabs()) do
+		local list = tabs[tab.session]
+		if not list then list = {}; tabs[tab.session] = list end
+		list[#list + 1] = tab
+	end
 	local items = {}
-	for _, item in ipairs(worktrees) do
-		if mode == "list" or mode == "refs" or (mode == "pause" and item.session and not item.paused)
-			or (mode == "restore" and item.paused) then
-			items[#items + 1] = item
+	if mode == "restore" then
+		for _, item in ipairs(paused) do items[#items + 1] = item end
+	else
+		local active_paths = {}
+		for _, session in ipairs(cx.sessions:list()) do
+			if session.host == host then
+				local session_tabs = tabs[session.id] or {}
+				local match, position = nil, math.huge
+				-- ponytail: show the first checkout in a multi-checkout session; list each tab's branch if needed.
+				for _, tab in ipairs(session_tabs) do
+					if type(tab.cwd) == "string" and tab.position < position then
+						local candidate = nil
+						for _, worktree in ipairs(worktrees) do
+							local path = worktree.path
+							if (tab.cwd == path or tab.cwd:sub(1, #path + 1) == path .. "/")
+								and (not candidate or #path > #candidate.path) then candidate = worktree end
+						end
+						if candidate then match, position = candidate, tab.position end
+					end
+				end
+				if match then active_paths[match.path] = true end
+				if mode == "list" or (mode == "pause" and match and not match.paused)
+					or (mode == "refs" and match) then
+					local label = session.name
+					if match then
+						label ..= (if match.branch == session.name then "" else "  · " .. match.branch)
+							.. "  " .. match.path .. "  " .. (type(match.search) == "string" and match.search or "")
+					end
+					local count = #session_tabs
+					items[#items + 1] = { label = label, detail = tostring(count) .. (if count == 1 then " tab" else " tabs"),
+						group = "Sessions", icon = match and "branch" or "terminal", current = session.current,
+						session_id = session.id, session_name = session.name,
+						branch = match and match.branch or nil, path = match and match.path or nil }
+				end
+			end
+		end
+		if mode == "refs" then
+			for _, item in ipairs(paused) do
+				if not active_paths[item.path] then items[#items + 1] = item end
+			end
 		end
 	end
 	if mode == "list" then
@@ -299,19 +363,26 @@ show_workstreams = function(cx, raw, mode, host, cwd)
 	end
 	local placeholder = if mode == "pause" then "Pause workstream"
 		elseif mode == "restore" then "Restore workstream"
-		elseif mode == "refs" then "Choose workstream references" else "Search workstreams"
+		elseif mode == "refs" then "Choose workstream references" else "Search sessions"
 	cx:pick({ placeholder = placeholder, icon = "branch", items = items, action = "open" }):next(function(choice, err, cx)
-		if err then cx:toast("error", "Could not pick a workstream", tostring(err)); return end
+		if err then cx:toast("error", "Could not pick a session", tostring(err)); return end
 		if not choice or not same_host(cx, host) then return end
 		if choice.action == "create" then prompt_create(cx)
-		elseif choice.action then show_workstreams(cx, raw, choice.action, host, "")
+		elseif choice.action then open_picker(cx, choice.action)
 		elseif mode == "pause" then pause_workstream(cx, choice, host)
 		elseif mode == "refs" then show_refs(cx, choice, host)
-		elseif mode == "restore" or choice.paused then restore_workstream(cx, choice, host)
+		elseif mode == "restore" then restore_workstream(cx, choice, host)
 		else
-			local opened, message = pcall(focus_worktree, cx, choice)
-			if opened then cx:toast("success", "Workstream ready", choice.path)
-			else cx:toast("error", "Could not open workstream", tostring(message) .. " · " .. choice.path) end
+			local switched, message = pcall(function()
+				for _, session in ipairs(cx.sessions:list()) do
+					if session.id == choice.session_id and session.host == host then
+						cx.sessions:switch(session.id)
+						return
+					end
+				end
+				error("Session closed; open Workstreams again")
+			end)
+			if not switched then cx:toast("error", "Could not switch session", tostring(message)) end
 		end
 	end)
 end
