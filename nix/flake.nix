@@ -149,7 +149,7 @@
         pkgs = import nixpkgs {
           system = linuxSystem;
           overlays = [ self.overlays.default ];
-          config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "claude-code" "acli" ];
+          config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "claude-code" "acli" "acli-unwrapped" ];
         };
         extraSpecialArgs = {
           inherit inputs;
@@ -164,7 +164,7 @@
         pkgs = import nixpkgs {
           system = linuxSystem;
           overlays = [ self.overlays.default ];
-          config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "claude-code" "acli" ];
+          config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "claude-code" "acli" "acli-unwrapped" ];
         };
         extraSpecialArgs = {
           inherit inputs;

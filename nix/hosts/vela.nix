@@ -61,7 +61,7 @@
   };
 
   nixpkgs.config.allowUnfreePredicate =
-    pkg: builtins.elem (lib.getName pkg) [ "claude-code" ];
+    pkg: builtins.elem (lib.getName pkg) [ "claude-code" "acli" "acli-unwrapped" ];
 
   nix.settings = {
     experimental-features = [
