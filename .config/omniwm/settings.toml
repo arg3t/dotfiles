@@ -1242,7 +1242,7 @@ layoutType = "stack"
 name = "7"
 
 [workspaces.monitorAssignment]
-type = "tertiary"
+type = "secondary"
 
 [[workspaces]]
 id = "61C51E6C-57BE-4E95-81C5-BFD920762790"
@@ -1250,7 +1250,7 @@ layoutType = "stack"
 name = "8"
 
 [workspaces.monitorAssignment]
-type = "tertiary"
+type = "secondary"
 
 [[workspaces]]
 id = "283ACA3A-86BE-4541-ABE9-29B186B0DFE4"

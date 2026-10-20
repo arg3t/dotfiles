@@ -44,8 +44,9 @@ bindings so terminal Meta keys do not replace file-editor shortcuts.
 
 Ctrl-A 1 through Ctrl-A 9 select tabs 1 through 9, and Ctrl-A 0 selects tab 10.
 These bindings replace the tmux preset's zero-based tab shortcuts.
-Ctrl-A Q closes the tab. Ctrl-A Shift-Q closes the current session and stops
-its programs without confirmation. Ctrl-A V finds text in scrollback.
+Ctrl-A Q closes the focused pane, and Ctrl-A Shift-X closes the whole tab.
+Ctrl-A Shift-Q closes the current session and stops its programs without
+confirmation. Ctrl-A V finds text in scrollback.
 Ctrl-A Shift-P shows all commands.
 
 Ctrl-A W opens Tern's session picker, and Ctrl-A Shift-N creates a plain
