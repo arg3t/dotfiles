@@ -223,23 +223,6 @@
         "type": "github"
       }
     },
-    "ponytail": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1786137205,
-        "narHash": "sha256-8cYggVltBAlZ/Zj4pl1bOu7mQdZFXCmDGW4RSpvRA+w=",
-        "owner": "DietrichGebert",
-        "repo": "ponytail",
-        "rev": "0a4dd63ad4541f4f655c4108a295916f3c1d8fda",
-        "type": "github"
-      },
-      "original": {
-        "owner": "DietrichGebert",
-        "ref": "v4.9.0",
-        "repo": "ponytail",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "asd-ste100": "asd-ste100",
@@ -250,8 +233,7 @@
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "omp-gateway-bar": "omp-gateway-bar",
-        "ponytail": "ponytail"
+        "omp-gateway-bar": "omp-gateway-bar"
       }
     },
     "systems": {

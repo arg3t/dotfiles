@@ -1,0 +1,8 @@
+schema = 1
+id = "arclets"
+name = "Arclets"
+version = "0.4.0"
+description = "A sidebar with your Tern sessions (reorder and move sessions, tabs and panes) and your Arclets (create from profiles, start, stop, add as Tern hosts). Some parts follow Kai (github.com/Yupmoh/tern-plugins, MIT)."
+icon = "sidebar"
+window = "window.luau"
+styles = ["styles.css"]

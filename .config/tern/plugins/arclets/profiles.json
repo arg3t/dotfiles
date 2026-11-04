@@ -1,0 +1,7 @@
+{
+  "default": "runtime",
+  "profiles": {
+    "runtime": { "primary": "runtime", "repos": ["universe"], "host": true },
+    "universe": { "primary": "universe", "host": true }
+  }
+}

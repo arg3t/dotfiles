@@ -1,0 +1,247 @@
+/* jj.log: change rows with a drawn graph. Every graph cell (12px wide, two per lane) holds
+   the line, elbow and dot shapes of one jj graph glyph; host.luau picks the classes. */
+
+.jj-graph {
+	display: flex;
+	flex-direction: column;
+	padding: 4px 0;
+}
+
+.jj-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	height: 30px;
+	padding: 0 10px 0 6px;
+	border-radius: 7px;
+}
+
+.jj-row.jj-thin {
+	height: 16px;
+}
+
+.jj-row.sf-act {
+	cursor: default;
+}
+
+.jj-row.sf-act:hover {
+	background: var(--l1);
+}
+
+.jj-row[data-mark='pick'] {
+	background: var(--l2);
+}
+
+.jj-row.jj-frozen > .sf-text {
+	color: var(--t3);
+}
+
+.jj-row > .sf-text {
+	min-width: 0;
+}
+
+.jj-g {
+	position: relative;
+	align-self: stretch;
+	flex: none;
+}
+
+.jj-c {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 12px;
+}
+
+/* Shapes. Lines are 2px; an elbow is a box with two borders and one rounded corner. */
+.jj-s {
+	position: absolute;
+	box-sizing: border-box;
+	border: 0 solid var(--k);
+}
+
+.jj-v,
+.jj-vu,
+.jj-vd {
+	left: 5px;
+	width: 2px;
+	background: var(--k);
+}
+
+.jj-v { top: 0; bottom: 0; }
+.jj-vu { top: 0; bottom: 50%; }
+.jj-vd { top: 50%; bottom: 0; }
+
+.jj-h,
+.jj-hl,
+.jj-hr {
+	top: calc(50% - 1px);
+	height: 2px;
+	background: var(--k);
+}
+
+.jj-h { left: 0; right: 0; }
+.jj-hl { left: 0; right: 5px; }
+.jj-hr { left: 5px; right: 0; }
+
+/* Elbows draw a whole horizontal run and its corner: `├─╯` is one line from the start lane
+   that rounds into the corner lane. The box sits in the run's left cell and is as wide as
+   the run (a jj-w class); its borders line up with the 2px lane lines at x 5..7. */
+
+/* ╮ the run comes from the left and turns down */
+.jj-cld {
+	left: 7px;
+	top: calc(50% - 1px);
+	bottom: 0;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-top-right-radius: 8px;
+}
+
+/* ╭ the run comes from the right and turns down */
+.jj-crd {
+	left: 5px;
+	top: calc(50% - 1px);
+	bottom: 0;
+	border-top-width: 2px;
+	border-left-width: 2px;
+	border-top-left-radius: 8px;
+}
+
+/* ╯ the lane comes from above and turns left */
+.jj-cul {
+	left: 7px;
+	top: 0;
+	bottom: calc(50% - 1px);
+	border-bottom-width: 2px;
+	border-right-width: 2px;
+	border-bottom-right-radius: 8px;
+}
+
+/* ╰ the lane comes from above and turns right */
+.jj-cur {
+	left: 5px;
+	top: 0;
+	bottom: calc(50% - 1px);
+	border-bottom-width: 2px;
+	border-left-width: 2px;
+	border-bottom-left-radius: 8px;
+}
+
+/* ~ elided ancestors */
+.jj-el {
+	left: 5px;
+	top: 0;
+	height: 50%;
+	border-left-width: 2px;
+	border-left-style: dashed;
+}
+
+/* Nodes: a ring; @ filled with a halo; immutable a small diamond; conflict red. */
+.jj-dot {
+	left: 6px;
+	top: 50%;
+	width: 12px;
+	height: 12px;
+	transform: translate(-50%, -50%);
+	border-width: 2px;
+	border-radius: 50%;
+	background: var(--panel);
+	z-index: 1;
+}
+
+.jj-dot.jj-wc {
+	--k: var(--sf-c-accent);
+	background: var(--k);
+	box-shadow: 0 0 0 2px var(--panel), 0 0 0 4px var(--k);
+}
+
+.jj-dot.jj-imm {
+	width: 10px;
+	height: 10px;
+	border-radius: 2px;
+	background: var(--k);
+	transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.jj-dot.jj-conf {
+	--k: var(--bad);
+	background: var(--bad);
+}
+
+/* Lane colors from the theme. */
+.jj-k0 { --k: var(--t3); }
+.jj-k1 { --k: var(--sf-c-link); }
+.jj-k2 { --k: var(--ok); }
+.jj-k3 { --k: var(--live); }
+.jj-k4 { --k: var(--bad); }
+.jj-k5 { --k: var(--sf-c-info); }
+.jj-k6 { --k: var(--sf-c-num); }
+.jj-k7 { --k: var(--sf-c-accent); }
+
+/* Cell positions and graph widths (no inline styles in block views). */
+.jj-x0 { left: 0px; }
+.jj-x1 { left: 12px; }
+.jj-x2 { left: 24px; }
+.jj-x3 { left: 36px; }
+.jj-x4 { left: 48px; }
+.jj-x5 { left: 60px; }
+.jj-x6 { left: 72px; }
+.jj-x7 { left: 84px; }
+.jj-x8 { left: 96px; }
+.jj-x9 { left: 108px; }
+.jj-x10 { left: 120px; }
+.jj-x11 { left: 132px; }
+.jj-x12 { left: 144px; }
+.jj-x13 { left: 156px; }
+.jj-x14 { left: 168px; }
+.jj-x15 { left: 180px; }
+.jj-x16 { left: 192px; }
+.jj-x17 { left: 204px; }
+.jj-x18 { left: 216px; }
+.jj-x19 { left: 228px; }
+.jj-x20 { left: 240px; }
+.jj-x21 { left: 252px; }
+.jj-x22 { left: 264px; }
+.jj-x23 { left: 276px; }
+.jj-x24 { left: 288px; }
+.jj-x25 { left: 300px; }
+.jj-x26 { left: 312px; }
+.jj-x27 { left: 324px; }
+.jj-x28 { left: 336px; }
+.jj-x29 { left: 348px; }
+.jj-x30 { left: 360px; }
+.jj-x31 { left: 372px; }
+
+.jj-w1 { width: 12px; }
+.jj-w2 { width: 24px; }
+.jj-w3 { width: 36px; }
+.jj-w4 { width: 48px; }
+.jj-w5 { width: 60px; }
+.jj-w6 { width: 72px; }
+.jj-w7 { width: 84px; }
+.jj-w8 { width: 96px; }
+.jj-w9 { width: 108px; }
+.jj-w10 { width: 120px; }
+.jj-w11 { width: 132px; }
+.jj-w12 { width: 144px; }
+.jj-w13 { width: 156px; }
+.jj-w14 { width: 168px; }
+.jj-w15 { width: 180px; }
+.jj-w16 { width: 192px; }
+.jj-w17 { width: 204px; }
+.jj-w18 { width: 216px; }
+.jj-w19 { width: 228px; }
+.jj-w20 { width: 240px; }
+.jj-w21 { width: 252px; }
+.jj-w22 { width: 264px; }
+.jj-w23 { width: 276px; }
+.jj-w24 { width: 288px; }
+.jj-w25 { width: 300px; }
+.jj-w26 { width: 312px; }
+.jj-w27 { width: 324px; }
+.jj-w28 { width: 336px; }
+.jj-w29 { width: 348px; }
+.jj-w30 { width: 360px; }
+.jj-w31 { width: 372px; }
+.jj-w32 { width: 384px; }

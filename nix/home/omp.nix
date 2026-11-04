@@ -9,7 +9,6 @@
 }:
 
 let
-  ponytail = inputs.ponytail;
   asdSte100 = inputs.asd-ste100;
   userConfig = { config, ... }: {
     # OMP user-level config files. These are discovery-only files that OMP
@@ -46,17 +45,6 @@ let
     home.file.".omp/agent/extensions/handoff-remote.ts".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dots/.config/omp/plugins/personal/extensions/handoff-remote.ts";
 
-    home.file.".omp/agent/extensions/ponytail.js".source = "${ponytail}/pi-extension/index.js";
-
-    # Ponytail's Pi extension registers its slash commands and injects its mode
-    # rules. Native skill links expose its complete skill set without enabling
-    # the mutable OMP plugin registry.
-    home.file.".omp/agent/skills/ponytail".source = "${ponytail}/skills/ponytail";
-    home.file.".omp/agent/skills/ponytail-review".source = "${ponytail}/skills/ponytail-review";
-    home.file.".omp/agent/skills/ponytail-audit".source = "${ponytail}/skills/ponytail-audit";
-    home.file.".omp/agent/skills/ponytail-debt".source = "${ponytail}/skills/ponytail-debt";
-    home.file.".omp/agent/skills/ponytail-gain".source = "${ponytail}/skills/ponytail-gain";
-    home.file.".omp/agent/skills/ponytail-help".source = "${ponytail}/skills/ponytail-help";
     home.file.".omp/agent/skills/asd-ste100".source = asdSte100;
 
     # Keep OMP's package registry empty and declarative. Native extensions above

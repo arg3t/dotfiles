@@ -1,0 +1,19 @@
+schema = 1
+id = "jj"
+name = "Jujutsu"
+version = "0.1.0"
+description = "A VisualJJ-like jj change tree: click, double-click and right-click to shape changes."
+icon = "git-branch"
+host = "host.luau"
+window = "window.luau"
+styles = ["jj.css"]
+
+[[blocks]]
+id = "log"
+title = "jj"
+
+# Opened by the log block for one file of a change (see window.luau).
+[[blocks]]
+id = "diff"
+title = "jj diff"
+palette = false

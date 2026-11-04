@@ -1,0 +1,162 @@
+/* Arclets sidebar: spacing and shading only; colors are Tern's own variables (--ok, --warn,
+   --bad, and --tc from a node's tone). Plugin sheets are global, so every rule is scoped to an
+   arc.* role. Hover-button, view-switch and scrollbar rules follow Kai's styles.css
+   (github.com/Yupmoh/tern-plugins, MIT, LICENSE.kai). */
+
+[data-role='arc.root'] {
+  gap: 12px;
+  padding: 8px 6px;
+}
+[data-role='arc.list'] {
+  gap: 8px;
+}
+
+/* A session card: a faint raised surface; its left edge takes the worst state of its tabs
+   (the card's tone: warning yellow, error red). */
+[data-role='arc.card'], [data-role='arc.cardOn'] {
+  gap: 2px;
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--t1) 10%, transparent);
+  border-left: 3px solid color-mix(in srgb, var(--t1) 10%, transparent);
+  background: color-mix(in srgb, var(--t1) 3%, transparent);
+}
+[data-role='arc.cardOn'] {
+  border-color: color-mix(in srgb, var(--t1) 22%, transparent);
+  background: color-mix(in srgb, var(--t1) 6%, transparent);
+}
+[data-role='arc.card'][data-tone], [data-role='arc.cardOn'][data-tone] {
+  border-left-color: var(--tc);
+}
+[data-role='arc.cardHead'] {
+  align-items: center;
+  gap: 4px;
+  padding-right: 4px;
+  border-radius: 7px;
+}
+[data-role='arc.cardHead'] > .sf-item {
+  min-height: calc(var(--sf-lh) + 12px);
+  padding: 4px 4px;
+  background: transparent;
+  box-shadow: none;
+  min-width: 0;
+}
+[data-role='arc.cardHead']:hover {
+  background: color-mix(in srgb, black 10%, transparent);
+}
+[data-role='arc.cardHead'] > .sf-badge {
+  flex-shrink: 0;
+}
+
+/* Tab rows inside a card, under a hairline. */
+[data-role='arc.tabs'] {
+  gap: 1px;
+  padding-top: 3px;
+  border-top: 1px solid color-mix(in srgb, var(--t1) 8%, transparent);
+}
+[data-role='arc.tab'], [data-role='arc.tabOn'], [data-role='arc.row'] {
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px 0 6px;
+  border-radius: 7px;
+}
+[data-role='arc.tab'] > .sf-item, [data-role='arc.tabOn'] > .sf-item, [data-role='arc.row'] > .sf-item {
+  min-height: calc(var(--sf-lh) + 10px);
+  padding: 3px 4px;
+  background: transparent;
+  box-shadow: none;
+  min-width: 0;
+}
+[data-role='arc.tab']:hover, [data-role='arc.tabOn']:hover, [data-role='arc.row']:hover {
+  background: color-mix(in srgb, black 12%, transparent);
+}
+[data-role='arc.tabOn'] {
+  background: color-mix(in srgb, black 8%, transparent);
+}
+
+[data-role='arc.fold'] {
+  flex-shrink: 0;
+  width: 16px;
+  color: var(--t3);
+  cursor: pointer;
+}
+[data-role='arc.fold']:hover { color: var(--t1); }
+
+/* Hover buttons: no width until their row is hovered. */
+[data-role='arc.btn'] {
+  flex-shrink: 0;
+  width: 0;
+  min-width: 0;
+  overflow: hidden;
+  margin-left: -4px;
+  opacity: 0;
+  color: var(--t3);
+  cursor: pointer;
+  transition: opacity 0.12s, width 0.12s, margin 0.12s;
+}
+[data-role='arc.cardHead']:hover [data-role='arc.btn'],
+[data-role='arc.tab']:hover [data-role='arc.btn'], [data-role='arc.tabOn']:hover [data-role='arc.btn'],
+[data-role='arc.row']:hover [data-role='arc.btn'] {
+  width: 16px;
+  margin-left: 0;
+  opacity: 1;
+}
+[data-role='arc.btn']:hover { color: var(--t1); }
+
+/* While moving: the slots, and the bar naming what moves. */
+[data-role='arc.slot'], [data-role='arc.slotTab'] {
+  min-height: calc(var(--sf-lh) + 6px);
+  padding: 2px 8px;
+  border: 1px dashed var(--accent);
+  border-radius: 8px;
+}
+[data-role='arc.slotTab'] { margin: 0 4px; }
+[data-role='arc.bar'] {
+  align-items: center;
+  gap: 8px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: color-mix(in srgb, black 10%, transparent);
+}
+
+[data-role='arc.header'] {
+  align-items: center;
+  gap: 8px;
+  padding: 0 4px;
+}
+[data-role='arc.note'] { padding: 4px 8px; }
+
+/* Workspaces | Arclets. */
+[data-role='arc.views'] {
+  gap: 2px;
+  padding: 2px;
+  border-radius: 9px;
+  background: color-mix(in srgb, black 10%, transparent);
+}
+[data-role='arc.view'], [data-role='arc.viewOn'] {
+  display: flex;
+  flex: 1 1 0;
+  gap: 6px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  color: var(--t3);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+[data-role='arc.view']:hover {
+  color: var(--t1);
+  background: color-mix(in srgb, black 12%, transparent);
+}
+[data-role='arc.viewOn'] {
+  color: var(--t1);
+  background: var(--l2);
+}
+
+/* Thin, theme-colored scrollbar. Canvases only carry the shared surface role, so this
+   applies to every canvas pane. */
+.sf-main[data-surface='plugin.tern.canvas'] {
+  scrollbar-width: thin;
+  scrollbar-color: var(--l3) transparent;
+}
